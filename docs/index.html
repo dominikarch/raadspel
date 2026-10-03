@@ -1069,17 +1069,21 @@
       shake('placeGrid');
       return;
     }
+    if (touches(cells, sh.grid, sh.size)) {
+      $('placeErr').textContent = 'Schepen mogen elkaar niet raken, ook niet met een hoekje.';
+      shake('placeGrid');
+      return;
+    }
     sh.fleet[k].cells = cells;
     cells.forEach(j => sh.grid[j] = k);
     drawPlace(cells);
   }
 
-  // Random ships; first tries to keep a little sea between them
+  // Random ships, with sea all around each one (the zeeslag rule)
   function randomFleet(size) {
     const lens = SHIP_SETS[size];
-    for (let attempt = 0; attempt < 300; attempt++) {
+    for (;;) {
       const grid = Array(size * size).fill(-1), fleet = [];
-      const spaced = attempt < 200;
       let ok = true;
       for (let k = 0; k < lens.length && ok; k++) {
         ok = false;
@@ -1087,7 +1091,7 @@
           const horiz = Math.random() < .5, start = Math.floor(Math.random() * size * size);
           const cells = cellsFor(start, lens[k], horiz, size);
           if (!cells || cells.some(j => grid[j] >= 0)) continue;
-          if (spaced && cells.some(j => around(j, size).some(n => grid[n] >= 0))) continue;
+          if (touches(cells, grid, size)) continue;
           cells.forEach(j => grid[j] = k);
           fleet.push({ len: lens[k], cells });
           ok = true;
@@ -1095,6 +1099,18 @@
       }
       if (ok) return { fleet, grid };
     }
+  }
+
+  // Zeeslag rule: a ship may not touch another one, not even corner to corner
+  function touches(cells, grid, size) {
+    return cells.some(j => {
+      const r = Math.floor(j / size), c = j % size;
+      for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+        const rr = r + dr, cc = c + dc;
+        if (rr >= 0 && cc >= 0 && rr < size && cc < size && grid[rr * size + cc] >= 0) return true;
+      }
+      return false;
+    });
   }
 
   function around(i, size) {
