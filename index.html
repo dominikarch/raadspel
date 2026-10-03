@@ -194,7 +194,7 @@
   .hand-picker img { width: 100%; height: 100%; object-fit: cover; display: block; }
   #handWrap svg { width: 100%; height: auto; display: block; touch-action: manipulation; }
   .nail-hit { cursor: pointer; }
-  .tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 8px; }
+  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
   .tabs button { font: inherit; font-size: .95rem; padding: 8px 2px; border: none; border-radius: 14px; background: var(--card); color: var(--ink); cursor: pointer; line-height: 1.1; }
   .tabs button span { display: block; font-size: 1.6rem; }
   .tabs button.on { background: var(--up); color: var(--on); }
@@ -206,7 +206,10 @@
   .bottle { width: 30px; height: 42px; margin: 0 auto; position: relative; }
   .bottle i { position: absolute; left: 9px; top: 0; width: 12px; height: 14px; border-radius: 3px; background: #2b2140; }
   .bottle b { position: absolute; left: 0; bottom: 0; width: 30px; height: 30px; border-radius: 9px; box-shadow: inset -5px -5px 0 rgba(0,0,0,.12), inset 4px 4px 0 rgba(255,255,255,.45); }
-  .salon-actions { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 8px; margin-top: 8px; }
+  .salon-actions { display: grid; grid-template-columns: 1fr 1fr 1fr 1.2fr; gap: 6px; margin-top: 8px; }
+  .palette .row-break { flex-basis: 100%; height: 0; }
+  .palette .swatch { width: 30px; height: 30px; border-radius: 50%; margin: 0 auto; box-shadow: inset -4px -4px 0 rgba(0,0,0,.12); }
+  .zoom-hint { position: absolute; left: 50%; top: 10px; transform: translateX(-50%); background: var(--card); color: var(--ink); border-radius: 14px; padding: 4px 12px; font-size: 1rem; pointer-events: none; }
   .salon-actions button { font: inherit; font-size: 1.05rem; padding: 12px 6px; border: none; border-radius: 16px; background: var(--card); color: var(--ink); cursor: pointer; }
   .salon-actions button.on { outline: 3px solid var(--ok); }
   .salon-actions .done { background: var(--ok); color: var(--on); font-weight: 800; }
@@ -352,13 +355,17 @@
       <div id="handWrap"></div>
       <div class="tabs" id="nailTabs">
         <button data-tab="care"><span>🧽</span>Verzorgen</button>
-        <button data-tab="polish"><span>💅</span>Lak</button>
+        <button data-tab="shape"><span>💅</span>Vorm</button>
+        <button data-tab="polish"><span>🧴</span>Lak</button>
         <button data-tab="pattern"><span>🌈</span>Patroon</button>
+        <button data-tab="draw"><span>🖌️</span>Tekenen</button>
         <button data-tab="sticker"><span>💎</span>Stickers</button>
-        <button data-tab="remove"><span>🧴</span>Eraf</button>
+        <button data-tab="jewel"><span>💍</span>Sieraden</button>
+        <button data-tab="remove"><span>🫧</span>Eraf</button>
       </div>
       <div class="palette" id="nailPalette"></div>
       <div class="salon-actions">
+        <button id="nailZoom">🔍 Inzoomen</button>
         <button id="nailUndo">↩️ Terug</button>
         <button id="nailAll">🖐️ Alle nagels</button>
         <button class="done" id="nailDone">✨ Klaar!</button>
@@ -2098,26 +2105,35 @@
   const COLOR_WORD = { rood: 'rode', roze: 'roze', lichtroze: 'lichtroze', paars: 'paarse', lila: 'lila', blauw: 'blauwe',
     lichtblauw: 'lichtblauwe', mint: 'mintgroene', groen: 'groene', geel: 'gele', oranje: 'oranje', goud: 'gouden', zwart: 'zwarte' };
   const PATTERNS = [['none', '✖️', 'geen'], ['stripes', '〰️', 'streepjes'], ['dots', '⚪', 'stippen'],
-                    ['rainbow', '🌈', 'regenboog'], ['glitter', '✨', 'glitter'], ['french', '🤍', 'wit puntje']];
+                    ['rainbow', '🌈', 'regenboog'], ['glitter', '✨', 'glitter'], ['glitterPink', '💗', 'roze glitter'],
+                    ['glitterSilver', '🤍', 'zilver glitter'], ['french', '💅', 'wit puntje'], ['hearts', '💕', 'hartjes'],
+                    ['stars', '🌟', 'sterretjes'], ['flowers', '🌼', 'bloemetjes'], ['leopard', '🐆', 'luipaard'], ['marble', '🩶', 'marmer']];
+  const FINISHES = [['gloss', '✨', 'glans'], ['matte', '🌫️', 'mat'], ['metal', '🪩', 'metallic'], ['ombre', '🌅', 'overloop']];
+  const SHAPES = [['round', '⚪', 'rond'], ['oval', '🥚', 'ovaal'], ['almond', '🌰', 'amandel'], ['square', '⬜', 'vierkant'], ['stiletto', '🔺', 'puntig']];
+  const LENGTHS = [[1, 'kort'], [1.4, 'middel'], [1.85, 'lang']];
+  const RINGS = [['gold', '#e9c46a', 'goud'], ['silver', '#d9dde3', 'zilver'], ['rose', '#f1a7a0', 'rosé']];
+  const BRACELETS = [['pearls', '⚪', 'parels'], ['chain', '🔗', 'goud'], ['charms', '💖', 'bedeltjes']];
   const STICKERS = ['💖', '⭐', '💎', '🌸', '🦋', '🌈', '🍓', '🐶', '👑', '🌙'];
   const CLIENTS = [['👧', 'Mila', 'hand-1'], ['👩', 'Sophie', 'woman-1'], ['👱‍♀️', 'Emma', 'woman-1'], ['👩‍🦱', 'Noor', 'woman-2'],
                    ['👧🏽', 'Julia', 'hand-3'], ['👵', 'Oma Rita', 'woman-2'], ['👩‍🦰', 'Tess', 'woman-1'], ['👩🏾', 'Amara', 'woman-3'], ['👦', 'Daan', 'hand-2']];
   // The hands are pictures made with Nano Banana (in hands/). Per nail: centre x, y, width, height, tilt — in a 1024 × 1024 picture
   const HANDS = {
-    'hand-1': { kid: true, shape: 'round', nails: [[220, 352, 48, 62, -15], [345, 212, 62, 68, -8], [511, 160, 62, 70, 0], [684, 220, 62, 70, 5], [856, 552, 55, 70, 30]] },
-    'hand-2': { kid: true, shape: 'round', nails: [[222, 338, 50, 60, -15], [356, 193, 56, 62, -5], [511, 140, 58, 62, 0], [675, 193, 56, 62, 5], [836, 484, 52, 66, 25]] },
-    'hand-3': { kid: true, shape: 'round', nails: [[220, 348, 46, 54, -15], [366, 200, 52, 58, -5], [515, 138, 54, 60, 0], [671, 200, 52, 58, 5], [845, 505, 50, 62, 25]] },
-    'woman-1': { kid: false, shape: 'almond', nails: [[312, 307, 36, 68, -5], [409, 186, 40, 78, -3], [506, 131, 44, 82, 0], [620, 179, 42, 78, 3], [761, 450, 36, 80, 22]] },
-    'woman-2': { kid: false, shape: 'almond', nails: [[330, 280, 36, 62, -5], [421, 162, 40, 72, -3], [516, 121, 42, 72, 0], [632, 161, 40, 68, 3], [768, 425, 36, 78, 20]] },
-    'woman-3': { kid: false, shape: 'almond', nails: [[270, 445, 36, 74, -25], [401, 198, 40, 72, -3], [518, 157, 42, 74, 0], [625, 206, 40, 70, 3], [715, 327, 34, 62, 12]] },
+    'hand-1': { kid: true, shape: 'round', nails: [[220, 352, 48, 62, -15], [345, 212, 62, 68, -8], [511, 160, 62, 70, 0], [684, 220, 62, 70, 5], [856, 552, 55, 70, 30]], wrist: [505, 905, 300] },
+    'hand-2': { kid: true, shape: 'round', nails: [[222, 338, 50, 60, -15], [356, 193, 56, 62, -5], [511, 140, 58, 62, 0], [675, 193, 56, 62, 5], [836, 484, 52, 66, 25]], wrist: [500, 905, 300] },
+    'hand-3': { kid: true, shape: 'round', nails: [[220, 348, 46, 54, -15], [366, 200, 52, 58, -5], [515, 138, 54, 60, 0], [671, 200, 52, 58, 5], [845, 505, 50, 62, 25]], wrist: [500, 885, 290] },
+    'woman-1': { kid: false, shape: 'almond', nails: [[312, 307, 36, 68, -5], [409, 186, 40, 78, -3], [506, 131, 44, 82, 0], [620, 179, 42, 78, 3], [761, 450, 36, 80, 22]], wrist: [500, 860, 250] },
+    'woman-2': { kid: false, shape: 'almond', nails: [[330, 280, 36, 62, -5], [421, 162, 40, 72, -3], [516, 121, 42, 72, 0], [632, 161, 40, 68, 3], [768, 425, 36, 78, 20]], wrist: [505, 860, 250] },
+    'woman-3': { kid: false, shape: 'almond', nails: [[270, 445, 36, 74, -25], [401, 198, 40, 72, -3], [518, 157, 42, 74, 0], [625, 206, 40, 70, 3], [715, 327, 34, 62, 12]], wrist: [515, 860, 225] },
   };
 
   const nl = { mode: 'free', tab: 'polish', pick: { polish: '#ff7aa2', pattern: 'dots', sticker: '💖', care: 'file' },
-               all: false, nails: [], undo: [], client: null, served: 0, stars: 0, hand: 'hand-1', photoData: {} };
+               all: false, nails: [], undo: [], client: null, served: 0, stars: 0, hand: 'hand-1', photoData: {},
+               finish: 'gloss', brush: 8, ring: 'gold', bracelet: 'pearls', zoomMode: false, zoom: null, view: [0, 0, 1024, 1024],
+               look: { shape: null, length: 1, bracelet: null } };
 
   function freshNails() {
     return [0, 1, 2, 3, 4].map(() => ({
-      rough: 3, color: '', pattern: 'none', stickers: [],
+      rough: 3, color: '', color2: '', finish: 'gloss', pattern: 'none', stickers: [], strokes: [], ring: null,
       dirt: Array.from({ length: 2 + Math.floor(Math.random() * 3) }, () => [.2 + Math.random() * .6, .25 + Math.random() * .6]),
     }));
   }
@@ -2125,6 +2141,8 @@
   function nailsStart(mode) {
     stopMusic();
     nl.mode = mode; nl.nails = freshNails(); nl.undo = []; nl.all = false;
+    nl.look = { shape: null, length: 1, bracelet: null }; nl.zoom = null; nl.zoomMode = false; nl.view = [0, 0, 1024, 1024];
+    $('nailZoom').textContent = '🔍 Inzoomen'; $('nailZoom').classList.remove('on');
     nl.tab = 'care';
     if (mode === 'clients') newClient(); else { nl.client = null; try { nl.hand = localStorage.getItem('raadspel-hand') || nl.hand; } catch (e) {} }
     $('photoBox').hidden = true;
@@ -2152,49 +2170,156 @@
 
   // --- the drawing of the hand ---
 
-  // The nail outline, centred on 0,0: round for children, almond for women
+  // The nail outline, centred on 0,0, for each nail shape
   function nailPath(w, h, shape) {
-    if (shape !== 'almond') return `M0 ${-h / 2} C ${w * .56} ${-h / 2} ${w / 2} ${h * .1} ${w / 2} ${h * .18} C ${w / 2} ${h * .46} ${w * .22} ${h / 2} 0 ${h / 2} C ${-w * .22} ${h / 2} ${-w / 2} ${h * .46} ${-w / 2} ${h * .18} C ${-w / 2} ${h * .1} ${-w * .56} ${-h / 2} 0 ${-h / 2} Z`;
-    return `M0 ${-h / 2} C ${w * .42} ${-h * .34} ${w / 2} ${-h * .05} ${w / 2} ${h * .2} C ${w / 2} ${h * .44} ${w * .22} ${h / 2} 0 ${h / 2} C ${-w * .22} ${h / 2} ${-w / 2} ${h * .44} ${-w / 2} ${h * .2} C ${-w / 2} ${-h * .05} ${-w * .42} ${-h * .34} 0 ${-h / 2} Z`;
+    const W = w / 2, H = h / 2;
+    if (shape === 'oval') return `M0 ${-H} C ${W * 1.1} ${-H} ${W} ${H} 0 ${H} C ${-W} ${H} ${-W * 1.1} ${-H} 0 ${-H} Z`;
+    if (shape === 'almond') return `M0 ${-H} C ${w * .42} ${-h * .34} ${W} ${-h * .05} ${W} ${h * .2} C ${W} ${h * .44} ${w * .22} ${H} 0 ${H} C ${-w * .22} ${H} ${-W} ${h * .44} ${-W} ${h * .2} C ${-W} ${-h * .05} ${-w * .42} ${-h * .34} 0 ${-H} Z`;
+    if (shape === 'square') return `M${-W} ${-H + w * .12} Q ${-W} ${-H} ${-W + w * .12} ${-H} L ${W - w * .12} ${-H} Q ${W} ${-H} ${W} ${-H + w * .12} L ${W} ${h * .3} C ${W} ${h * .46} ${w * .22} ${H} 0 ${H} C ${-w * .22} ${H} ${-W} ${h * .46} ${-W} ${h * .3} Z`;
+    if (shape === 'stiletto') return `M0 ${-H} C ${w * .18} ${-h * .3} ${W} ${-h * .05} ${W} ${h * .22} C ${W} ${h * .44} ${w * .22} ${H} 0 ${H} C ${-w * .22} ${H} ${-W} ${h * .44} ${-W} ${h * .22} C ${-W} ${-h * .05} ${-w * .18} ${-h * .3} 0 ${-H} Z`;
+    return `M0 ${-H} C ${w * .56} ${-H} ${W} ${h * .1} ${W} ${h * .18} C ${W} ${h * .46} ${w * .22} ${H} 0 ${H} C ${-w * .22} ${H} ${-W} ${h * .46} ${-W} ${h * .18} C ${-W} ${h * .1} ${-w * .56} ${-H} 0 ${-H} Z`;
+  }
+
+  // Where each nail is now: longer nails grow past the fingertip, the base stays put
+  function nailGeo(i) {
+    const H = HANDS[nl.hand], [cx, cy, w, h, rot] = H.nails[i];
+    const len = nl.look.length, hh = h * len;
+    return { cx, cy, w, h: hh, rot, shift: -(hh - h) / 2, shape: nl.look.shape || H.shape, own: !nl.look.shape && len === 1 };
+  }
+
+  // The thumb is the nail lowest in the picture, the little finger the next one
+  function fingerRole(i) {
+    const order = HANDS[nl.hand].nails.map((n, k) => [n[1], k]).sort((a, b) => b[0] - a[0]).map(x => x[1]);
+    return order[0] === i ? 'thumb' : order[1] === i ? 'pinky' : 'finger';
+  }
+
+  function patternSvg(n, w, h, i) {
+    let deco = '';
+    const glitter = (a, b) => {
+      for (let k = 0; k < 26; k++) {
+        const gx = (((k * 37 + i * 11) % 100) / 100 - .5) * w, gy = (((k * 53 + i * 7) % 100) / 100 - .5) * h;
+        deco += `<circle class="twinkle" style="animation-delay:${(k % 7) * .17}s" cx="${gx}" cy="${gy}" r="${w * (.025 + (k % 3) * .015)}" fill="${k % 2 ? a : b}"/>`;
+      }
+    };
+    const scatter = (char, size) => {
+      for (let r = -3; r <= 3; r++) for (let c = -1; c <= 1; c++)
+        deco += `<text x="${c * w * .38 + (r % 2 ? w * .19 : 0)}" y="${r * h * .17}" font-size="${w * size}" fill="#fff" text-anchor="middle" dominant-baseline="central">${char}</text>`;
+    };
+    if (n.pattern === 'stripes') for (let k = -6; k <= 6; k++) deco += `<line x1="${-w + k * w * .28}" y1="${h}" x2="${w + k * w * .28}" y2="${-h}" stroke="#fff" stroke-width="${w * .07}" opacity=".85"/>`;
+    if (n.pattern === 'dots') for (let r = -4; r <= 4; r++) for (let c = -2; c <= 2; c++) deco += `<circle cx="${c * w * .28 + (r % 2 ? w * .14 : 0)}" cy="${r * h * .13}" r="${w * .065}" fill="#fff"/>`;
+    if (n.pattern === 'glitter') glitter('#fff', '#ffe58a');
+    if (n.pattern === 'glitterPink') glitter('#ffd1e3', '#ff5c9a');
+    if (n.pattern === 'glitterSilver') glitter('#ffffff', '#c9ced6');
+    if (n.pattern === 'french') deco += `<ellipse cx="0" cy="${-h * .5}" rx="${w * .7}" ry="${h * .28}" fill="#fff"/>`;
+    if (n.pattern === 'hearts') scatter('♥', .26);
+    if (n.pattern === 'stars') scatter('★', .26);
+    if (n.pattern === 'flowers') scatter('✿', .3);
+    if (n.pattern === 'leopard') for (let k = 0; k < 12; k++) {
+      const x = (((k * 41 + i * 13) % 100) / 100 - .5) * w * .9, y = (((k * 67 + i * 5) % 100) / 100 - .5) * h * .9;
+      deco += `<ellipse cx="${x}" cy="${y}" rx="${w * .1}" ry="${w * .075}" fill="#c98a3a"/><path d="M${x - w * .1} ${y} a ${w * .1} ${w * .075} 0 0 1 ${w * .2} 0" stroke="#2b2140" stroke-width="${w * .035}" fill="none"/>`;
+    }
+    if (n.pattern === 'marble') for (let k = 0; k < 4; k++) {
+      const y0 = (k / 3 - .5) * h * .8;
+      deco += `<path d="M${-w} ${y0} C ${-w * .3} ${y0 - h * .2} ${w * .2} ${y0 + h * .25} ${w} ${y0 - h * .05}" stroke="${k % 2 ? '#ffffff' : '#9aa0aa'}" stroke-width="${w * (.03 + k * .01)}" fill="none" opacity=".8"/>`;
+    }
+    return deco;
   }
 
   function drawHand() {
     const H = HANDS[nl.hand], defs = [], body = [];
     defs.push(`<linearGradient id="rainbow" x1="0" y1="0" x2="0" y2="1">${['#ff5c8a','#ff9f43','#ffd23f','#2fb06c','#3a86ff','#9b5de5'].map((c, i) => `<stop offset="${i / 5}" stop-color="${c}"/>`).join('')}</linearGradient>
-      <radialGradient id="shine" cx=".42" cy=".38" r=".18"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>`);
+      <radialGradient id="shine" cx=".42" cy=".38" r=".18"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".35"/><stop offset=".45" stop-color="#fff" stop-opacity=".55"/><stop offset=".6" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>`);
     body.push(`<image href="hands/${nl.hand}.jpg" x="0" y="0" width="1024" height="1024"/>`);
-    H.nails.forEach(([cx, cy, w, h, rot], i) => {
-      const n = nl.nails[i], d = nailPath(w, h, H.shape), painted = n.color || n.pattern === 'rainbow';
+    H.nails.forEach((_, i) => {
+      const n = nl.nails[i], g = nailGeo(i), w = g.w, h = g.h, d = nailPath(w, h, g.shape);
+      const painted = n.color || n.pattern === 'rainbow';
       defs.push(`<clipPath id="nc${i}"><path d="${d}"/></clipPath>`);
-      let deco = '';
-      if (n.pattern === 'stripes') for (let k = -6; k <= 6; k++) deco += `<line x1="${-w + k * w * .28}" y1="${h}" x2="${w + k * w * .28}" y2="${-h}" stroke="#fff" stroke-width="${w * .07}" opacity=".85"/>`;
-      if (n.pattern === 'dots') for (let r = -3; r <= 3; r++) for (let c = -2; c <= 2; c++) deco += `<circle cx="${c * w * .28 + (r % 2 ? w * .14 : 0)}" cy="${r * h * .16}" r="${w * .065}" fill="#fff"/>`;
-      if (n.pattern === 'glitter') for (let k = 0; k < 24; k++) {
-        const gx = (((k * 37 + i * 11) % 100) / 100 - .5) * w, gy = (((k * 53 + i * 7) % 100) / 100 - .5) * h;
-        deco += `<circle class="twinkle" style="animation-delay:${(k % 7) * .17}s" cx="${gx}" cy="${gy}" r="${w * (.025 + (k % 3) * .015)}" fill="${k % 2 ? '#fff' : '#ffe58a'}"/>`;
-      }
-      if (n.pattern === 'french') deco += `<ellipse cx="0" cy="${-h * .5}" rx="${w * .7}" ry="${h * .28}" fill="#fff"/>`;
-      const dirt = n.dirt.map(([a, b]) => `<circle cx="${(a - .5) * w * .8}" cy="${(b - .5) * h * .8}" r="${w * .07}" fill="#8a6a4f" opacity=".75"/>`).join('');
+      if (n.color2) defs.push(`<linearGradient id="om${i}" x1="0" y1="1" x2="0" y2="0"><stop offset=".15" stop-color="${n.color}"/><stop offset=".85" stop-color="${n.color2}"/></linearGradient>`);
+      const fill = n.pattern === 'rainbow' ? 'url(#rainbow)' : n.color2 ? `url(#om${i})` : n.color;
+      const dirt = n.dirt.map(([a, b]) => `<circle cx="${(a - .5) * w * .8}" cy="${(b - .5) * h * .5 + h * .15}" r="${w * .07}" fill="#8a6a4f" opacity=".75"/>`).join('');
       let rough = '';
       if (n.rough > 0) {
         let pts = '';
-        for (let k = 0; k <= 8; k++) pts += `${-w * .32 + k * w * .08},${-h * .36 + (k % 2 ? h * .06 : 0)} `;
+        for (let k = 0; k <= 8; k++) pts += `${-w * .32 + k * w * .08},${-h * .36 + (k % 2 ? w * .06 : 0)} `;
         rough = `<polyline points="${pts}" fill="none" stroke="#ffffff" stroke-width="${w * .06}" opacity="${.35 + n.rough * .2}"/>`;
       }
+      const strokes = n.strokes.map(st => `<polyline class="stroke" points="${st.p.map(([x, y]) => `${x},${y}`).join(' ')}" fill="none" stroke="${st.c}" stroke-width="${st.w}" stroke-linecap="round" stroke-linejoin="round"/>`).join('');
       const stickers = n.stickers.map(st => `<text x="${st.x}" y="${st.y}" font-size="${w * .6}" text-anchor="middle" dominant-baseline="central">${st.e}</text>`).join('');
-      body.push(`<g transform="translate(${cx} ${cy}) rotate(${rot})" id="finger${i}">
-        <g clip-path="url(#nc${i})">
-          ${painted ? `<rect x="${-w}" y="${-h}" width="${w * 2}" height="${h * 2}" fill="${n.pattern === 'rainbow' ? 'url(#rainbow)' : n.color}"/>` : ''}
-          ${deco}${dirt}${rough}
-          ${painted ? `<rect x="${-w}" y="${-h}" width="${w * 2}" height="${h * 2}" fill="url(#shine)"/>` : ''}
+      // a ring further down the finger
+      let ring = '';
+      if (n.ring) {
+        const role = fingerRole(i), down = H.nails[i][3] * (role === 'thumb' ? 2.1 : role === 'pinky' ? 2.9 : 3.3);
+        const rc = RINGS.find(r => r[0] === n.ring)[1], rw = H.nails[i][2] * 1.6;
+        ring = `<g transform="translate(0 ${down})"><rect x="${-rw / 2}" y="${-w * .17}" width="${rw}" height="${w * .34}" rx="${w * .17}" fill="${rc}" stroke="#000" stroke-opacity=".2" stroke-width="2"/>
+          <rect x="${-rw / 2 + 4}" y="${-w * .12}" width="${rw - 8}" height="${w * .08}" rx="${w * .04}" fill="#fff" opacity=".5"/>
+          <text x="0" y="${-w * .05}" font-size="${w * .5}" text-anchor="middle" dominant-baseline="central">💎</text></g>`;
+      }
+      body.push(`<g transform="translate(${g.cx} ${g.cy}) rotate(${g.rot})" id="finger${i}">
+        ${ring}
+        <g transform="translate(0 ${g.shift})" class="nail${i}">
+          ${g.own ? '' : `<path d="${d}" fill="#f7dcd3" stroke="#d9a28a" stroke-opacity=".5" stroke-width="2"/>`}
+          <g clip-path="url(#nc${i})">
+            ${painted ? `<rect x="${-w}" y="${-h}" width="${w * 2}" height="${h * 2}" fill="${fill}"/>` : ''}
+            ${painted && n.finish === 'matte' ? `<rect x="${-w}" y="${-h}" width="${w * 2}" height="${h * 2}" fill="#fff" opacity=".12"/>` : ''}
+            ${painted && n.finish === 'metal' ? `<rect x="${-w}" y="${-h}" width="${w * 2}" height="${h * 2}" fill="url(#metal)" transform="rotate(-20)"/>` : ''}
+            ${patternSvg(n, w, h, i)}${strokes}${dirt}${rough}
+            ${painted && n.finish !== 'matte' ? `<rect x="${-w}" y="${-h}" width="${w * 2}" height="${h * 2}" fill="url(#shine)"/>` : ''}
+          </g>
+          ${painted ? `<path d="${d}" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="2"/>` : ''}
+          ${stickers}
+          <path class="nail-hit" data-i="${i}" d="${d}" transform="scale(1.5)" fill="transparent"/>
         </g>
-        ${painted ? `<path d="${d}" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="2"/>` : ''}
-        ${stickers}
-        <path class="nail-hit" data-i="${i}" d="${d}" transform="scale(1.5)" fill="transparent"/>
       </g>`);
     });
-    $('handWrap').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024" role="img" aria-label="Hand met vijf nagels"><defs>${defs.join('')}</defs>${body.join('')}</svg>`;
+    // a bracelet round the wrist
+    if (nl.look.bracelet) {
+      const [wx, wy, ww] = H.wrist, kind = nl.look.bracelet;
+      let b = `<path d="M${wx - ww / 2} ${wy} Q ${wx} ${wy + 34} ${wx + ww / 2} ${wy}" fill="none" stroke="${kind === 'pearls' ? '#f4efe6' : '#e9c46a'}" stroke-width="${kind === 'chain' ? 16 : 6}" stroke-linecap="round"/>`;
+      if (kind === 'pearls') for (let k = 0; k <= 12; k++) {
+        const t = k / 12, x = wx - ww / 2 + t * ww, y = wy + 34 * 2 * t * (1 - t) * .98;
+        b += `<circle cx="${x}" cy="${y}" r="13" fill="#fbf7f0" stroke="#d8cfc2" stroke-width="2"/><circle cx="${x - 4}" cy="${y - 4}" r="4" fill="#fff"/>`;
+      }
+      if (kind === 'chain') for (let k = 0; k <= 10; k++) {
+        const t = k / 10, x = wx - ww / 2 + t * ww, y = wy + 34 * 2 * t * (1 - t);
+        b += `<ellipse cx="${x}" cy="${y}" rx="11" ry="7" fill="none" stroke="#c99a2e" stroke-width="4"/>`;
+      }
+      if (kind === 'charms') ['💖', '⭐', '🌸', '🦋'].forEach((c, k) => {
+        const t = (k + 1) / 5, x = wx - ww / 2 + t * ww, y = wy + 34 * 2 * t * (1 - t) + 26;
+        b += `<text x="${x}" y="${y}" font-size="34" text-anchor="middle" dominant-baseline="central">${c}</text>`;
+      });
+      body.push(`<g class="bracelet">${b}</g>`);
+    }
+    const [vx, vy, vw, vh] = nl.view;
+    $('handWrap').innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vx} ${vy} ${vw} ${vh}" role="img" aria-label="Hand met vijf nagels" style="touch-action:${nl.tab === 'draw' ? 'none' : 'manipulation'}"><defs>${defs.join('')}</defs>${body.join('')}</svg>` +
+      (nl.zoomMode && nl.zoom === null ? '<div class="zoom-hint">🔍 Tik op een nagel</div>' : '');
     drawHandPicker();
+  }
+
+  // Zoom: the view glides to one nail and back
+  function zoomTo(i) {
+    let target = [0, 0, 1024, 1024];
+    if (i !== null) {
+      const g = nailGeo(i), size = Math.max(g.w, g.h) * 2.6;
+      const a = g.rot * Math.PI / 180, cx = g.cx - Math.sin(a) * g.shift, cy = g.cy + Math.cos(a) * g.shift;
+      const clamp = v => Math.max(0, Math.min(1024 - size, v));       // stay inside the picture
+      target = [clamp(cx - size / 2), clamp(cy - size / 2), size, size];
+    }
+    nl.zoom = i;
+    const from = nl.view.slice(), t0 = performance.now(), run = {};
+    zoomTo.run = run;
+    setTimeout(() => { if (zoomTo.run === run && !run.done) { run.done = true; nl.view = target; drawHand(); } }, 450);   // in case animations are paused
+    const step = now => {
+      if (zoomTo.run !== run || run.done) return;
+      const t = Math.min(1, (now - t0) / 350), e = t * (2 - t);
+      nl.view = from.map((v, k) => v + (target[k] - v) * e);
+      const svg = $('handWrap').querySelector('svg');
+      if (svg) svg.setAttribute('viewBox', nl.view.join(' '));
+      if (t < 1) requestAnimationFrame(step); else { run.done = true; drawHand(); }
+    };
+    requestAnimationFrame(step);
+    $('nailZoom').textContent = i === null ? '🔍 Inzoomen' : '🔍 Uitzoomen';
+    $('nailZoom').classList.toggle('on', i !== null || nl.zoomMode);
   }
 
   // Free play: choose one of the six hands
@@ -2212,26 +2337,34 @@
     document.querySelectorAll('#nailTabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === nl.tab));
     $('nailAll').classList.toggle('on', nl.all);
     const pal = $('nailPalette');
-    if (nl.tab === 'care') pal.innerHTML = [['file', '💅', 'vijl'], ['clean', '🧽', 'spons']]
-      .map(([k, e, t]) => `<button data-v="${k}" class="${nl.pick.care === k ? 'on' : ''}"><span class="emo">${e}</span><small>${t}</small></button>`).join('');
-    if (nl.tab === 'polish') pal.innerHTML = POLISH
-      .map(([name, c]) => `<button data-v="${c}" aria-label="${name}" class="${nl.pick.polish === c ? 'on' : ''}"><div class="bottle"><i></i><b style="background:${c}"></b></div><small>${name}</small></button>`).join('');
-    if (nl.tab === 'pattern') pal.innerHTML = PATTERNS
-      .map(([k, e, t]) => `<button data-v="${k}" class="${nl.pick.pattern === k ? 'on' : ''}"><span class="emo">${e}</span><small>${t}</small></button>`).join('');
-    if (nl.tab === 'sticker') pal.innerHTML = STICKERS
-      .map(e => `<button data-v="${e}" class="${nl.pick.sticker === e ? 'on' : ''}"><span class="emo">${e}</span></button>`).join('');
-    if (nl.tab === 'remove') pal.innerHTML = `<p class="wait">🧴 Tik op een nagel: lak, patroon en stickers gaan eraf.</p>`;
+    const btn = (v, e, t, on, extra = '') => `<button data-v="${v}" ${extra} class="${on ? 'on' : ''}"><span class="emo">${e}</span>${t ? `<small>${t}</small>` : ''}</button>`;
+    const bottles = (pick, k = 'polish') => POLISH
+      .map(([name, c]) => `<button data-${k}="${c}" aria-label="${name}" class="${pick === c ? 'on' : ''}"><div class="bottle"><i></i><b style="background:${c}"></b></div><small>${name}</small></button>`).join('');
+    if (nl.tab === 'care') pal.innerHTML = [['file', '💅', 'vijl'], ['clean', '🧽', 'spons']].map(([k, e, t]) => btn(k, e, t, nl.pick.care === k)).join('');
+    if (nl.tab === 'shape') pal.innerHTML = SHAPES.map(([k, e, t]) => btn(k, e, t, (nl.look.shape || HANDS[nl.hand].shape) === k, `data-shape="${k}"`)).join('') +
+      '<span class="row-break"></span>' + LENGTHS.map(([f, t]) => `<button data-length="${f}" class="${nl.look.length === f ? 'on' : ''}"><span class="emo">${'▮'.repeat(LENGTHS.findIndex(x => x[0] === f) + 1)}</span><small>${t}</small></button>`).join('');
+    if (nl.tab === 'polish') pal.innerHTML = FINISHES.map(([k, e, t]) => btn(k, e, t, nl.finish === k, `data-finish="${k}"`)).join('') + '<span class="row-break"></span>' + bottles(nl.pick.polish);
+    if (nl.tab === 'pattern') pal.innerHTML = PATTERNS.map(([k, e, t]) => btn(k, e, t, nl.pick.pattern === k)).join('');
+    if (nl.tab === 'draw') pal.innerHTML = [[4, 'dun'], [8, 'middel'], [14, 'dik']].map(([wdt, t]) => `<button data-brush="${wdt}" class="${nl.brush === wdt ? 'on' : ''}"><div class="swatch" style="width:${wdt + 6}px;height:${wdt + 6}px;background:${nl.pick.polish}"></div><small>${t}</small></button>`).join('') +
+      '<span class="row-break"></span>' + bottles(nl.pick.polish) + `<p class="wait" style="flex-basis:100%">🖌️ Teken met je vinger op een nagel. Tip: zoom eerst in!</p>`;
+    if (nl.tab === 'sticker') pal.innerHTML = STICKERS.map(e => btn(e, e, '', nl.pick.sticker === e)).join('');
+    if (nl.tab === 'jewel') pal.innerHTML = RINGS.map(([k, c, t]) => `<button data-ring="${k}" class="${nl.ring === k ? 'on' : ''}"><div class="swatch" style="background:${c}"></div><small>ring ${t}</small></button>`).join('') +
+      '<span class="row-break"></span>' + BRACELETS.map(([k, e, t]) => `<button data-bracelet="${k}" class="${nl.look.bracelet === k ? 'on' : ''}"><span class="emo">${e}</span><small>armband ${t}</small></button>`).join('') +
+      `<p class="wait" style="flex-basis:100%">💍 Kies een ring en tik op een nagel. Tik nog eens om hem af te doen.</p>`;
+    if (nl.tab === 'remove') pal.innerHTML = `<p class="wait">🫧 Tik op een nagel: lak, patroon, tekening en stickers gaan eraf.</p>`;
   }
 
   function remember() {
-    nl.undo.push(JSON.stringify(nl.nails));
+    nl.undo.push(JSON.stringify({ nails: nl.nails, look: nl.look }));
     if (nl.undo.length > 40) nl.undo.shift();
   }
 
   // Tapping a nail does whatever the chosen tool does
   function nailTap(i, e) {
     $('photoBox').hidden = true;
-    const targets = nl.all && nl.tab !== 'sticker' ? [0, 1, 2, 3, 4] : [i];
+    if (nl.zoomMode && nl.zoom === null) { nl.zoomMode = false; return zoomTo(i); }
+    if (nl.tab === 'draw' || nl.tab === 'shape') return;
+    const targets = nl.all && nl.tab !== 'sticker' && nl.zoom === null ? [0, 1, 2, 3, 4] : [i];
     remember();
     for (const t of targets) {
       const n = nl.nails[t];
@@ -2239,13 +2372,15 @@
         if (nl.pick.care === 'file') n.rough = Math.max(0, n.rough - (nl.all ? 3 : 1));
         else n.dirt = nl.all ? [] : n.dirt.slice(1);
       }
-      if (nl.tab === 'polish') n.color = nl.pick.polish;
+      if (nl.tab === 'polish') {
+        if (nl.finish === 'ombre' && n.color && n.color !== nl.pick.polish) n.color2 = nl.pick.polish;
+        else { n.color = nl.pick.polish; n.color2 = ''; n.finish = nl.finish === 'ombre' ? 'gloss' : nl.finish; }
+      }
       if (nl.tab === 'pattern') n.pattern = nl.pick.pattern;
-      if (nl.tab === 'remove') { n.color = ''; n.pattern = 'none'; n.stickers = []; }
+      if (nl.tab === 'remove') { n.color = ''; n.color2 = ''; n.pattern = 'none'; n.stickers = []; n.strokes = []; }
+      if (nl.tab === 'jewel') n.ring = n.ring === nl.ring ? null : nl.ring;
       if (nl.tab === 'sticker') {
-        const g = $('finger' + t), pt = g.ownerSVGElement.createSVGPoint();
-        pt.x = e.clientX; pt.y = e.clientY;
-        const local = pt.matrixTransform(g.getScreenCTM().inverse());
+        const local = toNail(t, e);
         if (n.stickers.length >= 4) n.stickers.shift();
         n.stickers.push({ e: nl.pick.sticker, x: local.x, y: local.y });
       }
@@ -2253,6 +2388,38 @@
     salonSound(nl.tab);
     drawHand();
   }
+
+  // A finger position in the nail's own coordinates
+  function toNail(i, e) {
+    const g = document.querySelector('#finger' + i + ' .nail' + i), pt = g.ownerSVGElement.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(g.getScreenCTM().inverse());
+  }
+
+  // Drawing with the brush: a line follows the finger over one nail
+  let drawing = null;
+  function drawStart(e) {
+    if (nl.tab !== 'draw') return;
+    const hit = e.target.closest('.nail-hit');
+    if (!hit) return;
+    e.preventDefault();
+    const i = Number(hit.dataset.i);
+    remember();
+    const p = toNail(i, e), stroke = { c: nl.pick.polish, w: nl.brush * nailGeo(i).w / 60, p: [[Math.round(p.x * 10) / 10, Math.round(p.y * 10) / 10]] };
+    nl.nails[i].strokes.push(stroke);
+    drawing = { i, stroke };
+    drawHand();
+  }
+  function drawMove(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const p = toNail(drawing.i, e), last = drawing.stroke.p[drawing.stroke.p.length - 1];
+    if (Math.hypot(p.x - last[0], p.y - last[1]) < 1.2) return;
+    drawing.stroke.p.push([Math.round(p.x * 10) / 10, Math.round(p.y * 10) / 10]);
+    const lines = document.querySelectorAll(`#finger${drawing.i} polyline.stroke`), line = lines[lines.length - 1];
+    if (line) line.setAttribute('points', drawing.stroke.p.map(([x, y]) => `${x},${y}`).join(' '));
+  }
+  function drawEnd() { if (drawing) { drawing = null; drawHand(); } }
 
   function salonSound(tab) {
     const a = sound();
@@ -2305,7 +2472,7 @@
     $('photoBox').hidden = false;
     $('photoBox').innerHTML = `<button class="again" id="nextClient">Volgende klant 👋</button>`;
     $('nextClient').addEventListener('click', () => {
-      nl.nails = freshNails(); nl.undo = []; newClient();
+      nl.nails = freshNails(); nl.undo = []; nl.look = { shape: null, length: 1, bracelet: null }; nl.zoom = null; nl.view = [0, 0, 1024, 1024]; newClient();
       $('photoBox').hidden = true; nl.tab = 'care';
       drawBubble(); drawHand(); drawTools();
     });
@@ -2314,6 +2481,7 @@
   // The hand becomes a picture; the iPad can share or keep it in Photos
   async function makePhoto() {
     const svg = $('handWrap').querySelector('svg').cloneNode(true);
+    svg.setAttribute('viewBox', '0 0 1024 1024');
     svg.querySelectorAll('.nail-hit').forEach(el => el.remove());
     if (!nl.photoData[nl.hand]) {
       const blob = await (await fetch(`hands/${nl.hand}.jpg`)).blob();
@@ -2459,13 +2627,36 @@
   $('nailsClients').addEventListener('click', () => nailsStart('clients'));
   $('nailTabs').addEventListener('click', e => {
     const b = e.target.closest('button');
-    if (b) { nl.tab = b.dataset.tab; drawTools(); }
+    if (b) { nl.tab = b.dataset.tab; drawTools(); drawHand(); }
   });
   $('nailPalette').addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
-    const key = { care: 'care', polish: 'polish', pattern: 'pattern', sticker: 'sticker' }[nl.tab];
-    if (key) { nl.pick[key] = b.dataset.v; drawTools(); }
+    const d = b.dataset;
+    if (d.polish) nl.pick.polish = d.polish;
+    else if (d.finish) nl.finish = d.finish;
+    else if (d.brush) nl.brush = Number(d.brush);
+    else if (d.ring) nl.ring = d.ring;
+    else if (d.shape || d.length || d.bracelet) {
+      remember();
+      if (d.shape) nl.look.shape = d.shape === HANDS[nl.hand].shape && nl.look.length === 1 ? null : d.shape;
+      if (d.length) nl.look.length = Number(d.length);
+      if (d.bracelet) nl.look.bracelet = nl.look.bracelet === d.bracelet ? null : d.bracelet;
+      salonSound('sticker');
+      drawHand();
+    }
+    else if (d.v) nl.pick[{ care: 'care', pattern: 'pattern', sticker: 'sticker' }[nl.tab]] = d.v;
+    drawTools();
+  });
+  $('handWrap').addEventListener('pointerdown', drawStart);
+  $('handWrap').addEventListener('pointermove', drawMove);
+  window.addEventListener('pointerup', drawEnd);
+  window.addEventListener('pointercancel', drawEnd);
+  $('nailZoom').addEventListener('click', () => {
+    if (nl.zoom !== null) { nl.zoomMode = false; return zoomTo(null); }
+    nl.zoomMode = !nl.zoomMode;
+    $('nailZoom').classList.toggle('on', nl.zoomMode);
+    drawHand();
   });
   $('handWrap').addEventListener('click', e => {
     const hit = e.target.closest('.nail-hit');
@@ -2473,14 +2664,15 @@
   });
   $('nailUndo').addEventListener('click', () => {
     if (!nl.undo.length) return;
-    nl.nails = JSON.parse(nl.undo.pop());
+    const back = JSON.parse(nl.undo.pop());
+    nl.nails = back.nails; nl.look = back.look;
     drawHand();
   });
   $('nailAll').addEventListener('click', () => { nl.all = !nl.all; drawTools(); });
   $('handPicker').addEventListener('click', e => {
     const b = e.target.closest('button');
     if (!b) return;
-    nl.hand = b.dataset.hand;
+    nl.hand = b.dataset.hand; nl.zoom = null; nl.view = [0, 0, 1024, 1024]; $('nailZoom').textContent = '🔍 Inzoomen';
     try { localStorage.setItem('raadspel-hand', nl.hand); } catch (e) {}
     drawHand();
   });
