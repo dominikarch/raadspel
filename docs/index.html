@@ -190,6 +190,10 @@
   #snakeCanvas { display: block; width: 100%; max-width: 420px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; }
   #gravityCanvas { display: block; width: 100%; max-width: 560px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   main:has(#gravity:not(.hidden)) { max-width: 620px; }
+  #crashCanvas { display: block; width: 100%; max-width: 480px; margin: 0 auto; border-radius: 20px; touch-action: none; cursor: crosshair; }
+  .crash-scores { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+  .crash-scores span { background: var(--key); border-radius: 12px; padding: 4px 10px; font-size: 1.05rem; }
+  .crash-scores span.me { outline: 3px solid var(--ok); }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -277,6 +281,7 @@
       <button class="level l1" id="soloSnake">🐍 Snake<small>Eet fruit en word zo lang mogelijk</small></button>
       <button class="level w1" id="soloGravity">🐶 Gravity Run<small>Tik en het hondje valt naar boven of beneden</small></button>
       <button class="level w1" id="soloNails">💅 Nagelsalon<small>Lak, glitter en stickers op je nageltjes</small></button>
+      <button class="level l3" id="soloCrash">💫 Crash<small>Botsautootjes: bots zo vaak je kan!</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -336,6 +341,7 @@
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
+        <button class="level l3" id="lobbyCrash">💫 Crash<small>Botsautootjes in dezelfde arena</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -390,6 +396,20 @@
       <div class="photo-box" id="photoBox" hidden></div>
     </div>
     <button class="back" data-to="nailsMenu">← Terug</button>
+  </section>
+
+  <!-- Crash: botsautootjes -->
+  <section id="crash" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="crashTime">⏱️ 60</span><span id="crashMe"></span></div>
+      <canvas id="crashCanvas" width="360" height="360" aria-label="Botsauto arena"></canvas>
+      <div class="crash-scores" id="crashScores"></div>
+      <p class="ttt-status" id="crashStatus"></p>
+      <div class="ttt-end" id="crashEnd" hidden>
+        <button class="again" id="crashAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="crashBack">← Ander spel</button>
   </section>
 
   <!-- Gravity Run -->
@@ -625,7 +645,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -894,6 +914,7 @@
     bricksStop();
     snakeStop();
     gravityStop();
+    crashStop();
     $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
     show('lobby');
   }
@@ -972,14 +993,18 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && screen === 'ttt' && ttt.over) tttNewRound();
     if (m.type === 'rscore' && ['bricks', 'snake', 'gravity'].includes(screen)) raceOther(m.score, m.done);
     if (m.type === 'gravityAgain' && screen === 'gravity' && gr.over) gravityBegin();
+    if (m.type === 'cz' && screen === 'crash' && !iAmHost) crashState(m);
+    if (m.type === 'ct' && screen === 'crash' && iAmHost && cr.cars[1]) { cr.cars[1].tx = m.x; cr.cars[1].ty = m.y; }
+    if (m.type === 'crashEnd' && screen === 'crash' && !iAmHost) crashOver(m.scores);
+    if (m.type === 'crashAgain' && screen === 'crash' && cr.over) crashBegin();
     if (m.type === 'snakeAgain' && screen === 'snake' && sn.over) snakeBegin(sn.walls);
     if (m.type === 'pick' && m.game === 'snake' && screen === 'snakeLevel') snakeBegin(m.walls);
     if (m.type === 'bricksAgain' && screen === 'bricks' && bk.over) bricksBegin(bk.speed);
@@ -2532,6 +2557,232 @@
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(data);
   }
 
+
+  // ----- Crash (Lily's game): bumper cars; tap where to drive, every bump you make is a point -----
+  // Together, the game maker's device runs the arena and sends where everything is; the friend sends where to drive.
+
+  const CW = 360, ROUND = 60;
+  const CAR_LOOK = [['#ff7aa2', '🐶'], ['#3a86ff', '🐱'], ['#ffd23f', '🐰'], ['#2fb06c', '🦊']];
+  const cr = { cars: [], running: false, over: false, left: ROUND, countdown: 3, sparks: [], last: 0, sendAt: 0, me: 0, pending: null };
+
+  function crashStart() {
+    if (mode === 'together') send('pick', { game: 'crash' });
+    crashBegin();
+  }
+
+  function crashBegin() {
+    crashStop();
+    stopMusic();
+    const names = mode === 'together'
+      ? [iAmHost ? myName : other.name, iAmHost ? other.name : myName, 'Poes', 'Konijn']
+      : [myName || 'Jij', 'Poes', 'Konijn', 'Vos'];
+    const humans = mode === 'together' ? 2 : 1;
+    cr.cars = CAR_LOOK.map(([color, face], k) => {
+      const a = k / 4 * Math.PI * 2 + Math.PI / 4;
+      return { x: CW / 2 + Math.cos(a) * 110, y: CW / 2 + Math.sin(a) * 110, vx: 0, vy: 0, r: 20, color, face,
+               name: names[k], score: 0, human: k < humans, tx: null, ty: null, cool: {}, wander: Math.random() * 6 };
+    });
+    cr.me = mode === 'together' && !iAmHost ? 1 : 0;
+    Object.assign(cr, { over: false, left: ROUND, countdown: 3, sparks: [], running: true, last: performance.now(), sendAt: 0 });
+    $('crashEnd').hidden = true;
+    $('crashStatus').textContent = 'Tik op de vloer: daar rijdt je auto heen!';
+    crashHud();
+    show('crash');
+    const c = $('crashCanvas'), ratio = window.devicePixelRatio || 1;
+    c.width = CW * ratio; c.height = CW * ratio;
+    c.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    requestAnimationFrame(crashFrame);
+  }
+
+  function crashStop() { cr.running = false; }
+
+  function crashHud() {
+    const t = Math.ceil(cr.left);
+    $('crashTime').textContent = cr.countdown > 0 ? `Klaar voor de start…` : `⏱️ ${t} seconden`;
+    $('crashMe').textContent = cr.cars[cr.me] ? `💥 ${cr.cars[cr.me].score} botsingen` : '';
+    $('crashScores').innerHTML = cr.cars.map((c, k) => `<span class="${k === cr.me ? 'me' : ''}">${c.face} ${c.name}: ${c.score}</span>`).join('');
+  }
+
+  // Where the finger is, in arena units
+  function crashAim(e) {
+    if (cr.over || screen !== 'crash') return;
+    sound();
+    const r = $('crashCanvas').getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width * CW, y = (e.clientY - r.top) / r.height * CW;
+    if (mode === 'together' && !iAmHost) {
+      const now = performance.now();
+      cr.pending = { x, y };
+      if (now - cr.sendAt > 90) { cr.sendAt = now; transmit({ type: 'ct', from: myId, x: Math.round(x), y: Math.round(y) }); }
+      return;
+    }
+    cr.cars[0].tx = x; cr.cars[0].ty = y;
+  }
+
+  function crashFrame(now) {
+    if (!cr.running || screen !== 'crash') return;
+    const dt = Math.min((now - cr.last) / 1000, 1 / 30);
+    cr.last = now;
+    const runsArena = mode === 'solo' || iAmHost;
+    if (runsArena && !cr.over) crashStep(dt);
+    if (!runsArena && cr.pending && now - cr.sendAt > 120) {        // the last aim, in case a move was skipped
+      cr.sendAt = now; transmit({ type: 'ct', from: myId, x: Math.round(cr.pending.x), y: Math.round(cr.pending.y) }); cr.pending = null;
+    }
+    cr.sparks = cr.sparks.filter(s => (s.t -= dt) > 0);
+    crashDraw();
+    requestAnimationFrame(crashFrame);
+  }
+
+  function crashStep(dt) {
+    if (cr.countdown > 0) {
+      const before = Math.ceil(cr.countdown);
+      cr.countdown -= dt;
+      if (Math.ceil(cr.countdown) !== before) blip(cr.countdown <= 0 ? 880 : 440);
+      if (cr.countdown <= 0) $('crashStatus').textContent = '';
+      crashHud(); crashSend(); return;
+    }
+    cr.left -= dt;
+    if (cr.left <= 0) { cr.left = 0; crashSend(); return crashFinish(); }
+    for (const [k, c] of cr.cars.entries()) {
+      if (!c.human) botAim(c, k);
+      if (c.tx !== null) {                       // speed up towards the target
+        const dx = c.tx - c.x, dy = c.ty - c.y, d = Math.hypot(dx, dy);
+        const push = c.human ? 420 : 300;       // computer cars are a bit lazier than you
+        if (d > 6) { c.vx += dx / d * push * dt; c.vy += dy / d * push * dt; }
+      }
+      const sp = Math.hypot(c.vx, c.vy), max = c.human ? 190 : 140;
+      if (sp > max) { c.vx *= max / sp; c.vy *= max / sp; }
+      c.vx *= Math.pow(.35, dt); c.vy *= Math.pow(.35, dt);     // rubbery floor
+      c.x += c.vx * dt; c.y += c.vy * dt;
+      const lo = 14 + c.r, hi = CW - 14 - c.r;                  // the rink's edge bounces
+      if (c.x < lo) { c.x = lo; c.vx = Math.abs(c.vx) * .9; }
+      if (c.x > hi) { c.x = hi; c.vx = -Math.abs(c.vx) * .9; }
+      if (c.y < lo) { c.y = lo; c.vy = Math.abs(c.vy) * .9; }
+      if (c.y > hi) { c.y = hi; c.vy = -Math.abs(c.vy) * .9; }
+      for (const key in c.cool) if ((c.cool[key] -= dt) <= 0) delete c.cool[key];
+    }
+    // bumps: they bounce apart, and whoever drove into the other gets a point
+    for (let a = 0; a < cr.cars.length; a++) for (let b = a + 1; b < cr.cars.length; b++) {
+      const A = cr.cars[a], B = cr.cars[b], dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy);
+      if (d >= A.r + B.r || d === 0) continue;
+      const nx = dx / d, ny = dy / d, overlap = A.r + B.r - d;
+      A.x -= nx * overlap / 2; A.y -= ny * overlap / 2; B.x += nx * overlap / 2; B.y += ny * overlap / 2;
+      const pushA = A.vx * nx + A.vy * ny, pushB = -(B.vx * nx + B.vy * ny);
+      const rel = pushA + pushB;
+      if (rel <= 0) continue;
+      const j = rel * 1.15;
+      A.vx -= nx * j; A.vy -= ny * j; B.vx += nx * j; B.vy += ny * j;
+      if (A.cool[b] || rel < 50) continue;
+      A.cool[b] = B.cool[a] = .6;
+      const hitter = pushA >= pushB ? A : B;
+      hitter.score++;
+      cr.sparks.push({ x: (A.x + B.x) / 2, y: (A.y + B.y) / 2, t: .5 });
+      if (hitter === cr.cars[cr.me]) boing(); else blip(300);
+      crashHud();
+    }
+    crashSend();
+  }
+
+  // Computer cars chase the nearest car, with a little wobble so they are not perfect
+  function botAim(c, k) {
+    let best = null, bd = 1e9;
+    cr.cars.forEach((o, j) => { if (j !== k) { const d = Math.hypot(o.x - c.x, o.y - c.y); if (d < bd) { bd = d; best = o; } } });
+    c.wander += .03;
+    c.tx = best.x + Math.cos(c.wander) * 70; c.ty = best.y + Math.sin(c.wander) * 70;
+  }
+
+  // Together: the arena goes to the friend 15 times a second
+  function crashSend() {
+    if (mode !== 'together' || !iAmHost) { crashHud(); return; }
+    const now = performance.now();
+    if (now - cr.sendAt < 66) return;
+    cr.sendAt = now;
+    crashHud();
+    transmit({ type: 'cz', from: myId, t: Math.round(cr.left * 10) / 10, cd: Math.round(cr.countdown * 10) / 10,
+               c: cr.cars.map(c => [Math.round(c.x), Math.round(c.y), c.score]),
+               s: cr.sparks.map(s => [Math.round(s.x), Math.round(s.y)]) });
+  }
+
+  function crashState(m) {
+    const before = cr.cars[cr.me] ? cr.cars[cr.me].score : 0;
+    m.c.forEach(([x, y, score], k) => { const c = cr.cars[k]; if (c) { c.x = x; c.y = y; c.score = score; } });
+    if (cr.countdown > 0 && m.cd <= 0) $('crashStatus').textContent = '';
+    cr.left = m.t; cr.countdown = m.cd;
+    for (const [x, y] of m.s) if (!cr.sparks.some(s => Math.abs(s.x - x) < 4 && Math.abs(s.y - y) < 4)) cr.sparks.push({ x, y, t: .5 });
+    if (cr.cars[cr.me].score > before) boing();
+    crashHud();
+  }
+
+  function crashFinish() {
+    const scores = cr.cars.map(c => c.score);
+    if (mode === 'together') send('crashEnd', { scores });
+    crashOver(scores);
+  }
+
+  function crashOver(scores) {
+    cr.over = true;
+    scores.forEach((s, k) => { if (cr.cars[k]) cr.cars[k].score = s; });
+    crashHud();
+    const me = cr.cars[cr.me], best = Math.max(...scores), winners = cr.cars.filter(c => c.score === best);
+    if (me.score === best && winners.length === 1) { $('crashStatus').textContent = `🏆 Jij wint met ${me.score} botsingen!`; confetti(); winSound(); }
+    else if (me.score === best) $('crashStatus').textContent = `🤝 Gelijk! Jij en ${winners.filter(c => c !== me).map(c => c.name).join(' en ')} hebben ${best}.`;
+    else $('crashStatus').textContent = `${winners[0].face} ${winners[0].name} wint met ${best}. Jij had er ${me.score}.`;
+    if (mode === 'solo') {
+      const rec = recordOf('crash');
+      if (me.score > rec) { try { localStorage.setItem('raadspel-crash', me.score); } catch (e) {} $('crashStatus').textContent += ` 🎉 Nieuw record!`; }
+    }
+    $('crashEnd').hidden = false;
+  }
+
+  function boing() {
+    const a = audio;
+    if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), t = a.currentTime;
+    o.type = 'triangle'; o.frequency.setValueAtTime(220, t); o.frequency.exponentialRampToValueAtTime(660, t + .12);
+    g.gain.setValueAtTime(.25, t); g.gain.exponentialRampToValueAtTime(.0001, t + .25);
+    o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + .3);
+  }
+
+  function crashDraw() {
+    const ctx = $('crashCanvas').getContext('2d');
+    ctx.fillStyle = '#3b2f52'; ctx.fillRect(0, 0, CW, CW);                        // the rink's rubber edge
+    const stripes = ['#ff7aa2', '#ffd23f'];
+    for (let k = 0; k < 24; k++) { ctx.fillStyle = stripes[k % 2]; ctx.fillRect(k * 15, 0, 15, 8); ctx.fillRect(k * 15, CW - 8, 15, 8); ctx.fillRect(0, k * 15, 8, 15); ctx.fillRect(CW - 8, k * 15, 8, 15); }
+    ctx.fillStyle = '#d9d4e8'; ctx.fillRect(14, 14, CW - 28, CW - 28);           // the floor, with tiles
+    ctx.strokeStyle = '#cbc4de'; ctx.lineWidth = 1;
+    for (let k = 14; k < CW - 14; k += 30) { ctx.beginPath(); ctx.moveTo(k, 14); ctx.lineTo(k, CW - 14); ctx.moveTo(14, k); ctx.lineTo(CW - 14, k); ctx.stroke(); }
+    const me = cr.cars[cr.me];
+    if (me && me.tx !== null && mode !== 'together' || (me && iAmHost && me.tx !== null)) {
+      ctx.strokeStyle = me.color; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(me.tx, me.ty, 8, 0, Math.PI * 2); ctx.stroke();
+    }
+    for (const c of cr.cars) {
+      ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.beginPath(); ctx.arc(c.x + 3, c.y + 4, c.r + 3, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#2b2140'; ctx.beginPath(); ctx.arc(c.x, c.y, c.r + 3, 0, Math.PI * 2); ctx.fill();      // rubber bumper
+      ctx.fillStyle = c.color; ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.arc(c.x - 6, c.y - 7, c.r * .45, 0, Math.PI * 2); ctx.fill();
+      ctx.font = `${c.r * 1.2}px system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#000'; ctx.fillText(c.face, c.x, c.y + 1);      // emoji take the fill's see-through-ness, so a solid fill
+      if (c === me) { ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(c.x, c.y, c.r + 7, 0, Math.PI * 2); ctx.stroke(); }
+    }
+    for (const sp of cr.sparks) { ctx.font = `${20 + (1 - sp.t / .5) * 16}px system-ui, sans-serif`; ctx.globalAlpha = sp.t / .5; ctx.fillText('💥', sp.x, sp.y); ctx.globalAlpha = 1; }
+    if (cr.countdown > 0) {
+      ctx.fillStyle = 'rgba(43,33,64,.55)'; ctx.fillRect(0, 0, CW, CW);
+      ctx.fillStyle = '#fff'; ctx.font = '800 90px "Baloo 2", system-ui, sans-serif';
+      ctx.fillText(Math.ceil(cr.countdown), CW / 2, CW / 2);
+    } else if (cr.over) {
+      ctx.fillStyle = 'rgba(43,33,64,.45)'; ctx.fillRect(0, 0, CW, CW);
+      ctx.fillStyle = '#fff'; ctx.font = '800 40px "Baloo 2", system-ui, sans-serif';
+      ctx.fillText('Tijd is om!', CW / 2, CW / 2);
+    }
+  }
+
+  function crashLeave() {
+    crashStop();
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
   function stopTogether() {
     leave();
     mode = 'solo';
@@ -2639,6 +2890,15 @@
   $('soloBricks').addEventListener('click', () => { mode = 'solo'; bricksStart(); });
   $('soloSnake').addEventListener('click', () => { mode = 'solo'; snakeStart(); });
   $('soloGravity').addEventListener('click', () => { mode = 'solo'; gravityStart(); });
+  $('soloCrash').addEventListener('click', () => { mode = 'solo'; crashStart(); });
+  $('lobbyCrash').addEventListener('click', crashStart);
+  $('crashBack').addEventListener('click', crashLeave);
+  $('crashAgain').addEventListener('click', () => {
+    if (mode === 'together') send('crashAgain', {});
+    crashBegin();
+  });
+  $('crashCanvas').addEventListener('pointerdown', e => { e.preventDefault(); crashAim(e); });
+  $('crashCanvas').addEventListener('pointermove', e => { if (e.buttons || e.pointerType === 'touch') crashAim(e); });
   $('soloNails').addEventListener('click', () => { mode = 'solo'; show('nailsMenu'); });
   $('nailsFree').addEventListener('click', () => nailsStart('free'));
   $('nailsClients').addEventListener('click', () => nailsStart('clients'));
