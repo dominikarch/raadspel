@@ -166,6 +166,14 @@
     .seas { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
   }
   /* Stenen-breker */
+  .snake-pad { display: grid; grid-template-columns: repeat(3, 64px); grid-template-rows: repeat(2, 56px); gap: 8px; justify-content: center; margin-top: 12px; }
+  .snake-pad button { font: inherit; font-size: 1.8rem; border: none; border-radius: 16px; background: var(--key); color: var(--ink); cursor: pointer; box-shadow: 0 4px 0 var(--key-edge); touch-action: manipulation; }
+  .snake-pad button:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--key-edge); }
+  .snake-pad [data-dir="up"] { grid-column: 2; grid-row: 1; }
+  .snake-pad [data-dir="left"] { grid-column: 1; grid-row: 2; }
+  .snake-pad [data-dir="down"] { grid-column: 2; grid-row: 2; }
+  .snake-pad [data-dir="right"] { grid-column: 3; grid-row: 2; }
+  #snakeCanvas { display: block; width: 100%; max-width: 420px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
@@ -207,6 +215,7 @@
       <button class="level w2" id="soloTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij tegen het hondje</small></button>
       <button class="level l3" id="soloC4">🔴🟡 Vier op een rij<small>Vier op een rij tegen het hondje</small></button>
       <button class="level l2" id="soloBricks">🏓 Stenen-breker<small>Breek alle stenen met het balletje</small></button>
+      <button class="level l1" id="soloSnake">🐍 Snake<small>Eet fruit en word zo lang mogelijk</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -264,6 +273,7 @@
         <button class="level w2" id="lobbyTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij</small></button>
         <button class="level l3" id="lobbyC4">🔴🟡 Vier op een rij<small>Wie heeft er eerst vier?</small></button>
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
+        <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -280,6 +290,35 @@
       </div>
     </div>
     <button class="back" id="rolesBack">← Ander spel</button>
+  </section>
+
+  <!-- Snake: wat doet de muur -->
+  <section id="snakeLevel" class="hidden">
+    <p class="sub">Wat gebeurt er bij de muur?</p>
+    <div class="levels" id="snakeWalls">
+      <button class="level l2" data-walls="0">🌀 Door de muur<small id="srec0">Je komt er aan de andere kant weer uit</small></button>
+      <button class="level l3" data-walls="1">🧱 Muur = af<small id="srec1">Zoals het echte spel</small></button>
+    </div>
+    <button class="back" id="snakeLevelBack">← Terug</button>
+  </section>
+
+  <!-- Snake: spelen -->
+  <section id="snake" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="sMe"></span><span id="sOther"></span></div>
+      <canvas id="snakeCanvas" width="320" height="320" aria-label="Snake speelveld"></canvas>
+      <div class="snake-pad" id="snakePad">
+        <button data-dir="up" aria-label="Omhoog">⬆️</button>
+        <button data-dir="left" aria-label="Links">⬅️</button>
+        <button data-dir="down" aria-label="Omlaag">⬇️</button>
+        <button data-dir="right" aria-label="Rechts">➡️</button>
+      </div>
+      <p class="ttt-status" id="snakeStatus"></p>
+      <div class="ttt-end" id="snakeEnd" hidden>
+        <button class="again" id="snakeAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="snakeBack">← Ander spel</button>
   </section>
 
   <!-- Stenen-breker: hoe snel -->
@@ -473,7 +512,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -740,6 +779,7 @@
     ttt.active = false;
     sh.on = false;
     bricksStop();
+    snakeStop();
     $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
     show('lobby');
   }
@@ -818,13 +858,15 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && screen === 'ttt' && ttt.over) tttNewRound();
-    if (m.type === 'bscore') bricksOtherScore(m.score, m.done);
+    if (m.type === 'rscore' && (screen === 'bricks' || screen === 'snake')) raceOther(m.score, m.done);
+    if (m.type === 'snakeAgain' && screen === 'snake' && sn.over) snakeBegin(sn.walls);
+    if (m.type === 'pick' && m.game === 'snake' && screen === 'snakeLevel') snakeBegin(m.walls);
     if (m.type === 'bricksAgain' && screen === 'bricks' && bk.over) bricksBegin(bk.speed);
     if (m.type === 'pick' && m.game === 'bricks' && screen === 'bricksLevel') bricksBegin(m.speed);
     if (m.type === 'shipsReady') { sh.otherReady = true; shipsMaybeStart(); }
@@ -1431,6 +1473,59 @@
   }
 
 
+  // ----- Points race (Stenen-breker, Snake): each plays on their own device, the higher score wins -----
+
+  const race = { score: 0, done: false, other: 0, otherDone: false, timer: null, status: '', end: '', hud: null };
+
+  function raceStart(statusId, endId, hud) {
+    clearTimeout(race.timer);
+    Object.assign(race, { score: 0, done: false, other: 0, otherDone: false, timer: null, status: statusId, end: endId, hud });
+  }
+
+  // The score goes to the friend at most twice a second, and once more when done
+  function raceScore(score) {
+    race.score = score;
+    race.hud();
+    if (mode !== 'together' || race.timer) return;
+    race.timer = setTimeout(() => { race.timer = null; if (!race.done) send('rscore', { score: race.score, done: false }); }, 500);
+  }
+
+  function raceDone() {
+    race.done = true;
+    clearTimeout(race.timer); race.timer = null;
+    send('rscore', { score: race.score, done: true });
+    raceResult();
+  }
+
+  function raceOther(score, done) {
+    race.other = score; race.otherDone = race.otherDone || done;
+    race.hud();
+    if (race.done) raceResult();
+  }
+
+  function raceLabel() { return `${other.name}: ${race.other}${race.otherDone ? ' (klaar)' : ''}`; }
+
+  function raceResult() {
+    const status = $(race.status);
+    if (!race.otherDone) { status.textContent = `Klaar! Wachten tot ${other.name} klaar is…`; return; }
+    if (!$(race.end).hidden) return;
+    const me = race.score, them = race.other;
+    if (me > them) { status.textContent = `🎉 Jij wint! ${me} tegen ${them}`; confetti(); winSound(); }
+    else if (me < them) status.textContent = `${other.name} wint! ${them} tegen ${me}`;
+    else status.textContent = `🤝 Gelijkspel! Allebei ${me}`;
+    $(race.end).hidden = false;
+  }
+
+  // Alone: the best score per game and level is kept on this device
+  function recordOf(key) { try { return Number(localStorage.getItem('raadspel-' + key)) || 0; } catch (e) { return 0; } }
+  function soloRecord(key, score, unit, prefix, party) {
+    const best = recordOf(key), isRecord = score > best;
+    if (isRecord) try { localStorage.setItem('raadspel-' + key, score); } catch (e) {}
+    $(race.status).textContent = (prefix || '') + (isRecord ? `🎉 Nieuw record: ${score} ${unit}!` : `${score} ${unit}. Record: ${best}`);
+    if (party || isRecord) { confetti(); winSound(); }
+    $(race.end).hidden = false;
+  }
+
   // ----- Stenen-breker: alone with a record per speed, or together as a points race -----
 
   const W = 320, H = 440;                         // the playing field in its own units; the canvas scales it
@@ -1439,10 +1534,10 @@
   const FIELDS = 5;
   const bk = {
     speed: 2, field: 1, score: 0, lives: 3, bricks: [], ball: null, paddle: { x: W / 2, w: 70 },
-    stuck: true, over: false, running: false, otherScore: 0, otherDone: false, lastSent: 0, sendTimer: null,
+    stuck: true, over: false, running: false,
   };
 
-  function record(speed) { try { return Number(localStorage.getItem('raadspel-bricks-' + speed)) || 0; } catch (e) { return 0; } }
+  function record(speed) { return recordOf('bricks-' + speed); }
 
   function bricksStart() {                        // from the game menu: choose the speed
     for (const n of [1, 2, 3]) $('rec' + n).textContent = mode === 'solo' && record(n) ? `Record: ${record(n)}` : '';
@@ -1458,7 +1553,8 @@
   function bricksBegin(speed) {
     bricksStop();
     stopMusic();
-    Object.assign(bk, { speed, field: 1, score: 0, lives: 3, over: false, otherScore: 0, otherDone: false });
+    Object.assign(bk, { speed, field: 1, score: 0, lives: 3, over: false });
+    raceStart('bricksStatus', 'bricksEnd', bricksHud);
     $('bricksEnd').hidden = true;
     $('bricksStatus').textContent = '';
     buildField();
@@ -1471,7 +1567,7 @@
     requestAnimationFrame(bricksFrame);
   }
 
-  function bricksStop() { bk.running = false; clearTimeout(bk.sendTimer); }
+  function bricksStop() { bk.running = false; clearTimeout(race.timer); }
 
   // Field 1 has 4 rows; every next field one more, and from field 3 the top rows need two hits
   function buildField() {
@@ -1568,48 +1664,16 @@
 
   function bricksHud() {
     $('bMe').textContent = `${'💖'.repeat(Math.max(bk.lives, 0))} ${bk.score} punten`;
-    $('bOther').textContent = mode === 'together' && other ? `${other.name}: ${bk.otherScore}${bk.otherDone ? ' (klaar)' : ''}` : `Veld ${bk.field}/${FIELDS}`;
+    $('bOther').textContent = mode === 'together' && other ? raceLabel() : `Veld ${bk.field}/${FIELDS}`;
   }
 
-  // Together: the score goes to the friend at most twice a second, and once more when done
-  function scoreChanged() {
-    bricksHud();
-    if (mode !== 'together' || bk.sendTimer) return;
-    bk.sendTimer = setTimeout(() => { bk.sendTimer = null; send('bscore', { score: bk.score, done: bk.over }); }, 500);
-  }
-
-  function bricksOtherScore(score, done) {
-    if (screen !== 'bricks') return;
-    bk.otherScore = score; bk.otherDone = bk.otherDone || done;
-    bricksHud();
-    if (bk.over) bricksResult();
-  }
+  function scoreChanged() { raceScore(bk.score); }
 
   function bricksOver(allCleared) {
     bk.over = true;
     bk.ball.vx = bk.ball.vy = 0;
-    if (mode === 'solo') {
-      const best = record(bk.speed), isRecord = bk.score > best;
-      if (isRecord) try { localStorage.setItem('raadspel-bricks-' + bk.speed, bk.score); } catch (e) {}
-      $('bricksStatus').textContent = (allCleared ? '🏆 Alle velden uitgespeeld! ' : '') +
-        (isRecord ? `🎉 Nieuw record: ${bk.score} punten!` : `${bk.score} punten. Record: ${best}`);
-      if (allCleared || isRecord) { confetti(); winSound(); }
-      $('bricksEnd').hidden = false;
-      return;
-    }
-    clearTimeout(bk.sendTimer); bk.sendTimer = null;
-    send('bscore', { score: bk.score, done: true });
-    bricksResult();
-  }
-
-  function bricksResult() {
-    if (!bk.otherDone) { $('bricksStatus').textContent = `Klaar! Wachten tot ${other.name} klaar is…`; return; }
-    if (!$('bricksEnd').hidden) return;
-    const me = bk.score, them = bk.otherScore;
-    if (me > them) { $('bricksStatus').textContent = `🎉 Jij wint! ${me} tegen ${them}`; confetti(); winSound(); }
-    else if (me < them) $('bricksStatus').textContent = `${other.name} wint! ${them} tegen ${me}`;
-    else $('bricksStatus').textContent = `🤝 Gelijkspel! Allebei ${me}`;
-    $('bricksEnd').hidden = false;
+    if (mode === 'solo') return soloRecord('bricks-' + bk.speed, bk.score, 'punten', allCleared ? '🏆 Alle velden uitgespeeld! ' : '', allCleared);
+    raceDone();
   }
 
   function draw() {
@@ -1650,6 +1714,134 @@
 
   function bricksLeave() {
     bricksStop();
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+
+  // ----- Snake: eat fruit and grow; through the wall or the wall ends the game -----
+
+  const SN = 16, CELL = 320 / SN;                 // 16 × 16 squares
+  const FRUIT = ['🍎', '🍓', '🍌', '🍇', '🍒', '🍉', '🍐', '🍊'];
+  const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  const sn = { walls: 0, body: [], dir: 'right', queue: [], fruit: null, eaten: 0, over: false, started: false, timer: null };
+
+  function snakeStart() {                         // from the game menu: choose the wall rule
+    for (const w of [0, 1]) {
+      const r = recordOf('snake-' + w);
+      $('srec' + w).textContent = mode === 'solo' && r ? `Record: ${r} fruit`
+        : w ? 'Zoals het echte spel' : 'Je komt er aan de andere kant weer uit';
+    }
+    $('snakeLevelBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('snakeLevel');
+  }
+
+  function snakePickWalls(walls) {
+    if (mode === 'together') send('pick', { game: 'snake', walls });
+    snakeBegin(walls);
+  }
+
+  function snakeBegin(walls) {
+    snakeStop();
+    stopMusic();
+    const m = SN / 2;
+    Object.assign(sn, { walls, body: [[m - 2, m], [m - 3, m], [m - 4, m]], dir: 'right', queue: [], eaten: 0, over: false, started: false });
+    placeFruit();
+    raceStart('snakeStatus', 'snakeEnd', snakeHud);
+    $('snakeEnd').hidden = true;
+    $('snakeStatus').textContent = 'Tik op een pijl of veeg om te beginnen!';
+    snakeHud();
+    show('snake');
+    const c = $('snakeCanvas'), ratio = window.devicePixelRatio || 1;
+    c.width = 320 * ratio; c.height = 320 * ratio;
+    c.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    snakeDraw();
+  }
+
+  function snakeStop() { clearTimeout(sn.timer); sn.timer = null; clearTimeout(race.timer); }
+
+  function placeFruit() {
+    const taken = new Set(sn.body.map(([x, y]) => x + ',' + y)), free = [];
+    for (let x = 0; x < SN; x++) for (let y = 0; y < SN; y++) if (!taken.has(x + ',' + y)) free.push([x, y]);
+    const [x, y] = free[Math.floor(Math.random() * free.length)];
+    sn.fruit = { x, y, emoji: FRUIT[Math.floor(Math.random() * FRUIT.length)] };
+  }
+
+  // A new direction waits its turn; turning straight back into yourself is ignored
+  function steer(dir) {
+    if (sn.over || screen !== 'snake') return;
+    sound();
+    const last = sn.queue.length ? sn.queue[sn.queue.length - 1] : sn.dir;
+    const [lx, ly] = DIRS[last], [dx, dy] = DIRS[dir];
+    if (dir !== last && !(lx === -dx && ly === -dy) && sn.queue.length < 2) sn.queue.push(dir);
+    if (!sn.started) { sn.started = true; $('snakeStatus').textContent = ''; tick(); }
+  }
+
+  function tick() {
+    if (sn.over || screen !== 'snake') return;
+    if (sn.queue.length) sn.dir = sn.queue.shift();
+    const [dx, dy] = DIRS[sn.dir];
+    let [x, y] = sn.body[0];
+    x += dx; y += dy;
+    if (x < 0 || y < 0 || x >= SN || y >= SN) {
+      if (sn.walls) return snakeOver('🧱 Bonk! Tegen de muur.');
+      x = (x + SN) % SN; y = (y + SN) % SN;
+    }
+    const eats = x === sn.fruit.x && y === sn.fruit.y;
+    if (!eats) sn.body.pop();
+    if (sn.body.some(([bx, by]) => bx === x && by === y)) return snakeOver('Au! Je beet in je eigen staart.');
+    sn.body.unshift([x, y]);
+    if (eats) { sn.eaten++; blip(700 + sn.eaten * 10); placeFruit(); raceScore(sn.eaten); }
+    snakeDraw();
+    sn.timer = setTimeout(tick, Math.max(85, 190 - sn.eaten * 4));   // a little faster with every fruit
+  }
+
+  function snakeHud() {
+    $('sMe').textContent = `🐍 ${sn.eaten} fruit`;
+    $('sOther').textContent = mode === 'together' && other ? raceLabel() : (sn.walls ? '🧱 Muur = af' : '🌀 Door de muur');
+  }
+
+  function snakeOver(why) {
+    sn.over = true;
+    clearTimeout(sn.timer);
+    blip(160);
+    snakeDraw();
+    if (mode === 'solo') return soloRecord('snake-' + sn.walls, sn.eaten, 'fruit', why + ' ');
+    $('snakeStatus').textContent = why;
+    raceDone();
+  }
+
+  function snakeDraw() {
+    const ctx = $('snakeCanvas').getContext('2d'), css = getComputedStyle(document.documentElement);
+    ctx.clearRect(0, 0, 320, 320);
+    if (sn.walls) { ctx.strokeStyle = css.getPropertyValue('--up'); ctx.lineWidth = 4; ctx.strokeRect(2, 2, 316, 316); }
+    ctx.font = `${CELL * .85}px system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(sn.fruit.emoji, sn.fruit.x * CELL + CELL / 2, sn.fruit.y * CELL + CELL / 2 + 1);
+    const green = css.getPropertyValue('--ok');
+    sn.body.forEach(([x, y], i) => {
+      ctx.fillStyle = green;
+      ctx.globalAlpha = i === 0 ? 1 : Math.max(.55, 1 - i * .02);
+      ctx.beginPath(); ctx.roundRect(x * CELL + 1, y * CELL + 1, CELL - 2, CELL - 2, i === 0 ? 8 : 5); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    // eyes on the head, looking where it goes
+    const [hx, hy] = sn.body[0], [dx, dy] = DIRS[sn.dir];
+    ctx.fillStyle = '#ffffff';
+    for (const s of [-1, 1]) {
+      const ex = hx * CELL + CELL / 2 + dx * 4 + dy * s * 4, ey = hy * CELL + CELL / 2 + dy * 4 + dx * s * 4;
+      ctx.beginPath(); ctx.arc(ex, ey, 3, 0, Math.PI * 2); ctx.fill();
+    }
+    if (sn.over) {
+      ctx.fillStyle = css.getPropertyValue('--ink');
+      ctx.font = '700 22px "Baloo 2", system-ui, sans-serif';
+      ctx.fillText('Af!', 160, 160);
+    }
+  }
+
+  function snakeLeave() {
+    snakeStop();
     stopMusic();
     if (mode === 'solo') return show('soloGames');
     send('lobby', {});
@@ -1761,6 +1953,32 @@
   $('soloC4').addEventListener('click', () => { mode = 'solo'; tttSetup('c4'); });
   $('soloShips').addEventListener('click', () => { mode = 'solo'; shipsStart(); });
   $('soloBricks').addEventListener('click', () => { mode = 'solo'; bricksStart(); });
+  $('soloSnake').addEventListener('click', () => { mode = 'solo'; snakeStart(); });
+  $('lobbySnake').addEventListener('click', snakeStart);
+  document.querySelectorAll('#snakeWalls .level').forEach(b =>
+    b.addEventListener('click', () => snakePickWalls(Number(b.dataset.walls))));
+  $('snakeLevelBack').addEventListener('click', snakeLeave);
+  $('snakeBack').addEventListener('click', snakeLeave);
+  $('snakeAgain').addEventListener('click', () => {
+    if (mode === 'together') send('snakeAgain', {});
+    snakeBegin(sn.walls);
+  });
+  document.querySelectorAll('#snakePad button').forEach(b =>
+    b.addEventListener('pointerdown', e => { e.preventDefault(); steer(b.dataset.dir); }));
+  let swipeFrom = null;
+  $('snakeCanvas').addEventListener('pointerdown', e => { swipeFrom = [e.clientX, e.clientY]; });
+  $('snakeCanvas').addEventListener('pointerup', e => {
+    if (!swipeFrom) return;
+    const dx = e.clientX - swipeFrom[0], dy = e.clientY - swipeFrom[1];
+    swipeFrom = null;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return;
+    steer(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'));
+  });
+  document.addEventListener('keydown', e => {
+    if (screen !== 'snake') return;
+    const k = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right' }[e.key];
+    if (k) { e.preventDefault(); steer(k); }
+  });
   $('lobbyBricks').addEventListener('click', bricksStart);
   document.querySelectorAll('#brickSpeeds .level').forEach(b =>
     b.addEventListener('click', () => bricksPickSpeed(Number(b.dataset.speed))));
