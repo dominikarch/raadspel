@@ -188,6 +188,8 @@
   .snake-pad [data-dir="down"] { grid-column: 2; grid-row: 2; }
   .snake-pad [data-dir="right"] { grid-column: 3; grid-row: 2; }
   #snakeCanvas { display: block; width: 100%; max-width: 420px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; }
+  #gravityCanvas { display: block; width: 100%; max-width: 560px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
+  main:has(#gravity:not(.hidden)) { max-width: 620px; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
@@ -233,6 +235,7 @@
       <button class="level l3" id="soloC4">🔴🟡 Vier op een rij<small>Vier op een rij tegen het hondje</small></button>
       <button class="level l2" id="soloBricks">🏓 Stenen-breker<small>Breek alle stenen met het balletje</small></button>
       <button class="level l1" id="soloSnake">🐍 Snake<small>Eet fruit en word zo lang mogelijk</small></button>
+      <button class="level w1" id="soloGravity">🐶 Gravity Run<small>Tik en het hondje valt naar boven of beneden</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -291,6 +294,7 @@
         <button class="level l3" id="lobbyC4">🔴🟡 Vier op een rij<small>Wie heeft er eerst vier?</small></button>
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
+        <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -307,6 +311,19 @@
       </div>
     </div>
     <button class="back" id="rolesBack">← Ander spel</button>
+  </section>
+
+  <!-- Gravity Run -->
+  <section id="gravity" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="gMe"></span><span id="gOther"></span></div>
+      <canvas id="gravityCanvas" width="360" height="240" aria-label="Gravity Run speelveld"></canvas>
+      <p class="ttt-status" id="gravityStatus"></p>
+      <div class="ttt-end" id="gravityEnd" hidden>
+        <button class="again" id="gravityAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="gravityBack">← Ander spel</button>
   </section>
 
   <!-- Snake: wat doet de muur -->
@@ -529,7 +546,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -797,6 +814,7 @@
     sh.on = false;
     bricksStop();
     snakeStop();
+    gravityStop();
     $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
     show('lobby');
   }
@@ -875,13 +893,14 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && screen === 'ttt' && ttt.over) tttNewRound();
-    if (m.type === 'rscore' && (screen === 'bricks' || screen === 'snake')) raceOther(m.score, m.done);
+    if (m.type === 'rscore' && ['bricks', 'snake', 'gravity'].includes(screen)) raceOther(m.score, m.done);
+    if (m.type === 'gravityAgain' && screen === 'gravity' && gr.over) gravityBegin();
     if (m.type === 'snakeAgain' && screen === 'snake' && sn.over) snakeBegin(sn.walls);
     if (m.type === 'pick' && m.game === 'snake' && screen === 'snakeLevel') snakeBegin(m.walls);
     if (m.type === 'bricksAgain' && screen === 'bricks' && bk.over) bricksBegin(bk.speed);
@@ -1865,6 +1884,153 @@
     toLobby();
   }
 
+
+  // ----- Gravity Run (Lily's game): the dog runs by itself; a tap flips gravity -----
+
+  const GW = 360, GH = 240, TOP = 30, BOTTOM = 210, DOG = 30;
+  const gr = { running: false, started: false, over: false, y: BOTTOM - DOG, vy: 0, down: true, speed: 150,
+               dist: 0, gems: 0, lives: 3, hurt: 0, walls: [], diamonds: [], nextWall: 0, last: 0 };
+
+  function gravityStart() {                       // from the game menu
+    if (mode === 'together') send('pick', { game: 'gravity' });
+    gravityBegin();
+  }
+
+  function gravityBegin() {
+    gravityStop();
+    stopMusic();
+    Object.assign(gr, { started: false, over: false, y: BOTTOM - DOG, vy: 0, down: true, speed: 150,
+                        dist: 0, gems: 0, lives: 3, hurt: 0, walls: [], diamonds: [], nextWall: 260 });
+    raceStart('gravityStatus', 'gravityEnd', gravityHud);
+    $('gravityEnd').hidden = true;
+    $('gravityStatus').textContent = 'Tik op het veld: het hondje valt naar boven of naar beneden!';
+    gravityHud();
+    show('gravity');
+    const c = $('gravityCanvas'), ratio = window.devicePixelRatio || 1;
+    c.width = GW * ratio; c.height = GH * ratio;
+    c.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    gr.running = true;
+    gr.last = performance.now();
+    requestAnimationFrame(gravityFrame);
+  }
+
+  function gravityStop() { gr.running = false; clearTimeout(race.timer); }
+
+  function gravityScore() { return Math.floor(gr.dist / 30) + gr.gems * 10; }
+
+  function gravityHud() {
+    $('gMe').textContent = `${'💖'.repeat(Math.max(gr.lives, 0))} 💎 ${gr.gems} · ${gravityScore()} punten`;
+    $('gOther').textContent = mode === 'together' && other ? raceLabel() : `🏃 ${Math.floor(gr.dist / 30)} meter`;
+  }
+
+  function flip() {
+    if (gr.over || screen !== 'gravity') return;
+    sound();
+    if (!gr.started) { gr.started = true; $('gravityStatus').textContent = ''; }
+    gr.down = !gr.down;
+    blip(gr.down ? 300 : 500);
+  }
+
+  function gravityFrame(now) {
+    if (!gr.running || screen !== 'gravity') return;
+    const dt = Math.min((now - gr.last) / 1000, 1 / 30);
+    gr.last = now;
+    if (gr.started && !gr.over) gravityStep(dt);
+    gravityDraw();
+    requestAnimationFrame(gravityFrame);
+  }
+
+  function gravityStep(dt) {
+    // falling towards the floor or the ceiling
+    gr.vy += (gr.down ? 1 : -1) * 1500 * dt;
+    gr.y += gr.vy * dt;
+    if (gr.y > BOTTOM - DOG) { gr.y = BOTTOM - DOG; gr.vy = 0; }
+    if (gr.y < TOP) { gr.y = TOP; gr.vy = 0; }
+
+    // the world moves left; faster the longer you run
+    gr.speed = Math.min(150 + gr.dist / 40, 360);
+    const dx = gr.speed * dt;
+    gr.dist += dx;
+    for (const w of gr.walls) w.x -= dx;
+    for (const d of gr.diamonds) d.x -= dx;
+    gr.walls = gr.walls.filter(w => w.x + w.w > -10);
+    gr.diamonds = gr.diamonds.filter(d => d.x > -20 && !d.taken);
+
+    // new walls come from the right, sometimes from the floor, sometimes from the ceiling
+    gr.nextWall -= dx;
+    if (gr.nextWall <= 0) {
+      const fromFloor = Math.random() < .5, h = 50 + Math.random() * 70;
+      gr.walls.push({ x: GW + 10, w: 22, top: fromFloor ? BOTTOM - h : TOP, h: fromFloor ? h : h });
+      // a diamond on the free side, a bit after the wall
+      if (Math.random() < .7) gr.diamonds.push({ x: GW + 70, y: fromFloor ? TOP + 14 : BOTTOM - 16, taken: false });
+      gr.nextWall = 150 + Math.random() * 140 + gr.speed * .3;
+    }
+
+    const dogX = 70, box = { l: dogX - DOG / 2 + 4, r: dogX + DOG / 2 - 4, t: gr.y + 4, b: gr.y + DOG - 4 };
+    for (const d of gr.diamonds) {
+      if (!d.taken && Math.abs(d.x - dogX) < 20 && Math.abs(d.y - (gr.y + DOG / 2)) < 22) {
+        d.taken = true; gr.gems++; blip(900); blip(1200);
+      }
+    }
+    if (gr.hurt > 0) gr.hurt -= dt;
+    else for (const w of gr.walls) {
+      if (box.r > w.x && box.l < w.x + w.w && box.b > w.top && box.t < w.top + w.h) {
+        gr.lives--; gr.hurt = 1.5; w.hit = true; blip(150);
+        if (gr.lives <= 0) return gravityOver();
+        break;
+      }
+    }
+    raceScore(gravityScore());
+  }
+
+  function gravityOver() {
+    gr.over = true;
+    gravityHud();
+    if (mode === 'solo') return soloRecord('gravity', gravityScore(), 'punten', `🧱 Au! ${Math.floor(gr.dist / 30)} meter en ${gr.gems} 💎. `);
+    raceDone();
+  }
+
+  function gravityDraw() {
+    const ctx = $('gravityCanvas').getContext('2d'), css = getComputedStyle(document.documentElement);
+    ctx.clearRect(0, 0, GW, GH);
+    ctx.fillStyle = css.getPropertyValue('--soft');            // floor and ceiling
+    ctx.fillRect(0, 0, GW, TOP); ctx.fillRect(0, BOTTOM, GW, GH - BOTTOM);
+    for (const w of gr.walls) {                                  // little brick walls
+      ctx.fillStyle = w.hit ? css.getPropertyValue('--soft') : '#e8603c';
+      ctx.fillRect(w.x, w.top, w.w, w.h);
+      ctx.strokeStyle = '#fff7e8'; ctx.lineWidth = 2;
+      for (let yy = w.top + 12; yy < w.top + w.h; yy += 12) { ctx.beginPath(); ctx.moveTo(w.x, yy); ctx.lineTo(w.x + w.w, yy); ctx.stroke(); }
+    }
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = '20px system-ui, sans-serif';
+    for (const d of gr.diamonds) if (!d.taken) ctx.fillText('💎', d.x, d.y);
+    // the dog, upside down when it runs on the ceiling; it blinks after a bump
+    if (!(gr.hurt > 0 && Math.floor(gr.hurt * 8) % 2)) {
+      ctx.save();
+      ctx.translate(70, gr.y + DOG / 2);
+      if (!gr.down) ctx.scale(1, -1);
+      ctx.font = `${DOG}px system-ui, sans-serif`;
+      ctx.fillText('🐶', 0, 2);
+      ctx.restore();
+    }
+    ctx.fillStyle = css.getPropertyValue('--card');
+    ctx.font = '700 15px "Baloo 2", system-ui, sans-serif';
+    ctx.fillText(`${Math.floor(gr.dist / 30)} meter`, GW / 2, TOP / 2 + 1);
+    if (gr.over) {
+      ctx.fillStyle = css.getPropertyValue('--ink');
+      ctx.font = '800 26px "Baloo 2", system-ui, sans-serif';
+      ctx.fillText('Geen hartjes meer!', GW / 2, GH / 2);
+    }
+  }
+
+  function gravityLeave() {
+    gravityStop();
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
   function stopTogether() {
     leave();
     mode = 'solo';
@@ -1971,6 +2137,18 @@
   $('soloShips').addEventListener('click', () => { mode = 'solo'; shipsStart(); });
   $('soloBricks').addEventListener('click', () => { mode = 'solo'; bricksStart(); });
   $('soloSnake').addEventListener('click', () => { mode = 'solo'; snakeStart(); });
+  $('soloGravity').addEventListener('click', () => { mode = 'solo'; gravityStart(); });
+  $('lobbyGravity').addEventListener('click', gravityStart);
+  $('gravityBack').addEventListener('click', gravityLeave);
+  $('gravityAgain').addEventListener('click', () => {
+    if (mode === 'together') send('gravityAgain', {});
+    gravityBegin();
+  });
+  $('gravityCanvas').addEventListener('pointerdown', e => { e.preventDefault(); flip(); });
+  document.addEventListener('keydown', e => {
+    if (screen !== 'gravity') return;
+    if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); flip(); }
+  });
   $('lobbySnake').addEventListener('click', snakeStart);
   document.querySelectorAll('#snakeWalls .level').forEach(b =>
     b.addEventListener('click', () => snakePickWalls(Number(b.dataset.walls))));
