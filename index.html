@@ -165,6 +165,9 @@
     main:has(#shipsPlay:not(.hidden)) { max-width: 760px; }
     .seas { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
   }
+  /* Stenen-breker */
+  .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
+  #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
   .shake { animation: shake .25s 2; }
   .confetti { position: fixed; top: -20px; font-size: 1.8rem; pointer-events: none; animation: fall linear forwards; }
@@ -203,6 +206,7 @@
       <button class="level w3" id="soloGuess">🔢 Raad het getal<small>Het hondje verstopt een getal</small></button>
       <button class="level w2" id="soloTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij tegen het hondje</small></button>
       <button class="level l3" id="soloC4">🔴🟡 Vier op een rij<small>Vier op een rij tegen het hondje</small></button>
+      <button class="level l2" id="soloBricks">🏓 Stenen-breker<small>Breek alle stenen met het balletje</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -259,6 +263,7 @@
         <button class="level w3" id="lobbyGuess">🔢 Raad het getal<small>De een verstopt, de ander raadt</small></button>
         <button class="level w2" id="lobbyTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij</small></button>
         <button class="level l3" id="lobbyC4">🔴🟡 Vier op een rij<small>Wie heeft er eerst vier?</small></button>
+        <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -275,6 +280,30 @@
       </div>
     </div>
     <button class="back" id="rolesBack">← Ander spel</button>
+  </section>
+
+  <!-- Stenen-breker: hoe snel -->
+  <section id="bricksLevel" class="hidden">
+    <p class="sub">Hoe snel gaat het balletje?</p>
+    <div class="levels" id="brickSpeeds">
+      <button class="level l1" data-speed="1">🐢 Langzaam<small id="rec1"></small></button>
+      <button class="level l2" data-speed="2">🐇 Gewoon<small id="rec2"></small></button>
+      <button class="level l3" data-speed="3">🚀 Snel<small id="rec3"></small></button>
+    </div>
+    <button class="back" id="bricksLevelBack">← Terug</button>
+  </section>
+
+  <!-- Stenen-breker: spelen -->
+  <section id="bricks" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="bMe"></span><span id="bOther"></span></div>
+      <canvas id="brickCanvas" width="320" height="440" aria-label="Stenen-breker speelveld"></canvas>
+      <p class="ttt-status" id="bricksStatus"></p>
+      <div class="ttt-end" id="bricksEnd" hidden>
+        <button class="again" id="bricksAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="bricksBack">← Ander spel</button>
   </section>
 
   <!-- Zeeslag: hoe groot is de zee (en alleen: hoe slim is het hondje) -->
@@ -444,7 +473,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -710,6 +739,7 @@
     roundHider = null; rolesAt = 0; rolesBy = '';
     ttt.active = false;
     sh.on = false;
+    bricksStop();
     $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
     show('lobby');
   }
@@ -788,12 +818,15 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && screen === 'ttt' && ttt.over) tttNewRound();
+    if (m.type === 'bscore') bricksOtherScore(m.score, m.done);
+    if (m.type === 'bricksAgain' && screen === 'bricks' && bk.over) bricksBegin(bk.speed);
+    if (m.type === 'pick' && m.game === 'bricks' && screen === 'bricksLevel') bricksBegin(m.speed);
     if (m.type === 'shipsReady') { sh.otherReady = true; shipsMaybeStart(); }
     if (m.type === 'shot') shipsIncoming(m.i);
     if (m.type === 'shotRes') shipsResult(m.i, m.res, m.cells, m.all);
@@ -1397,6 +1430,232 @@
     toLobby();
   }
 
+
+  // ----- Stenen-breker: alone with a record per speed, or together as a points race -----
+
+  const W = 320, H = 440;                         // the playing field in its own units; the canvas scales it
+  const BRICK_COLORS = ['#ffb3c7', '#ffd59e', '#fff09e', '#b8f0c2', '#a8dcff', '#d4b8ff', '#ffc2d4'];
+  const SPEEDS = { 1: 210, 2: 290, 3: 380 };      // ball speed in units per second
+  const FIELDS = 5;
+  const bk = {
+    speed: 2, field: 1, score: 0, lives: 3, bricks: [], ball: null, paddle: { x: W / 2, w: 70 },
+    stuck: true, over: false, running: false, otherScore: 0, otherDone: false, lastSent: 0, sendTimer: null,
+  };
+
+  function record(speed) { try { return Number(localStorage.getItem('raadspel-bricks-' + speed)) || 0; } catch (e) { return 0; } }
+
+  function bricksStart() {                        // from the game menu: choose the speed
+    for (const n of [1, 2, 3]) $('rec' + n).textContent = mode === 'solo' && record(n) ? `Record: ${record(n)}` : '';
+    $('bricksLevelBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('bricksLevel');
+  }
+
+  function bricksPickSpeed(speed) {
+    if (mode === 'together') send('pick', { game: 'bricks', speed });
+    bricksBegin(speed);
+  }
+
+  function bricksBegin(speed) {
+    bricksStop();
+    stopMusic();
+    Object.assign(bk, { speed, field: 1, score: 0, lives: 3, over: false, otherScore: 0, otherDone: false });
+    $('bricksEnd').hidden = true;
+    $('bricksStatus').textContent = '';
+    buildField();
+    resetBall();
+    bricksHud();
+    show('bricks');
+    sizeCanvas();
+    bk.running = true;
+    bk.last = performance.now();
+    requestAnimationFrame(bricksFrame);
+  }
+
+  function bricksStop() { bk.running = false; clearTimeout(bk.sendTimer); }
+
+  // Field 1 has 4 rows; every next field one more, and from field 3 the top rows need two hits
+  function buildField() {
+    const rows = Math.min(3 + bk.field, 8), cols = 7, gap = 4, bw = (W - 20 - gap * (cols - 1)) / cols, bh = 16;
+    bk.bricks = [];
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const hits = bk.field >= 3 && r < bk.field - 2 ? 2 : 1;
+      bk.bricks.push({ x: 10 + c * (bw + gap), y: 56 + r * (bh + gap), w: bw, h: bh, hits, color: BRICK_COLORS[r % 7] });
+    }
+  }
+
+  function resetBall() {
+    bk.stuck = true;
+    bk.ball = { x: bk.paddle.x, y: H - 40, r: 7, vx: 0, vy: 0 };
+  }
+
+  function launch() {
+    if (!bk.stuck || bk.over) return;
+    sound();                                      // unlocks sound on the first tap
+    const v = SPEEDS[bk.speed] * (1 + (bk.field - 1) * .06), angle = (Math.random() * .6 - .3);
+    bk.ball.vx = v * Math.sin(angle); bk.ball.vy = -v * Math.cos(angle);
+    bk.stuck = false;
+  }
+
+  function sizeCanvas() {
+    const c = $('brickCanvas'), ratio = window.devicePixelRatio || 1;
+    c.width = W * ratio; c.height = H * ratio;
+    c.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+  }
+
+  function bricksFrame(now) {
+    if (!bk.running || screen !== 'bricks') return;
+    const dt = Math.min((now - bk.last) / 1000, 1 / 30);
+    bk.last = now;
+    if (!bk.over) step(dt);
+    draw();
+    requestAnimationFrame(bricksFrame);
+  }
+
+  function step(dt) {
+    const b = bk.ball, p = bk.paddle;
+    if (bk.stuck) { b.x = p.x; b.y = H - 40; return; }
+    // small steps, so the ball never jumps through a brick
+    const n = Math.ceil(Math.hypot(b.vx, b.vy) * dt / 3);
+    for (let k = 0; k < n; k++) {
+      b.x += b.vx * dt / n; b.y += b.vy * dt / n;
+      if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); }
+      if (b.x > W - b.r) { b.x = W - b.r; b.vx = -Math.abs(b.vx); }
+      if (b.y < 40 + b.r) { b.y = 40 + b.r; b.vy = Math.abs(b.vy); }
+      // the paddle: where the ball lands decides the angle it bounces off
+      const py = H - 30;
+      if (b.vy > 0 && b.y + b.r >= py && b.y + b.r <= py + 12 && Math.abs(b.x - p.x) <= p.w / 2 + b.r) {
+        const v = Math.hypot(b.vx, b.vy), hit = (b.x - p.x) / (p.w / 2);
+        const angle = Math.max(-1, Math.min(1, hit)) * 1.05;
+        b.vx = v * Math.sin(angle); b.vy = -v * Math.cos(angle);
+        b.y = py - b.r;
+        blip(330);
+      }
+      for (const br of bk.bricks) {
+        if (!br.hits) continue;
+        if (b.x + b.r < br.x || b.x - b.r > br.x + br.w || b.y + b.r < br.y || b.y - b.r > br.y + br.h) continue;
+        const overlapX = Math.min(b.x + b.r - br.x, br.x + br.w - (b.x - b.r));
+        const overlapY = Math.min(b.y + b.r - br.y, br.y + br.h - (b.y - b.r));
+        if (overlapX < overlapY) b.vx = -b.vx; else b.vy = -b.vy;
+        br.hits--;
+        bk.score += br.hits ? 5 : 10;
+        blip(br.hits ? 520 : 660 + Math.random() * 200);
+        scoreChanged();
+        break;
+      }
+      if (b.y > H + b.r) return lostBall();
+    }
+    if (bk.bricks.every(br => !br.hits)) fieldCleared();
+  }
+
+  function lostBall() {
+    bk.lives--;
+    blip(160);
+    bricksHud();
+    if (bk.lives <= 0) return bricksOver(false);
+    resetBall();
+  }
+
+  function fieldCleared() {
+    bk.score += 50 * bk.field;
+    scoreChanged();
+    if (bk.field >= FIELDS) return bricksOver(true);
+    bk.field++;
+    buildField();
+    resetBall();
+    bricksHud();
+    confetti();
+  }
+
+  function bricksHud() {
+    $('bMe').textContent = `${'💖'.repeat(Math.max(bk.lives, 0))} ${bk.score} punten`;
+    $('bOther').textContent = mode === 'together' && other ? `${other.name}: ${bk.otherScore}${bk.otherDone ? ' (klaar)' : ''}` : `Veld ${bk.field}/${FIELDS}`;
+  }
+
+  // Together: the score goes to the friend at most twice a second, and once more when done
+  function scoreChanged() {
+    bricksHud();
+    if (mode !== 'together' || bk.sendTimer) return;
+    bk.sendTimer = setTimeout(() => { bk.sendTimer = null; send('bscore', { score: bk.score, done: bk.over }); }, 500);
+  }
+
+  function bricksOtherScore(score, done) {
+    if (screen !== 'bricks') return;
+    bk.otherScore = score; bk.otherDone = bk.otherDone || done;
+    bricksHud();
+    if (bk.over) bricksResult();
+  }
+
+  function bricksOver(allCleared) {
+    bk.over = true;
+    bk.ball.vx = bk.ball.vy = 0;
+    if (mode === 'solo') {
+      const best = record(bk.speed), isRecord = bk.score > best;
+      if (isRecord) try { localStorage.setItem('raadspel-bricks-' + bk.speed, bk.score); } catch (e) {}
+      $('bricksStatus').textContent = (allCleared ? '🏆 Alle velden uitgespeeld! ' : '') +
+        (isRecord ? `🎉 Nieuw record: ${bk.score} punten!` : `${bk.score} punten. Record: ${best}`);
+      if (allCleared || isRecord) { confetti(); winSound(); }
+      $('bricksEnd').hidden = false;
+      return;
+    }
+    clearTimeout(bk.sendTimer); bk.sendTimer = null;
+    send('bscore', { score: bk.score, done: true });
+    bricksResult();
+  }
+
+  function bricksResult() {
+    if (!bk.otherDone) { $('bricksStatus').textContent = `Klaar! Wachten tot ${other.name} klaar is…`; return; }
+    if (!$('bricksEnd').hidden) return;
+    const me = bk.score, them = bk.otherScore;
+    if (me > them) { $('bricksStatus').textContent = `🎉 Jij wint! ${me} tegen ${them}`; confetti(); winSound(); }
+    else if (me < them) $('bricksStatus').textContent = `${other.name} wint! ${them} tegen ${me}`;
+    else $('bricksStatus').textContent = `🤝 Gelijkspel! Allebei ${me}`;
+    $('bricksEnd').hidden = false;
+  }
+
+  function draw() {
+    const ctx = $('brickCanvas').getContext('2d'), css = getComputedStyle(document.documentElement);
+    ctx.clearRect(0, 0, W, H);
+    for (const br of bk.bricks) {
+      if (!br.hits) continue;
+      ctx.fillStyle = br.color;
+      ctx.beginPath(); ctx.roundRect(br.x, br.y, br.w, br.h, 5); ctx.fill();
+      if (br.hits > 1) { ctx.strokeStyle = '#2b2140'; ctx.lineWidth = 2; ctx.stroke(); }
+    }
+    ctx.fillStyle = css.getPropertyValue('--ok');
+    ctx.beginPath(); ctx.roundRect(bk.paddle.x - bk.paddle.w / 2, H - 30, bk.paddle.w, 12, 6); ctx.fill();
+    ctx.fillStyle = css.getPropertyValue('--up');
+    ctx.beginPath(); ctx.arc(bk.ball.x, bk.ball.y, bk.ball.r, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = css.getPropertyValue('--ink');
+    ctx.font = '700 18px "Baloo 2", system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(`Veld ${bk.field}`, W / 2, 28);
+    if (bk.stuck && !bk.over) ctx.fillText('Tik om het balletje weg te schieten!', W / 2, H - 70);
+    if (bk.over) ctx.fillText(bk.lives > 0 ? 'Alle velden gehaald!' : 'Geen hartjes meer', W / 2, H / 2);
+  }
+
+  function blip(hz) {
+    const a = audio;                              // only after the first tap has unlocked sound
+    if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), t = a.currentTime;
+    o.type = 'square'; o.frequency.value = hz;
+    g.gain.setValueAtTime(.08, t); g.gain.exponentialRampToValueAtTime(.0001, t + .08);
+    o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + .1);
+  }
+
+  // Finger, mouse or arrow keys move the paddle
+  function movePaddle(clientX) {
+    const r = $('brickCanvas').getBoundingClientRect();
+    const x = (clientX - r.left) / r.width * W;
+    bk.paddle.x = Math.max(bk.paddle.w / 2, Math.min(W - bk.paddle.w / 2, x));
+  }
+
+  function bricksLeave() {
+    bricksStop();
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
   function stopTogether() {
     leave();
     mode = 'solo';
@@ -1501,6 +1760,25 @@
   $('soloTtt').addEventListener('click', () => { mode = 'solo'; tttSetup('ttt'); });
   $('soloC4').addEventListener('click', () => { mode = 'solo'; tttSetup('c4'); });
   $('soloShips').addEventListener('click', () => { mode = 'solo'; shipsStart(); });
+  $('soloBricks').addEventListener('click', () => { mode = 'solo'; bricksStart(); });
+  $('lobbyBricks').addEventListener('click', bricksStart);
+  document.querySelectorAll('#brickSpeeds .level').forEach(b =>
+    b.addEventListener('click', () => bricksPickSpeed(Number(b.dataset.speed))));
+  $('bricksLevelBack').addEventListener('click', bricksLeave);
+  $('bricksBack').addEventListener('click', bricksLeave);
+  $('bricksAgain').addEventListener('click', () => {
+    if (mode === 'together') send('bricksAgain', {});
+    bricksBegin(bk.speed);
+  });
+  const canvas = $('brickCanvas');
+  canvas.addEventListener('pointermove', e => movePaddle(e.clientX));
+  canvas.addEventListener('pointerdown', e => { movePaddle(e.clientX); launch(); });
+  document.addEventListener('keydown', e => {
+    if (screen !== 'bricks') return;
+    if (e.key === 'ArrowLeft') bk.paddle.x = Math.max(bk.paddle.w / 2, bk.paddle.x - 24);
+    if (e.key === 'ArrowRight') bk.paddle.x = Math.min(W - bk.paddle.w / 2, bk.paddle.x + 24);
+    if (e.key === ' ' || e.key === 'ArrowUp') { e.preventDefault(); launch(); }
+  });
   $('lobbyShips').addEventListener('click', shipsStart);
   document.querySelectorAll('#shipSizes .level').forEach(b =>
     b.addEventListener('click', () => shipsPickSize(Number(b.dataset.size))));
