@@ -56,10 +56,12 @@ self.addEventListener('activate', e => {{
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 }});
-// Online first, so updates arrive; the saved copy when there is no internet
+// Online first, so updates arrive; the saved copy when there is no internet.
+// 'no-cache' makes the iPad ask GitHub whether the game changed, instead of reusing a copy for 10 minutes.
 self.addEventListener('fetch', e => {{
   if (e.request.method !== 'GET') return;
-  e.respondWith(fetch(e.request).then(r => {{
+  const sameSite = new URL(e.request.url).origin === self.location.origin;
+  e.respondWith(fetch(e.request, sameSite ? {{ cache: 'no-cache' }} : {{}}).then(r => {{
     const copy = r.clone();
     caches.open(CACHE).then(c => c.put(e.request, copy));
     return r;
