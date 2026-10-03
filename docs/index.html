@@ -102,6 +102,23 @@
   @keyframes party { 0% { transform: rotate(0) scale(1); } 50% { transform: rotate(180deg) scale(1.3); } 100% { transform: rotate(360deg) scale(1); } }
   .dog.up { animation: jump .6s; } .dog.down { animation: duck .6s; }
   .win .dog { font-size: 5rem; animation: party 1s 2; }
+  .big { font-size: 4rem; margin: 0; }
+  .welcome-hi { font-size: 1.5rem; margin: 0 0 18px; }
+  .w1 { background: #ff7aa2; } .w2 { background: #8a6cff; } .w3 { background: #2f8de0; } .w4 { background: #2fb06c; }
+  .name-input {
+    width: 100%; font: inherit; font-size: 1.8rem; text-align: center; padding: 12px; border-radius: 18px;
+    border: 3px solid var(--key-edge); background: var(--card); color: var(--ink);
+  }
+  .err { color: var(--up); font-size: 1.2rem; min-height: 1.6rem; margin: 8px 0 0; }
+  .code-big { font-size: 4rem; letter-spacing: 10px; font-weight: 800; margin: 6px 0; }
+  .wait { color: var(--soft); font-size: 1.3rem; }
+  .who { display: block; font-size: 1.3rem; margin: 0 0 14px; }
+  .log { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; text-align: left; }
+  .log li { background: var(--key); border-radius: 14px; padding: 8px 14px; font-size: 1.2rem; }
+  .log li.up { color: var(--up); } .log li.down { color: var(--down); } .log li.win { color: var(--ok); font-weight: 800; }
+  .lo-hi { display: inline-block; }
+  .stack { display: grid; gap: 14px; }
+  .note { color: var(--soft); font-size: 1rem; margin-top: 14px; }
   @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
   .shake { animation: shake .25s 2; }
   .confetti { position: fixed; top: -20px; font-size: 1.8rem; pointer-events: none; animation: fall linear forwards; }
@@ -115,63 +132,247 @@
 <main>
   <h1>🔢 Raad het getal</h1>
 
-  <!-- Start: kies een level -->
-  <section id="start">
-    <p class="sub">Ik verstop een getal. Kun jij het vinden?</p>
+  <!-- Welkom -->
+  <section id="welcome">
+    <p class="welcome-hi" id="hello">Hoi! Wat gaan we doen?</p>
     <div class="levels">
+      <button class="level w1" id="goSolo">🐶 Alleen spelen<small>Ik verstop een getal, jij raadt</small></button>
+      <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
+    </div>
+    <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
+  </section>
+
+  <!-- Naam -->
+  <section id="name" class="hidden">
+    <form class="card" id="nameForm">
+      <label class="who" for="nameInput">Hoe heet je?</label>
+      <input class="name-input" id="nameInput" maxlength="12" autocomplete="off" autocapitalize="words" enterkeyhint="done">
+      <p class="err" id="nameErr"></p>
+      <button class="again" id="nameOk">OK</button>
+    </form>
+    <button class="back" data-to="welcome">← Terug</button>
+  </section>
+
+  <!-- Alleen: kies een level -->
+  <section id="start" class="hidden">
+    <p class="sub">Ik verstop een getal. Kun jij het vinden?</p>
+    <div class="levels" id="soloLevels">
       <button class="level l1" data-max="9">🐣 Makkelijk<small>1 tot 9</small></button>
       <button class="level l2" data-max="99">🐰 Gemiddeld<small>1 tot 99</small></button>
       <button class="level l3" data-max="999">🦊 Moeilijk<small>1 tot 999</small></button>
       <button class="level l4" data-max="9999">🦄 Meester<small>1 tot 9999</small></button>
     </div>
+    <button class="back" data-to="welcome">← Terug</button>
   </section>
 
-  <!-- Spel -->
+  <!-- Samen: nieuw spel of meedoen -->
+  <section id="together" class="hidden">
+    <div class="levels">
+      <button class="level w3" id="host">✨ Nieuw spel<small>Je krijgt een code voor je vriend</small></button>
+      <button class="level w4" id="joinGo">🔑 Meedoen<small>Typ de code van je vriend</small></button>
+    </div>
+    <p class="err" id="togetherErr"></p>
+    <button class="back" data-to="welcome">← Terug</button>
+  </section>
+
+  <!-- Samen: code laten zien en wachten -->
+  <section id="hosting" class="hidden">
+    <div class="card">
+      <p class="who">Jouw code is</p>
+      <div class="code-big" id="codeShow"></div>
+      <p class="wait">Laat deze code aan je vriend zien.<br>Wachten tot je vriend meedoet…</p>
+    </div>
+    <button class="back" data-leave>← Stoppen</button>
+  </section>
+
+  <!-- Samen: code intypen (het toetsenbord wordt hierheen verplaatst) -->
+  <section id="join" class="hidden">
+    <div class="card">
+      <p class="who">Typ de code</p>
+      <div class="display" id="codeDisplay">&nbsp;</div>
+      <p class="err" id="joinErr"></p>
+      <div class="pad-slot"></div>
+    </div>
+    <button class="back" data-leave>← Terug</button>
+  </section>
+
+  <!-- Samen: wie verstopt? -->
+  <section id="lobby" class="hidden">
+    <div class="card">
+      <p class="who" id="lobbyWho"></p>
+      <div class="stack">
+        <button class="level w1" id="iHide">🙈 Ik verstop<small>Jij kiest het getal</small></button>
+        <button class="level w3" id="iGuess">🔍 Ik raad<small>De ander kiest het getal</small></button>
+      </div>
+    </div>
+    <button class="back" data-leave>← Stoppen</button>
+  </section>
+
+  <!-- Samen, verstopper: kies level -->
+  <section id="hideLevel" class="hidden">
+    <p class="sub">Hoe moeilijk maak je het?</p>
+    <div class="levels" id="hideLevels">
+      <button class="level l1" data-max="9">🐣 Makkelijk<small>1 tot 9</small></button>
+      <button class="level l2" data-max="99">🐰 Gemiddeld<small>1 tot 99</small></button>
+      <button class="level l3" data-max="999">🦊 Moeilijk<small>1 tot 999</small></button>
+      <button class="level l4" data-max="9999">🦄 Meester<small>1 tot 9999</small></button>
+    </div>
+    <button class="back" data-leave>← Stoppen</button>
+  </section>
+
+  <!-- Samen, verstopper: typ het geheime getal -->
+  <section id="hideNumber" class="hidden">
+    <div class="card">
+      <p class="who">Typ je geheime getal<br><small id="hideRange"></small></p>
+      <div class="display" id="secretDisplay">&nbsp;</div>
+      <p class="err" id="hideErr"></p>
+      <div class="pad-slot"></div>
+    </div>
+    <button class="back" data-leave>← Stoppen</button>
+  </section>
+
+  <!-- Samen, verstopper: kijk mee -->
+  <section id="watch" class="hidden">
+    <div class="card">
+      <p class="who" id="watchWho"></p>
+      <p class="wait">Jouw geheime getal: <b id="watchSecret"></b></p>
+      <ul class="log" id="watchLog"></ul>
+    </div>
+    <button class="back" data-leave>← Stoppen</button>
+  </section>
+
+  <!-- Samen, rader: wachten op het getal -->
+  <section id="waitHide" class="hidden">
+    <div class="card">
+      <p class="big"><span class="dog">🐶</span></p>
+      <p class="who" id="waitWho"></p>
+      <p class="wait">Even wachten…</p>
+    </div>
+    <button class="back" data-leave>← Stoppen</button>
+  </section>
+
+  <!-- Raden (alleen en samen) -->
   <section id="game" class="hidden">
     <div class="card">
       <div class="between">Het getal zit tussen <b id="lo">1</b> en <b id="hi">9</b></div>
       <div class="display" id="display">&nbsp;</div>
       <div class="buddy"><span class="dog" id="dog" aria-hidden="true">🐶</span><div class="hint" id="hint">Typ je gok!</div></div>
-      <div class="pad" id="pad">
-        <button>1</button><button>2</button><button>3</button>
-        <button>4</button><button>5</button><button>6</button>
-        <button>7</button><button>8</button><button>9</button>
-        <button class="del" data-k="del">⌫</button><button>0</button><button class="go" data-k="go">✔</button>
-      </div>
+      <div class="pad-slot"></div>
       <div class="tries" id="tries">Gokken: 0</div>
     </div>
     <button class="back" id="back">← Ander level</button>
   </section>
 
-  <!-- Gewonnen -->
+  <!-- Gewonnen / klaar -->
   <section id="win" class="hidden">
     <div class="card win">
       <p class="big"><span class="dog">🐶</span></p>
-      <p><b>Goed zo!</b> Het getal was <b id="secret"></b></p>
+      <p id="winTitle"></p>
       <p id="winTries"></p>
       <div class="stars" id="stars"></div>
       <button class="again" id="again">Nog een keer!</button>
     </div>
     <button class="back" id="back2">← Ander level</button>
   </section>
+
+  <!-- Het ene toetsenbord; het verhuist naar het scherm dat het nodig heeft -->
+  <div class="pad" id="pad">
+    <button>1</button><button>2</button><button>3</button>
+    <button>4</button><button>5</button><button>6</button>
+    <button>7</button><button>8</button><button>9</button>
+    <button class="del" data-k="del">⌫</button><button>0</button><button class="go" data-k="go">✔</button>
+  </div>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" async id="sbLib"></script>
 <script>
-  const $ = id => document.getElementById(id);
-  let max, secret, lo, hi, typed, tries;
+  // Supabase only passes messages between the two devices; nothing is stored there.
+  // The publishable key is meant to be public (it sits in every visitor's browser).
+  const SUPABASE_URL = 'https://cahkqbtfywfgivvqlzbl.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_CRCmy46ZO1Woq6KMndUtnw_aiGOxlIl';
 
-  function show(screen) {
-    for (const s of ['start', 'game', 'win']) $(s).classList.toggle('hidden', s !== screen);
+  const $ = id => document.getElementById(id);
+  const SCREENS = ['welcome', 'name', 'start', 'together', 'hosting', 'join', 'lobby',
+                   'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
+  let screen = 'welcome';
+
+  // ----- Screens and the one keypad -----
+
+  function show(name) {
+    screen = name;
+    for (const s of SCREENS) $(s).classList.toggle('hidden', s !== name);
+    const slot = document.querySelector('#' + name + ' .pad-slot');
+    const pad = $('pad');
+    if (slot) slot.appendChild(pad);
+    pad.hidden = !slot;
+    window.scrollTo(0, 0);
   }
 
-  function newGame() {
+  // What the keypad types into depends on the screen
+  let typed = '';
+  function maxDigits() {
+    if (screen === 'join') return 4;
+    return String(max).length;
+  }
+  function displayFor() {
+    return { join: 'codeDisplay', hideNumber: 'secretDisplay', game: 'display' }[screen];
+  }
+  function press(k) {
+    if (k === 'go') {
+      if (screen === 'join') return joinWithCode();
+      if (screen === 'hideNumber') return setSecret();
+      if (screen === 'game') return guess();
+      return;
+    }
+    if (k === 'del') typed = typed.slice(0, -1);
+    else if (typed.length < maxDigits()) typed = screen === 'join' ? typed + k : (typed + k).replace(/^0+/, '');
+    $(displayFor()).innerHTML = typed || '&nbsp;';
+  }
+  function shake(id) {
+    $(id).classList.add('shake');
+    setTimeout(() => $(id).classList.remove('shake'), 500);
+  }
+
+  // ----- Name, remembered on this device -----
+
+  let myName = '';
+  try { myName = localStorage.getItem('raadspel-name') || ''; } catch (e) {}
+  let afterName = null;
+
+  function greet() {
+    $('hello').textContent = myName ? `Hoi ${myName}! Wat gaan we doen?` : 'Hoi! Wat gaan we doen?';
+    $('changeName').hidden = !myName;
+  }
+  function askName(then) {
+    afterName = then;
+    $('nameInput').value = myName;
+    $('nameErr').textContent = '';
+    show('name');
+    $('nameInput').focus();
+  }
+  function saveName() {
+    const n = $('nameInput').value.trim();
+    if (!n) { $('nameErr').textContent = 'Typ eerst je naam.'; return; }
+    myName = n;
+    try { localStorage.setItem('raadspel-name', n); } catch (e) {}
+    greet();
+    (afterName || (() => show('welcome')))();
+  }
+
+  // ----- Guessing (alone, or together where the other device answers) -----
+
+  let mode = 'solo';            // 'solo' or 'together'
+  let max, secret, lo, hi, tries, waiting = false;
+
+  function startGuessing(levelMax) {
     stopMusic();
-    secret = 1 + Math.floor(Math.random() * max);
-    lo = 1; hi = max; typed = ''; tries = 0;
+    max = levelMax; lo = 1; hi = max; typed = ''; tries = 0; waiting = false;
+    if (mode === 'solo') secret = 1 + Math.floor(Math.random() * max);
     $('lo').textContent = lo; $('hi').textContent = hi;
     $('display').innerHTML = '&nbsp;';
-    setHint('Typ je gok!', '');
+    setHint(mode === 'solo' ? 'Typ je gok!' : `${other.name} heeft een getal verstopt. Typ je gok!`, '');
     $('tries').textContent = 'Gokken: 0';
+    $('back').textContent = mode === 'solo' ? '← Ander level' : '← Stoppen';
     show('game');
   }
 
@@ -185,31 +386,232 @@
     if (cls) d.classList.add(cls);
   }
 
-  function press(k) {
-    if (k === 'del') typed = typed.slice(0, -1);
-    else if (k === 'go') return guess();
-    else if (typed.length < String(max).length) typed = (typed + k).replace(/^0+/, '');
-    $('display').innerHTML = typed || '&nbsp;';
-  }
-
   function guess() {
-    if (!typed) return;
+    if (!typed || waiting) return;
     const n = Number(typed);
     typed = '';
     if (n < 1 || n > max) {
       setHint(`Kies van 1 tot ${max}`, 'up');
-      $('display').classList.add('shake');
-      setTimeout(() => $('display').classList.remove('shake'), 500);
+      shake('display');
       return;
     }
     tries++;
     $('tries').textContent = 'Gokken: ' + tries;
-    if (n === secret) return won();
-    if (n < secret) { setHint(`Woef! ${n} is te laag. Hoger! ⬆️`, 'up'); lo = Math.max(lo, n + 1); }
-    else            { setHint(`Woef! ${n} is te hoog. Lager! ⬇️`, 'down'); hi = Math.min(hi, n - 1); }
+    if (mode === 'solo') return answer(n, n === secret ? 'win' : n < secret ? 'up' : 'down', secret);
+    waiting = true;
+    setHint(`${n}… ${other.name} kijkt`, '');
+    send('guess', { n });
+  }
+
+  // Shows the answer to a guess, wherever it came from
+  function answer(n, result, theSecret) {
+    waiting = false;
+    if (result === 'win') return won(theSecret);
+    if (result === 'up') { setHint(`Woef! ${n} is te laag. Hoger! ⬆️`, 'up'); lo = Math.max(lo, n + 1); }
+    else                 { setHint(`Woef! ${n} is te hoog. Lager! ⬇️`, 'down'); hi = Math.min(hi, n - 1); }
     $('lo').textContent = lo; $('hi').textContent = hi;
     $('display').innerHTML = '&nbsp;';
   }
+
+  function stars(count, levelMax) {
+    // Best possible number of guesses for this level, to decide the stars
+    const best = Math.ceil(Math.log2(levelMax + 1));
+    return '⭐'.repeat(count <= best ? 3 : count <= best * 2 ? 2 : 1);
+  }
+
+  function won(theSecret) {
+    $('winTitle').innerHTML = `<b>Goed zo!</b> Het getal was <b>${theSecret}</b>`;
+    $('winTries').textContent = tries === 1 ? 'In één keer! Wauw!' : `Je had ${tries} gokken nodig.`;
+    $('stars').textContent = stars(tries, max);
+    $('again').textContent = mode === 'solo' ? 'Nog een keer!' : 'Nog een ronde!';
+    $('back2').textContent = mode === 'solo' ? '← Ander level' : '← Stoppen';
+    show('win');
+    confetti();
+    winSound();
+  }
+
+  // ----- Together: a 4-digit code joins two devices in one Supabase channel -----
+
+  const myId = Math.random().toString(36).slice(2, 10);
+  let channel = null, code = '', other = null, iAmHost = false;
+  let roundHider = null, roundMax = 0, roundSecret = 0, roundTries = 0;
+
+  function client() {
+    if (!SUPABASE_URL || !SUPABASE_KEY) return 'Samen spelen is nog niet klaar.';
+    if (!window.supabase) return 'Samen spelen lukt alleen met internet.';
+    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY));
+  }
+
+  function goTogether() {
+    if (!myName) return askName(goTogether);
+    $('togetherErr').textContent = '';
+    show('together');
+  }
+
+  function connect(theCode, onReady) {
+    const sb = client();
+    if (typeof sb === 'string') return sb;
+    code = theCode; other = null;
+    channel = sb.channel('raadspel-' + code, { config: { presence: { key: myId }, broadcast: { self: false } } });
+    channel
+      .on('presence', { event: 'sync' }, onPresence)
+      .on('broadcast', { event: 'msg' }, ({ payload }) => onMessage(payload))
+      .subscribe(async status => {
+        if (status === 'SUBSCRIBED') {
+          await channel.track({ name: myName, host: iAmHost, at: Date.now() });
+          onReady && onReady();
+        }
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+          const err = 'Verbinden lukt niet. Is er internet?';
+          leave(); $('togetherErr').textContent = err; show('together');
+        }
+      });
+    return null;
+  }
+
+  function leave() {
+    if (channel) { try { channel.untrack(); channel.unsubscribe(); } catch (e) {} }
+    channel = null; other = null; code = ''; iAmHost = false; roundHider = null;
+    stopMusic();
+  }
+
+  function send(type, data) {
+    if (channel) channel.send({ type: 'broadcast', event: 'msg', payload: { type, from: myId, ...data } });
+  }
+
+  function host() {
+    iAmHost = true;
+    const theCode = String(1000 + Math.floor(Math.random() * 9000));
+    const err = connect(theCode, () => { $('codeShow').textContent = theCode; show('hosting'); });
+    if (err) { iAmHost = false; $('togetherErr').textContent = err; }
+  }
+
+  function joinScreen() {
+    typed = ''; $('codeDisplay').innerHTML = '&nbsp;'; $('joinErr').textContent = '';
+    show('join');
+  }
+
+  let joinTimer = null;
+  function joinWithCode() {
+    if (typed.length !== 4) { $('joinErr').textContent = 'De code heeft 4 cijfers.'; shake('codeDisplay'); return; }
+    iAmHost = false;
+    $('joinErr').textContent = 'Zoeken…';
+    const err = connect(typed, () => {
+      // If nobody is there after a few seconds, the code is wrong
+      joinTimer = setTimeout(() => {
+        if (!other) { leave(); typed = ''; $('codeDisplay').innerHTML = '&nbsp;'; $('joinErr').textContent = 'Geen spel gevonden met deze code.'; shake('codeDisplay'); }
+      }, 4000);
+    });
+    if (err) $('joinErr').textContent = err;
+  }
+
+  function onPresence() {
+    if (!channel) return;
+    const people = Object.entries(channel.presenceState()).map(([id, metas]) => ({ id, ...metas[0] }));
+    const others = people.filter(p => p.id !== myId);
+    // Only two players: whoever came third finds the game full
+    if (people.length > 2) {
+      const sorted = [...people].sort((a, b) => a.at - b.at);
+      if (sorted.findIndex(p => p.id === myId) >= 2) {
+        leave(); $('joinErr').textContent = 'Dit spel is al vol.'; return;
+      }
+    }
+    const was = other;
+    other = others.sort((a, b) => a.at - b.at)[0] || null;
+    if (other && !was) { clearTimeout(joinTimer); toLobby(); }
+    if (!other && was) friendLeft(was.name);
+  }
+
+  function friendLeft(name) {
+    leave();
+    $('togetherErr').textContent = `${name} is weggegaan.`;
+    show('together');
+  }
+
+  function toLobby() {
+    stopMusic();
+    roundHider = null; rolesAt = 0; rolesBy = '';
+    $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Wie verstopt het getal?`;
+    show('lobby');
+  }
+
+  // Roles: the latest choice wins, so both devices agree even if both tap at once
+  let rolesAt = 0, rolesBy = '';
+  function chooseRoles(hiderId, at, by) {
+    if (at < rolesAt || (at === rolesAt && by < rolesBy)) return;
+    rolesAt = at; rolesBy = by;
+    roundHider = hiderId;
+    if (hiderId === myId) { show('hideLevel'); }
+    else { $('waitWho').textContent = `${other.name} verstopt een getal…`; show('waitHide'); }
+  }
+  function pickRole(iHide) {
+    const at = Date.now();
+    const hiderId = iHide ? myId : other.id;
+    send('roles', { hider: hiderId, at });
+    chooseRoles(hiderId, at, myId);
+  }
+
+  function hidePickLevel(levelMax) {
+    roundMax = levelMax; typed = '';
+    $('hideRange').textContent = `van 1 tot ${levelMax}`;
+    $('secretDisplay').innerHTML = '&nbsp;'; $('hideErr').textContent = '';
+    max = levelMax;
+    show('hideNumber');
+  }
+
+  function setSecret() {
+    const n = Number(typed);
+    if (!typed || n < 1 || n > roundMax) { $('hideErr').textContent = `Kies van 1 tot ${roundMax}.`; shake('secretDisplay'); return; }
+    roundSecret = n; roundTries = 0; typed = '';
+    $('watchWho').textContent = `${other.name} gaat raden!`;
+    $('watchSecret').textContent = n;
+    $('watchLog').innerHTML = '';
+    show('watch');
+    send('start', { max: roundMax });
+  }
+
+  // The hider's device checks each guess and sends the answer back
+  function onGuess(n) {
+    if (roundHider !== myId || !roundSecret) return;
+    roundTries++;
+    const result = n === roundSecret ? 'win' : n < roundSecret ? 'up' : 'down';
+    send('answer', { n, result, secret: result === 'win' ? roundSecret : null });
+    const li = document.createElement('li');
+    li.className = result;
+    li.textContent = result === 'win' ? `${n} — geraden! 🎉`
+      : result === 'up' ? `${n} — te laag ⬆️` : `${n} — te hoog ⬇️`;
+    $('watchLog').prepend(li);
+    if (result === 'win') {
+      const t = roundTries;
+      roundSecret = 0;
+      setTimeout(() => {
+        $('winTitle').innerHTML = `<b>${other.name} heeft het geraden!</b> Het getal was <b>${n}</b>`;
+        $('winTries').textContent = t === 1 ? 'In één keer!' : `${other.name} had ${t} gokken nodig.`;
+        $('stars').textContent = stars(t, roundMax);
+        $('again').textContent = 'Nog een ronde!';
+        $('back2').textContent = '← Stoppen';
+        show('win');
+        confetti();
+      }, 1200);
+    }
+  }
+
+  function onMessage(m) {
+    if (!other || m.from !== other.id) return;
+    if (m.type === 'roles') chooseRoles(m.hider, m.at, m.from);
+    if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
+    if (m.type === 'guess') onGuess(m.n);
+    if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
+    if (m.type === 'lobby' && screen === 'win') toLobby();
+  }
+
+  function stopTogether() {
+    leave();
+    mode = 'solo';
+    show('welcome');
+  }
+
+  // ----- Music and confetti -----
 
   // Sounds are made by the browser itself; they can only start after a tap
   let audio;
@@ -286,18 +688,6 @@
       .forEach(([step, hz, len]) => syn(go + step * st, hz, len * st, 0.12));  // the tune
   }
 
-  function won() {
-    // Best possible number of guesses for this level, to decide the stars
-    const best = Math.ceil(Math.log2(max + 1));
-    const stars = tries <= best ? 3 : tries <= best * 2 ? 2 : 1;
-    $('secret').textContent = secret;
-    $('winTries').textContent = tries === 1 ? 'In één keer! Wauw!' : `Je had ${tries} gokken nodig.`;
-    $('stars').textContent = '⭐'.repeat(stars);
-    show('win');
-    confetti();
-    winSound();
-  }
-
   function confetti() {
     const bits = ['🎉', '⭐', '🎈', '✨', '🌈', '🍭'];
     for (let i = 0; i < 30; i++) {
@@ -312,23 +702,47 @@
     }
   }
 
-  document.querySelectorAll('.level').forEach(b =>
-    b.addEventListener('click', () => { max = Number(b.dataset.max); newGame(); }));
+  // ----- Buttons -----
+
+  $('goSolo').addEventListener('click', () => { mode = 'solo'; show('start'); });
+  $('goTogether').addEventListener('click', () => { mode = 'together'; goTogether(); });
+  $('changeName').addEventListener('click', () => askName(() => show('welcome')));
+  $('nameForm').addEventListener('submit', e => { e.preventDefault(); saveName(); });
+  $('host').addEventListener('click', host);
+  $('joinGo').addEventListener('click', joinScreen);
+  $('iHide').addEventListener('click', () => pickRole(true));
+  $('iGuess').addEventListener('click', () => pickRole(false));
+  document.querySelectorAll('#soloLevels .level').forEach(b =>
+    b.addEventListener('click', () => { mode = 'solo'; startGuessing(Number(b.dataset.max)); }));
+  document.querySelectorAll('#hideLevels .level').forEach(b =>
+    b.addEventListener('click', () => hidePickLevel(Number(b.dataset.max))));
+  document.querySelectorAll('[data-to]').forEach(b => b.addEventListener('click', () => show(b.dataset.to)));
+  document.querySelectorAll('[data-leave]').forEach(b => b.addEventListener('click', () => {
+    const wasJoining = screen === 'join';
+    leave();
+    if (wasJoining) show('together'); else stopTogether();
+  }));
   $('pad').addEventListener('click', e => {
     const b = e.target.closest('button');
     if (b) press(b.dataset.k || b.textContent);
   });
   document.addEventListener('keydown', e => {
-    if ($('game').classList.contains('hidden')) return;
+    if (!displayFor()) return;
     if (/^[0-9]$/.test(e.key)) press(e.key);
     else if (e.key === 'Backspace') press('del');
     else if (e.key === 'Enter') press('go');
   });
-  $('again').addEventListener('click', newGame);
-  $('back').addEventListener('click', () => show('start'));
-  $('back2').addEventListener('click', () => { stopMusic(); show('start'); });
-</script>
+  $('again').addEventListener('click', () => {
+    if (mode === 'solo') return startGuessing(max);
+    send('lobby', {});
+    toLobby();
+  });
+  $('back').addEventListener('click', () => mode === 'solo' ? show('start') : stopTogether());
+  $('back2').addEventListener('click', () => { stopMusic(); mode === 'solo' ? show('start') : stopTogether(); });
 
+  greet();
+  show('welcome');
+</script>
 
 <script>
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
