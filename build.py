@@ -31,6 +31,13 @@ cut = game.index('</style>') + len('</style>')
 page = head + game[:cut] + '\n</head>\n<body>\n' + game[cut:] + tail
 (here / 'docs' / 'index.html').write_text(page)
 
+# The hand pictures of the Nagelsalon
+import shutil
+(here / 'docs' / 'hands').mkdir(exist_ok=True)
+hands = sorted(p.name for p in (here / 'hands').glob('*.jpg'))
+for name in hands:
+    shutil.copy(here / 'hands' / name, here / 'docs' / 'hands' / name)
+
 (here / 'docs' / 'manifest.webmanifest').write_text('''{
   "name": "Raad het getal",
   "short_name": "Raadspel",
@@ -48,7 +55,7 @@ page = head + game[:cut] + '\n</head>\n<body>\n' + game[cut:] + tail
 # Offline: keep a copy of the game on the iPad. A new version number makes the iPad fetch the update.
 version = time.strftime('%Y%m%d%H%M%S')
 (here / 'docs' / 'sw.js').write_text(f'''const CACHE = 'raadspel-{version}';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'];
+const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}];
 self.addEventListener('install', e => {{
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 }});

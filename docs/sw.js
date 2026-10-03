@@ -1,5 +1,5 @@
-const CACHE = 'raadspel-20261003113957';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'raadspel-20261003115717';
+const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'hands/hand-1.jpg', 'hands/hand-2.jpg', 'hands/hand-3.jpg', 'hands/woman-1.jpg', 'hands/woman-2.jpg', 'hands/woman-3.jpg'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 });
