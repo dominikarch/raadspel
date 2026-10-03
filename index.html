@@ -132,6 +132,35 @@
   @keyframes pop { 0% { transform: scale(.4); } 100% { transform: scale(1); } }
   .ttt-status { font-size: 1.5rem; font-weight: 800; min-height: 2.4rem; margin: 12px 0 0; }
   .ttt-end { display: grid; gap: 10px; margin-top: 10px; }
+  /* Zeeslag */
+  :root { --sea: #cfe8ff; --sea-edge: #a9d2f5; --ship: #7a6e8f; --sunk: #3b2f52; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sea: #24406a; --sea-edge: #1a2f4f; --ship: #b6aacb; --sunk: #0f0a1c; } }
+  :root[data-theme="dark"] { --sea: #24406a; --sea-edge: #1a2f4f; --ship: #b6aacb; --sunk: #0f0a1c; }
+  .grid { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 0; width: 100%; margin: 0 auto; }
+  .grid.big { max-width: 420px; } .grid.small { max-width: 220px; }
+  .sq {
+    aspect-ratio: 1; border: none; border-radius: 6px; background: var(--sea); padding: 0; cursor: pointer;
+    box-shadow: inset 0 0 0 2px var(--card);         /* the lines between squares are part of each square, so every tap hits one */
+    display: flex; align-items: center; justify-content: center; line-height: 1; min-width: 0;
+    font-size: calc(min(420px, 92vw) / var(--n) * .55);
+  }
+  .small .sq { font-size: calc(220px / var(--n) * .55); cursor: default; border-radius: 4px; }
+  .sq.ship { background: var(--ship); }
+  .sq.sunk { background: var(--sunk); }
+  .sq.ghost { outline: 3px dashed var(--ok); outline-offset: -3px; }
+  .sq.pop { animation: pop .25s; }
+  .fleet { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 8px 0 12px; }
+  .fleet span { display: inline-flex; gap: 2px; padding: 4px 6px; border-radius: 10px; border: 3px solid transparent; }
+  .fleet span.now { border-color: var(--ok); }
+  .fleet span.done { opacity: .35; }
+  .fleet i { width: 16px; height: 16px; border-radius: 4px; background: var(--ship); display: inline-block; }
+  .tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .tools button { font: inherit; font-size: 1.05rem; padding: 10px 4px; border: none; border-radius: 14px; background: var(--key); color: var(--ink); cursor: pointer; }
+  .sea-label { font-size: 1.1rem; margin: 12px 0 6px; color: var(--soft); }
+  @media (min-width: 720px) {
+    main:has(#shipsPlay:not(.hidden)) { max-width: 760px; }
+    .seas { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+  }
   @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
   .shake { animation: shake .25s 2; }
   .confetti { position: fixed; top: -20px; font-size: 1.8rem; pointer-events: none; animation: fall linear forwards; }
@@ -169,6 +198,7 @@
     <div class="levels">
       <button class="level w3" id="soloGuess">🔢 Raad het getal<small>Het hondje verstopt een getal</small></button>
       <button class="level w2" id="soloTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij tegen het hondje</small></button>
+      <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
   </section>
@@ -223,6 +253,7 @@
       <div class="stack">
         <button class="level w3" id="lobbyGuess">🔢 Raad het getal<small>De een verstopt, de ander raadt</small></button>
         <button class="level w2" id="lobbyTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij</small></button>
+        <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
     <button class="back" data-leave>← Stoppen</button>
@@ -238,6 +269,57 @@
       </div>
     </div>
     <button class="back" id="rolesBack">← Ander spel</button>
+  </section>
+
+  <!-- Zeeslag: hoe groot is de zee (en alleen: hoe slim is het hondje) -->
+  <section id="shipsLevel" class="hidden">
+    <p class="sub">Hoe groot is de zee?</p>
+    <div class="levels" id="shipSizes">
+      <button class="level l1" data-size="6">🐣 Klein<small>6 × 6, 3 schepen</small></button>
+      <button class="level l2" data-size="8">🐰 Middel<small>8 × 8, 4 schepen</small></button>
+      <button class="level l3" data-size="10">🦊 Groot<small>10 × 10, 5 schepen</small></button>
+    </div>
+    <div id="shipDog">
+      <p class="sub" style="margin-top:18px">Hoe slim is het hondje?</p>
+      <div class="dogs">
+        <button class="level l1" data-smart="0">🐶 Puppy<small>Makkelijk</small></button>
+        <button class="level l4" data-smart="1">🐕 Slimme hond<small>Moeilijk</small></button>
+      </div>
+    </div>
+    <button class="back" id="shipsLevelBack">← Terug</button>
+  </section>
+
+  <!-- Zeeslag: schepen neerzetten -->
+  <section id="shipsPlace" class="hidden">
+    <div class="card">
+      <p class="who" id="placeWho">Zet je schepen op de zee</p>
+      <div class="fleet" id="placeFleet"></div>
+      <div class="grid big" id="placeGrid"></div>
+      <div class="tools">
+        <button id="turnShip">🔄 Draaien</button>
+        <button id="shuffleShips">🎲 Hussel</button>
+        <button id="clearShips">↩️ Opnieuw</button>
+      </div>
+      <p class="err" id="placeErr"></p>
+      <button class="again" id="shipsReady" hidden>Klaar!</button>
+      <p class="wait" id="placeWait"></p>
+    </div>
+    <button class="back" id="placeBack">← Terug</button>
+  </section>
+
+  <!-- Zeeslag: spelen -->
+  <section id="shipsPlay" class="hidden">
+    <div class="card">
+      <p class="ttt-status" id="shipStatus" style="margin-top:0"></p>
+      <div class="seas">
+        <div><p class="sea-label" id="theirSeaLabel"></p><div class="grid big" id="theirGrid"></div></div>
+        <div><p class="sea-label">Jouw zee</p><div class="grid small" id="myGrid"></div></div>
+      </div>
+      <div class="ttt-end" id="shipsEnd" hidden>
+        <button class="again" id="shipsAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="shipsBack">← Ander spel</button>
   </section>
 
   <!-- Boter-kaas-en-eieren: kies je plaatje (en alleen: hoe slim is het hondje) -->
@@ -356,7 +438,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -519,7 +601,7 @@
     channel = sb.channel('raadspel-' + code, { config: { presence: { key: myId }, broadcast: { self: false } } });
     channel
       .on('presence', { event: 'sync' }, onPresence)
-      .on('broadcast', { event: 'msg' }, ({ payload }) => onMessage(payload))
+      .on('broadcast', { event: 'msg' }, ({ payload }) => receive(payload))
       .subscribe(async status => {
         if (status === 'SUBSCRIBED') {
           await channel.track({ name: myName, host: iAmHost, at: Date.now() });
@@ -536,11 +618,36 @@
   function leave() {
     if (channel) { try { channel.untrack(); channel.unsubscribe(); } catch (e) {} }
     channel = null; other = null; code = ''; iAmHost = false; roundHider = null;
+    unconfirmed = {};
     stopMusic();
   }
 
+  // Messages can get lost on a wobbly connection. Each one carries a number; the other device
+  // confirms it, and until then it is sent again every 1.5 seconds. Repeats are ignored on arrival.
+  let msgNo = 0, unconfirmed = {}, seen = new Set();
+  function transmit(payload) {
+    if (channel) channel.send({ type: 'broadcast', event: 'msg', payload }).catch(() => {});
+  }
   function send(type, data) {
-    if (channel) channel.send({ type: 'broadcast', event: 'msg', payload: { type, from: myId, ...data } });
+    const id = myId + '-' + (++msgNo);
+    const payload = { type, from: myId, id, ...data };
+    unconfirmed[id] = { payload, tries: 0 };
+    transmit(payload);
+  }
+  setInterval(() => {
+    for (const [id, u] of Object.entries(unconfirmed)) {
+      if (!channel || ++u.tries > 20) { delete unconfirmed[id]; continue; }
+      transmit(u.payload);
+    }
+  }, 1500);
+  function receive(m) {
+    if (m.type === 'ok') { delete unconfirmed[m.ok]; return; }
+    if (m.id) {
+      transmit({ type: 'ok', from: myId, ok: m.id });
+      if (seen.has(m.id)) return;
+      seen.add(m.id);
+    }
+    onMessage(m);
   }
 
   function host() {
@@ -596,6 +703,7 @@
     stopMusic();
     roundHider = null; rolesAt = 0; rolesBy = '';
     ttt.active = false;
+    sh.on = false;
     $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
     show('lobby');
   }
@@ -674,11 +782,16 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt'].includes(screen)) toLobby();
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : tttSetup();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay'].includes(screen)) toLobby();
+    if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : tttSetup();
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && screen === 'ttt' && ttt.over) tttNewRound();
+    if (m.type === 'shipsReady') { sh.otherReady = true; shipsMaybeStart(); }
+    if (m.type === 'shot') shipsIncoming(m.i);
+    if (m.type === 'shotRes') shipsResult(m.i, m.res, m.cells, m.all);
+    if (m.type === 'shipsAgain' && screen === 'shipsPlay' && sh.over) shipsPlace();
   }
 
 
@@ -852,6 +965,329 @@
     toLobby();
   }
 
+
+  // ----- Zeeslag: alone against the dog, or together; each device keeps its own ships secret -----
+
+  const SHIP_SETS = { 6: [3, 2, 2], 8: [4, 3, 3, 2], 10: [5, 4, 3, 3, 2] };
+  const sh = {
+    on: false, size: 6, smart: null, iStartNext: true,
+    fleet: [], grid: [], horiz: true,          // my ships: cells per ship, and the ship number on each square (-1 = sea)
+    hitsOnMe: new Set(),
+    view: [],                                  // what I know of their sea: '', 'miss', 'hit', 'sunk'
+    dog: null,                                 // the dog's ships, when playing alone
+    dogTried: new Set(),
+    myTurn: false, waiting: false, over: false, ready: false, otherReady: false,
+  };
+
+  function shipsStart() {                      // from the game menu
+    sh.smart = null; sh.iStartNext = mode === 'solo' ? true : iAmHost;
+    $('shipDog').hidden = mode !== 'solo';
+    document.querySelectorAll('#shipDog .level').forEach(b => b.classList.remove('sel'));
+    document.querySelectorAll('#shipSizes .level').forEach(b => b.classList.remove('sel'));
+    $('shipsLevelBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    sh.size = 0;
+    show('shipsLevel');
+  }
+
+  function shipsPickSize(size) {
+    sh.size = size;
+    document.querySelectorAll('#shipSizes .level').forEach(b => b.classList.toggle('sel', Number(b.dataset.size) === size));
+    if (mode === 'together') { send('pick', { game: 'ships', size }); return shipsPlace(); }
+    if (sh.smart !== null) shipsPlace();
+  }
+  function shipsPickSmart(smart) {
+    sh.smart = smart;
+    document.querySelectorAll('#shipDog .level').forEach(b => b.classList.toggle('sel', Number(b.dataset.smart) === smart));
+    if (sh.size) shipsPlace();
+  }
+  function shipsLevelPicked(size) {            // the friend chose the sea size
+    sh.iStartNext = iAmHost; sh.size = size;
+    shipsPlace();
+  }
+
+  // --- Placing ships ---
+
+  function emptyFleet() {
+    sh.fleet = SHIP_SETS[sh.size].map(len => ({ len, cells: null }));
+    sh.grid = Array(sh.size * sh.size).fill(-1);
+  }
+
+  function shipsPlace() {
+    stopMusic();
+    sh.on = true; sh.ready = false; sh.otherReady = false; sh.over = false; sh.waiting = false;
+    sh.horiz = true;
+    emptyFleet();
+    $('placeErr').textContent = ''; $('placeWait').textContent = '';
+    $('placeBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    drawPlace();
+    show('shipsPlace');
+  }
+
+  function cellsFor(start, len, horiz, size) {
+    const r = Math.floor(start / size), c = start % size, out = [];
+    for (let k = 0; k < len; k++) {
+      const rr = horiz ? r : r + k, cc = horiz ? c + k : c;
+      if (rr >= size || cc >= size) return null;
+      out.push(rr * size + cc);
+    }
+    return out;
+  }
+
+  function nextShip() { return sh.fleet.findIndex(f => !f.cells); }
+
+  function placeTap(i) {
+    $('placeErr').textContent = '';
+    if (sh.ready) return;
+    const there = sh.grid[i];
+    if (there >= 0) {                          // tap a ship to pick it up again
+      sh.fleet[there].cells.forEach(j => sh.grid[j] = -1);
+      sh.fleet[there].cells = null;
+      return drawPlace();
+    }
+    const k = nextShip();
+    if (k < 0) return;
+    const cells = cellsFor(i, sh.fleet[k].len, sh.horiz, sh.size);
+    if (!cells || cells.some(j => sh.grid[j] >= 0)) {
+      $('placeErr').textContent = 'Daar past het schip niet. Probeer een ander plekje of draai het.';
+      shake('placeGrid');
+      return;
+    }
+    sh.fleet[k].cells = cells;
+    cells.forEach(j => sh.grid[j] = k);
+    drawPlace(cells);
+  }
+
+  // Random ships; first tries to keep a little sea between them
+  function randomFleet(size) {
+    const lens = SHIP_SETS[size];
+    for (let attempt = 0; attempt < 300; attempt++) {
+      const grid = Array(size * size).fill(-1), fleet = [];
+      const spaced = attempt < 200;
+      let ok = true;
+      for (let k = 0; k < lens.length && ok; k++) {
+        ok = false;
+        for (let t = 0; t < 200 && !ok; t++) {
+          const horiz = Math.random() < .5, start = Math.floor(Math.random() * size * size);
+          const cells = cellsFor(start, lens[k], horiz, size);
+          if (!cells || cells.some(j => grid[j] >= 0)) continue;
+          if (spaced && cells.some(j => around(j, size).some(n => grid[n] >= 0))) continue;
+          cells.forEach(j => grid[j] = k);
+          fleet.push({ len: lens[k], cells });
+          ok = true;
+        }
+      }
+      if (ok) return { fleet, grid };
+    }
+  }
+
+  function around(i, size) {
+    const r = Math.floor(i / size), c = i % size, out = [];
+    for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+      const rr = r + dr, cc = c + dc;
+      if (rr >= 0 && cc >= 0 && rr < size && cc < size) out.push(rr * size + cc);
+    }
+    return out;
+  }
+
+  function shuffleShips() {
+    if (sh.ready) return;
+    const f = randomFleet(sh.size);
+    sh.fleet = f.fleet; sh.grid = f.grid;
+    $('placeErr').textContent = '';
+    drawPlace();
+  }
+
+  function drawPlace(popped) {
+    const g = $('placeGrid');
+    g.style.setProperty('--n', sh.size);
+    g.innerHTML = '';
+    for (let i = 0; i < sh.size * sh.size; i++) {
+      const b = document.createElement('button');
+      b.className = 'sq' + (sh.grid[i] >= 0 ? ' ship' : '') + (popped && popped.includes(i) ? ' pop' : '');
+      b.setAttribute('aria-label', `Vak ${Math.floor(i / sh.size) + 1}-${i % sh.size + 1}`);
+      b.addEventListener('click', () => placeTap(i));
+      g.appendChild(b);
+    }
+    const k = nextShip();
+    $('placeFleet').innerHTML = sh.fleet.map((f, j) =>
+      `<span class="${f.cells ? 'done' : j === k ? 'now' : ''}">${'<i></i>'.repeat(f.len)}</span>`).join('');
+    $('placeWho').textContent = k < 0 ? 'Alle schepen staan klaar!'
+      : `Tik waar je schip van ${sh.fleet[k].len} moet beginnen (${sh.horiz ? 'liggend ➡️' : 'rechtop ⬇️'})`;
+    $('shipsReady').hidden = k >= 0 || sh.ready;
+  }
+
+  function shipsDonePlacing() {
+    if (nextShip() >= 0) return;
+    sh.ready = true;
+    drawPlace();
+    if (mode === 'solo') {
+      sh.dog = randomFleet(sh.size);
+      sh.otherReady = true;
+    } else {
+      send('shipsReady', {});
+      if (!sh.otherReady) $('placeWait').textContent = `Wachten tot ${other.name} klaar is…`;
+    }
+    shipsMaybeStart();
+  }
+
+  // --- Playing ---
+
+  function shipsMaybeStart() {
+    if (!sh.on || !sh.ready || !sh.otherReady || screen !== 'shipsPlace') return;
+    sh.hitsOnMe = new Set(); sh.dogTried = new Set(); sh.dogHits = new Set(); sh.reveal = false;
+    sh.view = Array(sh.size * sh.size).fill('');
+    sh.fleet.forEach(f => f.hits = 0);
+    if (sh.dog) sh.dog.fleet.forEach(f => f.hits = 0);
+    sh.over = false; sh.waiting = false;
+    sh.myTurn = sh.iStartNext;
+    sh.iStartNext = !sh.iStartNext;             // the other one starts next game
+    $('theirSeaLabel').textContent = mode === 'solo' ? 'Zee van het hondje' : `Zee van ${other.name}`;
+    $('shipsEnd').hidden = true;
+    drawTheirs(); drawMine();
+    shipStatus();
+    show('shipsPlay');
+    if (mode === 'solo' && !sh.myTurn) setTimeout(dogShoot, 900);
+  }
+
+  const MARK = { miss: '💧', hit: '💥', sunk: '🔥' };
+
+  function drawTheirs(popped) {
+    const g = $('theirGrid');
+    g.style.setProperty('--n', sh.size);
+    g.innerHTML = '';
+    sh.view.forEach((v, i) => {
+      const b = document.createElement('button');
+      const shown = sh.reveal && sh.dog && sh.dog.grid[i] >= 0;
+      b.className = 'sq' + (v === 'sunk' ? ' sunk' : shown ? ' ship' : '') + (i === popped ? ' pop' : '');
+      b.textContent = MARK[v] || '';
+      b.setAttribute('aria-label', `Schiet op ${Math.floor(i / sh.size) + 1}-${i % sh.size + 1}`);
+      b.addEventListener('click', () => shoot(i));
+      g.appendChild(b);
+    });
+  }
+
+  function drawMine(popped) {
+    const g = $('myGrid');
+    g.style.setProperty('--n', sh.size);
+    g.innerHTML = '';
+    for (let i = 0; i < sh.size * sh.size; i++) {
+      const k = sh.grid[i], hit = sh.hitsOnMe.has(i);
+      const sunk = k >= 0 && sh.fleet[k].hits === sh.fleet[k].len;
+      const d = document.createElement('div');
+      d.className = 'sq' + (k >= 0 ? (sunk ? ' sunk' : ' ship') : '') + (i === popped ? ' pop' : '');
+      d.textContent = hit ? (k >= 0 ? (sunk ? '🔥' : '💥') : '💧') : '';
+      g.appendChild(d);
+    }
+  }
+
+  function shipStatus(text) {
+    $('shipStatus').textContent = text || (sh.myTurn ? 'Jij bent aan de beurt! Tik op hun zee.'
+      : mode === 'solo' ? 'Het hondje mikt…' : `${other.name} is aan de beurt…`);
+  }
+
+  // Works out what a shot does to a fleet
+  function resolve(fleet, grid, hits, i) {
+    hits.add(i);
+    const k = grid[i];
+    if (k < 0) return { res: 'miss' };
+    fleet[k].hits = (fleet[k].hits || 0) + 1;
+    if (fleet[k].hits < fleet[k].len) return { res: 'hit' };
+    return { res: 'sunk', cells: fleet[k].cells, all: fleet.every(f => f.hits === f.len) };
+  }
+
+  function shoot(i) {
+    if (!sh.myTurn || sh.over || sh.waiting || sh.view[i]) return;
+    if (mode === 'solo') {
+      const r = resolve(sh.dog.fleet, sh.dog.grid, sh.dogHits, i);
+      return shipsResult(i, r.res, r.cells, r.all);
+    }
+    sh.waiting = true;
+    shipStatus('Mikken…');
+    send('shot', { i });
+  }
+
+  // The answer to my shot
+  function shipsResult(i, res, cells, all) {
+    if (screen !== 'shipsPlay' || sh.over) return;
+    sh.waiting = false;
+    sh.view[i] = res === 'miss' ? 'miss' : 'hit';
+    if (res === 'sunk') cells.forEach(j => sh.view[j] = 'sunk');
+    boom(res);
+    drawTheirs(i);
+    if (all) return shipsEnd(true);
+    sh.myTurn = false;
+    const who = mode === 'solo' ? 'het hondje' : other.name;
+    shipStatus(res === 'miss' ? `💧 Mis! Nu is ${who} aan de beurt.` : res === 'hit' ? `💥 Raak! Nu is ${who} aan de beurt.` : `🔥 Gezonken! Nu is ${who} aan de beurt.`);
+    if (mode === 'solo') setTimeout(dogShoot, 1300);
+  }
+
+  // A shot at my sea, from the friend or the dog
+  function shipsIncoming(i) {
+    if (screen !== 'shipsPlay' || sh.over || sh.myTurn || sh.hitsOnMe.has(i)) return;
+    const r = resolve(sh.fleet, sh.grid, sh.hitsOnMe, i);
+    if (mode === 'together') send('shotRes', { i, res: r.res, cells: r.cells || null, all: !!r.all });
+    boom(r.res);
+    drawMine(i);
+    if (r.all) return shipsEnd(false);
+    sh.myTurn = true;
+    const who = mode === 'solo' ? 'Het hondje' : other.name;
+    shipStatus(r.res === 'miss' ? `${who} schoot mis. Jij bent aan de beurt!`
+      : r.res === 'hit' ? `${who} heeft je schip geraakt! Jij bent aan de beurt.` : `${who} heeft je schip laten zinken! Jij bent aan de beurt.`);
+  }
+
+  function shipsEnd(iWon) {
+    sh.over = true;
+    if (iWon) { shipStatus('🎉 Jij hebt gewonnen! Alle schepen zijn gezonken!'); confetti(); winSound(); }
+    else shipStatus(mode === 'solo' ? '🐶 Het hondje wint! Woef!' : `${other.name} heeft gewonnen!`);
+    if (!iWon && mode === 'solo') { sh.reveal = true; drawTheirs(); }   // show where the dog's ships were
+    $('shipsEnd').hidden = false;
+  }
+
+  // The dog aims: the puppy mostly guesses; the smart dog finishes ships it has hit
+  function dogShoot() {
+    if (screen !== 'shipsPlay' || sh.over || sh.myTurn) return;
+    const n = sh.size, tried = sh.dogTried;
+    const free = [...Array(n * n).keys()].filter(i => !tried.has(i));
+    const open = [...tried].filter(i => sh.grid[i] >= 0 && sh.fleet[sh.grid[i]].hits < sh.fleet[sh.grid[i]].len);
+    let targets = [];
+    if (open.length && (sh.smart || Math.random() < .5)) {
+      const rows = new Set(open.map(i => Math.floor(i / n))), cols = new Set(open.map(i => i % n));
+      if (open.length > 1 && (rows.size === 1 || cols.size === 1)) {
+        const sorted = open.sort((a, b) => a - b), step = rows.size === 1 ? 1 : n;
+        const ends = [sorted[0] - step, sorted[sorted.length - 1] + step];
+        targets = ends.filter(i => i >= 0 && i < n * n && !tried.has(i) &&
+          (step === n || Math.floor(i / n) === Math.floor(sorted[0] / n)));
+      }
+      if (!targets.length) targets = open.flatMap(i => around(i, n)).filter(i => !tried.has(i));
+    }
+    if (!targets.length && sh.smart) targets = free.filter(i => (Math.floor(i / n) + i % n) % 2 === 0);
+    if (!targets.length) targets = free;
+    const i = targets[Math.floor(Math.random() * targets.length)];
+    tried.add(i);
+    shipsIncoming(i);
+  }
+
+  // Splash for a miss, a bang for a hit
+  function boom(res) {
+    const a = sound();
+    if (!a) return;
+    const t = a.currentTime + .02, len = res === 'miss' ? .35 : .5;
+    const b = a.createBuffer(1, Math.ceil(a.sampleRate * len), a.sampleRate), d = b.getChannelData(0);
+    for (let k = 0; k < d.length; k++) d[k] = Math.random() * 2 - 1;
+    const src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+    src.buffer = b; f.type = res === 'miss' ? 'highpass' : 'lowpass'; f.frequency.value = res === 'miss' ? 2500 : 400;
+    g.gain.setValueAtTime(res === 'miss' ? .25 : .7, t); g.gain.exponentialRampToValueAtTime(.0001, t + len);
+    src.connect(f); f.connect(g); g.connect(a.destination); src.start(t);
+  }
+
+  function shipsLeave() {
+    stopMusic();
+    sh.on = false;
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
   function stopTogether() {
     leave();
     mode = 'solo';
@@ -954,6 +1390,23 @@
   $('goSolo').addEventListener('click', () => { mode = 'solo'; show('soloGames'); });
   $('soloGuess').addEventListener('click', () => { mode = 'solo'; show('start'); });
   $('soloTtt').addEventListener('click', () => { mode = 'solo'; tttSetup(); });
+  $('soloShips').addEventListener('click', () => { mode = 'solo'; shipsStart(); });
+  $('lobbyShips').addEventListener('click', shipsStart);
+  document.querySelectorAll('#shipSizes .level').forEach(b =>
+    b.addEventListener('click', () => shipsPickSize(Number(b.dataset.size))));
+  document.querySelectorAll('#shipDog .level').forEach(b =>
+    b.addEventListener('click', () => shipsPickSmart(Number(b.dataset.smart))));
+  $('shipsLevelBack').addEventListener('click', shipsLeave);
+  $('turnShip').addEventListener('click', () => { sh.horiz = !sh.horiz; drawPlace(); });
+  $('shuffleShips').addEventListener('click', shuffleShips);
+  $('clearShips').addEventListener('click', () => { if (!sh.ready) { emptyFleet(); drawPlace(); } });
+  $('shipsReady').addEventListener('click', shipsDonePlacing);
+  $('placeBack').addEventListener('click', shipsLeave);
+  $('shipsBack').addEventListener('click', shipsLeave);
+  $('shipsAgain').addEventListener('click', () => {
+    if (mode === 'together') send('shipsAgain', {});
+    shipsPlace();
+  });
   $('lobbyGuess').addEventListener('click', () => { send('pick', { game: 'guess' }); toRoles(); });
   $('lobbyTtt').addEventListener('click', () => { send('pick', { game: 'ttt' }); tttSetup(); });
   $('rolesBack').addEventListener('click', () => { send('lobby', {}); toLobby(); });
