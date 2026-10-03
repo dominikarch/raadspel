@@ -192,6 +192,11 @@
   .piece.w { background: #fffaf0; } .piece.b { background: #3b2f52; }
   .piece.must { outline: 3px solid #ffd23f; outline-offset: 1px; }
   .piece .crown { position: absolute; top: -28%; font-size: 70%; }
+  /* The game lists: tiles in two columns, so every game fits on the screen */
+  #soloGames .levels, #lobby .stack { grid-template-columns: 1fr 1fr; gap: 10px; }
+  #soloGames .level, #lobby .level { font-size: 1.15rem; padding: 12px 8px; border-radius: 18px; }
+  #soloGames .level small, #lobby .level small { font-size: .82rem; line-height: 1.2; margin-top: 2px; }
+  @media (min-width: 700px) { main:has(#soloGames:not(.hidden)), main:has(#lobby:not(.hidden)) { max-width: 640px; } }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
