@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Raadspel">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#fff7e8">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>[hidden]{display:none!important} body{padding-top:max(16px, env(safe-area-inset-top))!important}</style>
+<title>Raad het getal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap">
+<style>
+  :root {
+    --bg: #fff7e8; --card: #ffffff; --ink: #2b2140; --soft: #7a6e8f;
+    --up: #e8603c; --down: #2f8de0; --ok: #2fb06c; --ok-edge: #1f8a52; --key: #f1e9ff; --key-edge: #d9ccf2;
+    --del: #ffe0d6; --del-edge: #f2b8a6; --on: #ffffff; --shadow: rgba(43,33,64,.12);
+    /* Heart keys: pastel rainbow; the same in light and dark */
+    --r1: #ffb3c7; --r2: #ffd59e; --r3: #fff09e; --r4: #b8f0c2; --r5: #a8dcff; --r6: #d4b8ff;
+    --pastel-ink: #2b2140;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #1d1830; --card: #2a2342; --ink: #f6f0ff; --soft: #b6aacb;
+    --up: #ff8a66; --down: #6cb6ff; --key: #3a3159; --key-edge: #241d3a;
+    --del: #5a3340; --del-edge: #3a1f29; --shadow: rgba(0,0,0,.35); color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #1d1830; --card: #2a2342; --ink: #f6f0ff; --soft: #b6aacb;
+    --up: #ff8a66; --down: #6cb6ff; --key: #3a3159; --key-edge: #241d3a;
+    --del: #5a3340; --del-edge: #3a1f29; --shadow: rgba(0,0,0,.35); color-scheme: dark }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Baloo 2", "Chalkboard SE", "Comic Sans MS", system-ui, sans-serif;
+    display: flex; justify-content: center; padding: 16px; padding-block: 16px;
+  }
+  main { width: 100%; max-width: 460px; text-align: center; }
+  h1 { font-size: 2.2rem; margin: 8px 0 4px; }
+  .sub { color: var(--soft); font-size: 1.1rem; margin: 0 0 20px; }
+  .hidden { display: none !important; }
+
+  .levels { display: grid; gap: 14px; }
+  .level {
+    border: none; border-radius: 22px; padding: 18px; font: inherit; font-size: 1.5rem;
+    color: var(--on); cursor: pointer; box-shadow: 0 6px 0 var(--shadow);
+  }
+  .level small { display: block; font-size: 1rem; opacity: .9; }
+  .level:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--shadow); }
+  .l1 { background: #3cc47c; } .l2 { background: #4aa3ff; }
+  .l3 { background: #ff9f43; } .l4 { background: #b05cff; }
+
+  .card { background: var(--card); border-radius: 26px; padding: 18px; box-shadow: 0 6px 20px var(--shadow); }
+  .between { font-size: 1.3rem; margin: 4px 0 10px; }
+  .between b { font-size: 1.6rem; }
+  .display {
+    font-size: 3.2rem; min-height: 4.6rem; letter-spacing: 4px; border-radius: 18px;
+    background: var(--key); margin: 8px 0 12px; display: flex; align-items: center; justify-content: center;
+  }
+  .hint { font-size: 2rem; min-height: 3rem; margin: 6px 0; font-weight: bold; }
+  .hint.up { color: var(--up); } .hint.down { color: var(--down); } .hint.ok { color: var(--ok); }
+  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 14px; max-width: 380px; margin: 0 auto; }
+  .pad button {
+    font: inherit; font-size: 2rem; font-weight: 800; padding: 0 0 12% 0; border: none; border-radius: 0;
+    aspect-ratio: 10 / 9; background: var(--r1); color: var(--pastel-ink); cursor: pointer;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 90'%3E%3Cpath d='M50 88C20 66 0 48 0 26 0 10 12 0 26 0c11 0 19 6 24 15C55 6 63 0 74 0c14 0 26 10 26 26 0 22-20 40-50 62z'/%3E%3C/svg%3E") center / 100% 100% no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 90'%3E%3Cpath d='M50 88C20 66 0 48 0 26 0 10 12 0 26 0c11 0 19 6 24 15C55 6 63 0 74 0c14 0 26 10 26 26 0 22-20 40-50 62z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  }
+  .pad button:nth-child(6n+2) { background: var(--r2); }
+  .pad button:nth-child(6n+3) { background: var(--r3); }
+  .pad button:nth-child(6n+4) { background: var(--r4); }
+  .pad button:nth-child(6n+5) { background: var(--r5); }
+  .pad button:nth-child(6n)   { background: var(--r6); }
+  .pad button:active { transform: scale(.9); }
+  .pad button.go { background: var(--ok); color: var(--on); }
+    .tries { color: var(--soft); font-size: 1.1rem; margin-top: 12px; }
+  .back {
+    margin-top: 16px; background: none; border: 2px solid var(--soft); color: var(--soft);
+    border-radius: 14px; padding: 8px 16px; font: inherit; font-size: 1rem; cursor: pointer;
+  }
+  .win .big { font-size: 4rem; margin: 0; }
+  .win p { font-size: 1.4rem; margin: 8px 0; }
+  .stars { font-size: 2.6rem; }
+  .again {
+    margin-top: 14px; width: 100%; border: none; border-radius: 22px; padding: 18px; font: inherit;
+    font-size: 1.5rem; color: var(--on); background: var(--ok); cursor: pointer; box-shadow: 0 6px 0 var(--ok-edge);
+  }
+  /* The dog helper: it says the hint and moves with it */
+  .buddy { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 6px 0 12px; }
+  .dog { font-size: 3.6rem; line-height: 1; display: inline-block; }
+  .buddy .hint {
+    position: relative; background: var(--key); border-radius: 20px; padding: 8px 16px; margin: 0;
+    font-size: 1.5rem; min-height: 0; text-align: left; min-width: 0;
+  }
+  .buddy .hint::before {
+    content: ""; position: absolute; left: -12px; top: 50%; transform: translateY(-50%);
+    border: 8px solid transparent; border-right: 12px solid var(--key); border-left: 0;
+  }
+  @keyframes jump { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-26px) rotate(-8deg); } }
+  @keyframes duck { 0%,100% { transform: none; } 40% { transform: translateY(12px) scaleY(.75); } }
+  @keyframes party { 0% { transform: rotate(0) scale(1); } 50% { transform: rotate(180deg) scale(1.3); } 100% { transform: rotate(360deg) scale(1); } }
+  .dog.up { animation: jump .6s; } .dog.down { animation: duck .6s; }
+  .win .dog { font-size: 5rem; animation: party 1s 2; }
+  @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  .shake { animation: shake .25s 2; }
+  .confetti { position: fixed; top: -20px; font-size: 1.8rem; pointer-events: none; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
+  button:focus-visible { outline: 3px solid var(--down); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .confetti, .shake { animation: none; display: none; } .dog { animation: none !important; } }
+</style>
+</head>
+<body>
+
+<main>
+  <h1>🔢 Raad het getal</h1>
+
+  <!-- Start: kies een level -->
+  <section id="start">
+    <p class="sub">Ik verstop een getal. Kun jij het vinden?</p>
+    <div class="levels">
+      <button class="level l1" data-max="9">🐣 Makkelijk<small>1 tot 9</small></button>
+      <button class="level l2" data-max="99">🐰 Gemiddeld<small>1 tot 99</small></button>
+      <button class="level l3" data-max="999">🦊 Moeilijk<small>1 tot 999</small></button>
+      <button class="level l4" data-max="9999">🦄 Meester<small>1 tot 9999</small></button>
+    </div>
+  </section>
+
+  <!-- Spel -->
+  <section id="game" class="hidden">
+    <div class="card">
+      <div class="between">Het getal zit tussen <b id="lo">1</b> en <b id="hi">9</b></div>
+      <div class="display" id="display">&nbsp;</div>
+      <div class="buddy"><span class="dog" id="dog" aria-hidden="true">🐶</span><div class="hint" id="hint">Typ je gok!</div></div>
+      <div class="pad" id="pad">
+        <button>1</button><button>2</button><button>3</button>
+        <button>4</button><button>5</button><button>6</button>
+        <button>7</button><button>8</button><button>9</button>
+        <button class="del" data-k="del">⌫</button><button>0</button><button class="go" data-k="go">✔</button>
+      </div>
+      <div class="tries" id="tries">Gokken: 0</div>
+    </div>
+    <button class="back" id="back">← Ander level</button>
+  </section>
+
+  <!-- Gewonnen -->
+  <section id="win" class="hidden">
+    <div class="card win">
+      <p class="big"><span class="dog">🐶</span></p>
+      <p><b>Goed zo!</b> Het getal was <b id="secret"></b></p>
+      <p id="winTries"></p>
+      <div class="stars" id="stars"></div>
+      <button class="again" id="again">Nog een keer!</button>
+    </div>
+    <button class="back" id="back2">← Ander level</button>
+  </section>
+</main>
+
+<script>
+  const $ = id => document.getElementById(id);
+  let max, secret, lo, hi, typed, tries;
+
+  function show(screen) {
+    for (const s of ['start', 'game', 'win']) $(s).classList.toggle('hidden', s !== screen);
+  }
+
+  function newGame() {
+    stopMusic();
+    secret = 1 + Math.floor(Math.random() * max);
+    lo = 1; hi = max; typed = ''; tries = 0;
+    $('lo').textContent = lo; $('hi').textContent = hi;
+    $('display').innerHTML = '&nbsp;';
+    setHint('Typ je gok!', '');
+    $('tries').textContent = 'Gokken: 0';
+    show('game');
+  }
+
+  function setHint(text, cls) {
+    const h = $('hint');
+    h.textContent = text; h.className = 'hint ' + cls;
+    // The dog jumps for "higher" and ducks for "lower"
+    const d = $('dog');
+    d.className = 'dog';
+    void d.offsetWidth;
+    if (cls) d.classList.add(cls);
+  }
+
+  function press(k) {
+    if (k === 'del') typed = typed.slice(0, -1);
+    else if (k === 'go') return guess();
+    else if (typed.length < String(max).length) typed = (typed + k).replace(/^0+/, '');
+    $('display').innerHTML = typed || '&nbsp;';
+  }
+
+  function guess() {
+    if (!typed) return;
+    const n = Number(typed);
+    typed = '';
+    if (n < 1 || n > max) {
+      setHint(`Kies van 1 tot ${max}`, 'up');
+      $('display').classList.add('shake');
+      setTimeout(() => $('display').classList.remove('shake'), 500);
+      return;
+    }
+    tries++;
+    $('tries').textContent = 'Gokken: ' + tries;
+    if (n === secret) return won();
+    if (n < secret) { setHint(`Woef! ${n} is te laag. Hoger! ⬆️`, 'up'); lo = Math.max(lo, n + 1); }
+    else            { setHint(`Woef! ${n} is te hoog. Lager! ⬇️`, 'down'); hi = Math.min(hi, n - 1); }
+    $('lo').textContent = lo; $('hi').textContent = hi;
+    $('display').innerHTML = '&nbsp;';
+  }
+
+  // Sounds are made by the browser itself; they can only start after a tap
+  let audio;
+  function sound() {
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      audio.resume();
+      return audio;
+    } catch (e) { return null; }
+  }
+
+  // Win music "K4, het grote podium": three beeps, a drum roll, then a K-pop beat with a tune (about 12 seconds).
+  // Each win plays through its own volume knob, so starting a new game can stop the music.
+  let music;
+  function stopMusic() {
+    if (!music) return;
+    try { music.gain.setValueAtTime(0, audio.currentTime); music.disconnect(); } catch (e) {}
+    music = null;
+  }
+
+  function winSound() {
+    const a = sound();
+    if (!a) return;
+    stopMusic();
+    const M = music = a.createGain();
+    M.gain.value = 0.7; M.connect(a.destination);
+
+    const noise = (t, len, freq, vol) => {
+      const b = a.createBuffer(1, Math.ceil(a.sampleRate * len), a.sampleRate), d = b.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      const src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+      src.buffer = b; f.type = 'highpass'; f.frequency.value = freq;
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+      src.connect(f); f.connect(g); g.connect(M); src.start(t);
+    };
+    const kick = t => {
+      const o = a.createOscillator(), g = a.createGain();
+      o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+      g.gain.setValueAtTime(0.9, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
+      o.connect(g); g.connect(M); o.start(t); o.stop(t + 0.32);
+    };
+    const snare = t => noise(t, 0.18, 1200, 0.45), hat = t => noise(t, 0.04, 7000, 0.18);
+    const syn = (t, hz, len, vol, type, cut) => {
+      const g = a.createGain(), f = a.createBiquadFilter();
+      f.type = 'lowpass'; f.frequency.value = cut || 3000;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+      [-7, 7].forEach(dt => {
+        const o = a.createOscillator();
+        o.type = type || 'sawtooth'; o.frequency.value = hz; o.detune.value = dt;
+        o.connect(f); o.start(t); o.stop(t + len + 0.05);
+      });
+      f.connect(g); g.connect(M);
+    };
+
+    const st = 60 / 128 / 4, t = a.currentTime + 0.1;          // one sixteenth note at 128 beats a minute
+    const E5 = 659, G5 = 784, A5 = 880, B5 = 988, C6 = 1047, D6 = 1175, E6 = 1319;
+    [E5, G5, B5].forEach((hz, i) => syn(t + i * 0.6, hz, 0.3, 0.12));   // three beeps going up
+    const roll = t + 1.9;
+    for (let i = 0; i < 16; i++) snare(roll + i * st);                 // drum roll
+    const go = roll + 1.4;
+    for (let i = 0; i < 5 * 16; i++) {                                 // the beat, five bars
+      const x = go + i * st, p = i % 16;
+      if (p % 4 === 0) kick(x);
+      if (p === 4 || p === 12) snare(x);
+      if (i % 2 === 0) hat(x);
+    }
+    [131, 110, 87, 98, 131].forEach((hz, bar) => {                    // bass
+      for (let i = 0; i < 8; i++) syn(go + (bar * 16 + i * 2) * st, hz, st * 1.6, 0.18, 'square', 600);
+    });
+    [[0,C6,2],[2,C6,2],[4,B5,2],[6,G5,2],[8,A5,4],[12,G5,4],[16,E5,2],[18,G5,2],[20,A5,2],[22,C6,2],
+     [24,D6,6],[30,C6,2],[32,E6,2],[34,D6,2],[36,C6,2],[38,A5,2],[40,G5,4],[44,A5,4],[48,G5,2],[50,A5,2],
+     [52,C6,2],[54,D6,2],[56,E6,4],[60,D6,4],[64,C6,2],[66,E6,2],[68,G5,2],[70,C6,10]]
+      .forEach(([step, hz, len]) => syn(go + step * st, hz, len * st, 0.12));  // the tune
+  }
+
+  function won() {
+    // Best possible number of guesses for this level, to decide the stars
+    const best = Math.ceil(Math.log2(max + 1));
+    const stars = tries <= best ? 3 : tries <= best * 2 ? 2 : 1;
+    $('secret').textContent = secret;
+    $('winTries').textContent = tries === 1 ? 'In één keer! Wauw!' : `Je had ${tries} gokken nodig.`;
+    $('stars').textContent = '⭐'.repeat(stars);
+    show('win');
+    confetti();
+    winSound();
+  }
+
+  function confetti() {
+    const bits = ['🎉', '⭐', '🎈', '✨', '🌈', '🍭'];
+    for (let i = 0; i < 30; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.textContent = bits[i % bits.length];
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.animationDuration = 1.5 + Math.random() * 2 + 's';
+      c.style.animationDelay = Math.random() * .5 + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4500);
+    }
+  }
+
+  document.querySelectorAll('.level').forEach(b =>
+    b.addEventListener('click', () => { max = Number(b.dataset.max); newGame(); }));
+  $('pad').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b) press(b.dataset.k || b.textContent);
+  });
+  document.addEventListener('keydown', e => {
+    if ($('game').classList.contains('hidden')) return;
+    if (/^[0-9]$/.test(e.key)) press(e.key);
+    else if (e.key === 'Backspace') press('del');
+    else if (e.key === 'Enter') press('go');
+  });
+  $('again').addEventListener('click', newGame);
+  $('back').addEventListener('click', () => show('start'));
+  $('back2').addEventListener('click', () => { stopMusic(); show('start'); });
+</script>
+
+
+<script>
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
