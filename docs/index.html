@@ -119,6 +119,33 @@
   .lo-hi { display: inline-block; }
   .stack { display: grid; gap: 14px; }
   .note { color: var(--soft); font-size: 1rem; margin-top: 14px; }
+  /* Boter-kaas-en-eieren */
+  .pics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 6px 0 4px; }
+  .pic {
+    font: inherit; font-size: 2.6rem; padding: 10px 0; border-radius: 18px; border: 4px solid transparent;
+    background: var(--key); cursor: pointer;
+  }
+  .pic.mine { border-color: var(--ok); }
+  .pic.taken { opacity: .35; cursor: not-allowed; }
+  .pic small { display: block; font-size: .9rem; color: var(--soft); min-height: 1.2rem; }
+  .dogs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .dogs .level { font-size: 1.2rem; padding: 14px 8px; }
+  .dogs .level.sel { outline: 4px solid var(--ink); outline-offset: 2px; }
+  .players { display: flex; justify-content: space-between; gap: 10px; font-size: 1.2rem; margin-bottom: 10px; }
+  .players span { padding: 4px 12px; border-radius: 14px; border: 3px solid transparent; min-width: 0; }
+  .players span.turn { border-color: var(--ok); background: var(--key); }
+  .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 340px; margin: 0 auto; }
+  .cell {
+    aspect-ratio: 1; font-size: 3.4rem; border: none; border-radius: 20px; background: var(--key);
+    cursor: pointer; box-shadow: 0 4px 0 var(--key-edge); display: flex; align-items: center; justify-content: center;
+    padding: 0; line-height: 1;
+  }
+  .cell:disabled { cursor: default; color: inherit; }
+  .cell.line { background: var(--ok); }
+  .cell.pop { animation: pop .25s; }
+  @keyframes pop { 0% { transform: scale(.4); } 100% { transform: scale(1); } }
+  .ttt-status { font-size: 1.5rem; font-weight: 800; min-height: 2.4rem; margin: 12px 0 0; }
+  .ttt-end { display: grid; gap: 10px; margin-top: 10px; }
   @keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
   .shake { animation: shake .25s 2; }
   .confetti { position: fixed; top: -20px; font-size: 1.8rem; pointer-events: none; animation: fall linear forwards; }
@@ -130,13 +157,13 @@
 <body>
 
 <main>
-  <h1>🔢 Raad het getal</h1>
+  <h1 id="title">🐶 Spelletjes</h1>
 
   <!-- Welkom -->
   <section id="welcome">
     <p class="welcome-hi" id="hello">Hoi! Wat gaan we doen?</p>
     <div class="levels">
-      <button class="level w1" id="goSolo">🐶 Alleen spelen<small>Ik verstop een getal, jij raadt</small></button>
+      <button class="level w1" id="goSolo">🐶 Alleen spelen<small>Tegen het hondje</small></button>
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
@@ -153,6 +180,16 @@
     <button class="back" data-to="welcome">← Terug</button>
   </section>
 
+  <!-- Alleen: kies een spel -->
+  <section id="soloGames" class="hidden">
+    <p class="sub">Welk spel?</p>
+    <div class="levels">
+      <button class="level w3" id="soloGuess">🔢 Raad het getal<small>Het hondje verstopt een getal</small></button>
+      <button class="level w2" id="soloTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij tegen het hondje</small></button>
+    </div>
+    <button class="back" data-to="welcome">← Terug</button>
+  </section>
+
   <!-- Alleen: kies een level -->
   <section id="start" class="hidden">
     <p class="sub">Ik verstop een getal. Kun jij het vinden?</p>
@@ -162,7 +199,7 @@
       <button class="level l3" data-max="999">🦊 Moeilijk<small>1 tot 999</small></button>
       <button class="level l4" data-max="9999">🦄 Meester<small>1 tot 9999</small></button>
     </div>
-    <button class="back" data-to="welcome">← Terug</button>
+    <button class="back" data-to="soloGames">← Terug</button>
   </section>
 
   <!-- Samen: nieuw spel of meedoen -->
@@ -201,11 +238,54 @@
     <div class="card">
       <p class="who" id="lobbyWho"></p>
       <div class="stack">
+        <button class="level w3" id="lobbyGuess">🔢 Raad het getal<small>De een verstopt, de ander raadt</small></button>
+        <button class="level w2" id="lobbyTtt">❌⭕ Boter-kaas-en-eieren<small>Drie op een rij</small></button>
+      </div>
+    </div>
+    <button class="back" data-leave>← Stoppen</button>
+  </section>
+
+  <!-- Samen, raad het getal: wie verstopt? -->
+  <section id="roles" class="hidden">
+    <div class="card">
+      <p class="who" id="rolesWho"></p>
+      <div class="stack">
         <button class="level w1" id="iHide">🙈 Ik verstop<small>Jij kiest het getal</small></button>
         <button class="level w3" id="iGuess">🔍 Ik raad<small>De ander kiest het getal</small></button>
       </div>
     </div>
-    <button class="back" data-leave>← Stoppen</button>
+    <button class="back" id="rolesBack">← Ander spel</button>
+  </section>
+
+  <!-- Boter-kaas-en-eieren: kies je plaatje (en alleen: hoe slim is het hondje) -->
+  <section id="tttSetup" class="hidden">
+    <div class="card">
+      <p class="who">Kies je plaatje</p>
+      <div class="pics" id="pics"></div>
+      <div id="dogLevel">
+        <p class="who" style="margin-top:16px">Hoe slim is het hondje?</p>
+        <div class="dogs">
+          <button class="level l1" data-smart="0">🐶 Puppy<small>Makkelijk</small></button>
+          <button class="level l4" data-smart="1">🐕 Slimme hond<small>Moeilijk</small></button>
+        </div>
+      </div>
+      <p class="wait" id="setupWait"></p>
+      <p class="err" id="setupErr"></p>
+    </div>
+    <button class="back" id="setupBack">← Terug</button>
+  </section>
+
+  <!-- Boter-kaas-en-eieren: het bord -->
+  <section id="ttt" class="hidden">
+    <div class="card">
+      <div class="players"><span id="pMe"></span><span id="pOther"></span></div>
+      <div class="board" id="board"></div>
+      <p class="ttt-status" id="tttStatus"></p>
+      <div class="ttt-end" id="tttEnd" hidden>
+        <button class="again" id="tttAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="tttBack">← Ander spel</button>
   </section>
 
   <!-- Samen, verstopper: kies level -->
@@ -292,7 +372,8 @@
   const SUPABASE_KEY = 'sb_publishable_CRCmy46ZO1Woq6KMndUtnw_aiGOxlIl';
 
   const $ = id => document.getElementById(id);
-  const SCREENS = ['welcome', 'name', 'start', 'together', 'hosting', 'join', 'lobby',
+  const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
+                   'tttSetup', 'ttt',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -531,8 +612,15 @@
   function toLobby() {
     stopMusic();
     roundHider = null; rolesAt = 0; rolesBy = '';
-    $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Wie verstopt het getal?`;
+    ttt.active = false;
+    $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
     show('lobby');
+  }
+
+  function toRoles() {
+    roundHider = null; rolesAt = 0; rolesBy = '';
+    $('rolesWho').textContent = `Raad het getal met ${other.name}. Wie verstopt het getal?`;
+    show('roles');
   }
 
   // Roles: the latest choice wins, so both devices agree even if both tap at once
@@ -599,10 +687,186 @@
   function onMessage(m) {
     if (!other || m.from !== other.id) return;
     if (m.type === 'roles') chooseRoles(m.hider, m.at, m.from);
+    if (m.type === 'pick' && m.game === 'guess' && screen === 'win') toRoles();
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && screen === 'win') toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt'].includes(screen)) toLobby();
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : tttSetup();
+    if (m.type === 'pic') tttOtherPic(m.pic);
+    if (m.type === 'move') tttMove(m.i, false);
+    if (m.type === 'tttAgain' && screen === 'ttt' && ttt.over) tttNewRound();
+  }
+
+
+  // ----- Boter-kaas-en-eieren: alone against the dog, or together over the same channel -----
+
+  const PICS = ['💖', '🐶', '⭐', '🦄', '🐱', '🌈'];
+  const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  const ttt = { active: false, myPic: '', otherPic: '', smart: null, board: [], myTurn: true, iStartNext: true, over: false };
+
+  function tttSetup() {
+    stopMusic();
+    Object.assign(ttt, { active: false, myPic: '', otherPic: '', smart: null });
+    ttt.iStartNext = mode === 'solo' ? true : iAmHost;
+    $('dogLevel').hidden = mode !== 'solo';
+    $('setupErr').textContent = '';
+    $('setupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    document.querySelectorAll('#dogLevel .level').forEach(b => b.classList.remove('sel'));
+    drawPics();
+    show('tttSetup');
+  }
+
+  function drawPics() {
+    $('pics').innerHTML = '';
+    for (const p of PICS) {
+      const b = document.createElement('button');
+      b.className = 'pic' + (p === ttt.myPic ? ' mine' : '') + (p === ttt.otherPic ? ' taken' : '');
+      b.innerHTML = `${p}<small>${p === ttt.myPic ? 'Jij' : p === ttt.otherPic ? other.name : ''}</small>`;
+      b.addEventListener('click', () => pickPic(p));
+      $('pics').appendChild(b);
+    }
+    const waitingFor = mode === 'together' && ttt.myPic && !ttt.otherPic;
+    $('setupWait').textContent = waitingFor ? `Wachten tot ${other.name} een plaatje kiest…` : '';
+  }
+
+  function pickPic(p) {
+    if (p === ttt.otherPic) { $('setupErr').textContent = `${other.name} heeft dit plaatje al.`; return; }
+    $('setupErr').textContent = '';
+    ttt.myPic = p;
+    if (mode === 'together') send('pic', { pic: p });
+    drawPics();
+    tttMaybeStart();
+  }
+
+  function tttOtherPic(p) {
+    if (screen !== 'tttSetup' && screen !== 'lobby') return;
+    if (screen === 'lobby') tttSetup();
+    ttt.otherPic = p;
+    // Both chose the same picture at the same moment: the game maker keeps it
+    if (p === ttt.myPic && !iAmHost) { ttt.myPic = ''; $('setupErr').textContent = `${other.name} heeft dit plaatje al. Kies een ander.`; }
+    drawPics();
+    tttMaybeStart();
+  }
+
+  function pickSmart(smart) {
+    ttt.smart = smart;
+    document.querySelectorAll('#dogLevel .level').forEach(b => b.classList.toggle('sel', Number(b.dataset.smart) === smart));
+    tttMaybeStart();
+  }
+
+  function tttMaybeStart() {
+    if (mode === 'solo') {
+      if (!ttt.myPic || ttt.smart === null) return;
+      ttt.otherPic = ttt.myPic === '🐶' ? '🐾' : '🐶';
+    } else if (!ttt.myPic || !ttt.otherPic || ttt.myPic === ttt.otherPic) return;
+    ttt.active = true;
+    setTimeout(tttNewRound, 300);
+  }
+
+  function otherLabel() { return mode === 'solo' ? 'Hondje' : other.name; }
+
+  function tttNewRound() {
+    stopMusic();
+    ttt.board = Array(9).fill('');
+    ttt.over = false;
+    ttt.myTurn = ttt.iStartNext;
+    ttt.iStartNext = !ttt.iStartNext;          // the other one starts next round
+    $('pMe').textContent = `${ttt.myPic} ${myName || 'Jij'}`;
+    $('pOther').textContent = `${ttt.otherPic} ${otherLabel()}`;
+    $('tttEnd').hidden = true;
+    $('board').innerHTML = '';
+    for (let i = 0; i < 9; i++) {
+      const c = document.createElement('button');
+      c.className = 'cell';
+      c.setAttribute('aria-label', `Vakje ${i + 1}`);
+      c.addEventListener('click', () => tttTap(i));
+      $('board').appendChild(c);
+    }
+    tttStatus();
+    show('ttt');
+    if (mode === 'solo' && !ttt.myTurn) setTimeout(dogMove, 700);
+  }
+
+  function tttStatus(text) {
+    $('tttStatus').textContent = text || (ttt.myTurn ? 'Jij bent aan de beurt!' : mode === 'solo' ? 'Het hondje denkt na…' : `${other.name} is aan de beurt…`);
+    $('pMe').classList.toggle('turn', !ttt.over && ttt.myTurn);
+    $('pOther').classList.toggle('turn', !ttt.over && !ttt.myTurn);
+  }
+
+  function tttTap(i) {
+    if (!ttt.myTurn || ttt.over || ttt.board[i]) return;
+    tttMove(i, true);
+    if (mode === 'together') send('move', { i });
+  }
+
+  // Puts a picture on the board; "mine" says whose turn it was
+  function tttMove(i, mine) {
+    if (screen !== 'ttt' || ttt.over || ttt.board[i] || mine !== ttt.myTurn) return;
+    ttt.board[i] = mine ? 'me' : 'other';
+    const c = $('board').children[i];
+    c.textContent = mine ? ttt.myPic : ttt.otherPic;
+    c.classList.add('pop');
+    const line = winLine(ttt.board);
+    if (line) return tttEnd(ttt.board[line[0]] === 'me', line);
+    if (ttt.board.every(v => v)) return tttEnd(null);
+    ttt.myTurn = !mine;
+    tttStatus();
+    if (mode === 'solo' && !ttt.myTurn) setTimeout(dogMove, 700);
+  }
+
+  function winLine(b) {
+    return LINES.find(([a, c, d]) => b[a] && b[a] === b[c] && b[a] === b[d]) || null;
+  }
+
+  function tttEnd(iWon, line) {
+    ttt.over = true;
+    if (line) line.forEach(i => $('board').children[i].classList.add('line'));
+    if (iWon === true) { tttStatus('🎉 Jij hebt gewonnen!'); confetti(); winSound(); }
+    else if (iWon === false) tttStatus(mode === 'solo' ? '🐶 Het hondje wint! Woef!' : `${other.name} heeft gewonnen!`);
+    else tttStatus('🤝 Gelijkspel!');
+    $('tttEnd').hidden = false;
+  }
+
+  // The dog: the puppy often plays a random square; the smart dog never makes a mistake
+  function dogMove() {
+    if (ttt.over || ttt.myTurn) return;
+    const free = ttt.board.map((v, i) => v ? -1 : i).filter(i => i >= 0);
+    let pick;
+    if (ttt.smart || Math.random() < 0.4) pick = bestMove(ttt.board);
+    else pick = free[Math.floor(Math.random() * free.length)];
+    tttMove(pick, false);
+  }
+
+  function bestMove(board) {
+    // Tries every square and looks ahead to the end of the game (minimax)
+    const score = (b, dogTurn, depth) => {
+      const l = winLine(b);
+      if (l) return b[l[0]] === 'other' ? 10 - depth : depth - 10;
+      if (b.every(v => v)) return 0;
+      let best = dogTurn ? -99 : 99;
+      for (let i = 0; i < 9; i++) if (!b[i]) {
+        b[i] = dogTurn ? 'other' : 'me';
+        const s = score(b, !dogTurn, depth + 1);
+        b[i] = '';
+        best = dogTurn ? Math.max(best, s) : Math.min(best, s);
+      }
+      return best;
+    };
+    let best = -99, moves = [];
+    for (let i = 0; i < 9; i++) if (!board[i]) {
+      const b = [...board]; b[i] = 'other';
+      const s = score(b, false, 1);
+      if (s > best) { best = s; moves = [i]; } else if (s === best) moves.push(i);
+    }
+    return moves[Math.floor(Math.random() * moves.length)];
+  }
+
+  function tttLeave() {
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
   }
 
   function stopTogether() {
@@ -704,7 +968,20 @@
 
   // ----- Buttons -----
 
-  $('goSolo').addEventListener('click', () => { mode = 'solo'; show('start'); });
+  $('goSolo').addEventListener('click', () => { mode = 'solo'; show('soloGames'); });
+  $('soloGuess').addEventListener('click', () => { mode = 'solo'; show('start'); });
+  $('soloTtt').addEventListener('click', () => { mode = 'solo'; tttSetup(); });
+  $('lobbyGuess').addEventListener('click', () => { send('pick', { game: 'guess' }); toRoles(); });
+  $('lobbyTtt').addEventListener('click', () => { send('pick', { game: 'ttt' }); tttSetup(); });
+  $('rolesBack').addEventListener('click', () => { send('lobby', {}); toLobby(); });
+  document.querySelectorAll('#dogLevel .level').forEach(b =>
+    b.addEventListener('click', () => pickSmart(Number(b.dataset.smart))));
+  $('setupBack').addEventListener('click', () => mode === 'solo' ? show('soloGames') : tttLeave());
+  $('tttBack').addEventListener('click', tttLeave);
+  $('tttAgain').addEventListener('click', () => {
+    if (mode === 'together') send('tttAgain', {});
+    tttNewRound();
+  });
   $('goTogether').addEventListener('click', () => { mode = 'together'; goTogether(); });
   $('changeName').addEventListener('click', () => askName(() => show('welcome')));
   $('nameForm').addEventListener('submit', e => { e.preventDefault(); saveName(); });
@@ -734,8 +1011,8 @@
   });
   $('again').addEventListener('click', () => {
     if (mode === 'solo') return startGuessing(max);
-    send('lobby', {});
-    toLobby();
+    send('pick', { game: 'guess' });
+    toRoles();
   });
   $('back').addEventListener('click', () => mode === 'solo' ? show('start') : stopTogether());
   $('back2').addEventListener('click', () => { stopMusic(); mode === 'solo' ? show('start') : stopTogether(); });
