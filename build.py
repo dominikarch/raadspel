@@ -61,7 +61,7 @@ self.addEventListener('activate', e => {{
 self.addEventListener('fetch', e => {{
   if (e.request.method !== 'GET') return;
   const sameSite = new URL(e.request.url).origin === self.location.origin;
-  e.respondWith(fetch(e.request, sameSite ? {{ cache: 'no-cache' }} : {{}}).then(r => {{
+  e.respondWith((sameSite ? fetch(e.request.url, {{ cache: 'no-cache' }}) : fetch(e.request)).then(r => {{
     const copy = r.clone();
     caches.open(CACHE).then(c => c.put(e.request, copy));
     return r;
