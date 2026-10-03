@@ -180,6 +180,18 @@
   .crash-scores { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
   .crash-scores span { background: var(--key); border-radius: 12px; padding: 4px 10px; font-size: 1.05rem; }
   .crash-scores span.me { outline: 3px solid var(--ok); }
+  /* Dammen */
+  main:has(#dam:not(.hidden)) { max-width: 560px; }
+  .damboard { display: grid; grid-template-columns: repeat(10, 1fr); width: 100%; max-width: 500px; margin: 0 auto; border: 6px solid #8a5a3b; border-radius: 10px; overflow: hidden; }
+  .dsq { aspect-ratio: 1; border: none; padding: 0; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; }
+  .dsq.light { background: #f6e3c8; } .dsq.dark { background: #a8724f; cursor: pointer; }
+  .dsq.sel { background: #5d9c59; } .dsq.last { box-shadow: inset 0 0 0 3px #ffd23f; }
+  .dsq .dot { width: 32%; height: 32%; border-radius: 50%; background: rgba(255,255,255,.75); }
+  .piece { width: 84%; height: 84%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: calc(min(500px, 92vw) / 10 * .48);
+           box-shadow: inset 0 -4px 0 rgba(0,0,0,.25), 0 2px 3px rgba(0,0,0,.35); position: relative; line-height: 1; }
+  .piece.w { background: #fffaf0; } .piece.b { background: #3b2f52; }
+  .piece.must { outline: 3px solid #ffd23f; outline-offset: 1px; }
+  .piece .crown { position: absolute; top: -28%; font-size: 70%; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -265,6 +277,7 @@
       <button class="level w1" id="soloGravity">🐶 Gravity Run<small>Tik en het hondje valt naar boven of beneden</small></button>
       <button class="level w1" id="soloNails">💅 Nagelsalon<small>Lak, glitter en stickers op je nageltjes</small></button>
       <button class="level l3" id="soloCrash">💫 Crash<small>Botsautootjes: bots zo vaak je kan!</small></button>
+      <button class="level l4" id="soloDam">⚫ Dammen<small>Echt dammen op het grote bord, tegen het hondje</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -325,6 +338,7 @@
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
         <button class="level l3" id="lobbyCrash">💫 Crash<small>Botsautootjes in dezelfde arena</small></button>
+        <button class="level l4" id="lobbyDam">⚫ Dammen<small>Echt dammen op het grote bord</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -379,6 +393,19 @@
       <div class="photo-box" id="photoBox" hidden></div>
     </div>
     <button class="back" data-to="nailsMenu">← Terug</button>
+  </section>
+
+  <!-- Dammen -->
+  <section id="dam" class="hidden">
+    <div class="card">
+      <div class="players"><span id="dMe"></span><span id="dOther"></span></div>
+      <div class="damboard" id="damBoard"></div>
+      <p class="ttt-status" id="damStatus"></p>
+      <div class="ttt-end" id="damEnd" hidden>
+        <button class="again" id="damAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="damBack">← Ander spel</button>
   </section>
 
   <!-- Crash: botsautootjes -->
@@ -628,7 +655,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -976,12 +1003,13 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
     if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
-    if (m.type === 'tttAgain' && screen === 'ttt' && ttt.over) tttNewRound();
+    if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
+    if (m.type === 'dmove' && screen === 'dam') damApply(m.p, false);
     if (m.type === 'rscore' && ['bricks', 'snake', 'gravity'].includes(screen)) raceOther(m.score, m.done);
     if (m.type === 'gravityAgain' && screen === 'gravity' && gr.over) gravityBegin();
     if (m.type === 'cz' && screen === 'crash' && !iAmHost) crashState(m);
@@ -1070,6 +1098,7 @@
 
   function tttNewRound() {
     stopMusic();
+    if (ttt.kind === 'dam') return damNewRound();
     const B = BOARDS[ttt.kind];
     ttt.board = Array(B.cols * B.rows).fill('');
     ttt.over = false;
@@ -1247,6 +1276,219 @@
         if (mine === 3 && empty === 1) score += 5; else if (mine === 2 && empty === 2) score += 2;
       }
     return score;
+  }
+
+
+  // ----- Dammen: Dutch rules on 10 × 10 — capturing is compulsory and the longest capture must be taken,
+  // men capture backwards too, kings fly. Shares the picture choice, dog levels and turns with boter-kaas-en-eieren.
+
+  const dm = { board: [], me: 'w', turn: 'w', sel: null, moves: [], last: [], kingMoves: 0, busy: false };
+  const DIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+  const onBoard = (r, c) => r >= 0 && r < 10 && c >= 0 && c < 10;
+
+  function damNewRound() {
+    ttt.over = false;
+    const iStart = ttt.iStartNext;
+    ttt.iStartNext = !ttt.iStartNext;
+    dm.me = iStart ? 'w' : 'b';                 // white moves first
+    dm.turn = 'w'; dm.sel = null; dm.last = []; dm.kingMoves = 0; dm.busy = false;
+    dm.board = Array(100).fill(null);
+    for (let r = 0; r < 10; r++) for (let c = 0; c < 10; c++) if ((r + c) % 2) {
+      if (r < 4) dm.board[r * 10 + c] = { c: 'b', k: false };
+      if (r > 5) dm.board[r * 10 + c] = { c: 'w', k: false };
+    }
+    $('dMe').textContent = `${ttt.myPic} ${myName || 'Jij'}`;
+    $('dOther').textContent = `${ttt.otherPic} ${otherLabel()}`;
+    $('damEnd').hidden = true;
+    show('dam');
+    damTurn();
+  }
+
+  // All legal moves for one side, as paths of squares; captures win, and only the longest ones
+  function damMoves(board, side) {
+    let caps = [], best = 0;
+    for (let i = 0; i < 100; i++) {
+      const pc = board[i];
+      if (!pc || pc.c !== side) continue;
+      const found = [];
+      damCaptures(board, i, pc, [i], [], found);
+      for (const f of found) {
+        if (f.taken.length > best) { best = f.taken.length; caps = [f]; }
+        else if (f.taken.length === best) caps.push(f);
+      }
+    }
+    if (best > 0) return caps;
+    const moves = [], fwd = side === 'w' ? -1 : 1;
+    for (let i = 0; i < 100; i++) {
+      const pc = board[i];
+      if (!pc || pc.c !== side) continue;
+      const r = Math.floor(i / 10), c = i % 10;
+      for (const [dr, dc] of DIAG) {
+        if (!pc.k && dr !== fwd) continue;
+        let rr = r + dr, cc = c + dc;
+        while (onBoard(rr, cc) && !board[rr * 10 + cc]) {
+          moves.push({ path: [i, rr * 10 + cc], taken: [] });
+          if (!pc.k) break;
+          rr += dr; cc += dc;
+        }
+      }
+    }
+    return moves;
+  }
+
+  // Follows every capture route from one square. Captured pieces stay on the board until the move ends,
+  // so they block and cannot be jumped twice; the square the piece started on counts as empty.
+  function damCaptures(board, from, pc, path, taken, out) {
+    const start = path[0], busy = idx => idx !== start && board[idx];
+    const r = Math.floor(from / 10), c = from % 10;
+    let more = false;
+    for (const [dr, dc] of DIAG) {
+      let rr = r + dr, cc = c + dc;
+      if (pc.k) while (onBoard(rr, cc) && !busy(rr * 10 + cc)) { rr += dr; cc += dc; }   // a king flies to the piece
+      if (!onBoard(rr, cc)) continue;
+      const mid = rr * 10 + cc, victim = board[mid];
+      if (!busy(mid) || victim.c === pc.c || taken.includes(mid)) continue;
+      let lr = rr + dr, lc = cc + dc;
+      while (onBoard(lr, lc) && !busy(lr * 10 + lc)) {                                    // and may land anywhere behind it
+        more = true;
+        damCaptures(board, lr * 10 + lc, pc, [...path, lr * 10 + lc], [...taken, mid], out);
+        if (!pc.k) break;
+        lr += dr; lc += dc;
+      }
+    }
+    if (!more && taken.length) out.push({ path, taken });
+  }
+
+  function damTurn() {
+    dm.moves = damMoves(dm.board, dm.turn);
+    const mine = dm.turn === dm.me;
+    if (!dm.moves.length) return damEnd(mine ? 'lost' : 'won');
+    if (dm.kingMoves >= 50) return damEnd('draw');
+    const must = dm.moves[0].taken.length;
+    $('damStatus').textContent = mine
+      ? (must ? `Jij moet slaan! ${must > 1 ? `(${must} stenen)` : ''}` : 'Jij bent aan de beurt!')
+      : mode === 'solo' ? 'Het hondje denkt na…' : `${other.name} is aan de beurt…`;
+    $('dMe').classList.toggle('turn', mine);
+    $('dOther').classList.toggle('turn', !mine);
+    damDraw();
+    if (!mine && mode === 'solo') setTimeout(damDog, 700);
+  }
+
+  function damDraw() {
+    const flip = dm.me === 'b', mine = dm.turn === dm.me && !ttt.over && !dm.busy;
+    const movable = new Set(mine ? dm.moves.map(m => m.path[0]) : []);
+    const targets = new Set(mine && dm.sel !== null ? dm.moves.filter(m => m.path[0] === dm.sel).map(m => m.path[m.path.length - 1]) : []);
+    const must = mine && dm.moves[0] && dm.moves[0].taken.length > 0;
+    let html = '';
+    for (let v = 0; v < 100; v++) {
+      const i = flip ? 99 - v : v, r = Math.floor(i / 10), c = i % 10, dark = (r + c) % 2, pc = dm.board[i];
+      let inner = '';
+      if (pc) {
+        const pic = pc.c === dm.me ? ttt.myPic : ttt.otherPic;
+        inner = `<div class="piece ${pc.c}${must && movable.has(i) ? ' must' : ''}">${pc.k ? '<span class="crown">👑</span>' : ''}${pic}</div>`;
+      } else if (targets.has(i)) inner = '<span class="dot"></span>';
+      html += `<button class="dsq ${dark ? 'dark' : 'light'}${i === dm.sel ? ' sel' : ''}${dm.last.includes(i) ? ' last' : ''}" data-i="${i}" ${dark ? '' : 'tabindex="-1"'} aria-label="Veld ${r + 1}-${c + 1}">${inner}</button>`;
+    }
+    $('damBoard').innerHTML = html;
+  }
+
+  function damTap(i) {
+    if (ttt.over || dm.busy || dm.turn !== dm.me) return;
+    const pc = dm.board[i];
+    if (pc && pc.c === dm.me) {
+      dm.sel = dm.moves.some(m => m.path[0] === i) ? i : null;
+      if (dm.sel === null && dm.moves[0].taken.length) $('damStatus').textContent = 'Deze steen kan niet: een andere steen moet slaan!';
+      return damDraw();
+    }
+    if (dm.sel === null) return;
+    const move = dm.moves.find(m => m.path[0] === dm.sel && m.path[m.path.length - 1] === i);
+    if (!move) return;
+    dm.sel = null;
+    if (mode === 'together') send('dmove', { p: move.path });
+    damApply(move.path, true);
+  }
+
+  // Plays a move, hop by hop, so you can follow a long capture
+  function damApply(path, mineMove) {
+    const move = dm.moves.find(m => m.path.length === path.length && m.path.every((x, k) => x === path[k]));
+    if (!move || (dm.turn === dm.me) !== mineMove || dm.busy) return;
+    dm.busy = true;
+    const pc = dm.board[path[0]];
+    let k = 1;
+    const hop = () => {
+      dm.board[path[k]] = pc; dm.board[path[k - 1]] = null;
+      dm.last = path.slice(0, k + 1);
+      blip(move.taken.length ? 520 + k * 60 : 400);
+      damDraw();
+      if (++k < path.length) return setTimeout(hop, 260);
+      for (const t of move.taken) dm.board[t] = null;
+      const end = path[path.length - 1], row = Math.floor(end / 10);
+      if (!pc.k && ((pc.c === 'w' && row === 0) || (pc.c === 'b' && row === 9))) { pc.k = true; salonSound('sticker'); }
+      dm.kingMoves = pc.k && !move.taken.length ? dm.kingMoves + 1 : 0;
+      dm.turn = dm.turn === 'w' ? 'b' : 'w';
+      dm.busy = false;
+      damTurn();
+    };
+    setTimeout(hop, 60);
+  }
+
+  function damEnd(how) {
+    ttt.over = true;
+    damDraw();
+    if (how === 'won') { $('damStatus').textContent = '🎉 Jij hebt gewonnen!'; confetti(); winSound(); }
+    else if (how === 'lost') $('damStatus').textContent = mode === 'solo' ? '🐶 Het hondje wint! Woef!' : `${other.name} heeft gewonnen!`;
+    else $('damStatus').textContent = '🤝 Remise: 25 zetten alleen met dammen, niemand kan meer winnen.';
+    $('damEnd').hidden = false;
+  }
+
+  // The dog: the puppy picks a random legal move; the smart dog looks three moves ahead
+  function damDog() {
+    if (ttt.over || dm.turn === dm.me || dm.busy) return;
+    const side = dm.turn, moves = dm.moves;
+    let pick = moves[Math.floor(Math.random() * moves.length)];
+    if (ttt.smart) {
+      let best = -1e9;
+      for (const m of shuffle(moves.slice())) {
+        const s = -damSearch(damPlay(dm.board, m), side === 'w' ? 'b' : 'w', 2, -1e9, 1e9);
+        if (s > best) { best = s; pick = m; }
+      }
+    }
+    damApply(pick.path, false);
+  }
+
+  function shuffle(a) { for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; }
+
+  function damPlay(board, m) {
+    const b = board.map(x => x && { ...x }), pc = b[m.path[0]], end = m.path[m.path.length - 1];
+    b[m.path[0]] = null; b[end] = pc;
+    for (const t of m.taken) b[t] = null;
+    const row = Math.floor(end / 10);
+    if (!pc.k && ((pc.c === 'w' && row === 0) || (pc.c === 'b' && row === 9))) pc.k = true;
+    return b;
+  }
+
+  function damScore(b, side) {
+    let s = 0;
+    for (let i = 0; i < 100; i++) {
+      const pc = b[i];
+      if (!pc) continue;
+      const row = Math.floor(i / 10), adv = pc.c === 'w' ? 9 - row : row;
+      const v = pc.k ? 30 : 10 + adv * .4 + (i % 10 > 1 && i % 10 < 8 ? .5 : 0);
+      s += pc.c === side ? v : -v;
+    }
+    return s;
+  }
+
+  function damSearch(b, side, depth, alpha, beta) {
+    const moves = damMoves(b, side);
+    if (!moves.length) return -1000 - depth;
+    if (depth === 0) return damScore(b, side);
+    for (const m of moves) {
+      const v = -damSearch(damPlay(b, m), side === 'w' ? 'b' : 'w', depth - 1, -beta, -alpha);
+      if (v > alpha) alpha = v;
+      if (alpha >= beta) break;
+    }
+    return alpha;
   }
 
   function tttLeave() {
@@ -2869,6 +3111,13 @@
   $('soloGuess').addEventListener('click', () => { mode = 'solo'; show('start'); });
   $('soloTtt').addEventListener('click', () => { mode = 'solo'; tttSetup('ttt'); });
   $('soloC4').addEventListener('click', () => { mode = 'solo'; tttSetup('c4'); });
+  $('soloDam').addEventListener('click', () => { mode = 'solo'; tttSetup('dam'); });
+  $('damBoard').addEventListener('click', e => { const b = e.target.closest('.dsq'); if (b) damTap(Number(b.dataset.i)); });
+  $('damBack').addEventListener('click', tttLeave);
+  $('damAgain').addEventListener('click', () => {
+    if (mode === 'together') send('tttAgain', {});
+    tttNewRound();
+  });
   $('soloShips').addEventListener('click', () => { mode = 'solo'; shipsStart(); });
   $('soloBricks').addEventListener('click', () => { mode = 'solo'; bricksStart(); });
   $('soloSnake').addEventListener('click', () => { mode = 'solo'; snakeStart(); });
@@ -3010,6 +3259,7 @@
   $('lobbyGuess').addEventListener('click', () => { send('pick', { game: 'guess' }); toRoles(); });
   $('lobbyTtt').addEventListener('click', () => { send('pick', { game: 'ttt' }); tttSetup('ttt'); });
   $('lobbyC4').addEventListener('click', () => { send('pick', { game: 'c4' }); tttSetup('c4'); });
+  $('lobbyDam').addEventListener('click', () => { send('pick', { game: 'dam' }); tttSetup('dam'); });
   $('rolesBack').addEventListener('click', () => { send('lobby', {}); toLobby(); });
   document.querySelectorAll('#dogLevel .level').forEach(b =>
     b.addEventListener('click', () => pickSmart(Number(b.dataset.smart))));
