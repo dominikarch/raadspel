@@ -197,6 +197,8 @@
   #soloGames .level, #lobby .level { font-size: 1.15rem; padding: 12px 8px; border-radius: 18px; }
   #soloGames .level small, #lobby .level small { font-size: .82rem; line-height: 1.2; margin-top: 2px; }
   @media (min-width: 700px) { main:has(#soloGames:not(.hidden)), main:has(#lobby:not(.hidden)) { max-width: 640px; } }
+  #pongCanvas { display: block; width: 100%; max-width: 420px; margin: 0 auto; border-radius: 18px; touch-action: none; }
+  main:has(#pong:not(.hidden)) { max-width: 520px; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -283,6 +285,7 @@
       <button class="level w1" id="soloNails">💅 Nagelsalon<small>Lak, glitter en stickers op je nageltjes</small></button>
       <button class="level l3" id="soloCrash">💫 Crash<small>Botsautootjes: bots zo vaak je kan!</small></button>
       <button class="level l4" id="soloDam">⚫ Dammen<small>Echt dammen op het grote bord, tegen het hondje</small></button>
+      <button class="level l2" id="soloPong">🏓 Ping pong<small>Speel tafeltennis tegen het hondje</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -344,6 +347,7 @@
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
         <button class="level l3" id="lobbyCrash">💫 Crash<small>Botsautootjes in dezelfde arena</small></button>
         <button class="level l4" id="lobbyDam">⚫ Dammen<small>Echt dammen op het grote bord</small></button>
+        <button class="level l2" id="lobbyPong">🏓 Ping pong<small>Ieder een eigen batje</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -411,6 +415,37 @@
       </div>
     </div>
     <button class="back" id="damBack">← Ander spel</button>
+  </section>
+
+  <!-- Ping pong: tot hoeveel punten (en alleen: hoe slim is het hondje) -->
+  <section id="pongLevel" class="hidden">
+    <p class="sub">Tot hoeveel punten?</p>
+    <div class="dogs" id="pongTo" style="grid-template-columns: repeat(3, 1fr)">
+      <button class="level l1" data-to="5">5<small>kort</small></button>
+      <button class="level l2" data-to="7">7<small>middel</small></button>
+      <button class="level l3" data-to="11">11<small>echt</small></button>
+    </div>
+    <div id="pongDog">
+      <p class="sub" style="margin-top:18px">Hoe slim is het hondje?</p>
+      <div class="dogs">
+        <button class="level l1" data-smart="0">🐶 Puppy<small>Makkelijk</small></button>
+        <button class="level l4" data-smart="1">🐕 Slimme hond<small>Moeilijk</small></button>
+      </div>
+    </div>
+    <button class="back" id="pongLevelBack">← Terug</button>
+  </section>
+
+  <!-- Ping pong: spelen -->
+  <section id="pong" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="pongMe"></span><span id="pongOther"></span></div>
+      <canvas id="pongCanvas" width="320" height="460" aria-label="Pingpongtafel"></canvas>
+      <p class="ttt-status" id="pongStatus"></p>
+      <div class="ttt-end" id="pongEnd" hidden>
+        <button class="again" id="pongAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="pongBack">← Ander spel</button>
   </section>
 
   <!-- Crash: botsautootjes -->
@@ -660,7 +695,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -930,6 +965,7 @@
     snakeStop();
     gravityStop();
     crashStop();
+    pongStop();
     $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
     show('lobby');
   }
@@ -1008,9 +1044,9 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
@@ -1021,6 +1057,11 @@
     if (m.type === 'ct' && screen === 'crash' && iAmHost && cr.cars[1]) { cr.cars[1].tx = m.x; cr.cars[1].ty = m.y; }
     if (m.type === 'crashEnd' && screen === 'crash' && !iAmHost) crashOver(m.scores);
     if (m.type === 'crashAgain' && screen === 'crash' && cr.over) crashBegin();
+    if (m.type === 'pick' && m.game === 'pong' && screen === 'pongLevel') pongBegin(m.to);
+    if (m.type === 'pz' && screen === 'pong' && !iAmHost) pongState(m);
+    if (m.type === 'pp' && screen === 'pong' && iAmHost) pg.top.x = PW - m.x;
+    if (m.type === 'pongEnd' && screen === 'pong' && !iAmHost) pongOver(m.a, m.b);
+    if (m.type === 'pongAgain' && screen === 'pong' && pg.over) pongBegin(pg.to);
     if (m.type === 'snakeAgain' && screen === 'snake' && sn.over) snakeBegin(sn.walls);
     if (m.type === 'pick' && m.game === 'snake' && screen === 'snakeLevel') snakeBegin(m.walls);
     if (m.type === 'bricksAgain' && screen === 'bricks' && bk.over) bricksBegin(bk.speed);
@@ -3013,6 +3054,238 @@
     toLobby();
   }
 
+
+  // ----- Ping pong: the table stands upright, your bat at the bottom.
+  // Together, the game maker's device plays the ball; the friend sees the table turned round, with their own bat at the bottom.
+
+  const PW = 320, PH = 460, BAT = 74;
+  const pg = { to: 7, smart: null, ball: null, bottom: { x: PW / 2, vx: 0 }, top: { x: PW / 2 }, a: 0, b: 0,
+               serve: 1, wait: 1.2, over: false, running: false, last: 0, sendAt: 0, flash: null };
+
+  function pongStart() {
+    pg.smart = null; pg.to = 0;
+    $('pongDog').hidden = mode !== 'solo';
+    document.querySelectorAll('#pongLevel .level').forEach(b => b.classList.remove('sel'));
+    $('pongLevelBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('pongLevel');
+  }
+  function pongPickTo(to) {
+    pg.to = to;
+    document.querySelectorAll('#pongTo .level').forEach(b => b.classList.toggle('sel', Number(b.dataset.to) === to));
+    if (mode === 'together') { send('pick', { game: 'pong', to }); return pongBegin(to); }
+    if (pg.smart !== null) pongBegin(to);
+  }
+  function pongPickSmart(smart) {
+    pg.smart = smart;
+    document.querySelectorAll('#pongDog .level').forEach(b => b.classList.toggle('sel', Number(b.dataset.smart) === smart));
+    if (pg.to) pongBegin(pg.to);
+  }
+
+  function pongBegin(to) {
+    pongStop();
+    stopMusic();
+    Object.assign(pg, { to, a: 0, b: 0, serve: 1, wait: 1.5, over: false, flash: null, sendAt: 0 });
+    pg.bottom.x = PW / 2; pg.top.x = PW / 2;
+    pongServe();
+    $('pongEnd').hidden = true;
+    $('pongStatus').textContent = 'Schuif met je vinger om je batje te bewegen!';
+    pongHud();
+    show('pong');
+    const c = $('pongCanvas'), ratio = window.devicePixelRatio || 1;
+    c.width = PW * ratio; c.height = PH * ratio;
+    c.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    pg.running = true; pg.last = performance.now();
+    requestAnimationFrame(pongFrame);
+  }
+
+  function pongStop() { pg.running = false; }
+
+  // a = the bottom player (you, or the game maker), b = the top player (the dog, or the friend)
+  function pongNames() {
+    if (mode === 'solo') return [myName || 'Jij', 'Hondje'];
+    return iAmHost ? [myName, other.name] : [other.name, myName];
+  }
+
+  function pongHud() {
+    const [na, nb] = pongNames(), mine = mode !== 'together' || iAmHost;
+    $('pongMe').textContent = mine ? `🏓 ${na}: ${pg.a}` : `🏓 ${nb}: ${pg.b}`;
+    $('pongOther').textContent = mine ? `${mode === 'solo' ? '🐶' : '🏓'} ${nb}: ${pg.b}` : `🏓 ${na}: ${pg.a}`;
+  }
+
+  // The ball starts in the middle, towards whoever serves
+  function pongServe() {
+    const dir = pg.serve, angle = (Math.random() - .5) * .8;
+    pg.ball = { x: PW / 2, y: PH / 2, vx: Math.sin(angle) * 200, vy: dir * Math.cos(angle) * 200, r: 7 };
+  }
+
+  function pongAim(e) {
+    if (screen !== 'pong' || pg.over) return;
+    sound();
+    const r = $('pongCanvas').getBoundingClientRect();
+    const x = Math.max(BAT / 2, Math.min(PW - BAT / 2, (e.clientX - r.left) / r.width * PW));
+    if (mode === 'together' && !iAmHost) {
+      pg.myX = x;
+      const now = performance.now();
+      if (now - pg.sendAt > 60) { pg.sendAt = now; transmit({ type: 'pp', from: myId, x: Math.round(x) }); }
+      return;
+    }
+    pg.bottom.x = x;
+  }
+
+  function pongFrame(now) {
+    if (!pg.running || screen !== 'pong') return;
+    const dt = Math.min((now - pg.last) / 1000, 1 / 30);
+    pg.last = now;
+    if ((mode === 'solo' || iAmHost) && !pg.over) pongStep(dt);
+    if (pg.flash) pg.flash.t -= dt;
+    pongDraw();
+    requestAnimationFrame(pongFrame);
+  }
+
+  function pongStep(dt) {
+    if (pg.over) return;
+    if (mode === 'solo') pongDog(dt);
+    if (pg.wait > 0) { pg.wait -= dt; pongSend(); return; }
+    const b = pg.ball;
+    const n = Math.ceil(Math.hypot(b.vx, b.vy) * dt / 4);
+    for (let k = 0; k < n; k++) {
+      b.x += b.vx * dt / n; b.y += b.vy * dt / n;
+      if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx); blip(260); }
+      if (b.x > PW - b.r) { b.x = PW - b.r; b.vx = -Math.abs(b.vx); blip(260); }
+      // the bats: where the ball hits decides the angle, and every hit is a little faster
+      for (const [bat, y, dir] of [[pg.bottom, PH - 34, -1], [pg.top, 34, 1]]) {
+        const moving = dir === -1 ? b.vy > 0 : b.vy < 0, near = dir === -1 ? b.y + b.r >= y && b.y < y + 10 : b.y - b.r <= y && b.y > y - 10;
+        if (moving && near && Math.abs(b.x - bat.x) <= BAT / 2 + b.r) {
+          const sp = Math.min(Math.hypot(b.vx, b.vy) * 1.06, 560), hit = (b.x - bat.x) / (BAT / 2);
+          const angle = Math.max(-1, Math.min(1, hit)) * 1.0;
+          b.vx = sp * Math.sin(angle); b.vy = dir * sp * Math.cos(angle);
+          b.y = y + dir * b.r;
+          pg.hits = (pg.hits || 0) + 1;
+          tock();
+        }
+      }
+      if (b.y > PH + 20) return pongPoint('b');
+      if (b.y < -20) return pongPoint('a');
+    }
+    pongSend();
+  }
+
+  // The dog follows the ball; the smart dog guesses where it will land, the puppy is slow and a bit off
+  function pongDog(dt) {
+    const b = pg.ball, smart = pg.smart;
+    let target = PW / 2;
+    if (b.vy < 0) {
+      // once per shot the dog decides where to stand; the faster the ball, the bigger its mistake
+      if (!pg.aim || pg.aim.ball !== b || pg.aim.vy !== Math.sign(b.vy) || pg.aim.hits !== pg.hits) {
+        const speed = Math.hypot(b.vx, b.vy), err = (Math.random() * 2 - 1) * (smart ? 18 + speed / 8 : 45 + speed / 5);
+        pg.aim = { ball: b, vy: Math.sign(b.vy), hits: pg.hits, err };
+      }
+      let x = b.x, t = (b.y - 34) / -b.vy;            // follow the bounces to where the ball reaches the bat
+      x += b.vx * t;
+      while (x < 0 || x > PW) x = x < 0 ? -x : 2 * PW - x;
+      target = (smart ? x : (x + b.x) / 2) + pg.aim.err;
+    }
+    const max = (smart ? 280 : 170) * dt, d = target - pg.top.x;
+    pg.top.x += Math.max(-max, Math.min(max, d));
+    pg.top.x = Math.max(BAT / 2, Math.min(PW - BAT / 2, pg.top.x));
+  }
+
+  function pongPoint(who) {
+    pg[who]++;
+    pg.serve = who === 'a' ? -1 : 1;                 // the ball goes to whoever lost the point
+    pg.flash = { who, t: 1 };
+    blip(who === 'a' ? 880 : 200);
+    pongHud();
+    if (pg[who] >= pg.to) return pongFinish();
+    pg.wait = 1.2;
+    pongServe();
+    pongSend(true);
+  }
+
+  function pongFinish() {
+    if (mode === 'together') send('pongEnd', { a: pg.a, b: pg.b });
+    pongOver(pg.a, pg.b);
+  }
+
+  function pongOver(a, b) {
+    pg.over = true; pg.a = a; pg.b = b;
+    pongHud();
+    const mine = mode !== 'together' || iAmHost, myScore = mine ? a : b, theirs = mine ? b : a;
+    const [na, nb] = pongNames(), them = mine ? nb : na;
+    if (myScore > theirs) { $('pongStatus').textContent = `🏆 Jij wint! ${myScore} tegen ${theirs}`; confetti(); winSound(); }
+    else $('pongStatus').textContent = mode === 'solo' ? `🐶 Het hondje wint ${theirs} tegen ${myScore}. Woef!` : `${them} wint ${theirs} tegen ${myScore}.`;
+    $('pongEnd').hidden = false;
+  }
+
+  // Together: the table goes to the friend about 30 times a second
+  function pongSend(now) {
+    if (mode !== 'together' || !iAmHost) return;
+    const t = performance.now();
+    if (!now && t - pg.sendAt < 33) return;
+    pg.sendAt = t;
+    transmit({ type: 'pz', from: myId, bx: Math.round(pg.ball.x), by: Math.round(pg.ball.y), a: pg.a, b: pg.b,
+               p1: Math.round(pg.bottom.x), p2: Math.round(pg.top.x), w: pg.wait > 0 ? 1 : 0 });
+  }
+
+  // The friend's view is the table turned round: their bat is at the bottom
+  function pongState(m) {
+    const before = [pg.a, pg.b];
+    pg.ball.x = m.bx; pg.ball.y = m.by; pg.a = m.a; pg.b = m.b; pg.bottom.x = m.p1; pg.top.x = m.p2; pg.wait = m.w ? 1 : 0;
+    if (pg.a !== before[0]) pg.flash = { who: 'a', t: 1 };
+    if (pg.b !== before[1]) pg.flash = { who: 'b', t: 1 };
+    if (pg.a !== before[0] || pg.b !== before[1]) pongHud();
+  }
+
+  function tock() {
+    const a = audio;
+    if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), t = a.currentTime;
+    o.type = 'sine'; o.frequency.setValueAtTime(900, t); o.frequency.exponentialRampToValueAtTime(500, t + .05);
+    g.gain.setValueAtTime(.35, t); g.gain.exponentialRampToValueAtTime(.0001, t + .09);
+    o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + .1);
+  }
+
+  function pongDraw() {
+    const ctx = $('pongCanvas').getContext('2d'), turned = mode === 'together' && !iAmHost;
+    ctx.save();
+    if (turned) { ctx.translate(PW, PH); ctx.rotate(Math.PI); }
+    ctx.fillStyle = '#2f7fb8'; ctx.fillRect(0, 0, PW, PH);                     // the table
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4; ctx.strokeRect(4, 4, PW - 8, PH - 8);
+    ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(PW / 2, 4); ctx.lineTo(PW / 2, PH - 4); ctx.stroke();
+    ctx.fillStyle = '#e8eef5'; ctx.fillRect(0, PH / 2 - 3, PW, 6);              // the net
+    for (let x = 0; x < PW; x += 8) { ctx.fillStyle = '#9fb3c8'; ctx.fillRect(x, PH / 2 - 3, 2, 6); }
+    if (pg.flash && pg.flash.t > 0) {                                           // a point lights up the side that scored
+      ctx.fillStyle = `rgba(255,210,63,${pg.flash.t * .35})`;
+      if (pg.flash.who === 'a') ctx.fillRect(0, PH / 2, PW, PH / 2); else ctx.fillRect(0, 0, PW, PH / 2);
+    }
+    const bat = (x, y, color) => {
+      ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.roundRect(x - BAT / 2 + 2, y - 5 + 3, BAT, 12, 6); ctx.fill();
+      ctx.fillStyle = color; ctx.beginPath(); ctx.roundRect(x - BAT / 2, y - 6, BAT, 12, 6); ctx.fill();
+    };
+    bat(pg.bottom.x, PH - 34, turned ? '#3a86ff' : '#e8344e');
+    bat(pg.top.x, 34, turned ? '#e8344e' : '#3a86ff');
+    if (mode === 'solo') { ctx.font = '22px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#000'; ctx.fillText('🐶', pg.top.x, 14); }
+    const b = pg.ball;
+    ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.arc(b.x + 3, b.y + 4, b.r, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#ff9f43'; ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.beginPath(); ctx.arc(b.x - 2, b.y - 2, 2.5, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    // the score, big and see-through, always the right way up
+    ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.font = '800 64px "Baloo 2", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const mine = !turned;
+    ctx.fillText(mine ? pg.b : pg.a, PW / 2, PH / 4);
+    ctx.fillText(mine ? pg.a : pg.b, PW / 2, PH * 3 / 4);
+    if (pg.over) { ctx.fillStyle = 'rgba(43,33,64,.5)'; ctx.fillRect(0, 0, PW, PH); }
+  }
+
+  function pongLeave() {
+    pongStop();
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
   function stopTogether() {
     leave();
     mode = 'solo';
@@ -3128,6 +3401,18 @@
   $('soloSnake').addEventListener('click', () => { mode = 'solo'; snakeStart(); });
   $('soloGravity').addEventListener('click', () => { mode = 'solo'; gravityStart(); });
   $('soloCrash').addEventListener('click', () => { mode = 'solo'; crashStart(); });
+  $('soloPong').addEventListener('click', () => { mode = 'solo'; pongStart(); });
+  $('lobbyPong').addEventListener('click', pongStart);
+  document.querySelectorAll('#pongTo .level').forEach(b => b.addEventListener('click', () => pongPickTo(Number(b.dataset.to))));
+  document.querySelectorAll('#pongDog .level').forEach(b => b.addEventListener('click', () => pongPickSmart(Number(b.dataset.smart))));
+  $('pongLevelBack').addEventListener('click', pongLeave);
+  $('pongBack').addEventListener('click', pongLeave);
+  $('pongAgain').addEventListener('click', () => {
+    if (mode === 'together') send('pongAgain', {});
+    pongBegin(pg.to);
+  });
+  $('pongCanvas').addEventListener('pointerdown', e => { e.preventDefault(); pongAim(e); });
+  $('pongCanvas').addEventListener('pointermove', e => pongAim(e));
   $('lobbyCrash').addEventListener('click', crashStart);
   $('crashBack').addEventListener('click', crashLeave);
   $('crashAgain').addEventListener('click', () => {
