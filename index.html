@@ -216,6 +216,11 @@
   .glyph.b { color: #2b2140; -webkit-text-stroke: .6px #000; text-shadow: 0 2px 2px rgba(0,0,0,.35); }
   .emoji-piece { width: 82%; height: 82%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: calc(min(520px, 92vw) / 8 * .5); box-shadow: inset 0 -4px 0 rgba(0,0,0,.25), 0 2px 3px rgba(0,0,0,.35); }
   .emoji-piece.w { background: #fffaf0; } .emoji-piece.b { background: #3b2f52; }
+  .img-piece { display: block; pointer-events: none; }
+  .img-piece.board { width: 96%; height: 96%; object-fit: contain; filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
+  .img-piece.small { display: inline-block; width: 2.2em; height: 2.2em; vertical-align: middle; }
+  .img-piece.taken { display: inline-block; width: 1.6rem; height: 1.6rem; margin-right: -6px; }
+  .promo .img-piece.small { width: 56px; height: 56px; }
   .chess-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
   .chess-tools button { font: inherit; font-size: 1rem; padding: 10px 4px; border: none; border-radius: 14px; background: var(--key); color: var(--ink); cursor: pointer; }
   .captured { min-height: 1.6rem; font-size: 1.2rem; letter-spacing: -2px; text-align: left; }
@@ -1613,6 +1618,8 @@
   const PIECE_SETS = {
     classic: { name: 'Klassiek', kind: 'glyph', pieces: { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟' } },
     animals: { name: 'Dieren', kind: 'emoji', pieces: { K: '🦁', Q: '🦄', R: '🐘', B: '🦊', N: '🐴', P: '🐰' } },
+    // pictures made with Nano Banana: pieces/<prefix>-<colour><piece>.png
+    kpop: { name: 'K-pop', kind: 'image', prefix: 'kpop', pieces: { K: 'K', Q: 'Q', R: 'R', B: 'B', N: 'N', P: 'P' } },
   };
   const VALUE = { P: 100, N: 320, B: 330, R: 500, Q: 900, K: 0 };
   const ch = { pos: null, me: 'w', sel: null, moves: [], history: [], keys: [], last: null, over: false, smart: 0,
@@ -1755,9 +1762,12 @@
       `<button data-set="${k}" class="${ch.set === k ? 'on' : ''}"><span class="preview">${pieceHtml(set.pieces.K, 'w', set)}${pieceHtml(set.pieces.N, 'b', set)}</span>${set.name}</button>`).join('');
   }
 
-  function pieceHtml(sym, color, set) {
-    if (set.kind === 'emoji') return `<span class="emoji-piece ${color}" style="display:inline-flex;width:1.6em;height:1.6em;font-size:1em">${sym}</span>`;
-    return `<span class="glyph ${color}" style="font-size:1.4em">${sym}︎</span>`;
+  // The one place that draws a piece: on the board, small (set choice, promotion) or as a taken piece
+  function pieceHtml(sym, color, set, where = 'small') {
+    if (set.kind === 'image') return `<img class="img-piece ${where}" src="pieces/${set.prefix}-${color}${sym}.png" alt="">`;
+    if (set.kind === 'emoji') return where === 'board' ? `<span class="emoji-piece ${color}">${sym}</span>`
+      : `<span class="emoji-piece ${color}" style="display:inline-flex;width:1.6em;height:1.6em;font-size:1em">${sym}</span>`;
+    return `<span class="glyph ${color}"${where === 'board' ? '' : ` style="font-size:${where === 'taken' ? '1.3rem' : '1.4em'}"`}>${sym}︎</span>`;
   }
 
   function chessBegin(myColor) {
@@ -1802,7 +1812,7 @@
       if ((flip ? c === 7 : c === 0)) inner += `<span class="coord r">${8 - r}</span>`;
       if (pc) {
         const sym = set.pieces[typeOf(pc)];
-        inner += set.kind === 'emoji' ? `<span class="emoji-piece ${colorOf(pc)}">${sym}</span>` : `<span class="glyph ${colorOf(pc)}">${sym}︎</span>`;
+        inner += pieceHtml(sym, colorOf(pc), set, 'board');
         if (targets.has(i)) inner += '<span class="ring"></span>';
       } else if (targets.has(i)) inner += '<span class="dot"></span>';
       const name = pc ? `${{ K: 'koning', Q: 'dame', R: 'toren', B: 'loper', N: 'paard', P: 'pion' }[typeOf(pc)]} ${colorOf(pc) === 'w' ? 'wit' : 'zwart'}` : 'leeg';
@@ -1811,7 +1821,7 @@
     $('chessBoard').innerHTML = html;
     // captured pieces, worth-ordered
     const took = side => ch.history.filter(h => h.captured && colorOf(h.captured) !== side).map(h => typeOf(h.captured)).sort((a, b) => VALUE[b] - VALUE[a]);
-    const show_ = (side, el) => $(el).innerHTML = took(side).map(t => set.kind === 'emoji' ? set.pieces[t] : `<span class="glyph ${side === 'w' ? 'b' : 'w'}" style="font-size:1.3rem">${set.pieces[t]}︎</span>`).join('');
+    const show_ = (side, el) => $(el).innerHTML = took(side).map(t => set.kind === 'emoji' ? set.pieces[t] : pieceHtml(set.pieces[t], side === 'w' ? 'b' : 'w', set, 'taken')).join('');
     show_(ch.me, 'cTookMe'); show_(ch.me === 'w' ? 'b' : 'w', 'cTookOther');
   }
 

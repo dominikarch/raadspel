@@ -38,6 +38,12 @@ hands = sorted(p.name for p in (here / 'hands').glob('*.jpg'))
 for name in hands:
     shutil.copy(here / 'hands' / name, here / 'docs' / 'hands' / name)
 
+# The chess piece pictures
+(here / 'docs' / 'pieces').mkdir(exist_ok=True)
+pieces = sorted(p.name for p in (here / 'pieces').glob('*.png'))
+for name in pieces:
+    shutil.copy(here / 'pieces' / name, here / 'docs' / 'pieces' / name)
+
 (here / 'docs' / 'manifest.webmanifest').write_text('''{
   "name": "Raad het getal",
   "short_name": "Raadspel",
@@ -55,7 +61,7 @@ for name in hands:
 # Offline: keep a copy of the game on the iPad. A new version number makes the iPad fetch the update.
 version = time.strftime('%Y%m%d%H%M%S')
 (here / 'docs' / 'sw.js').write_text(f'''const CACHE = 'raadspel-{version}';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}];
+const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}];
 self.addEventListener('install', e => {{
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 }});
