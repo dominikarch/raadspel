@@ -213,6 +213,32 @@
   @media (min-width: 700px) { main:has(#soloGames:not(.hidden)), main:has(#lobby:not(.hidden)) { max-width: 640px; } }
   #pongCanvas { display: block; width: 100%; max-width: 420px; margin: 0 auto; border-radius: 18px; touch-action: none; }
   main:has(#pong:not(.hidden)) { max-width: 520px; }
+  /* Schaken */
+  main:has(#chess:not(.hidden)) { max-width: 580px; }
+  .chessboard { display: grid; grid-template-columns: repeat(8, 1fr); width: 100%; max-width: 520px; margin: 0 auto; border: 8px solid #6b4226; border-radius: 10px; overflow: hidden; }
+  .csq { aspect-ratio: 1; border: none; padding: 0; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; cursor: pointer; line-height: 1; }
+  .csq.light { background: #f0d9b5; } .csq.dark { background: #b58863; }
+  .csq.sel { background: #7fa650; } .csq.last { box-shadow: inset 0 0 0 100px rgba(255, 210, 63, .35); }
+  .csq.check { background: radial-gradient(circle, #ff3b3b 0%, #e8344e 45%, transparent 75%); }
+  .csq .dot { width: 30%; height: 30%; border-radius: 50%; background: rgba(0,0,0,.22); }
+  .csq .ring { position: absolute; inset: 6%; border-radius: 50%; border: 5px solid rgba(0,0,0,.22); }
+  .csq .coord { position: absolute; font-size: .62rem; font-weight: 700; opacity: .7; pointer-events: none; }
+  .csq .coord.f { right: 3px; bottom: 1px; } .csq .coord.r { left: 3px; top: 1px; }
+  .csq.light .coord { color: #b58863; } .csq.dark .coord { color: #f0d9b5; }
+  .glyph { font-size: calc(min(520px, 92vw) / 8 * .78); font-family: "Segoe UI Symbol", "Apple Symbols", "DejaVu Sans", serif; }
+  .glyph.w { color: #fffdf6; -webkit-text-stroke: 1.6px #2b2140; text-shadow: 0 2px 2px rgba(0,0,0,.35); }
+  .glyph.b { color: #2b2140; -webkit-text-stroke: .6px #000; text-shadow: 0 2px 2px rgba(0,0,0,.35); }
+  .emoji-piece { width: 82%; height: 82%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: calc(min(520px, 92vw) / 8 * .5); box-shadow: inset 0 -4px 0 rgba(0,0,0,.25), 0 2px 3px rgba(0,0,0,.35); }
+  .emoji-piece.w { background: #fffaf0; } .emoji-piece.b { background: #3b2f52; }
+  .chess-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+  .chess-tools button { font: inherit; font-size: 1rem; padding: 10px 4px; border: none; border-radius: 14px; background: var(--key); color: var(--ink); cursor: pointer; }
+  .captured { min-height: 1.6rem; font-size: 1.2rem; letter-spacing: -2px; text-align: left; }
+  .promo { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+  .promo button { width: 64px; height: 64px; border-radius: 14px; border: 3px solid var(--ok); background: #f0d9b5; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+  .sets { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 8px 0 4px; }
+  .sets button { font: inherit; border: 3px solid transparent; border-radius: 16px; background: var(--card); color: var(--ink); padding: 8px 12px; cursor: pointer; }
+  .sets button.on { border-color: var(--ok); }
+  .sets .preview { font-size: 1.7rem; display: block; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -303,6 +329,7 @@
       <button class="level l3" id="soloCrash">💫 Crash<small>Botsautootjes: bots zo vaak je kan!</small></button>
       <button class="level l4" id="soloDam">⚫ Dammen<small>Echt dammen op het grote bord, tegen het hondje</small></button>
       <button class="level l2" id="soloPong">🏓 Ping pong<small>Speel tafeltennis tegen het hondje</small></button>
+      <button class="level l2" id="soloChess">♞ Schaken<small>Echt schaken tegen het hondje</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -365,6 +392,7 @@
         <button class="level l3" id="lobbyCrash">💫 Crash<small>Botsautootjes in dezelfde arena</small></button>
         <button class="level l4" id="lobbyDam">⚫ Dammen<small>Echt dammen op het grote bord</small></button>
         <button class="level l2" id="lobbyPong">🏓 Ping pong<small>Ieder een eigen batje</small></button>
+        <button class="level l2" id="lobbyChess">♞ Schaken<small>Echt schaken samen</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -419,6 +447,44 @@
       <div class="photo-box" id="photoBox" hidden></div>
     </div>
     <button class="back" data-to="nailsMenu">← Terug</button>
+  </section>
+
+  <!-- Schaken: stukken en (alleen) hoe slim het hondje is -->
+  <section id="chessSetup" class="hidden">
+    <div class="card">
+      <p class="who">Welke stukken?</p>
+      <div class="sets" id="chessSets"></div>
+      <div id="chessDog">
+        <p class="who" style="margin-top:16px">Hoe slim is het hondje?</p>
+        <div class="dogs">
+          <button class="level l1" data-smart="0">🐶 Puppy<small>Makkelijk</small></button>
+          <button class="level l4" data-smart="1">🐕 Slimme hond<small>Denkt vooruit</small></button>
+        </div>
+      </div>
+      <button class="again" id="chessGo" hidden>Spelen!</button>
+    </div>
+    <button class="back" id="chessSetupBack">← Terug</button>
+  </section>
+
+  <!-- Schaken: het bord -->
+  <section id="chess" class="hidden">
+    <div class="card">
+      <div class="players"><span id="cOther"></span><span class="captured" id="cTookOther"></span></div>
+      <div class="chessboard" id="chessBoard"></div>
+      <div class="players" style="margin-top:8px"><span id="cMe"></span><span class="captured" id="cTookMe"></span></div>
+      <div class="promo" id="chessPromo" hidden></div>
+      <p class="ttt-status" id="chessStatus"></p>
+      <div class="chess-tools">
+        <button id="chessUndo">↩️ Terug</button>
+        <button id="chessSetBtn">♟️ Stukken</button>
+        <button id="chessResign">🏳️ Opgeven</button>
+      </div>
+      <div class="sets" id="chessSetsInGame" hidden></div>
+      <div class="ttt-end" id="chessEnd" hidden>
+        <button class="again" id="chessAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="chessBack">← Ander spel</button>
   </section>
 
   <!-- Dammen -->
@@ -712,7 +778,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -1061,9 +1127,9 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
@@ -1079,6 +1145,9 @@
     if (m.type === 'pp' && screen === 'pong' && iAmHost) pg.top.x = PW - m.x;
     if (m.type === 'pongEnd' && screen === 'pong' && !iAmHost) pongOver(m.a, m.b);
     if (m.type === 'pongAgain' && screen === 'pong' && pg.over) pongBegin(pg.to);
+    if (m.type === 'cmove' && screen === 'chess') chessPlay(m.f, m.t, m.p, false);
+    if (m.type === 'cresign' && screen === 'chess' && !ch.over) chessEndGame('won', `${other.name} geeft op.`);
+    if (m.type === 'chessAgain' && screen === 'chess' && ch.over) chessBegin(ch.me === 'w' ? 'b' : 'w');
     if (m.type === 'snakeAgain' && screen === 'snake' && sn.over) snakeBegin(sn.walls);
     if (m.type === 'pick' && m.game === 'snake' && screen === 'snakeLevel') snakeBegin(m.walls);
     if (m.type === 'bricksAgain' && screen === 'bricks' && bk.over) bricksBegin(bk.speed);
@@ -1552,6 +1621,315 @@
       if (alpha >= beta) break;
     }
     return alpha;
+  }
+
+
+  // ----- Schaken: all the rules (castling, en passant, promotion, check, mate, stalemate, draws).
+  // Piece sets only change how the pieces look on your own screen; a new set is one more entry in PIECE_SETS.
+
+  const PIECE_SETS = {
+    classic: { name: 'Klassiek', kind: 'glyph', pieces: { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟' } },
+    animals: { name: 'Dieren', kind: 'emoji', pieces: { K: '🦁', Q: '🦄', R: '🐘', B: '🦊', N: '🐴', P: '🐰' } },
+  };
+  const VALUE = { P: 100, N: 320, B: 330, R: 500, Q: 900, K: 0 };
+  const ch = { pos: null, me: 'w', sel: null, moves: [], history: [], keys: [], last: null, over: false, smart: 0,
+               set: 'classic', thinking: false, promo: null };
+  try { ch.set = localStorage.getItem('raadspel-chessset') || 'classic'; if (!PIECE_SETS[ch.set]) ch.set = 'classic'; } catch (e) {}
+
+  const colorOf = p => p && (p === p.toUpperCase() ? 'w' : 'b');
+  const typeOf = p => p && p.toUpperCase();
+
+  function startPos() {
+    const back = 'RNBQKBNR', b = Array(64).fill('');
+    for (let c = 0; c < 8; c++) { b[c] = back[c].toLowerCase(); b[8 + c] = 'p'; b[48 + c] = 'P'; b[56 + c] = back[c]; }
+    return { b, turn: 'w', castle: 'KQkq', ep: -1, half: 0 };
+  }
+
+  // Is square sq attacked by side `by`?
+  function attacked(b, sq, by) {
+    const r = sq >> 3, c = sq & 7, own = p => p && colorOf(p) === by;
+    const pr = by === 'w' ? r + 1 : r - 1;                                   // pawns
+    for (const dc of [-1, 1]) if (pr >= 0 && pr < 8 && c + dc >= 0 && c + dc < 8) { const p = b[pr * 8 + c + dc]; if (own(p) && typeOf(p) === 'P') return true; }
+    for (const [dr, dc] of [[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]]) {   // knights
+      const rr = r + dr, cc = c + dc;
+      if (rr >= 0 && rr < 8 && cc >= 0 && cc < 8) { const p = b[rr * 8 + cc]; if (own(p) && typeOf(p) === 'N') return true; }
+    }
+    for (const [dr, dc] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]) {      // sliders and king
+      let rr = r + dr, cc = c + dc, dist = 1;
+      while (rr >= 0 && rr < 8 && cc >= 0 && cc < 8) {
+        const p = b[rr * 8 + cc];
+        if (p) {
+          if (own(p)) {
+            const t = typeOf(p), straight = dr === 0 || dc === 0;
+            if (t === 'Q' || (t === 'R' && straight) || (t === 'B' && !straight) || (t === 'K' && dist === 1)) return true;
+          }
+          break;
+        }
+        rr += dr; cc += dc; dist++;
+      }
+    }
+    return false;
+  }
+
+  function kingSq(b, side) { return b.findIndex(p => p === (side === 'w' ? 'K' : 'k')); }
+  function inCheck(pos, side) { return attacked(pos.b, kingSq(pos.b, side), side === 'w' ? 'b' : 'w'); }
+
+  // Moves are {f, t, p}: from, to, and the new piece for a promotion
+  function pseudoMoves(pos) {
+    const out = [], b = pos.b, side = pos.turn, them = side === 'w' ? 'b' : 'w';
+    for (let f = 0; f < 64; f++) {
+      const pc = b[f];
+      if (!pc || colorOf(pc) !== side) continue;
+      const r = f >> 3, c = f & 7, t = typeOf(pc);
+      const add = (to, p) => out.push({ f, t: to, p });
+      if (t === 'P') {
+        const dir = side === 'w' ? -1 : 1, start = side === 'w' ? 6 : 1, last = side === 'w' ? 0 : 7;
+        const push = (to) => (to >> 3) === last ? ['Q', 'R', 'B', 'N'].forEach(q => add(to, q)) : add(to);
+        const one = (r + dir) * 8 + c;
+        if (r + dir >= 0 && r + dir < 8 && !b[one]) {
+          push(one);
+          const two = (r + 2 * dir) * 8 + c;
+          if (r === start && !b[two]) add(two);
+        }
+        for (const dc of [-1, 1]) {
+          const cc = c + dc, rr = r + dir;
+          if (cc < 0 || cc > 7 || rr < 0 || rr > 7) continue;
+          const to = rr * 8 + cc;
+          if ((b[to] && colorOf(b[to]) === them) || to === pos.ep) push(to);
+        }
+      } else if (t === 'N' || t === 'K') {
+        const steps = t === 'N' ? [[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]] : [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+        for (const [dr, dc] of steps) {
+          const rr = r + dr, cc = c + dc;
+          if (rr < 0 || rr > 7 || cc < 0 || cc > 7) continue;
+          const to = rr * 8 + cc;
+          if (!b[to] || colorOf(b[to]) === them) add(to);
+        }
+        if (t === 'K') {                                                       // castling
+          const home = side === 'w' ? 60 : 4, rights = side === 'w' ? ['K', 'Q'] : ['k', 'q'];
+          if (f === home && !attacked(b, home, them)) {
+            if (pos.castle.includes(rights[0]) && !b[home + 1] && !b[home + 2] && !attacked(b, home + 1, them) && !attacked(b, home + 2, them)) add(home + 2);
+            if (pos.castle.includes(rights[1]) && !b[home - 1] && !b[home - 2] && !b[home - 3] && !attacked(b, home - 1, them) && !attacked(b, home - 2, them)) add(home - 2);
+          }
+        }
+      } else {
+        const dirs = t === 'R' ? [[1,0],[-1,0],[0,1],[0,-1]] : t === 'B' ? [[1,1],[1,-1],[-1,1],[-1,-1]] : [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+        for (const [dr, dc] of dirs) {
+          let rr = r + dr, cc = c + dc;
+          while (rr >= 0 && rr < 8 && cc >= 0 && cc < 8) {
+            const to = rr * 8 + cc;
+            if (b[to]) { if (colorOf(b[to]) === them) add(to); break; }
+            add(to); rr += dr; cc += dc;
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+  function makeMove(pos, m) {
+    const b = pos.b.slice(), pc = b[m.f], t = typeOf(pc), side = pos.turn;
+    let castle = pos.castle, ep = -1, half = pos.half + 1;
+    const captured = b[m.t] || (t === 'P' && m.t === pos.ep ? b[m.t + (side === 'w' ? 8 : -8)] : '');
+    if (t === 'P' && m.t === pos.ep) b[m.t + (side === 'w' ? 8 : -8)] = '';
+    b[m.t] = m.p ? (side === 'w' ? m.p : m.p.toLowerCase()) : pc;
+    b[m.f] = '';
+    if (t === 'K' && Math.abs(m.t - m.f) === 2) {                             // the rook jumps over the king
+      if (m.t > m.f) { b[m.t - 1] = b[m.t + 1]; b[m.t + 1] = ''; } else { b[m.t + 1] = b[m.t - 2]; b[m.t - 2] = ''; }
+    }
+    if (t === 'P' && Math.abs(m.t - m.f) === 16) ep = (m.f + m.t) / 2;
+    if (t === 'P' || captured) half = 0;
+    for (const [sq, right] of [[60, 'KQ'], [4, 'kq'], [63, 'K'], [56, 'Q'], [7, 'k'], [0, 'q']])
+      if (m.f === sq || m.t === sq) for (const ch_ of right) castle = castle.replace(ch_, '');
+    return { b, turn: side === 'w' ? 'b' : 'w', castle, ep, half, captured };
+  }
+
+  function legalMoves(pos) {
+    return pseudoMoves(pos).filter(m => !inCheck(makeMove(pos, m), pos.turn));
+  }
+
+  function posKey(pos) { return pos.b.join(',') + pos.turn + pos.castle + pos.ep; }
+
+  // Only kings, or a king with one bishop or knight: nobody can still win
+  function tooFewPieces(b) {
+    const left = b.filter(p => p && typeOf(p) !== 'K');
+    return left.length === 0 || (left.length === 1 && ['B', 'N'].includes(typeOf(left[0])));
+  }
+
+  // --- screens ---
+
+  function chessStart() {
+    if (mode === 'together') { send('pick', { game: 'chess' }); return chessBegin(iAmHost ? 'w' : 'b'); }
+    ch.smart = null;
+    document.querySelectorAll('#chessDog .level').forEach(b => b.classList.remove('sel'));
+    $('chessGo').hidden = true;
+    drawSets('chessSets');
+    show('chessSetup');
+  }
+
+  function drawSets(id) {
+    $(id).innerHTML = Object.entries(PIECE_SETS).map(([k, set]) =>
+      `<button data-set="${k}" class="${ch.set === k ? 'on' : ''}"><span class="preview">${pieceHtml(set.pieces.K, 'w', set)}${pieceHtml(set.pieces.N, 'b', set)}</span>${set.name}</button>`).join('');
+  }
+
+  function pieceHtml(sym, color, set) {
+    if (set.kind === 'emoji') return `<span class="emoji-piece ${color}" style="display:inline-flex;width:1.6em;height:1.6em;font-size:1em">${sym}</span>`;
+    return `<span class="glyph ${color}" style="font-size:1.4em">${sym}︎</span>`;
+  }
+
+  function chessBegin(myColor) {
+    stopMusic();
+    Object.assign(ch, { pos: startPos(), me: myColor, sel: null, history: [], keys: [], last: null, over: false, thinking: false, promo: null });
+    ch.keys.push(posKey(ch.pos));
+    const them = mode === 'solo' ? `🐶 Hondje` : other.name;
+    $('cMe').textContent = `${myColor === 'w' ? '⚪' : '⚫'} ${myName || 'Jij'}`;
+    $('cOther').textContent = `${myColor === 'w' ? '⚫' : '⚪'} ${them}`;
+    $('chessUndo').hidden = mode !== 'solo';
+    $('chessEnd').hidden = true; $('chessPromo').hidden = true; $('chessSetsInGame').hidden = true;
+    show('chess');
+    chessTurn();
+  }
+
+  function chessTurn() {
+    ch.moves = legalMoves(ch.pos);
+    const mine = ch.pos.turn === ch.me, check = inCheck(ch.pos, ch.pos.turn);
+    if (!ch.moves.length) return chessEndGame(check ? (mine ? 'lost' : 'won') : 'draw', check ? 'Schaakmat!' : 'Pat: geen zet meer, maar ook geen schaak.');
+    if (tooFewPieces(ch.pos.b)) return chessEndGame('draw', 'Te weinig stukken om nog te winnen.');
+    if (ch.pos.half >= 100) return chessEndGame('draw', '50 zetten zonder slaan of pion.');
+    if (ch.keys.filter(k => k === ch.keys[ch.keys.length - 1]).length >= 3) return chessEndGame('draw', 'Drie keer dezelfde stand.');
+    $('chessStatus').textContent = (check ? '⚠️ Schaak! ' : '') + (mine ? 'Jij bent aan de beurt.' : mode === 'solo' ? 'Het hondje denkt na…' : `${other.name} is aan de beurt…`);
+    $('cMe').classList.toggle('turn', mine); $('cOther').classList.toggle('turn', !mine);
+    chessDraw();
+    if (!mine && mode === 'solo') { ch.thinking = true; setTimeout(chessDog, 350); }
+  }
+
+  function chessDraw() {
+    const set = PIECE_SETS[ch.set], flip = ch.me === 'b', mine = ch.pos.turn === ch.me && !ch.over;
+    const targets = new Map(mine && ch.sel !== null ? ch.moves.filter(m => m.f === ch.sel).map(m => [m.t, true]) : []);
+    const checkSq = inCheck(ch.pos, ch.pos.turn) ? kingSq(ch.pos.b, ch.pos.turn) : -1;
+    let html = '';
+    for (let v = 0; v < 64; v++) {
+      const i = flip ? 63 - v : v, r = i >> 3, c = i & 7, dark = (r + c) % 2, pc = ch.pos.b[i];
+      const cls = ['csq', dark ? 'dark' : 'light'];
+      if (i === ch.sel) cls.push('sel');
+      if (ch.last && (i === ch.last.f || i === ch.last.t)) cls.push('last');
+      if (i === checkSq) cls.push('check');
+      let inner = '';
+      if ((flip ? r === 0 : r === 7)) inner += `<span class="coord f">${'abcdefgh'[c]}</span>`;
+      if ((flip ? c === 7 : c === 0)) inner += `<span class="coord r">${8 - r}</span>`;
+      if (pc) {
+        const sym = set.pieces[typeOf(pc)];
+        inner += set.kind === 'emoji' ? `<span class="emoji-piece ${colorOf(pc)}">${sym}</span>` : `<span class="glyph ${colorOf(pc)}">${sym}︎</span>`;
+        if (targets.has(i)) inner += '<span class="ring"></span>';
+      } else if (targets.has(i)) inner += '<span class="dot"></span>';
+      const name = pc ? `${{ K: 'koning', Q: 'dame', R: 'toren', B: 'loper', N: 'paard', P: 'pion' }[typeOf(pc)]} ${colorOf(pc) === 'w' ? 'wit' : 'zwart'}` : 'leeg';
+      html += `<button class="${cls.join(' ')}" data-i="${i}" aria-label="${'abcdefgh'[c]}${8 - r}: ${name}">${inner}</button>`;
+    }
+    $('chessBoard').innerHTML = html;
+    // captured pieces, worth-ordered
+    const took = side => ch.history.filter(h => h.captured && colorOf(h.captured) !== side).map(h => typeOf(h.captured)).sort((a, b) => VALUE[b] - VALUE[a]);
+    const show_ = (side, el) => $(el).innerHTML = took(side).map(t => set.kind === 'emoji' ? set.pieces[t] : `<span class="glyph ${side === 'w' ? 'b' : 'w'}" style="font-size:1.3rem">${set.pieces[t]}︎</span>`).join('');
+    show_(ch.me, 'cTookMe'); show_(ch.me === 'w' ? 'b' : 'w', 'cTookOther');
+  }
+
+  function chessTap(i) {
+    if (ch.over || ch.thinking || ch.pos.turn !== ch.me || ch.promo) return;
+    const pc = ch.pos.b[i];
+    if (pc && colorOf(pc) === ch.me) { ch.sel = ch.moves.some(m => m.f === i) ? i : null; return chessDraw(); }
+    if (ch.sel === null) return;
+    const options = ch.moves.filter(m => m.f === ch.sel && m.t === i);
+    if (!options.length) { ch.sel = null; return chessDraw(); }
+    if (options.length > 1) return chessAskPromotion(ch.sel, i);              // a pawn reaches the end
+    const f = ch.sel; ch.sel = null;
+    chessPlay(f, i, null, true);
+  }
+
+  function chessAskPromotion(f, t) {
+    ch.promo = { f, t };
+    const set = PIECE_SETS[ch.set];
+    $('chessPromo').innerHTML = ['Q', 'R', 'B', 'N'].map(q => `<button data-q="${q}" aria-label="${{ Q: 'dame', R: 'toren', B: 'loper', N: 'paard' }[q]}">${pieceHtml(set.pieces[q], ch.me, set)}</button>`).join('');
+    $('chessPromo').hidden = false;
+    $('chessStatus').textContent = '👑 Je pion is aan de overkant! Waar wordt hij?';
+  }
+
+  function chessPlay(f, t, p, mine) {
+    if (ch.over || (ch.pos.turn === ch.me) !== mine) return;
+    const m = ch.moves.find(x => x.f === f && x.t === t && (x.p || null) === (p || null));
+    if (!m) return;
+    if (mine && mode === 'together') send('cmove', { f, t, p });
+    const next = makeMove(ch.pos, m);
+    ch.history.push({ pos: ch.pos, captured: next.captured, move: m });
+    ch.pos = next; ch.last = m; ch.thinking = false;
+    ch.keys.push(posKey(next));
+    if (next.captured) blip(320); else tock();
+    chessTurn();
+  }
+
+  function chessEndGame(how, why) {
+    ch.over = true;
+    chessDraw();
+    $('cMe').classList.remove('turn'); $('cOther').classList.remove('turn');
+    if (how === 'won') { $('chessStatus').textContent = `${why} 🎉 Jij hebt gewonnen!`; confetti(); winSound(); }
+    else if (how === 'lost') $('chessStatus').textContent = `${why} ${mode === 'solo' ? '🐶 Het hondje wint! Woef!' : `${other.name} heeft gewonnen!`}`;
+    else $('chessStatus').textContent = `🤝 Remise. ${why}`;
+    $('chessEnd').hidden = false;
+  }
+
+  // --- the dog: the puppy grabs what it can, the smart dog looks three moves ahead ---
+
+  const PST_P = [0,0,0,0,0,0,0,0, 50,50,50,50,50,50,50,50, 10,10,20,30,30,20,10,10, 5,5,10,25,25,10,5,5, 0,0,0,20,20,0,0,0, 5,-5,-10,0,0,-10,-5,5, 5,10,10,-20,-20,10,10,5, 0,0,0,0,0,0,0,0];
+  const PST_N = [-50,-40,-30,-30,-30,-30,-40,-50, -40,-20,0,0,0,0,-20,-40, -30,0,10,15,15,10,0,-30, -30,5,15,20,20,15,5,-30, -30,0,15,20,20,15,0,-30, -30,5,10,15,15,10,5,-30, -40,-20,0,5,5,0,-20,-40, -50,-40,-30,-30,-30,-30,-40,-50];
+  const CENTER = [0,1,2,3,3,2,1,0];
+
+  function evaluate(pos) {
+    let s = 0;
+    pos.b.forEach((p, i) => {
+      if (!p) return;
+      const side = colorOf(p), t = typeOf(p), idx = side === 'w' ? i : 63 - i;
+      let v = VALUE[t];
+      if (t === 'P') v += PST_P[idx];
+      else if (t === 'N') v += PST_N[idx];
+      else if (t === 'B' || t === 'Q') v += (CENTER[i & 7] + CENTER[i >> 3]) * 3;
+      s += side === pos.turn ? v : -v;
+    });
+    return s;
+  }
+
+  function search(pos, depth, alpha, beta) {
+    const moves = legalMoves(pos);
+    if (!moves.length) return inCheck(pos, pos.turn) ? -100000 - depth : 0;
+    if (depth === 0) return evaluate(pos);
+    moves.sort((a, b) => (VALUE[typeOf(pos.b[b.t])] || 0) - (VALUE[typeOf(pos.b[a.t])] || 0));
+    for (const m of moves) {
+      const v = -search(makeMove(pos, m), depth - 1, -beta, -alpha);
+      if (v > alpha) alpha = v;
+      if (alpha >= beta) break;
+    }
+    return alpha;
+  }
+
+  function chessDog() {
+    if (ch.over || ch.pos.turn === ch.me) return;
+    const moves = ch.moves.slice();
+    let pick;
+    if (ch.smart) {
+      let best = -1e9;
+      for (const m of shuffle(moves)) {
+        const v = -search(makeMove(ch.pos, m), 2, -1e9, 1e9);
+        if (v > best) { best = v; pick = m; }
+      }
+    } else {
+      const grabs = moves.filter(m => ch.pos.b[m.t]).sort((a, b) => VALUE[typeOf(ch.pos.b[b.t])] - VALUE[typeOf(ch.pos.b[a.t])]);
+      pick = grabs.length && Math.random() < .7 ? grabs[0] : moves[Math.floor(Math.random() * moves.length)];
+    }
+    chessPlay(pick.f, pick.t, pick.p || (pick.p === undefined ? null : pick.p), false);
+  }
+
+  function chessLeave() {
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
   }
 
   function tttLeave() {
@@ -3407,6 +3785,50 @@
   $('soloTtt').addEventListener('click', () => { mode = 'solo'; tttSetup('ttt'); });
   $('soloC4').addEventListener('click', () => { mode = 'solo'; tttSetup('c4'); });
   $('soloDam').addEventListener('click', () => { mode = 'solo'; tttSetup('dam'); });
+  $('soloChess').addEventListener('click', () => { mode = 'solo'; chessStart(); });
+  $('lobbyChess').addEventListener('click', chessStart);
+  const pickSet = e => {
+    const b = e.target.closest('[data-set]');
+    if (!b) return;
+    ch.set = b.dataset.set;
+    try { localStorage.setItem('raadspel-chessset', ch.set); } catch (err) {}
+    drawSets('chessSets'); drawSets('chessSetsInGame');
+    if (screen === 'chess') chessDraw();
+  };
+  $('chessSets').addEventListener('click', pickSet);
+  $('chessSetsInGame').addEventListener('click', pickSet);
+  document.querySelectorAll('#chessDog .level').forEach(b => b.addEventListener('click', () => {
+    ch.smart = Number(b.dataset.smart);
+    document.querySelectorAll('#chessDog .level').forEach(x => x.classList.toggle('sel', x === b));
+    chessBegin('w');
+  }));
+  $('chessSetupBack').addEventListener('click', chessLeave);
+  $('chessBack').addEventListener('click', chessLeave);
+  $('chessBoard').addEventListener('click', e => { const b = e.target.closest('.csq'); if (b) chessTap(Number(b.dataset.i)); });
+  $('chessPromo').addEventListener('click', e => {
+    const b = e.target.closest('[data-q]');
+    if (!b || !ch.promo) return;
+    const { f, t } = ch.promo;
+    ch.promo = null; ch.sel = null; $('chessPromo').hidden = true;
+    chessPlay(f, t, b.dataset.q, true);
+  });
+  $('chessSetBtn').addEventListener('click', () => { const box = $('chessSetsInGame'); box.hidden = !box.hidden; drawSets('chessSetsInGame'); });
+  $('chessUndo').addEventListener('click', () => {
+    if (mode !== 'solo' || ch.thinking || ch.history.length < 2) return;
+    for (let k = 0; k < 2; k++) { const h = ch.history.pop(); ch.pos = h.pos; ch.keys.pop(); }
+    ch.last = ch.history.length ? ch.history[ch.history.length - 1].move : null;
+    ch.over = false; ch.sel = null; $('chessEnd').hidden = true;
+    chessTurn();
+  });
+  $('chessResign').addEventListener('click', () => {
+    if (ch.over) return;
+    if (mode === 'together') send('cresign', {});
+    chessEndGame('lost', 'Je hebt opgegeven.');
+  });
+  $('chessAgain').addEventListener('click', () => {
+    if (mode === 'together') { send('chessAgain', {}); return chessBegin(ch.me === 'w' ? 'b' : 'w'); }
+    chessBegin(ch.me === 'w' ? 'b' : 'w');
+  });
   $('damBoard').addEventListener('click', e => { const b = e.target.closest('.dsq'); if (b) damTap(Number(b.dataset.i)); });
   $('damBack').addEventListener('click', tttLeave);
   $('damAgain').addEventListener('click', () => {
