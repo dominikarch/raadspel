@@ -244,6 +244,9 @@
   .sets button { font: inherit; border: 3px solid transparent; border-radius: 16px; background: var(--card); color: var(--ink); padding: 8px 12px; cursor: pointer; }
   .sets button.on { border-color: var(--ok); }
   .sets .preview { font-size: 1.7rem; display: block; }
+  #poolCanvas { display: block; width: 100%; max-width: 380px; margin: 0 auto; border-radius: 22px; touch-action: none; }
+  main:has(#pool:not(.hidden)) { max-width: 520px; }
+  .pool-group { display: inline-flex; gap: 2px; align-items: center; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -335,6 +338,7 @@
       <button class="level l4" id="soloDam">⚫ Dammen<small>Echt dammen op het grote bord, tegen het hondje</small></button>
       <button class="level l2" id="soloPong">🏓 Ping pong<small>Speel tafeltennis tegen het hondje</small></button>
       <button class="level l2" id="soloChess">♞ Schaken<small>Echt schaken tegen het hondje</small></button>
+      <button class="level w3" id="soloPool">🎱 Pool<small>8-ball tegen het hondje</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -398,6 +402,7 @@
         <button class="level l4" id="lobbyDam">⚫ Dammen<small>Echt dammen op het grote bord</small></button>
         <button class="level l2" id="lobbyPong">🏓 Ping pong<small>Ieder een eigen batje</small></button>
         <button class="level l2" id="lobbyChess">♞ Schaken<small>Echt schaken samen</small></button>
+        <button class="level w3" id="lobbyPool">🎱 Pool<small>8-ball, om de beurt</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -452,6 +457,29 @@
       <div class="photo-box" id="photoBox" hidden></div>
     </div>
     <button class="back" data-to="nailsMenu">← Terug</button>
+  </section>
+
+  <!-- Pool: hoe slim is het hondje -->
+  <section id="poolLevel" class="hidden">
+    <p class="sub">🎱 Hoe goed mikt het hondje?</p>
+    <div class="dogs">
+      <button class="level l1" data-smart="0">🐶 Puppy<small>Mikt een beetje scheef</small></button>
+      <button class="level l4" data-smart="1">🐕 Slimme hond<small>Mikt heel goed</small></button>
+    </div>
+    <button class="back" data-to="soloGames">← Terug</button>
+  </section>
+
+  <!-- Pool: de tafel -->
+  <section id="pool" class="hidden">
+    <div class="card">
+      <div class="players"><span id="poolMe"></span><span id="poolOther"></span></div>
+      <canvas id="poolCanvas" width="300" height="560" aria-label="Pooltafel"></canvas>
+      <p class="ttt-status" id="poolStatus"></p>
+      <div class="ttt-end" id="poolEnd" hidden>
+        <button class="again" id="poolAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="poolBack">← Ander spel</button>
   </section>
 
   <!-- Schaken: stukken en (alleen) hoe slim het hondje is -->
@@ -783,7 +811,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -1132,9 +1160,9 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(!iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
@@ -1151,6 +1179,9 @@
     if (m.type === 'pongEnd' && screen === 'pong' && !iAmHost) pongOver(m.a, m.b);
     if (m.type === 'pongAgain' && screen === 'pong' && pg.over) pongBegin(pg.to);
     if (m.type === 'cmove' && screen === 'chess') chessPlay(m.f, m.t, m.p, false);
+    if (m.type === 'pshot' && screen === 'pool') poolShoot(m.vx, m.vy, m.cue, false);
+    if (m.type === 'pdone' && screen === 'pool') poolSync(m);
+    if (m.type === 'poolAgain' && screen === 'pool' && po.over) poolBegin(!po.iBreak);
     if (m.type === 'cresign' && screen === 'chess' && !ch.over) chessEndGame('won', `${other.name} geeft op.`);
     if (m.type === 'chessAgain' && screen === 'chess' && ch.over) chessBegin(ch.me === 'w' ? 'b' : 'w');
     if (m.type === 'snakeAgain' && screen === 'snake' && sn.over) snakeBegin(sn.walls);
@@ -1933,6 +1964,323 @@
       pick = grabs.length && Math.random() < .7 ? grabs[0] : moves[Math.floor(Math.random() * moves.length)];
     }
     chessPlay(pick.f, pick.t, pick.p || (pick.p === undefined ? null : pick.p), false);
+  }
+
+
+  // ----- Pool: 8-ball on an upright table. Pull back and let go to shoot.
+  // Together: the shot (the white ball's speed) goes to the friend, both devices roll the same balls,
+  // and afterwards the shooter sends where everything ended up, so the two tables always agree.
+
+  const TW = 300, TH = 560, RAIL = 20, BR = 8.5;
+  const POCKETS = [[RAIL, RAIL, 17], [TW - RAIL, RAIL, 17], [RAIL - 3, TH / 2, 15], [TW - RAIL + 3, TH / 2, 15], [RAIL, TH - RAIL, 17], [TW - RAIL, TH - RAIL, 17]];
+  const BALL_COLOR = ['#ffffff', '#f5c518', '#1f5fd1', '#d62828', '#6a2c91', '#f77f00', '#1b8a3c', '#7b1e1e', '#111111'];
+  const po = { balls: [], turn: 'me', groups: { me: null, other: null }, inHand: false, moving: false, over: false, smart: 0,
+               aim: null, iBreak: true, shot: null, running: false, last: 0, msg: '' };
+  const groupOf = n => n === 0 ? 'cue' : n === 8 ? 'eight' : n < 8 ? 'solid' : 'stripe';
+
+  function poolStart() {
+    if (mode === 'together') { send('pick', { game: 'pool' }); return poolBegin(iAmHost); }
+    show('poolLevel');
+  }
+
+  function rack() {
+    const balls = [{ n: 0, x: TW / 2, y: TH * .76, vx: 0, vy: 0, in: false }];
+    // a triangle with the 8 in the middle and a whole and a half ball in the back corners
+    const order = [1, 9, 2, 10, 8, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15];
+    const rows = [[1], [9, 2], [10, 8, 3], [11, 4, 12, 5], [13, 6, 14, 15, 7]];
+    let k = 0;
+    rows.forEach((row, r) => row.forEach((n, i) => {
+      balls.push({ n, x: TW / 2 + (i - (row.length - 1) / 2) * BR * 2.02, y: TH * .27 - r * BR * 1.75, vx: 0, vy: 0, in: false });
+      k++;
+    }));
+    return balls;
+  }
+
+  function poolBegin(iBreak) {
+    stopMusic();
+    Object.assign(po, { balls: rack(), turn: iBreak ? 'me' : 'other', groups: { me: null, other: null }, inHand: false, moving: false,
+                        over: false, aim: null, iBreak, shot: null, msg: '' });
+    $('poolEnd').hidden = true;
+    show('pool');
+    const c = $('poolCanvas'), ratio = window.devicePixelRatio || 1;
+    c.width = TW * ratio; c.height = TH * ratio;
+    c.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    if (!po.running) { po.running = true; po.last = performance.now(); requestAnimationFrame(poolFrame); }
+    poolTurn(iBreak ? 'Jij mag afstoten! Trek terug en laat los.' : '');
+  }
+
+  function poolOtherName() { return mode === 'solo' ? 'Hondje' : other.name; }
+
+  function poolHud() {
+    const left = g => g ? po.balls.filter(b => !b.in && groupOf(b.n) === g).length : null;
+    const tag = g => g === 'solid' ? `● hele (${left(g)})` : g === 'stripe' ? `◐ halve (${left(g)})` : '';
+    $('poolMe').textContent = `🎱 ${myName || 'Jij'} ${tag(po.groups.me)}`;
+    $('poolOther').textContent = `${mode === 'solo' ? '🐶' : '🎱'} ${poolOtherName()} ${tag(po.groups.other)}`;
+    $('poolMe').classList.toggle('turn', po.turn === 'me' && !po.over);
+    $('poolOther').classList.toggle('turn', po.turn === 'other' && !po.over);
+  }
+
+  function poolTurn(extra) {
+    poolHud();
+    const mine = po.turn === 'me';
+    const hand = po.inHand ? (mine ? ' Je mag de witte bal neerleggen: tik waar hij moet liggen.' : '') : '';
+    $('poolStatus').textContent = (extra ? extra + ' ' : '') + (mine ? (extra ? '' : 'Jij bent aan de beurt.') + hand
+      : mode === 'solo' ? 'Het hondje mikt…' : `${other.name} is aan de beurt…`);
+    if (!mine && mode === 'solo' && !po.over) setTimeout(poolDog, 1100);
+  }
+
+  // --- aiming: put a finger on the table, pull back and let go ---
+  function poolPoint(e) {
+    const r = $('poolCanvas').getBoundingClientRect();
+    return { x: (e.clientX - r.left) / r.width * TW, y: (e.clientY - r.top) / r.height * TH };
+  }
+  function poolDown(e) {
+    if (po.over || po.moving || po.turn !== 'me') return;
+    e.preventDefault();
+    sound();
+    const p = poolPoint(e), cue = po.balls[0];
+    if (po.inHand) {                                      // place the white ball first
+      if (poolFree(p.x, p.y)) { cue.x = p.x; cue.y = p.y; cue.in = false; po.inHand = false; poolTurn('Mooi! Nu mag je stoten.'); }
+      return;
+    }
+    po.aim = { sx: p.x, sy: p.y, x: p.x, y: p.y };
+  }
+  function poolMove(e) { if (po.aim) { const p = poolPoint(e); po.aim.x = p.x; po.aim.y = p.y; } }
+  function poolUp() {
+    if (!po.aim) return;
+    const a = po.aim; po.aim = null;
+    const dx = a.sx - a.x, dy = a.sy - a.y, len = Math.hypot(dx, dy);
+    if (len < 8) return;                                 // just a tap
+    const power = Math.min(len / 140, 1) * 950;
+    const vx = dx / len * power, vy = dy / len * power;
+    if (mode === 'together') send('pshot', { vx, vy, cue: [po.balls[0].x, po.balls[0].y] });
+    poolShoot(vx, vy, null, true);
+  }
+
+  function poolFree(x, y) {
+    if (x < RAIL + BR || x > TW - RAIL - BR || y < RAIL + BR || y > TH - RAIL - BR) return false;
+    return po.balls.every(b => b.n === 0 || b.in || Math.hypot(b.x - x, b.y - y) > BR * 2.1);
+  }
+
+  function poolShoot(vx, vy, cuePos, mine) {
+    if (po.moving || po.over || (po.turn === 'me') !== mine) return;
+    const cue = po.balls[0];
+    if (cuePos) { cue.x = cuePos[0]; cue.y = cuePos[1]; cue.in = false; }
+    po.inHand = false;
+    cue.vx = vx; cue.vy = vy;
+    po.moving = true;
+    po.shot = { first: null, potted: [], cushion: false };
+    blip(180 + Math.hypot(vx, vy) / 4);
+  }
+
+  // --- the balls roll: small fixed steps, the same on every device ---
+  function poolStep() {
+    const dt = 1 / 240, slow = 140 * dt;
+    for (const b of po.balls) {
+      if (b.in) continue;
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      const sp = Math.hypot(b.vx, b.vy);
+      if (sp <= slow) { b.vx = 0; b.vy = 0; } else { b.vx -= b.vx / sp * slow; b.vy -= b.vy / sp * slow; }
+      for (const [px, py, pr] of POCKETS) if ((b.x - px) ** 2 + (b.y - py) ** 2 < pr * pr) {
+        b.in = true; b.vx = b.vy = 0; po.shot.potted.push(b.n); blip(b.n === 0 ? 150 : 600); break;
+      }
+      if (b.in) continue;
+      if (b.x < RAIL + BR) { b.x = RAIL + BR; b.vx = -b.vx * .8; }
+      if (b.x > TW - RAIL - BR) { b.x = TW - RAIL - BR; b.vx = -b.vx * .8; }
+      if (b.y < RAIL + BR) { b.y = RAIL + BR; b.vy = -b.vy * .8; }
+      if (b.y > TH - RAIL - BR) { b.y = TH - RAIL - BR; b.vy = -b.vy * .8; }
+    }
+    for (let i = 0; i < po.balls.length; i++) for (let j = i + 1; j < po.balls.length; j++) {
+      const a = po.balls[i], b = po.balls[j];
+      if (a.in || b.in) continue;
+      const dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy;
+      if (d2 >= 4 * BR * BR || d2 === 0) continue;
+      const d = Math.sqrt(d2), nx = dx / d, ny = dy / d, push = (2 * BR - d) / 2;
+      a.x -= nx * push; a.y -= ny * push; b.x += nx * push; b.y += ny * push;
+      const rel = (a.vx - b.vx) * nx + (a.vy - b.vy) * ny;
+      if (rel <= 0) continue;
+      const j_ = rel * .97;
+      a.vx -= nx * j_; a.vy -= ny * j_; b.vx += nx * j_; b.vy += ny * j_;
+      if (a.n === 0 && po.shot.first === null) po.shot.first = b.n;
+      if (rel > 120) tock();
+    }
+  }
+
+  function poolFrame(now) {
+    if (screen !== 'pool') { po.running = false; return; }
+    const dt = Math.min((now - po.last) / 1000, 1 / 20);
+    po.last = now;
+    if (po.moving) {
+      for (let k = 0; k < Math.round(dt * 240); k++) poolStep();
+      if (po.balls.every(b => b.in || (b.vx === 0 && b.vy === 0))) poolSettled();
+    }
+    poolDraw();
+    requestAnimationFrame(poolFrame);
+  }
+
+  // --- the 8-ball rules, once everything stands still ---
+  function poolSettled() {
+    po.moving = false;
+    const shot = po.shot, mine = po.turn === 'me', who = po.turn, them = who === 'me' ? 'other' : 'me';
+    const myGroup = po.groups[who];
+    const groupLeft = g => po.balls.filter(b => !b.in && groupOf(b.n) === g).length;
+    let foul = '';
+    if (shot.potted.includes(0)) foul = 'De witte bal ging erin!';
+    else if (shot.first === null) foul = 'De witte bal raakte geen bal.';
+    else if (myGroup && groupOf(shot.first) !== myGroup && !(groupOf(shot.first) === 'eight' && groupLeft(myGroup) === 0)) foul = 'Eerst de verkeerde bal geraakt.';
+    else if (!myGroup && shot.first === 8) foul = 'Eerst de zwarte 8 geraakt.';
+    // the 8 decides the game
+    if (shot.potted.includes(8)) {
+      const allowed = myGroup && groupLeft(myGroup) === 0 && !foul;
+      return poolGameOver(allowed === mine ? 'won' : 'lost', allowed ? 'De zwarte 8 erin!' : 'De zwarte 8 ging te vroeg erin.');
+    }
+    // the first ball potted decides who plays whole and who plays half balls
+    const mineIn = shot.potted.filter(n => n !== 0 && (!myGroup || groupOf(n) === myGroup));
+    if (!myGroup && !foul && mineIn.length) {
+      const g = groupOf(mineIn[0]);
+      po.groups[who] = g; po.groups[them] = g === 'solid' ? 'stripe' : 'solid';
+    }
+    let say = '';
+    if (foul) {
+      po.turn = them; po.inHand = true;
+      const cue = po.balls[0]; if (cue.in) { cue.in = false; cue.x = TW / 2; cue.y = TH * .76; }
+      say = `Fout: ${foul}`;
+    } else if (mineIn.length && po.groups[who] && mineIn.some(n => groupOf(n) === po.groups[who])) {
+      say = mine ? `Erin! 🎉 Jij mag nog een keer.` : `${poolOtherName()} tikte er een in.`;
+    } else {
+      po.turn = them;
+    }
+    if (mode === 'together' && mine) send('pdone', { b: po.balls.map(b => [Math.round(b.x * 100) / 100, Math.round(b.y * 100) / 100, b.in ? 1 : 0]), turn: po.turn, groups: { me: po.groups.other, other: po.groups.me }, inHand: po.inHand });
+    poolTurn(say);
+  }
+
+  // The shooter's table is the truth after each shot
+  function poolSync(m) {
+    m.b.forEach(([x, y, i], k) => { const b = po.balls[k]; b.x = x; b.y = y; b.in = !!i; b.vx = b.vy = 0; });
+    po.moving = false;
+    if (po.over) return;
+    po.turn = m.turn === 'me' ? 'other' : 'me';                // the shooter's 'me' is my 'other'
+    po.groups = m.groups; po.inHand = m.inHand;
+    poolTurn('');
+  }
+
+  function poolGameOver(how, why) {
+    po.over = true; po.moving = false;
+    if (mode === 'together' && po.turn === 'me') send('pdone', { b: po.balls.map(b => [b.x, b.y, b.in ? 1 : 0]), turn: 'other', groups: po.groups, inHand: false });
+    poolHud();
+    if (how === 'won') { $('poolStatus').textContent = `${why} 🏆 Jij wint!`; confetti(); winSound(); }
+    else $('poolStatus').textContent = `${why} ${mode === 'solo' ? '🐶 Het hondje wint! Woef!' : `${other.name} wint!`}`;
+    $('poolEnd').hidden = false;
+  }
+
+  // --- the dog: picks a ball and a pocket it can see, then shoots with a little (puppy: bigger) mistake ---
+  function poolDog() {
+    if (po.over || po.moving || po.turn !== 'other') return;
+    const cue = po.balls[0], g = po.groups.other, left = po.balls.filter(b => !b.in && b.n !== 0);
+    if (po.inHand) {                                         // put the white ball somewhere free in the middle
+      for (let t = 0; t < 50; t++) { const x = TW / 2 + (Math.random() - .5) * 120, y = TH * .6 + (Math.random() - .5) * 120; if (poolFree(x, y)) { cue.x = x; cue.y = y; break; } }
+      po.inHand = false;
+    }
+    const mineLeft = g ? left.filter(b => groupOf(b.n) === g) : left.filter(b => b.n !== 8);
+    const targets = mineLeft.length ? mineLeft : left.filter(b => b.n === 8);
+    const clear = (x1, y1, x2, y2, skip) => po.balls.every(b => b.in || skip.includes(b) || segDist(x1, y1, x2, y2, b.x, b.y) > BR * 2);
+    let best = null;
+    for (const t of targets) for (const [px, py] of POCKETS) {
+      const tx = px - t.x, ty = py - t.y, tl = Math.hypot(tx, ty);
+      const gx = t.x - tx / tl * BR * 2, gy = t.y - ty / tl * BR * 2;          // where the white ball must touch
+      const cx = gx - cue.x, cy = gy - cue.y, cl = Math.hypot(cx, cy);
+      const cut = (cx * tx + cy * ty) / (cl * tl);                          // 1 = straight on
+      if (cut < .3 || !clear(cue.x, cue.y, gx, gy, [cue, t]) || !clear(t.x, t.y, px, py, [t])) continue;
+      const score = cut * 2 - (cl + tl) / 600;
+      if (!best || score > best.score) best = { score, gx, gy, dist: cl + tl };
+    }
+    let ax, ay, power;
+    if (best) { ax = best.gx - cue.x; ay = best.gy - cue.y; power = Math.min(950, 260 + best.dist * 1.1); }
+    else { const t = targets[0]; ax = t.x - cue.x; ay = t.y - cue.y; power = 600; }
+    const err = (Math.random() * 2 - 1) * (po.smart ? .025 : .09), ang = Math.atan2(ay, ax) + err;
+    poolShoot(Math.cos(ang) * power, Math.sin(ang) * power, null, false);
+  }
+
+  function segDist(x1, y1, x2, y2, px, py) {
+    const dx = x2 - x1, dy = y2 - y1, l2 = dx * dx + dy * dy;
+    const t = l2 ? Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / l2)) : 0;
+    return Math.hypot(px - x1 - t * dx, py - y1 - t * dy);
+  }
+
+  // --- drawing ---
+  function poolDraw() {
+    const ctx = $('poolCanvas').getContext('2d'), turned = mode === 'together' && !iAmHost;
+    ctx.save();
+    if (turned) { ctx.translate(TW, TH); ctx.rotate(Math.PI); }
+    ctx.fillStyle = '#6b3e1f'; ctx.fillRect(0, 0, TW, TH);                                  // wooden rails
+    ctx.fillStyle = '#1e8a4c'; ctx.fillRect(RAIL - 6, RAIL - 6, TW - 2 * RAIL + 12, TH - 2 * RAIL + 12);   // cushions
+    ctx.fillStyle = '#23a35a'; ctx.fillRect(RAIL, RAIL, TW - 2 * RAIL, TH - 2 * RAIL);                  // felt
+    ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.moveTo(RAIL, TH * .76); ctx.lineTo(TW - RAIL, TH * .76); ctx.stroke();
+    for (const [x, y] of [[TW / 2, RAIL / 2], [TW / 2, TH - RAIL / 2], [RAIL / 2, TH / 4], [RAIL / 2, TH * .75], [TW - RAIL / 2, TH / 4], [TW - RAIL / 2, TH * .75]]) {
+      ctx.fillStyle = '#f4e3c1'; ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill();          // diamonds on the rail
+    }
+    for (const [x, y, r] of POCKETS) { ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); }
+    // the aiming line and the cue
+    const cue = po.balls[0];
+    if (po.aim && !po.moving) {
+      const dx = po.aim.sx - po.aim.x, dy = po.aim.sy - po.aim.y, len = Math.hypot(dx, dy);
+      if (len > 8) {
+        const ux = dx / len, uy = dy / len, hit = poolFirstHit(cue.x, cue.y, ux, uy);
+        ctx.setLineDash([6, 6]); ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(cue.x, cue.y); ctx.lineTo(hit.x, hit.y); ctx.stroke(); ctx.setLineDash([]);
+        ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.beginPath(); ctx.arc(hit.x, hit.y, BR, 0, Math.PI * 2); ctx.stroke();
+        if (hit.ball) { ctx.beginPath(); ctx.moveTo(hit.ball.x, hit.ball.y); ctx.lineTo(hit.ball.x + (hit.ball.x - hit.x) * 4, hit.ball.y + (hit.ball.y - hit.y) * 4); ctx.stroke(); }
+        const pull = Math.min(len, 140) / 140, back = 14 + pull * 40;
+        ctx.strokeStyle = '#c99a5b'; ctx.lineWidth = 6; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(cue.x - ux * back, cue.y - uy * back); ctx.lineTo(cue.x - ux * (back + 170), cue.y - uy * (back + 170)); ctx.stroke();
+        ctx.lineWidth = 1; ctx.lineCap = 'butt';
+        ctx.fillStyle = `hsl(${120 - pull * 120}, 85%, 50%)`; ctx.fillRect(RAIL + 6, TH - 12, (TW - 2 * RAIL - 12) * pull, 6);   // power bar
+      }
+    }
+    for (const b of po.balls) if (!b.in) poolBall(ctx, b);
+    if (po.inHand && po.turn === 'me' && !po.over) {
+      ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.font = '700 15px "Baloo 2", system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Tik waar de witte bal moet liggen', TW / 2, TH / 2);
+    }
+    ctx.restore();
+  }
+
+  function poolBall(ctx, b) {
+    const col = BALL_COLOR[b.n > 8 ? b.n - 8 : b.n];
+    ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.beginPath(); ctx.arc(b.x + 1.5, b.y + 2, BR, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = b.n > 8 ? '#fffdf5' : col; ctx.beginPath(); ctx.arc(b.x, b.y, BR, 0, Math.PI * 2); ctx.fill();
+    if (b.n > 8) { ctx.save(); ctx.beginPath(); ctx.arc(b.x, b.y, BR, 0, Math.PI * 2); ctx.clip(); ctx.fillStyle = col; ctx.fillRect(b.x - BR, b.y - BR * .55, BR * 2, BR * 1.1); ctx.restore(); }
+    if (b.n > 0) {
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(b.x, b.y, BR * .48, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#111'; ctx.font = `700 ${BR * .8}px system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(b.n, b.x, b.y + .5);
+    }
+    ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.beginPath(); ctx.arc(b.x - BR * .35, b.y - BR * .4, BR * .28, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // Where the white ball would first touch a ball or a cushion, for the aiming line
+  function poolFirstHit(x, y, ux, uy) {
+    let best = null, bt = 1e9;
+    for (const b of po.balls) {
+      if (b.in || b.n === 0) continue;
+      const fx = b.x - x, fy = b.y - y, t = fx * ux + fy * uy;
+      if (t <= 0) continue;
+      const d2 = fx * fx + fy * fy - t * t, r2 = 4 * BR * BR;
+      if (d2 > r2) continue;
+      const tt = t - Math.sqrt(r2 - d2);
+      if (tt < bt) { bt = tt; best = b; }
+    }
+    const lim = [ux > 0 ? (TW - RAIL - BR - x) / ux : ux < 0 ? (RAIL + BR - x) / ux : 1e9, uy > 0 ? (TH - RAIL - BR - y) / uy : uy < 0 ? (RAIL + BR - y) / uy : 1e9];
+    const wall = Math.min(...lim);
+    if (!best || wall < bt) return { x: x + ux * wall, y: y + uy * wall, ball: null };
+    return { x: x + ux * bt, y: y + uy * bt, ball: best };
+  }
+
+  function poolLeave() {
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
   }
 
   function chessLeave() {
@@ -3796,6 +4144,22 @@
   $('soloC4').addEventListener('click', () => { mode = 'solo'; tttSetup('c4'); });
   $('soloDam').addEventListener('click', () => { mode = 'solo'; tttSetup('dam'); });
   $('soloChess').addEventListener('click', () => { mode = 'solo'; chessStart(); });
+  $('soloPool').addEventListener('click', () => { mode = 'solo'; poolStart(); });
+  $('lobbyPool').addEventListener('click', poolStart);
+  document.querySelectorAll('#poolLevel .level').forEach(b => b.addEventListener('click', () => { po.smart = Number(b.dataset.smart); poolBegin(true); }));
+  $('poolBack').addEventListener('click', poolLeave);
+  $('poolAgain').addEventListener('click', () => {
+    if (mode === 'together') send('poolAgain', {});
+    poolBegin(!po.iBreak);
+  });
+  // on the friend's turned-round table, the finger positions are turned round too
+  const poolFinger = fn => e => {
+    if (mode === 'together' && !iAmHost) { const r = $('poolCanvas').getBoundingClientRect(); e = { clientX: r.left + r.right - e.clientX, clientY: r.top + r.bottom - e.clientY, preventDefault: () => e.preventDefault() }; }
+    fn(e);
+  };
+  $('poolCanvas').addEventListener('pointerdown', poolFinger(poolDown));
+  $('poolCanvas').addEventListener('pointermove', poolFinger(poolMove));
+  window.addEventListener('pointerup', poolUp);
   $('lobbyChess').addEventListener('click', chessStart);
   const pickSet = e => {
     const b = e.target.closest('[data-set]');
