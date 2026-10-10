@@ -233,6 +233,27 @@
   #poolCanvas { display: block; width: 100%; max-width: 380px; margin: 0 auto; border-radius: 22px; touch-action: none; }
   main:has(#pool:not(.hidden)) { max-width: 520px; }
   .pool-group { display: inline-flex; gap: 2px; align-items: center; }
+  /* Rummi */
+  main:has(#rummi:not(.hidden)) { max-width: 760px; }
+  .rk-seats { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 8px; }
+  .rk-seats span { background: var(--key); border-radius: 12px; padding: 4px 10px; font-size: 1rem; }
+  .rk-seats span.turn { outline: 3px solid var(--ok); }
+  .rk-table { background: #2f7a4f; border-radius: 16px; padding: 10px; min-height: 140px; display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start; }
+  .rk-set { display: flex; gap: 2px; padding: 5px; border-radius: 10px; background: rgba(255,255,255,.12); cursor: pointer; min-height: 52px; }
+  .rk-set.bad { background: rgba(232,52,78,.45); outline: 2px dashed #ffd1d8; }
+  .rk-set.target { outline: 3px solid #ffd23f; }
+  .rk-new { color: #fff; border: 2px dashed rgba(255,255,255,.6); border-radius: 10px; padding: 0 14px; display: flex; align-items: center; font-size: 1rem; cursor: pointer; min-height: 52px; background: none; font-family: inherit; }
+  .rk-tile { width: 34px; height: 46px; border-radius: 6px; background: #fffaf0; box-shadow: 0 2px 0 #c9bfae, 0 3px 4px rgba(0,0,0,.25);
+             display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; border: none; padding: 0; cursor: pointer; font-family: inherit; flex: none; }
+  .rk-tile.sel { transform: translateY(-6px); box-shadow: 0 0 0 3px #ffd23f, 0 6px 8px rgba(0,0,0,.3); }
+  .rk-tile.new { box-shadow: 0 0 0 2px #7ae7c7, 0 2px 0 #c9bfae; }
+  .rk-rack { background: #8a5a3b; border-radius: 16px; padding: 10px; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; min-height: 66px; cursor: pointer; }
+  .rk-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+  .rk-tools button { font: inherit; font-size: .95rem; padding: 10px 4px; border: none; border-radius: 14px; background: var(--key); color: var(--ink); cursor: pointer; }
+  .rk-tools .go { background: var(--ok); color: var(--on); font-weight: 800; }
+  .rk-pick { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .rk-pick button { font: inherit; font-size: 1.2rem; min-width: 64px; padding: 10px; border-radius: 16px; border: 3px solid transparent; background: var(--card); color: var(--ink); cursor: pointer; }
+  .rk-pick button.on { border-color: var(--ok); }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -322,6 +343,7 @@
       <button class="level l2" id="soloPong">🏓 Ping pong<small>Speel tafeltennis tegen het hondje</small></button>
       <button class="level l2" id="soloChess">♞ Schaken<small>Echt schaken tegen het hondje</small></button>
       <button class="level w3" id="soloPool">🎱 Pool<small>8-ball tegen het hondje</small></button>
+      <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -386,6 +408,7 @@
         <button class="level l2" id="lobbyPong">🏓 Ping pong<small>Ieder een eigen batje</small></button>
         <button class="level l2" id="lobbyChess">♞ Schaken<small>Echt schaken samen</small></button>
         <button class="level w3" id="lobbyPool">🎱 Pool<small>8-ball, om de beurt</small></button>
+        <button class="level l3" id="lobbyRummi">🀄 Rummi<small>Stenen-spel, met hondjes erbij</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
@@ -440,6 +463,49 @@
       <div class="photo-box" id="photoBox" hidden></div>
     </div>
     <button class="back" data-to="nailsMenu">← Terug</button>
+  </section>
+
+  <!-- Rummi: instellen -->
+  <section id="rummiSetup" class="hidden">
+    <div class="card">
+      <p class="who">Hoeveel spelers?</p>
+      <div class="rk-pick" id="rkCount"></div>
+      <p class="wait" id="rkCountHint"></p>
+      <p class="who" style="margin-top:14px">Welke regels?</p>
+      <div class="rk-pick" id="rkRules">
+        <button data-rules="real">⭐ Echt<small style="display:block;font-size:.8rem">eerst 30 punten, schuiven mag</small></button>
+        <button data-rules="easy">🐣 Makkelijk<small style="display:block;font-size:.8rem">geen 30, niet schuiven</small></button>
+      </div>
+      <div id="rkDogBox">
+        <p class="who" style="margin-top:14px">Hoe slim zijn de hondjes?</p>
+        <div class="rk-pick" id="rkDog">
+          <button data-smart="0">🐶 Puppy</button>
+          <button data-smart="1">🐕 Slimme hond</button>
+        </div>
+      </div>
+      <button class="again" id="rkGo">Spelen!</button>
+    </div>
+    <button class="back" id="rkSetupBack">← Terug</button>
+  </section>
+
+  <!-- Rummi: de tafel -->
+  <section id="rummi" class="hidden">
+    <div class="card">
+      <div class="rk-seats" id="rkSeats"></div>
+      <div class="rk-table" id="rkTable"></div>
+      <p class="ttt-status" id="rkStatus"></p>
+      <div class="rk-rack" id="rkRack"></div>
+      <div class="rk-tools">
+        <button id="rkSort">🔢 Sorteer</button>
+        <button id="rkReset">↩️ Opnieuw</button>
+        <button id="rkDraw">🎴 Pak een steen</button>
+        <button id="rkDone" class="go">✅ Klaar</button>
+      </div>
+      <div class="ttt-end" id="rkEnd" hidden>
+        <button class="again" id="rkAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="rkBack">← Ander spel</button>
   </section>
 
   <!-- Pool: hoe slim is het hondje -->
@@ -794,7 +860,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -1143,7 +1209,7 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
     if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
@@ -1163,6 +1229,7 @@
     if (m.type === 'pongAgain' && screen === 'pong' && pg.over) pongBegin(pg.to);
     if (m.type === 'cmove' && screen === 'chess') chessPlay(m.f, m.t, m.p, false);
     if (m.type === 'pshot' && screen === 'pool') poolShoot(m.vx, m.vy, m.cue, false);
+    if (m.type === 'rkstate' && ['lobby', 'rummiSetup', 'rummi'].includes(screen)) rummiReceive(m.st);
     if (m.type === 'pdone' && screen === 'pool') poolSync(m);
     if (m.type === 'poolAgain' && screen === 'pool' && po.over) poolBegin(!po.iBreak);
     if (m.type === 'cresign' && screen === 'chess' && !ch.over) chessEndGame('won', `${other.name} geeft op.`);
@@ -2257,6 +2324,303 @@
     const wall = Math.min(...lim);
     if (!best || wall < bt) return { x: x + ux * wall, y: y + uy * wall, ball: null };
     return { x: x + ux * bt, y: y + uy * bt, ball: best };
+  }
+
+
+  // ----- Rummi (the tile game everybody knows as Rummikub): 106 tiles, 1 to 4 players, the free places are dogs.
+  // Together: both devices keep the whole game; whoever finishes a turn sends the new state. The device that
+  // started the game also plays the dogs.
+
+  const RK_COLORS = ['#e8344e', '#2f6fd6', '#e08a00', '#2b2140'];
+  const RK_TILES = [];
+  for (let copy = 0; copy < 2; copy++) for (let c = 0; c < 4; c++) for (let n = 1; n <= 13; n++) RK_TILES.push({ n, c, j: false });
+  RK_TILES.push({ n: 0, c: 4, j: true }, { n: 0, c: 4, j: true });
+  const rk = { st: null, mySeat: 0, snap: null, fromRack: new Set(), sel: null, sortBy: 'color', setup: { count: 2, rules: 'real', smart: 1 }, dogBusy: false };
+
+  function rummiStart() {
+    rk.setup.count = mode === 'together' ? 2 : 2;
+    drawRummiSetup();
+    $('rkSetupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('rummiSetup');
+  }
+
+  function drawRummiSetup() {
+    const counts = mode === 'together' ? [2, 3, 4] : [1, 2, 3, 4];
+    $('rkCount').innerHTML = counts.map(n => `<button data-count="${n}" class="${rk.setup.count === n ? 'on' : ''}">${n === 1 ? '🙋 1' : '👥 ' + n}</button>`).join('');
+    const dogs = rk.setup.count - (mode === 'together' ? 2 : 1);
+    $('rkCountHint').textContent = rk.setup.count === 1 ? 'Oefenen: leg al je stenen zo snel mogelijk weg.'
+      : `${mode === 'together' ? `Jij en ${other.name}` : 'Jij'}${dogs ? ` en ${dogs} hondje${dogs > 1 ? 's' : ''}` : ''}.`;
+    document.querySelectorAll('#rkRules button').forEach(b => b.classList.toggle('on', b.dataset.rules === rk.setup.rules));
+    document.querySelectorAll('#rkDog button').forEach(b => b.classList.toggle('on', Number(b.dataset.smart) === rk.setup.smart));
+    $('rkDogBox').hidden = dogs === 0;
+  }
+
+  // Shuffle, deal 14 to everybody, and start
+  function rummiDeal() {
+    const ids = shuffle([...RK_TILES.keys()]);
+    const dogNames = ['Hondje Bo', 'Hondje Fien', 'Hondje Max'];
+    const seats = [{ id: myId, name: myName || 'Jij', dog: false }];
+    if (mode === 'together') seats.push({ id: other.id, name: other.name, dog: false });
+    while (seats.length < rk.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - (mode === 'together' ? 2 : 1)], dog: true });
+    seats.forEach(s => { s.rack = ids.splice(0, 14); s.opened = false; });
+    const st = { seats, pool: ids, table: [], turn: 0, rules: rk.setup.rules, smart: rk.setup.smart, runner: myId, passes: 0, over: null, round: 1 };
+    rummiShow(st);
+    rummiSend();
+  }
+
+  function rummiSend() { if (mode === 'together') send('rkstate', { st: rk.st }); }
+
+  function rummiReceive(st) {
+    rummiShow(st);
+  }
+
+  function rummiShow(st) {
+    stopMusic();
+    rk.st = st;
+    rk.mySeat = st.seats.findIndex(s => s.id === myId);
+    rk.fromRack = new Set(); rk.sel = null; rk.dogBusy = false;
+    rk.snap = JSON.stringify({ table: st.table, rack: st.seats[rk.mySeat].rack });
+    $('rkEnd').hidden = !st.over;
+    show('rummi');
+    rummiDraw();
+    if (st.over) return rummiShowEnd();
+    rummiNext();
+  }
+
+  const myTurn = () => rk.st && !rk.st.over && rk.st.turn === rk.mySeat;
+
+  function rummiNext() {
+    const st = rk.st, s = st.seats[st.turn];
+    rummiDraw();
+    if (st.over) return;
+    if (myTurn()) {
+      const first = !s.opened && st.rules === 'real' ? ' Je eerste keer moet samen minstens 30 punten zijn.' : '';
+      $('rkStatus').textContent = `Jij bent aan de beurt!${first}`;
+    } else $('rkStatus').textContent = `${s.dog ? '🐶 ' : ''}${s.name} is aan de beurt…`;
+    if (s.dog && st.runner === myId && !rk.dogBusy) { rk.dogBusy = true; setTimeout(rummiDog, 900); }
+  }
+
+  // --- what makes a row valid: a group (same number, different colours) or a run (one colour, counting up) ---
+  function analyze(ids) {
+    const t = ids.map(i => RK_TILES[i]), jokers = t.filter(x => x.j).length, real = t.filter(x => !x.j);
+    if (ids.length < 3) return { ok: false };
+    if (!real.length) return { ok: true, points: 0, order: ids };
+    // group
+    const n = real[0].n;
+    if (ids.length <= 4 && real.every(x => x.n === n) && new Set(real.map(x => x.c)).size === real.length)
+      return { ok: true, points: n * ids.length, order: [...ids].sort((a, b) => RK_TILES[a].c - RK_TILES[b].c), kind: 'group' };
+    // run
+    const c = real[0].c, nums = real.map(x => x.n).sort((a, b) => a - b);
+    if (real.every(x => x.c === c) && new Set(nums).size === nums.length) {
+      const lo = nums[0], hi = nums[nums.length - 1], gaps = hi - lo + 1 - nums.length;
+      if (gaps <= jokers) {
+        let extra = jokers - gaps, start = lo, end = hi;
+        while (extra > 0 && end < 13) { end++; extra--; }
+        while (extra > 0 && start > 1) { start--; extra--; }
+        if (extra === 0) {
+          const realIds = ids.filter(i => !RK_TILES[i].j), jokerIds = ids.filter(i => RK_TILES[i].j), order = [];
+          for (let v = start; v <= end; v++) { const r = realIds.find(i => RK_TILES[i].n === v); order.push(r !== undefined ? r : jokerIds.shift()); }
+          return { ok: true, points: (start + end) * (end - start + 1) / 2, order, kind: 'run' };
+        }
+      }
+    }
+    return { ok: false };
+  }
+
+  // --- drawing ---
+  function tileHtml(id, extra = '') {
+    const t = RK_TILES[id];
+    return `<button class="rk-tile${extra}" data-tile="${id}" style="color:${t.j ? '#e8344e' : RK_COLORS[t.c]}" aria-label="${t.j ? 'joker' : t.n}">${t.j ? '😊' : t.n}</button>`;
+  }
+
+  function rummiDraw() {
+    const st = rk.st;
+    $('rkSeats').innerHTML = st.seats.map((s, k) => `<span class="${k === st.turn && !st.over ? 'turn' : ''}">${s.dog ? '🐶' : '🙂'} ${k === rk.mySeat ? 'Jij' : s.name}: ${s.rack.length}</span>`).join('') +
+      `<span>🎴 ${st.pool.length}</span>`;
+    const mine = myTurn();
+    $('rkTable').innerHTML = st.table.map((set, k) => {
+      const a = analyze(set), order = a.ok ? a.order : set;
+      return `<div class="rk-set${a.ok ? '' : ' bad'}" data-set="${k}">${order.map(id => tileHtml(id, (rk.sel && rk.sel.id === id ? ' sel' : '') + (rk.fromRack.has(id) ? ' new' : ''))).join('')}</div>`;
+    }).join('') + (mine ? `<button class="rk-new" data-set="new">+ nieuw rijtje</button>` : '') + (!st.table.length && !mine ? '<p class="wait" style="color:#fff">Nog niks op tafel.</p>' : '');
+    const rack = st.seats[rk.mySeat].rack.slice().sort((a, b) => {
+      const A = RK_TILES[a], B = RK_TILES[b];
+      return rk.sortBy === 'color' ? (A.c - B.c) * 20 + (A.n - B.n) : (A.n - B.n) * 10 + (A.c - B.c);
+    });
+    $('rkRack').innerHTML = rack.map(id => tileHtml(id, rk.sel && rk.sel.id === id ? ' sel' : '')).join('') || '<p class="wait" style="color:#fff">Je bakje is leeg!</p>';
+    for (const b of ['rkReset', 'rkDraw', 'rkDone']) $(b).disabled = !mine;
+    $('rkDraw').textContent = st.pool.length ? '🎴 Pak een steen' : '⏭️ Pas';
+  }
+
+  // --- moving tiles: tap a tile, then tap where it goes ---
+  function rummiTapTile(id, inRack) {
+    if (!myTurn()) return;
+    if (rk.sel && rk.sel.id === id) { rk.sel = null; return rummiDraw(); }
+    if (!inRack) {
+      const st = rk.st, me = st.seats[rk.mySeat];
+      if (!rk.fromRack.has(id)) {
+        if (st.rules === 'easy') return rummiSay('In het makkelijke spel blijven de stenen op tafel liggen. Je mag er wel stenen bij leggen.');
+        if (!me.opened) return rummiSay('Eerst moet je zelf 30 punten uitleggen, daarna mag je stenen op tafel verschuiven.');
+      }
+      // a table tile is already chosen: tapping a tile in another row moves it there
+      if (rk.sel && !rk.sel.inRack) {
+        const from = st.table.findIndex(set => set.includes(rk.sel.id)), to = st.table.findIndex(set => set.includes(id));
+        if (from !== to) return rummiPlace(to);
+      }
+    }
+    rk.sel = { id, inRack };
+    rummiDraw();
+  }
+
+  function rummiSay(t) { $('rkStatus').textContent = t; }
+
+  // target: a row number, 'new' for a new row, or 'rack' to take back a tile you put down this turn
+  function rummiPlace(target) {
+    if (!myTurn() || !rk.sel) return;
+    const st = rk.st, me = st.seats[rk.mySeat], id = rk.sel.id;
+    if (target === 'rack') {
+      if (rk.sel.inRack) { rk.sel = null; return rummiDraw(); }
+      if (!rk.fromRack.has(id)) return rummiSay('Stenen die al op tafel lagen mogen niet terug in je bakje.');
+    }
+    // take the tile from where it is
+    if (rk.sel.inRack) me.rack.splice(me.rack.indexOf(id), 1);
+    else for (const set of st.table) { const k = set.indexOf(id); if (k >= 0) { set.splice(k, 1); break; } }
+    let targetSet = null;
+    if (target === 'rack') { me.rack.push(id); rk.fromRack.delete(id); }
+    else if (target === 'new') { targetSet = [id]; st.table.push(targetSet); }
+    else { targetSet = st.table[target]; targetSet.push(id); }
+    if (rk.sel.inRack && target !== 'rack') rk.fromRack.add(id);
+    st.table = st.table.filter(set => set.length);
+    rk.sel = null;
+    tock();
+    rummiDraw();
+  }
+
+  function rummiReset() {
+    if (!myTurn()) return;
+    const snap = JSON.parse(rk.snap);
+    rk.st.table = snap.table; rk.st.seats[rk.mySeat].rack = snap.rack;
+    rk.fromRack = new Set(); rk.sel = null;
+    rummiDraw();
+    rummiSay('Alles staat weer zoals aan het begin van je beurt.');
+  }
+
+  function rummiDone() {
+    if (!myTurn()) return;
+    const st = rk.st, me = st.seats[rk.mySeat];
+    if (!rk.fromRack.size) return rummiSay('Leg eerst een steen op tafel, of tik op "Pak een steen".');
+    const bad = st.table.filter(set => !analyze(set).ok);
+    if (bad.length) return rummiSay('Een rijtje klopt nog niet (rood). Maak er een groepje of een rij van, minstens 3 stenen.');
+    if (!me.opened && st.rules === 'real') {
+      const newSets = st.table.filter(set => set.some(id => rk.fromRack.has(id)));
+      if (newSets.some(set => set.some(id => !rk.fromRack.has(id)))) return rummiSay('De eerste keer mag je alleen nieuwe rijtjes van je eigen stenen leggen.');
+      const pts = newSets.reduce((sum, set) => sum + analyze(set).points, 0);
+      if (pts < 30) return rummiSay(`Je eerste keer is samen ${pts} punten. Je hebt er minstens 30 nodig.`);
+    }
+    me.opened = true;
+    rummiEndTurn(false);
+  }
+
+  function rummiDrawTile() {
+    if (!myTurn()) return;
+    rummiReset();
+    const st = rk.st, me = st.seats[rk.mySeat];
+    if (st.pool.length) { me.rack.push(st.pool.pop()); st.passes = 0; } else st.passes++;
+    rummiEndTurn(true);
+  }
+
+  function rummiEndTurn(drew) {
+    const st = rk.st, s = st.seats[st.turn];
+    if (!drew) st.passes = 0;
+    if (!s.rack.length) st.over = { winner: st.turn, why: 'heeft alle stenen weggelegd!' };
+    else if (!st.pool.length && st.passes >= st.seats.length) {
+      const left = st.seats.map(x => x.rack.reduce((sum, id) => sum + (RK_TILES[id].j ? 30 : RK_TILES[id].n), 0));
+      st.over = { winner: left.indexOf(Math.min(...left)), why: 'heeft de minste punten over.' };
+    } else st.turn = (st.turn + 1) % st.seats.length;
+    rk.fromRack = new Set(); rk.sel = null;
+    rk.snap = JSON.stringify({ table: st.table, rack: st.seats[rk.mySeat].rack });
+    rummiSend();
+    if (st.over) return rummiShowEnd();
+    rummiNext();
+  }
+
+  function rummiShowEnd() {
+    const st = rk.st, w = st.seats[st.over.winner];
+    rummiDraw();
+    if (st.over.winner === rk.mySeat) { rummiSay(`🏆 Jij wint! Jij ${st.over.why}`); confetti(); winSound(); }
+    else rummiSay(`${w.dog ? '🐶 ' : ''}${w.name} wint: ${w.name} ${st.over.why}`);
+    $('rkEnd').hidden = false;
+  }
+
+  // --- the dogs: lay out every group and run they can find; the smart dog also adds tiles to rows on the table ---
+  function findMelds(rack) {
+    const melds = [], tiles = rack.map(id => ({ id, ...RK_TILES[id] })), jokers = tiles.filter(t => t.j).map(t => t.id);
+    for (let n = 1; n <= 13; n++) {
+      const byColor = new Map();
+      tiles.filter(t => !t.j && t.n === n).forEach(t => { if (!byColor.has(t.c)) byColor.set(t.c, t.id); });
+      const ids = [...byColor.values()];
+      if (ids.length >= 3) melds.push(ids);
+      else if (ids.length === 2 && jokers.length) melds.push([...ids, jokers[0]]);
+    }
+    for (let c = 0; c < 4; c++) {
+      const byNum = new Map();
+      tiles.filter(t => !t.j && t.c === c).forEach(t => { if (!byNum.has(t.n)) byNum.set(t.n, t.id); });
+      let n = 1;
+      while (n <= 13) {
+        if (!byNum.has(n)) { n++; continue; }
+        const run = [];
+        let usedJoker = false, m = n;
+        while (m <= 13 && (byNum.has(m) || (!usedJoker && jokers.length && byNum.has(m + 1) && run.length))) {
+          if (byNum.has(m)) run.push(byNum.get(m)); else { run.push(jokers[0]); usedJoker = true; }
+          m++;
+        }
+        if (run.length >= 3) melds.push(run);
+        else if (run.length === 2 && jokers.length && !usedJoker) melds.push([...run, jokers[0]]);
+        n = m + 1;
+      }
+    }
+    return melds.filter(ids => analyze(ids).ok);
+  }
+
+  function rummiDog() {
+    const st = rk.st;
+    if (!st || st.over || !st.seats[st.turn].dog || st.runner !== myId) { rk.dogBusy = false; return; }
+    const dog = st.seats[st.turn], rack = dog.rack.slice(), play = [];
+    // take the biggest meld again and again while tiles are free
+    for (;;) {
+      const melds = findMelds(rack).filter(ids => ids.every(id => rack.includes(id)));
+      if (!melds.length) break;
+      melds.sort((a, b) => analyze(b).points - analyze(a).points);
+      const m = melds[0];
+      play.push(m);
+      m.forEach(id => rack.splice(rack.indexOf(id), 1));
+      if (!st.smart && play.length >= 1 && dog.opened) break;            // the puppy lays one row per turn
+    }
+    const pts = play.reduce((sum, m) => sum + analyze(m).points, 0);
+    let played = false;
+    if (play.length && (dog.opened || st.rules === 'easy' || pts >= 30)) {
+      play.forEach(m => st.table.push(m));
+      dog.rack = rack; dog.opened = true; played = true;
+    }
+    // add single tiles to rows on the table
+    if (dog.opened && (st.smart || Math.random() < .4)) {
+      for (const id of dog.rack.slice()) for (const set of st.table) {
+        if (analyze([...set, id]).ok) { set.push(id); dog.rack.splice(dog.rack.indexOf(id), 1); played = true; break; }
+      }
+    }
+    rk.dogBusy = false;
+    if (!played) {
+      if (st.pool.length) { dog.rack.push(st.pool.pop()); st.passes = 0; } else st.passes++;
+      rummiSay(`🐶 ${dog.name} pakt een steen.`);
+    } else { blip(600); st.passes = 0; }
+    setTimeout(() => rummiEndTurn(!played), played ? 700 : 500);
+  }
+
+  function rummiLeave() {
+    stopMusic();
+    rk.st = null;
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
   }
 
   function poolLeave() {
@@ -4128,6 +4492,29 @@
   $('soloDam').addEventListener('click', () => { mode = 'solo'; tttSetup('dam'); });
   $('soloChess').addEventListener('click', () => { mode = 'solo'; chessStart(); });
   $('soloPool').addEventListener('click', () => { mode = 'solo'; poolStart(); });
+  $('soloRummi').addEventListener('click', () => { mode = 'solo'; rummiStart(); });
+  $('lobbyRummi').addEventListener('click', rummiStart);
+  $('rkCount').addEventListener('click', e => { const b = e.target.closest('[data-count]'); if (b) { rk.setup.count = Number(b.dataset.count); drawRummiSetup(); } });
+  $('rkRules').addEventListener('click', e => { const b = e.target.closest('[data-rules]'); if (b) { rk.setup.rules = b.dataset.rules; drawRummiSetup(); } });
+  $('rkDog').addEventListener('click', e => { const b = e.target.closest('[data-smart]'); if (b) { rk.setup.smart = Number(b.dataset.smart); drawRummiSetup(); } });
+  $('rkGo').addEventListener('click', rummiDeal);
+  $('rkSetupBack').addEventListener('click', rummiLeave);
+  $('rkBack').addEventListener('click', rummiLeave);
+  $('rkAgain').addEventListener('click', () => { rummiStart(); });
+  $('rkSort').addEventListener('click', () => { rk.sortBy = rk.sortBy === 'color' ? 'number' : 'color'; $('rkSort').textContent = rk.sortBy === 'color' ? '🔢 Sorteer' : '🎨 Sorteer'; rummiDraw(); });
+  $('rkReset').addEventListener('click', rummiReset);
+  $('rkDraw').addEventListener('click', rummiDrawTile);
+  $('rkDone').addEventListener('click', rummiDone);
+  $('rkTable').addEventListener('click', e => {
+    const tile = e.target.closest('[data-tile]'), set = e.target.closest('[data-set]');
+    if (tile && !(rk.sel && rk.sel.inRack)) return rummiTapTile(Number(tile.dataset.tile), false);
+    if (set) rummiPlace(set.dataset.set === 'new' ? 'new' : Number(set.dataset.set));
+  });
+  $('rkRack').addEventListener('click', e => {
+    const tile = e.target.closest('[data-tile]');
+    if (rk.sel && !rk.sel.inRack) return rummiPlace('rack');
+    if (tile) rummiTapTile(Number(tile.dataset.tile), true);
+  });
   $('lobbyPool').addEventListener('click', poolStart);
   document.querySelectorAll('#poolLevel .level').forEach(b => b.addEventListener('click', () => { po.smart = Number(b.dataset.smart); poolBegin(true); }));
   $('poolBack').addEventListener('click', poolLeave);
