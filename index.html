@@ -247,6 +247,13 @@
              display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; border: none; padding: 0; cursor: pointer; font-family: inherit; flex: none; }
   .rk-tile.sel { transform: translateY(-6px); box-shadow: 0 0 0 3px #ffd23f, 0 6px 8px rgba(0,0,0,.3); }
   .rk-tile.new { box-shadow: 0 0 0 2px #7ae7c7, 0 2px 0 #c9bfae; }
+  /* what the last player changed */
+  .rk-tile.fresh { animation: rkPop .6s ease-out, rkGlow 1.4s ease-in-out .6s infinite; }
+  .rk-set.changed { animation: rkRow 1.4s ease-in-out infinite; }
+  @keyframes rkPop { 0% { transform: scale(.2) translateY(-30px); opacity: 0; } 70% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); } }
+  @keyframes rkGlow { 0%, 100% { box-shadow: 0 0 0 3px #ffd23f, 0 2px 0 #c9bfae; } 50% { box-shadow: 0 0 0 3px #ffd23f, 0 0 16px 6px rgba(255,210,63,.85); } }
+  @keyframes rkRow { 0%, 100% { outline: 3px solid rgba(255,210,63,.35); } 50% { outline: 3px solid #ffd23f; } }
+  @media (prefers-reduced-motion: reduce) { .rk-tile.fresh { animation: none; box-shadow: 0 0 0 3px #ffd23f; } .rk-set.changed { animation: none; outline: 3px solid #ffd23f; } }
   .rk-rack { background: #8a5a3b; border-radius: 16px; padding: 10px; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; min-height: 66px; cursor: pointer; }
   .rk-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
   .rk-tools button { font: inherit; font-size: .95rem; padding: 10px 4px; border: none; border-radius: 14px; background: var(--key); color: var(--ink); cursor: pointer; }
@@ -2349,7 +2356,8 @@
   const RK_TILES = [];
   for (let copy = 0; copy < 2; copy++) for (let c = 0; c < 4; c++) for (let n = 1; n <= 13; n++) RK_TILES.push({ n, c, j: false });
   RK_TILES.push({ n: 0, c: 4, j: true }, { n: 0, c: 4, j: true });
-  const rk = { st: null, mySeat: 0, snap: null, fromRack: new Set(), sel: null, sortBy: 'color', setup: { count: 2, rules: 'real', smart: 1 }, dogBusy: false };
+  const rk = { st: null, mySeat: 0, snap: null, fromRack: new Set(), sel: null, sortBy: 'color', setup: { count: 2, rules: 'real', smart: 1 }, dogBusy: false,
+              hl: { tiles: new Set(), rows: new Set(), say: '' } };
 
   function rummiStart() {
     rk.setup.count = mode === 'together' ? Math.max(2, others.length + 1) : 2;
@@ -2382,7 +2390,8 @@
     const people = seats.length;
     while (seats.length < rk.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
     seats.forEach(s => { s.rack = ids.splice(0, 14); s.opened = false; });
-    const st = { seats, pool: ids, table: [], turn: 0, rules: rk.setup.rules, smart: rk.setup.smart, runner: myId, passes: 0, over: null, round: 1 };
+    const st = { id: Math.random().toString(36).slice(2), seats, pool: ids, table: [], turn: 0, rules: rk.setup.rules, smart: rk.setup.smart, runner: myId, passes: 0, over: null, round: 1 };
+    rk.hl = { tiles: new Set(), rows: new Set(), say: '' };
     rummiShow(st);
     rummiSend();
   }
@@ -2390,7 +2399,26 @@
   function rummiSend() { if (mode === 'together') send('rkstate', { st: rk.st }); }
 
   function rummiReceive(st) {
+    const old = rk.st;
+    if (old && old.id === st.id && old.turn !== rk.mySeat) rummiMark(old.table, st, old.turn, old.seats[old.turn].rack.length);
+    else if (!old || old.id !== st.id) rk.hl = { tiles: new Set(), rows: new Set(), say: '' };
     rummiShow(st);
+  }
+
+  // Compares the table before and after somebody's turn: new tiles glow, changed rows pulse, and a sentence says what happened
+  function rummiMark(before, st, who, rackBefore) {
+    const key = set => set.slice().sort((a, b) => a - b).join(',');
+    const was = new Set(before.flat()), oldRows = new Set(before.map(key));
+    const tiles = new Set(st.table.flat().filter(id => !was.has(id)));
+    const rows = new Set(st.table.map((set, k) => oldRows.has(key(set)) ? -1 : k).filter(k => k >= 0));
+    const s = st.seats[who], name = `${s.dog ? '🐶 ' : ''}${s.name}`, n = tiles.size;
+    // moved = a row that was on the table is no longer together (adding tiles to a row is not moving)
+    const moved = before.some(row => { const k = st.table.findIndex(set => set.includes(row[0])); return k < 0 || !row.every(id => st.table[k].includes(id)); });
+    let say;
+    if (n) say = `${name} legde ${n} ${n > 1 ? 'stenen' : 'steen'}${moved ? ' en schoof met de tafel' : ''} ✨`;
+    else if (s.rack.length > rackBefore) say = `${name} pakte een steen.`;
+    else say = `${name} paste.`;
+    rk.hl = { tiles, rows, say };
   }
 
   function rummiShow(st) {
@@ -2414,8 +2442,8 @@
     if (st.over) return;
     if (myTurn()) {
       const first = !s.opened && st.rules === 'real' ? ' Je eerste keer moet samen minstens 30 punten zijn.' : '';
-      $('rkStatus').textContent = `Jij bent aan de beurt!${first}`;
-    } else $('rkStatus').textContent = `${s.dog ? '🐶 ' : ''}${s.name} is aan de beurt…`;
+      $('rkStatus').textContent = `${rk.hl.say ? rk.hl.say + ' ' : ''}Jij bent aan de beurt!${first}`;
+    } else $('rkStatus').textContent = `${rk.hl.say ? rk.hl.say + ' ' : ''}${s.dog ? '🐶 ' : ''}${s.name} is aan de beurt…`;
     if (s.dog && st.runner === myId && !rk.dogBusy) { rk.dogBusy = true; setTimeout(rummiDog, 900); }
   }
 
@@ -2459,7 +2487,7 @@
     const mine = myTurn();
     $('rkTable').innerHTML = st.table.map((set, k) => {
       const a = analyze(set), order = a.ok ? a.order : set;
-      return `<div class="rk-set${a.ok ? '' : ' bad'}" data-set="${k}">${order.map(id => tileHtml(id, (rk.sel && rk.sel.id === id ? ' sel' : '') + (rk.fromRack.has(id) ? ' new' : ''))).join('')}</div>`;
+      return `<div class="rk-set${a.ok ? '' : ' bad'}${rk.hl.rows.has(k) ? ' changed' : ''}" data-set="${k}">${order.map(id => tileHtml(id, (rk.sel && rk.sel.id === id ? ' sel' : '') + (rk.fromRack.has(id) ? ' new' : '') + (rk.hl.tiles.has(id) ? ' fresh' : ''))).join('')}</div>`;
     }).join('') + (mine ? `<button class="rk-new" data-set="new">+ nieuw rijtje</button>` : '') + (!st.table.length && !mine ? '<p class="wait" style="color:#fff">Nog niks op tafel.</p>' : '');
     const rack = st.seats[rk.mySeat].rack.slice().sort((a, b) => {
       const A = RK_TILES[a], B = RK_TILES[b];
@@ -2508,6 +2536,7 @@
     else if (target === 'new') { targetSet = [id]; st.table.push(targetSet); }
     else { targetSet = st.table[target]; targetSet.push(id); }
     if (rk.sel.inRack && target !== 'rack') rk.fromRack.add(id);
+    rk.hl = { tiles: new Set(), rows: new Set(), say: '' };
     st.table = st.table.filter(set => set.length);
     rk.sel = null;
     tock();
@@ -2549,6 +2578,7 @@
 
   function rummiEndTurn(drew) {
     const st = rk.st, s = st.seats[st.turn];
+    if (st.turn === rk.mySeat) rk.hl = { tiles: new Set(), rows: new Set(), say: '' };   // my own turn ends: old marks go
     if (!drew) st.passes = 0;
     if (!s.rack.length) st.over = { winner: st.turn, why: 'heeft alle stenen weggelegd!' };
     else if (!st.pool.length && st.passes >= st.seats.length) {
@@ -2604,6 +2634,7 @@
     const st = rk.st;
     if (!st || st.over || !st.seats[st.turn].dog || st.runner !== myId) { rk.dogBusy = false; return; }
     const dog = st.seats[st.turn], rack = dog.rack.slice(), play = [];
+    const before = JSON.parse(JSON.stringify(st.table)), rackBefore = dog.rack.length, dogSeat = st.turn;
     // take the biggest meld again and again while tiles are free
     for (;;) {
       const melds = findMelds(rack).filter(ids => ids.every(id => rack.includes(id)));
@@ -2631,6 +2662,8 @@
       if (st.pool.length) { dog.rack.push(st.pool.pop()); st.passes = 0; } else st.passes++;
       rummiSay(`🐶 ${dog.name} pakt een steen.`);
     } else { blip(600); st.passes = 0; }
+    rummiMark(before, st, dogSeat, rackBefore);
+    rummiDraw();
     setTimeout(() => rummiEndTurn(!played), played ? 700 : 500);
   }
 
