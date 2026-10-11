@@ -1018,7 +1018,7 @@
   // ----- Together: a 4-digit code joins two devices in one Supabase channel -----
 
   const myId = Math.random().toString(36).slice(2, 10);
-  let channel = null, code = '', other = null, iAmHost = false;
+  let channel = null, code = '', other = null, others = [], iAmHost = false;   // other = the first friend; others = everybody else (up to 3)
   let roundHider = null, roundMax = 0, roundSecret = 0, roundTries = 0;
 
   function client() {
@@ -1056,7 +1056,7 @@
 
   function leave() {
     if (channel) { try { channel.untrack(); channel.unsubscribe(); } catch (e) {} }
-    channel = null; other = null; code = ''; iAmHost = false; roundHider = null;
+    channel = null; other = null; others = []; code = ''; iAmHost = false; roundHider = null;
     unconfirmed = {};
     stopMusic();
   }
@@ -1070,7 +1070,8 @@
   function send(type, data) {
     const id = myId + '-' + (++msgNo);
     const payload = { type, from: myId, id, ...data };
-    unconfirmed[id] = { payload, tries: 0 };
+    const waiting = new Set(others.map(o => o.id));
+    if (waiting.size) unconfirmed[id] = { payload, tries: 0, waiting };
     transmit(payload);
   }
   setInterval(() => {
@@ -1080,7 +1081,7 @@
     }
   }, 1500);
   function receive(m) {
-    if (m.type === 'ok') { delete unconfirmed[m.ok]; return; }
+    if (m.type === 'ok') { const u = unconfirmed[m.ok]; if (u) { u.waiting.delete(m.from); if (!u.waiting.size) delete unconfirmed[m.ok]; } return; }
     if (m.id) {
       transmit({ type: 'ok', from: myId, ok: m.id });
       if (seen.has(m.id)) return;
@@ -1115,21 +1116,34 @@
     if (err) $('joinErr').textContent = err;
   }
 
+  const MAX_PLAYERS = 4;
   function onPresence() {
     if (!channel) return;
-    const people = Object.entries(channel.presenceState()).map(([id, metas]) => ({ id, ...metas[0] }));
-    const others = people.filter(p => p.id !== myId);
-    // Only two players: whoever came third finds the game full
-    if (people.length > 2) {
-      const sorted = [...people].sort((a, b) => a.at - b.at);
-      if (sorted.findIndex(p => p.id === myId) >= 2) {
-        leave(); $('joinErr').textContent = 'Dit spel is al vol.'; return;
-      }
-    }
-    const was = other;
-    other = others.sort((a, b) => a.at - b.at)[0] || null;
-    if (other && !was) { clearTimeout(joinTimer); toLobby(); }
-    if (!other && was) friendLeft(was.name);
+    const people = Object.entries(channel.presenceState()).map(([id, metas]) => ({ id, ...metas[0] })).sort((a, b) => a.at - b.at);
+    // At most four devices: whoever came fifth finds the game full
+    if (people.findIndex(p => p.id === myId) >= MAX_PLAYERS) { leave(); $('joinErr').textContent = 'Dit spel is al vol.'; return; }
+    const before = others;
+    others = people.filter(p => p.id !== myId).slice(0, MAX_PLAYERS - 1);
+    other = others[0] || null;
+    const gone = before.filter(b => !others.some(o => o.id === b.id)), came = others.filter(o => !before.some(b => b.id === o.id));
+    if (!before.length && others.length) { clearTimeout(joinTimer); return toLobby(); }
+    if (!others.length && before.length) return friendLeft(gone.map(g => g.name).join(' en '));
+    if (gone.length) {                         // someone left a game of three or four: back to choosing a game
+      const note = `${gone.map(g => g.name).join(' en ')} is weggegaan.`;
+      if (screen !== 'lobby') toLobby(note); else drawLobby(note);
+    } else if (came.length && screen === 'lobby') drawLobby(`${came.map(c => c.name).join(' en ')} doet mee!`);
+  }
+
+  // Games for two are only for two; with three or four people, Rummi is the game
+  const GROUP_GAMES = ['lobbyRummi'];
+  function drawLobby(note) {
+    const names = others.map(o => o.name);
+    const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0];
+    $('lobbyWho').textContent = `${note ? note + ' ' : ''}Je speelt samen met ${list}! Welk spel?`;
+    document.querySelectorAll('#lobby .stack .level').forEach(b => {
+      const forTwo = !GROUP_GAMES.includes(b.id), off = forTwo && others.length > 1;
+      b.disabled = off; b.style.opacity = off ? .35 : '';
+    });
   }
 
   function friendLeft(name) {
@@ -1138,7 +1152,7 @@
     show('together');
   }
 
-  function toLobby() {
+  function toLobby(note) {
     stopMusic();
     roundHider = null; rolesAt = 0; rolesBy = '';
     ttt.active = false;
@@ -1148,7 +1162,7 @@
     gravityStop();
     crashStop();
     pongStop();
-    $('lobbyWho').textContent = `Je speelt samen met ${other.name}! Welk spel?`;
+    drawLobby(typeof note === 'string' ? note : '');
     show('lobby');
   }
 
@@ -1220,7 +1234,7 @@
   }
 
   function onMessage(m) {
-    if (!other || m.from !== other.id) return;
+    if (!others.some(o => o.id === m.from)) return;
     if (m.type === 'roles') chooseRoles(m.hider, m.at, m.from);
     if (m.type === 'pick' && m.game === 'guess' && screen === 'win') toRoles();
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
@@ -2355,18 +2369,22 @@
   const rk = { st: null, mySeat: 0, snap: null, fromRack: new Set(), sel: null, sortBy: 'color', setup: { count: 2, rules: 'real', smart: 1 }, dogBusy: false };
 
   function rummiStart() {
-    rk.setup.count = mode === 'together' ? 2 : 2;
+    rk.setup.count = mode === 'together' ? Math.max(2, others.length + 1) : 2;
     drawRummiSetup();
     $('rkSetupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
     show('rummiSetup');
   }
 
   function drawRummiSetup() {
-    const counts = mode === 'together' ? [2, 3, 4] : [1, 2, 3, 4];
+    const people = mode === 'together' ? others.length + 1 : 1;
+    const counts = [1, 2, 3, 4].filter(n => n >= Math.max(people, mode === 'together' ? 2 : 1));
+    if (rk.setup.count < counts[0]) rk.setup.count = counts[0];
     $('rkCount').innerHTML = counts.map(n => `<button data-count="${n}" class="${rk.setup.count === n ? 'on' : ''}">${n === 1 ? '🙋 1' : '👥 ' + n}</button>`).join('');
-    const dogs = rk.setup.count - (mode === 'together' ? 2 : 1);
+    const dogs = rk.setup.count - people;
+    const names = mode === 'together' ? ['Jij', ...others.map(o => o.name)] : ['Jij'];
+    const who = names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0];
     $('rkCountHint').textContent = rk.setup.count === 1 ? 'Oefenen: leg al je stenen zo snel mogelijk weg.'
-      : `${mode === 'together' ? `Jij en ${other.name}` : 'Jij'}${dogs ? ` en ${dogs} hondje${dogs > 1 ? 's' : ''}` : ''}.`;
+      : `${who}${dogs ? ` en ${dogs} hondje${dogs > 1 ? 's' : ''}` : ''}.`;
     document.querySelectorAll('#rkRules button').forEach(b => b.classList.toggle('on', b.dataset.rules === rk.setup.rules));
     document.querySelectorAll('#rkDog button').forEach(b => b.classList.toggle('on', Number(b.dataset.smart) === rk.setup.smart));
     $('rkDogBox').hidden = dogs === 0;
@@ -2377,8 +2395,9 @@
     const ids = shuffle([...RK_TILES.keys()]);
     const dogNames = ['Hondje Bo', 'Hondje Fien', 'Hondje Max'];
     const seats = [{ id: myId, name: myName || 'Jij', dog: false }];
-    if (mode === 'together') seats.push({ id: other.id, name: other.name, dog: false });
-    while (seats.length < rk.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - (mode === 'together' ? 2 : 1)], dog: true });
+    if (mode === 'together') others.forEach(o => seats.push({ id: o.id, name: o.name, dog: false }));
+    const people = seats.length;
+    while (seats.length < rk.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
     seats.forEach(s => { s.rack = ids.splice(0, 14); s.opened = false; });
     const st = { seats, pool: ids, table: [], turn: 0, rules: rk.setup.rules, smart: rk.setup.smart, runner: myId, passes: 0, over: null, round: 1 };
     rummiShow(st);
