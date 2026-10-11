@@ -275,6 +275,12 @@
   .rk-pick { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
   .rk-pick button { font: inherit; font-size: 1.2rem; min-width: 64px; padding: 10px; border-radius: 16px; border: 3px solid transparent; background: var(--card); color: var(--ink); cursor: pointer; }
   .rk-pick button.on { border-color: var(--ok); }
+  /* Hold to stop: the button fills while you keep your finger on it */
+  [data-hold] { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; }
+  .holding { background: linear-gradient(to right, var(--up) var(--p, 0%), transparent var(--p, 0%)) !important; color: var(--ink) !important; }
+  .stop-ask { position: fixed; inset: 0; background: rgba(43,33,64,.55); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+  .stop-ask .card { max-width: 360px; text-align: center; }
+  .stop-ask .row { display: grid; gap: 10px; margin-top: 14px; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -436,7 +442,7 @@
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
     </div>
-    <button class="back" data-leave>← Stoppen</button>
+    <button class="back" data-leave data-hold="together">← Stoppen</button>
   </section>
 
   <!-- Samen, raad het getal: wie verstopt? -->
@@ -448,7 +454,7 @@
         <button class="level w3" id="iGuess">🔍 Ik raad<small>De ander kiest het getal</small></button>
       </div>
     </div>
-    <button class="back" id="rolesBack">← Ander spel</button>
+    <button class="back" id="rolesBack" data-hold="together">← Ander spel</button>
   </section>
 
   <!-- Nagelsalon: vrij spelen of klanten -->
@@ -486,7 +492,7 @@
       </div>
       <div class="photo-box" id="photoBox" hidden></div>
     </div>
-    <button class="back" data-to="nailsMenu">← Terug</button>
+    <button class="back" data-to="nailsMenu" data-hold="always">← Terug</button>
   </section>
 
   <!-- Rummi: instellen -->
@@ -509,7 +515,7 @@
       </div>
       <button class="again" id="rkGo">Spelen!</button>
     </div>
-    <button class="back" id="rkSetupBack">← Terug</button>
+    <button class="back" id="rkSetupBack" data-hold="together">← Terug</button>
   </section>
 
   <!-- Rummi: de tafel -->
@@ -529,7 +535,7 @@
         <button class="again" id="rkAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="rkBack">← Ander spel</button>
+    <button class="back" id="rkBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Pool: hoe slim is het hondje -->
@@ -552,7 +558,7 @@
         <button class="again" id="poolAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="poolBack">← Ander spel</button>
+    <button class="back" id="poolBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Schaken: stukken en (alleen) hoe slim het hondje is -->
@@ -569,7 +575,7 @@
       </div>
       <button class="again" id="chessGo" hidden>Spelen!</button>
     </div>
-    <button class="back" id="chessSetupBack">← Terug</button>
+    <button class="back" id="chessSetupBack" data-hold="together">← Terug</button>
   </section>
 
   <!-- Schaken: het bord -->
@@ -583,14 +589,14 @@
       <div class="chess-tools">
         <button id="chessUndo">↩️ Terug</button>
         <button id="chessSetBtn">♟️ Stukken</button>
-        <button id="chessResign">🏳️ Opgeven</button>
+        <button id="chessResign" data-hold="always">🏳️ Opgeven</button>
       </div>
       <div class="sets" id="chessSetsInGame" hidden></div>
       <div class="ttt-end" id="chessEnd" hidden>
         <button class="again" id="chessAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="chessBack">← Ander spel</button>
+    <button class="back" id="chessBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Dammen -->
@@ -603,7 +609,7 @@
         <button class="again" id="damAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="damBack">← Ander spel</button>
+    <button class="back" id="damBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Ping pong: tot hoeveel punten (en alleen: hoe slim is het hondje) -->
@@ -621,7 +627,7 @@
         <button class="level l4" data-smart="1">🐕 Slimme hond<small>Moeilijk</small></button>
       </div>
     </div>
-    <button class="back" id="pongLevelBack">← Terug</button>
+    <button class="back" id="pongLevelBack" data-hold="together">← Terug</button>
   </section>
 
   <!-- Ping pong: spelen -->
@@ -634,7 +640,7 @@
         <button class="again" id="pongAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="pongBack">← Ander spel</button>
+    <button class="back" id="pongBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Crash: botsautootjes -->
@@ -648,7 +654,7 @@
         <button class="again" id="crashAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="crashBack">← Ander spel</button>
+    <button class="back" id="crashBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Gravity Run -->
@@ -661,7 +667,7 @@
         <button class="again" id="gravityAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="gravityBack">← Ander spel</button>
+    <button class="back" id="gravityBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Snake: wat doet de muur -->
@@ -671,7 +677,7 @@
       <button class="level l2" data-walls="0">🌀 Door de muur<small id="srec0">Je komt er aan de andere kant weer uit</small></button>
       <button class="level l3" data-walls="1">🧱 Muur = af<small id="srec1">Zoals het echte spel</small></button>
     </div>
-    <button class="back" id="snakeLevelBack">← Terug</button>
+    <button class="back" id="snakeLevelBack" data-hold="together">← Terug</button>
   </section>
 
   <!-- Snake: spelen -->
@@ -690,7 +696,7 @@
         <button class="again" id="snakeAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="snakeBack">← Ander spel</button>
+    <button class="back" id="snakeBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Stenen-breker: hoe snel -->
@@ -701,7 +707,7 @@
       <button class="level l2" data-speed="2">🐇 Gewoon<small id="rec2"></small></button>
       <button class="level l3" data-speed="3">🚀 Snel<small id="rec3"></small></button>
     </div>
-    <button class="back" id="bricksLevelBack">← Terug</button>
+    <button class="back" id="bricksLevelBack" data-hold="together">← Terug</button>
   </section>
 
   <!-- Stenen-breker: spelen -->
@@ -714,7 +720,7 @@
         <button class="again" id="bricksAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="bricksBack">← Ander spel</button>
+    <button class="back" id="bricksBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Zeeslag: hoe groot is de zee (en alleen: hoe slim is het hondje) -->
@@ -732,7 +738,7 @@
         <button class="level l4" data-smart="1">🐕 Slimme hond<small>Moeilijk</small></button>
       </div>
     </div>
-    <button class="back" id="shipsLevelBack">← Terug</button>
+    <button class="back" id="shipsLevelBack" data-hold="together">← Terug</button>
   </section>
 
   <!-- Zeeslag: schepen neerzetten -->
@@ -750,7 +756,7 @@
       <button class="again" id="shipsReady" hidden>Klaar!</button>
       <p class="wait" id="placeWait"></p>
     </div>
-    <button class="back" id="placeBack">← Terug</button>
+    <button class="back" id="placeBack" data-hold="always">← Terug</button>
   </section>
 
   <!-- Zeeslag: spelen -->
@@ -765,7 +771,7 @@
         <button class="again" id="shipsAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="shipsBack">← Ander spel</button>
+    <button class="back" id="shipsBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Boter-kaas-en-eieren: kies je plaatje (en alleen: hoe slim is het hondje) -->
@@ -783,7 +789,7 @@
       <p class="wait" id="setupWait"></p>
       <p class="err" id="setupErr"></p>
     </div>
-    <button class="back" id="setupBack">← Terug</button>
+    <button class="back" id="setupBack" data-hold="together">← Terug</button>
   </section>
 
   <!-- Boter-kaas-en-eieren: het bord -->
@@ -796,7 +802,7 @@
         <button class="again" id="tttAgain">Nog een keer!</button>
       </div>
     </div>
-    <button class="back" id="tttBack">← Ander spel</button>
+    <button class="back" id="tttBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Samen, verstopper: kies level -->
@@ -808,7 +814,7 @@
       <button class="level l3" data-max="999">🦊 Moeilijk<small>1 tot 999</small></button>
       <button class="level l4" data-max="9999">🦄 Meester<small>1 tot 9999</small></button>
     </div>
-    <button class="back" data-leave>← Stoppen</button>
+    <button class="back" data-leave data-hold="together">← Stoppen</button>
   </section>
 
   <!-- Samen, verstopper: typ het geheime getal -->
@@ -819,7 +825,7 @@
       <p class="err" id="hideErr"></p>
       <div class="pad-slot"></div>
     </div>
-    <button class="back" data-leave>← Stoppen</button>
+    <button class="back" data-leave data-hold="together">← Stoppen</button>
   </section>
 
   <!-- Samen, verstopper: kijk mee -->
@@ -829,7 +835,7 @@
       <p class="wait">Jouw geheime getal: <b id="watchSecret"></b></p>
       <ul class="log" id="watchLog"></ul>
     </div>
-    <button class="back" data-leave>← Stoppen</button>
+    <button class="back" data-leave data-hold="together">← Stoppen</button>
   </section>
 
   <!-- Samen, rader: wachten op het getal -->
@@ -839,7 +845,7 @@
       <p class="who" id="waitWho"></p>
       <p class="wait">Even wachten…</p>
     </div>
-    <button class="back" data-leave>← Stoppen</button>
+    <button class="back" data-leave data-hold="together">← Stoppen</button>
   </section>
 
   <!-- Raden (alleen en samen) -->
@@ -851,7 +857,7 @@
       <div class="pad-slot"></div>
       <div class="tries" id="tries">Gokken: 0</div>
     </div>
-    <button class="back" id="back">← Ander level</button>
+    <button class="back" id="back" data-hold="always">← Ander level</button>
   </section>
 
   <!-- Gewonnen / klaar -->
@@ -863,7 +869,7 @@
       <div class="stars" id="stars"></div>
       <button class="again" id="again">Nog een keer!</button>
     </div>
-    <button class="back" id="back2">← Ander level</button>
+    <button class="back" id="back2" data-hold="always">← Ander level</button>
   </section>
 
   <!-- Het ene toetsenbord; het verhuist naar het scherm dat het nodig heeft -->
@@ -4453,6 +4459,63 @@
     if (mode === 'solo') return show('soloGames');
     send('lobby', {});
     toLobby();
+  }
+
+
+  // ----- Stopping a game takes a 2-second hold, so a stray tap never ends it. Together, a question follows,
+  // because stopping ends the game for everybody. Buttons opt in with data-hold="always" or "together".
+
+  const HOLD_MS = 2000;
+  let holdOk = null, swallowUntil = 0;
+  function needsHold(b) { return b.dataset.hold === 'always' || (b.dataset.hold === 'together' && mode === 'together'); }
+  function tempText(b, text) { if (!b._temp) { b._label = b.textContent; b._temp = true; } b.textContent = text; }
+  function realText(b) { if (b._temp) { b.textContent = b._label; b._temp = false; } }
+
+  document.addEventListener('click', e => {
+    if (holdOk) { const b = holdOk; holdOk = null; if (e.target.closest('[data-hold]') === b) return; }
+    if (performance.now() < swallowUntil) { e.stopImmediatePropagation(); e.preventDefault(); return; }   // the finger lifting after a hold
+    const b = e.target.closest('[data-hold]');
+    if (!b || !needsHold(b)) return;
+    e.stopImmediatePropagation(); e.preventDefault();          // a plain tap on a hold button does nothing
+    if (e.detail === 0) return stopConfirmed(b);               // keyboard: no hold, but still the question together
+    tempText(b, '✋ Houd vast om te stoppen');
+    clearTimeout(b._hint);
+    b._hint = setTimeout(() => { if (!b.classList.contains('holding')) realText(b); }, 1600);
+  }, true);
+
+  document.addEventListener('pointerdown', e => {
+    const b = e.target.closest('[data-hold]');
+    if (!b || !needsHold(b) || b.disabled) return;
+    clearTimeout(b._hint);
+    tempText(b, 'Houd vast…');
+    b.classList.add('holding');
+    const t0 = performance.now();
+    const cancel = () => { clearInterval(b._timer); b.classList.remove('holding'); b.style.removeProperty('--p'); realText(b); window.removeEventListener('pointerup', cancel); window.removeEventListener('pointercancel', cancel); };
+    window.addEventListener('pointerup', cancel); window.addEventListener('pointercancel', cancel);
+    b._timer = setInterval(() => {
+      const p = Math.min(100, (performance.now() - t0) / HOLD_MS * 100);
+      b.style.setProperty('--p', p + '%');
+      if (p >= 100) { cancel(); blip(660); swallowUntil = Infinity; stopConfirmed(b, true); }
+    }, 30);
+  });
+  // once the finger is lifted after a hold, its tap is ignored for a moment
+  window.addEventListener('pointerup', () => { if (swallowUntil === Infinity) swallowUntil = performance.now() + 400; });
+
+  // Held long enough: alone it stops straight away; together it asks first
+  function stopConfirmed(b) {
+    if (mode !== 'together') { holdOk = b; return b.click(); }
+    const names = others.map(o => o.name).join(' en ');
+    const box = document.createElement('div');
+    box.className = 'stop-ask';
+    box.innerHTML = `<div class="card"><p class="who">Stoppen?</p><p>Dan stopt het spel ook voor ${names}.</p>
+      <div class="row"><button class="again" data-a="no">Nee, verder spelen</button><button class="back" data-a="yes" style="margin:0">Ja, stoppen</button></div></div>`;
+    box.addEventListener('click', e => {
+      const a = e.target.closest('[data-a]');
+      if (!a && e.target !== box) return;
+      box.remove();
+      if (a && a.dataset.a === 'yes') { holdOk = b; b.click(); }
+    });
+    document.body.appendChild(box);
   }
 
   function stopTogether() {
