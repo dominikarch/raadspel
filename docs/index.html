@@ -335,6 +335,7 @@
 </head>
 <body>
 
+<div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
 <main>
   <h1 id="title">🐶 Spelletjes</h1>
@@ -1050,22 +1051,23 @@
     show('together');
   }
 
-  function connect(theCode, onReady) {
+  let joinedAt = 0;
+  function connect(theCode, onReady, rejoin) {
     const sb = client();
     if (typeof sb === 'string') return sb;
-    code = theCode; other = null;
+    if (!rejoin) { code = theCode; other = null; joinedAt = Date.now(); }
     channel = sb.channel('raadspel-' + code, { config: { presence: { key: myId }, broadcast: { self: false } } });
-    const mine = channel, joinedAt = Date.now();
-    let ready = false, giveUp = null;
-    // A hiccup is normal on WiFi or when a screen dims: the connection service tries again by itself.
-    // Only when nothing works for a while do we give up.
+    const mine = channel;
+    let ready = !!rejoin, giveUp = null;
+    // A hiccup is normal on WiFi, when a screen dims or when the iPhone switches apps: the connection comes back.
+    // Only the very first connection gives up after a while; once you are in a game, it keeps trying.
     const trouble = () => {
       $('netNote').hidden = false;
-      if (!giveUp) giveUp = setTimeout(() => {
-        if (channel !== mine) return;
+      if (!ready && !giveUp) giveUp = setTimeout(() => {
+        if (channel !== mine || ready) return;
         $('netNote').hidden = true;
         leave(); $('togetherErr').textContent = 'Verbinden lukt niet. Is er internet?'; show('together');
-      }, ready ? 30000 : 20000);
+      }, 20000);
     };
     channel
       .on('presence', { event: 'sync' }, onPresence)
@@ -1076,16 +1078,31 @@
           clearTimeout(giveUp); giveUp = null; $('netNote').hidden = true;
           await mine.track({ name: myName, host: iAmHost, at: joinedAt });     // the same arrival time after a reconnect
           if (!ready) { ready = true; onReady && onReady(); }
+          for (const u of Object.values(unconfirmed)) transmit(u.payload);     // whatever was not confirmed goes out again
+          if (screen === 'rummi' && rk.st) transmit({ type: 'rkv', from: myId, gid: rk.st.id, v: rk.st.v || 0 });
         }
         if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || (status === 'CLOSED' && channel === mine)) trouble();
       });
     return null;
   }
 
+  // Back from another app (or a locked screen): if the connection did not come back by itself, build it again
+  function rejoin() {
+    if (!code || !channel) return;
+    const old = channel;
+    channel = null;
+    try { old.unsubscribe(); } catch (e) {}
+    connect(code, null, true);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden || !channel) return;
+    setTimeout(() => { if (channel && channel.state !== 'joined') rejoin(); }, 2500);
+  });
+
   function leave() {
-    for (const id in away) clearTimeout(away[id]);
+    if (channel) transmit({ type: 'bye', from: myId });
     away = {};
-    $('netNote').hidden = true;
+    $('netNote').hidden = true; $('awayNote').hidden = true;
     const ch_ = channel;
     channel = null;
     if (ch_) { try { ch_.untrack(); ch_.unsubscribe(); } catch (e) {} }
@@ -1109,12 +1126,13 @@
   }
   setInterval(() => {
     for (const [id, u] of Object.entries(unconfirmed)) {
-      if (!channel || ++u.tries > 20) { delete unconfirmed[id]; continue; }
+      if (!channel || ++u.tries > 400) { delete unconfirmed[id]; continue; }
       transmit(u.payload);
     }
   }, 1500);
   function receive(m) {
     if (m.type === 'ok') { const u = unconfirmed[m.ok]; if (u) { u.waiting.delete(m.from); if (!u.waiting.size) delete unconfirmed[m.ok]; } return; }
+    if (m.type === 'bye') { const o = others.find(x => x.id === m.from); if (o) goneFor(o); return; }
     if (!others.some(o => o.id === m.from)) return;          // not confirmed: it will be sent again once we know them
     if (m.id) {
       transmit({ type: 'ok', from: myId, ok: m.id });
@@ -1151,28 +1169,43 @@
   }
 
   const MAX_PLAYERS = 4;
-  let away = {};                                // people who dropped out, with the timer that gives them 15 seconds to come back
+  let away = {};                                // people whose device dropped out (another app, a locked screen): id -> since when
   function onPresence() {
     if (!channel) return;
     const people = Object.entries(channel.presenceState()).map(([id, metas]) => ({ id, ...metas[0] })).sort((a, b) => a.at - b.at);
     // At most four devices: whoever came fifth finds the game full
     if (people.findIndex(p => p.id === myId) >= MAX_PLAYERS) { leave(); $('joinErr').textContent = 'Dit spel is al vol.'; return; }
     const present = people.filter(p => p.id !== myId).slice(0, MAX_PLAYERS - 1), before = others;
-    for (const o of before) if (!present.some(p => p.id === o.id) && !away[o.id]) away[o.id] = setTimeout(() => goneFor(o), 15000);
-    for (const p of present) if (away[p.id]) { clearTimeout(away[p.id]); delete away[p.id]; }
+    const back = [];
+    for (const o of before) if (!present.some(p => p.id === o.id) && !away[o.id]) away[o.id] = Date.now();
+    for (const p of present) if (away[p.id]) { delete away[p.id]; back.push(p.name); }
     others = [...present, ...before.filter(o => away[o.id])].sort((a, b) => a.at - b.at).slice(0, MAX_PLAYERS - 1);
     other = others[0] || null;
     const came = present.filter(p => !before.some(b => b.id === p.id));
     if (!before.length && others.length) { clearTimeout(joinTimer); return toLobby(); }
     if (came.length && screen === 'lobby') drawLobby(`${came.map(c => c.name).join(' en ')} doet mee!`);
+    awayNote(back.length ? `👋 ${back.join(' en ')} is terug!` : '');
   }
 
-  // Still not back after 15 seconds: then they really left
+  // The bar that says who is away, and after two minutes how to stop if they do not come back
+  function awayNote(hello) {
+    const names = others.filter(o => away[o.id]).map(o => o.name), box = $('awayNote');
+    clearTimeout(box._t);
+    if (names.length) {
+      const long = Math.max(...others.filter(o => away[o.id]).map(o => Date.now() - away[o.id])) > 120000;
+      box.textContent = `📱 ${names.join(' en ')} is even weg… we wachten.${long ? ' Komt er niemand terug? Houd Stoppen vast.' : ''}`;
+      box.hidden = false;
+      box._t = setTimeout(() => awayNote(''), 30000);
+    } else if (hello) { box.textContent = hello; box.hidden = false; box._t = setTimeout(() => { box.hidden = true; }, 3000); }
+    else box.hidden = true;
+  }
+
+  // Someone stopped on purpose: they said goodbye
   function goneFor(o) {
     delete away[o.id];
-    if (!channel || Object.keys(channel.presenceState()).includes(o.id)) return;
     others = others.filter(x => x.id !== o.id);
     other = others[0] || null;
+    awayNote('');
     if (!others.length) return friendLeft(o.name);
     if (screen !== 'lobby') toLobby(`${o.name} is weggegaan.`); else drawLobby(`${o.name} is weggegaan.`);
   }
