@@ -1028,7 +1028,7 @@
     if (!window.supabase) return 'Samen spelen lukt alleen met internet.';
     // No background worker: if it fails on a device, the library cuts the whole connection (seen on iPhone/iPad).
     // A hidden tab is covered by reconnecting and by Rummi's self-repair instead.
-    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { realtime: { heartbeatIntervalMs: 15000 } }));
+    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { realtime: { timeout: 20000 } }));
   }
 
   function goTogether() {
@@ -1046,9 +1046,11 @@
     const mine = channel;
     let ready = !!rejoin, giveUp = null;
     // A hiccup is normal on WiFi, when a screen dims or when the iPhone switches apps: the connection comes back.
+    // The yellow bar only shows when it takes longer than 3 seconds, so short hiccups stay out of sight.
+    let barTimer = null;
     // Only the very first connection gives up after a while; once you are in a game, it keeps trying.
     const trouble = () => {
-      $('netNote').hidden = false;
+      if (!barTimer) barTimer = setTimeout(() => { if (channel === mine && mine.state !== 'joined') $('netNote').hidden = false; }, 3000);
       if (!ready && !giveUp) giveUp = setTimeout(() => {
         if (channel !== mine || ready) return;
         $('netNote').hidden = true;
@@ -1061,7 +1063,7 @@
       .subscribe(async status => {
         if (channel !== mine) return;
         if (status === 'SUBSCRIBED') {
-          clearTimeout(giveUp); giveUp = null; $('netNote').hidden = true;
+          clearTimeout(giveUp); giveUp = null; clearTimeout(barTimer); barTimer = null; $('netNote').hidden = true;
           await mine.track({ name: myName, host: iAmHost, at: joinedAt });     // the same arrival time after a reconnect
           if (!ready) { ready = true; onReady && onReady(); }
           for (const u of Object.values(unconfirmed)) transmit(u.payload);     // whatever was not confirmed goes out again
