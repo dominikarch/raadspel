@@ -1040,7 +1040,8 @@
   function client() {
     if (!SUPABASE_URL || !SUPABASE_KEY) return 'Samen spelen is nog niet klaar.';
     if (!window.supabase) return 'Samen spelen lukt alleen met internet.';
-    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY));
+    // worker: the 'still here' signal runs in a background worker, which browsers do not slow down in a hidden tab
+    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { realtime: { worker: true, heartbeatIntervalMs: 15000 } }));
   }
 
   function goTogether() {
@@ -1114,6 +1115,7 @@
   }, 1500);
   function receive(m) {
     if (m.type === 'ok') { const u = unconfirmed[m.ok]; if (u) { u.waiting.delete(m.from); if (!u.waiting.size) delete unconfirmed[m.ok]; } return; }
+    if (!others.some(o => o.id === m.from)) return;          // not confirmed: it will be sent again once we know them
     if (m.id) {
       transmit({ type: 'ok', from: myId, ok: m.id });
       if (seen.has(m.id)) return;
@@ -1302,6 +1304,7 @@
     if (m.type === 'cmove' && screen === 'chess') chessPlay(m.f, m.t, m.p, false);
     if (m.type === 'pshot' && screen === 'pool') poolShoot(m.vx, m.vy, m.cue, false);
     if (m.type === 'rkstate' && ['lobby', 'rummiSetup', 'rummi'].includes(screen)) rummiReceive(m.st);
+    if (m.type === 'rkv' && screen === 'rummi' && rk.st && m.gid === rk.st.id && m.v < rk.st.v) send('rkstate', { st: rummiCommitted() });
     if (m.type === 'pdone' && screen === 'pool') poolSync(m);
     if (m.type === 'poolAgain' && screen === 'pool' && po.over) poolBegin(!po.iBreak);
     if (m.type === 'cresign' && screen === 'chess' && !ch.over) chessEndGame('won', `${other.name} geeft op.`);
@@ -2441,7 +2444,7 @@
     const people = seats.length;
     while (seats.length < rk.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
     seats.forEach(s => { s.rack = ids.splice(0, 14); s.opened = false; });
-    const st = { id: Math.random().toString(36).slice(2), seats, pool: ids, table: [], turn: 0, rules: rk.setup.rules, smart: rk.setup.smart, runner: myId, passes: 0, over: null, round: 1 };
+    const st = { id: Math.random().toString(36).slice(2), v: 1, seats, pool: ids, table: [], turn: 0, rules: rk.setup.rules, smart: rk.setup.smart, runner: myId, passes: 0, over: null, round: 1 };
     rk.hl = { tiles: new Set(), rows: new Set(), say: '' };
     rummiShow(st);
     rummiSend();
@@ -2449,8 +2452,27 @@
 
   function rummiSend() { if (mode === 'together') send('rkstate', { st: rk.st }); }
 
+  // The game as it stands, without tiles I am still moving around in my own turn
+  function rummiCommitted() {
+    if (!myTurn() || !rk.fromRack.size) return rk.st;
+    const c = JSON.parse(JSON.stringify(rk.st)), snap = JSON.parse(rk.snap);
+    c.table = snap.table; c.seats[rk.mySeat].rack = snap.rack;
+    return c;
+  }
+
+  // Back on screen (another window, a locked iPad): compare games straight away
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && mode === 'together' && channel && screen === 'rummi' && rk.st) transmit({ type: 'rkv', from: myId, gid: rk.st.id, v: rk.st.v || 0 });
+  });
+
+  // Self-repair: every 4 seconds each device says how far its game is; a device that is behind gets the whole game again
+  setInterval(() => {
+    if (mode === 'together' && channel && screen === 'rummi' && rk.st) transmit({ type: 'rkv', from: myId, gid: rk.st.id, v: rk.st.v || 0 });
+  }, 4000);
+
   function rummiReceive(st) {
     const old = rk.st;
+    if (old && old.id === st.id && (st.v || 0) <= (old.v || 0)) return;     // already have this one (or a newer one)
     if (old && old.id === st.id && old.turn !== rk.mySeat) rummiMark(old.table, st, old.turn, old.seats[old.turn].rack.length);
     else if (!old || old.id !== st.id) rk.hl = { tiles: new Set(), rows: new Set(), say: '' };
     rummiShow(st);
@@ -2629,6 +2651,7 @@
 
   function rummiEndTurn(drew) {
     const st = rk.st, s = st.seats[st.turn];
+    st.v = (st.v || 0) + 1;
     if (st.turn === rk.mySeat) rk.hl = { tiles: new Set(), rows: new Set(), say: '' };   // my own turn ends: old marks go
     if (!drew) st.passes = 0;
     if (!s.rack.length) st.over = { winner: st.turn, why: 'heeft alle stenen weggelegd!' };
