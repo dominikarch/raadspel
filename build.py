@@ -26,6 +26,10 @@ tail = '''
 </body>
 </html>
 '''
+# One version stamp for the page (shown on the welcome screen) and the offline helper
+version = time.strftime('%Y%m%d%H%M%S')
+game = game.replace('__VERSION__', time.strftime('%d-%m %H.%M'))
+
 # The game's <style> block ends the head; everything after it is the body
 cut = game.index('</style>') + len('</style>')
 page = head + game[:cut] + '\n</head>\n<body>\n' + game[cut:] + tail
@@ -59,7 +63,6 @@ for name in pieces:
 ''')
 
 # Offline: keep a copy of the game on the iPad. A new version number makes the iPad fetch the update.
-version = time.strftime('%Y%m%d%H%M%S')
 (here / 'docs' / 'sw.js').write_text(f'''const CACHE = 'raadspel-{version}';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}];
 self.addEventListener('install', e => {{

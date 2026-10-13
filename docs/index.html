@@ -283,6 +283,7 @@
   .stop-ask .row { display: grid; gap: 10px; margin-top: 14px; }
   .net-note { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px); left: 50%; transform: translateX(-50%); z-index: 60;
               background: #ffd23f; color: #2b2140; border-radius: 14px; padding: 6px 14px; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+  .version { color: var(--soft); font-size: .8rem; margin-top: 18px; opacity: .8; }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -348,6 +349,7 @@
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
+    <p class="version" id="version">versie 13-10 20.27</p>
   </section>
 
   <!-- Naam -->
