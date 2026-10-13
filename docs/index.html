@@ -281,6 +281,8 @@
   .stop-ask { position: fixed; inset: 0; background: rgba(43,33,64,.55); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
   .stop-ask .card { max-width: 360px; text-align: center; }
   .stop-ask .row { display: grid; gap: 10px; margin-top: 14px; }
+  .net-note { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px); left: 50%; transform: translateX(-50%); z-index: 60;
+              background: #ffd23f; color: #2b2140; border-radius: 14px; padding: 6px 14px; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
   .bricks-top { display: flex; justify-content: space-between; gap: 10px; font-size: 1.15rem; margin-bottom: 8px; }
   #brickCanvas { display: block; width: 100%; max-width: 440px; margin: 0 auto; border-radius: 16px; background: var(--key); touch-action: none; cursor: pointer; }
   /* Nagelsalon */
@@ -333,6 +335,7 @@
 </head>
 <body>
 
+<div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
 <main>
   <h1 id="title">🐶 Spelletjes</h1>
 
@@ -1051,24 +1054,40 @@
     if (typeof sb === 'string') return sb;
     code = theCode; other = null;
     channel = sb.channel('raadspel-' + code, { config: { presence: { key: myId }, broadcast: { self: false } } });
+    const mine = channel, joinedAt = Date.now();
+    let ready = false, giveUp = null;
+    // A hiccup is normal on WiFi or when a screen dims: the connection service tries again by itself.
+    // Only when nothing works for a while do we give up.
+    const trouble = () => {
+      $('netNote').hidden = false;
+      if (!giveUp) giveUp = setTimeout(() => {
+        if (channel !== mine) return;
+        $('netNote').hidden = true;
+        leave(); $('togetherErr').textContent = 'Verbinden lukt niet. Is er internet?'; show('together');
+      }, ready ? 30000 : 20000);
+    };
     channel
       .on('presence', { event: 'sync' }, onPresence)
       .on('broadcast', { event: 'msg' }, ({ payload }) => receive(payload))
       .subscribe(async status => {
+        if (channel !== mine) return;
         if (status === 'SUBSCRIBED') {
-          await channel.track({ name: myName, host: iAmHost, at: Date.now() });
-          onReady && onReady();
+          clearTimeout(giveUp); giveUp = null; $('netNote').hidden = true;
+          await mine.track({ name: myName, host: iAmHost, at: joinedAt });     // the same arrival time after a reconnect
+          if (!ready) { ready = true; onReady && onReady(); }
         }
-        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
-          const err = 'Verbinden lukt niet. Is er internet?';
-          leave(); $('togetherErr').textContent = err; show('together');
-        }
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || (status === 'CLOSED' && channel === mine)) trouble();
       });
     return null;
   }
 
   function leave() {
-    if (channel) { try { channel.untrack(); channel.unsubscribe(); } catch (e) {} }
+    for (const id in away) clearTimeout(away[id]);
+    away = {};
+    $('netNote').hidden = true;
+    const ch_ = channel;
+    channel = null;
+    if (ch_) { try { ch_.untrack(); ch_.unsubscribe(); } catch (e) {} }
     channel = null; other = null; others = []; code = ''; iAmHost = false; roundHider = null;
     unconfirmed = {};
     stopMusic();
@@ -1124,27 +1143,36 @@
       // If nobody is there after a few seconds, the code is wrong
       joinTimer = setTimeout(() => {
         if (!other) { leave(); typed = ''; $('codeDisplay').innerHTML = '&nbsp;'; $('joinErr').textContent = 'Geen spel gevonden met deze code.'; shake('codeDisplay'); }
-      }, 4000);
+      }, 10000);
     });
     if (err) $('joinErr').textContent = err;
   }
 
   const MAX_PLAYERS = 4;
+  let away = {};                                // people who dropped out, with the timer that gives them 15 seconds to come back
   function onPresence() {
     if (!channel) return;
     const people = Object.entries(channel.presenceState()).map(([id, metas]) => ({ id, ...metas[0] })).sort((a, b) => a.at - b.at);
     // At most four devices: whoever came fifth finds the game full
     if (people.findIndex(p => p.id === myId) >= MAX_PLAYERS) { leave(); $('joinErr').textContent = 'Dit spel is al vol.'; return; }
-    const before = others;
-    others = people.filter(p => p.id !== myId).slice(0, MAX_PLAYERS - 1);
+    const present = people.filter(p => p.id !== myId).slice(0, MAX_PLAYERS - 1), before = others;
+    for (const o of before) if (!present.some(p => p.id === o.id) && !away[o.id]) away[o.id] = setTimeout(() => goneFor(o), 15000);
+    for (const p of present) if (away[p.id]) { clearTimeout(away[p.id]); delete away[p.id]; }
+    others = [...present, ...before.filter(o => away[o.id])].sort((a, b) => a.at - b.at).slice(0, MAX_PLAYERS - 1);
     other = others[0] || null;
-    const gone = before.filter(b => !others.some(o => o.id === b.id)), came = others.filter(o => !before.some(b => b.id === o.id));
+    const came = present.filter(p => !before.some(b => b.id === p.id));
     if (!before.length && others.length) { clearTimeout(joinTimer); return toLobby(); }
-    if (!others.length && before.length) return friendLeft(gone.map(g => g.name).join(' en '));
-    if (gone.length) {                         // someone left a game of three or four: back to choosing a game
-      const note = `${gone.map(g => g.name).join(' en ')} is weggegaan.`;
-      if (screen !== 'lobby') toLobby(note); else drawLobby(note);
-    } else if (came.length && screen === 'lobby') drawLobby(`${came.map(c => c.name).join(' en ')} doet mee!`);
+    if (came.length && screen === 'lobby') drawLobby(`${came.map(c => c.name).join(' en ')} doet mee!`);
+  }
+
+  // Still not back after 15 seconds: then they really left
+  function goneFor(o) {
+    delete away[o.id];
+    if (!channel || Object.keys(channel.presenceState()).includes(o.id)) return;
+    others = others.filter(x => x.id !== o.id);
+    other = others[0] || null;
+    if (!others.length) return friendLeft(o.name);
+    if (screen !== 'lobby') toLobby(`${o.name} is weggegaan.`); else drawLobby(`${o.name} is weggegaan.`);
   }
 
   // Games for two are only for two; with three or four people, Rummi is the game
