@@ -1024,8 +1024,9 @@
   function client() {
     if (!SUPABASE_URL || !SUPABASE_KEY) return 'Samen spelen is nog niet klaar.';
     if (!window.supabase) return 'Samen spelen lukt alleen met internet.';
-    // worker: the 'still here' signal runs in a background worker, which browsers do not slow down in a hidden tab
-    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { realtime: { worker: true, heartbeatIntervalMs: 15000 } }));
+    // No background worker: if it fails on a device, the library cuts the whole connection (seen on iPhone/iPad).
+    // A hidden tab is covered by reconnecting and by Rummi's self-repair instead.
+    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { realtime: { heartbeatIntervalMs: 15000 } }));
   }
 
   function goTogether() {
