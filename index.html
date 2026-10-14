@@ -367,6 +367,29 @@
   #sudokuLevel .level small { color: #888; opacity: 1; font-size: .95rem; }
   #sudokuLevel .level:active { transform: none; background: #f2f4f7 !important; }
   #sudokuLevel .sub { font-family: -apple-system, "Helvetica Neue", sans-serif; color: #888; margin: 8px 0 12px; }
+  /* Mollen meppen */
+  .mole-field { position: relative; background: linear-gradient(#9be08a, #6cc46a); border-radius: 22px; padding: 14px 10px 6px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 8px; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    overflow: hidden; cursor: pointer; }
+  .mole-hole { position: relative; aspect-ratio: 1 / 1.15; }
+  .mole-pit { position: absolute; left: 6%; right: 6%; bottom: 10%; height: 26%; border-radius: 50%; background: radial-gradient(#2a1a10 40%, #4a2e1a); }
+  .mole-clip { position: absolute; left: 0; right: 0; top: 0; bottom: 23%; overflow: hidden; border-radius: 0 0 50% 50% / 0 0 22% 22%; }
+  .mole-who { position: absolute; left: 10%; right: 10%; bottom: 0; height: 96%; transform: translateY(105%); transition: transform .14s ease-out;
+    display: flex; align-items: flex-end; justify-content: center; pointer-events: none; }
+  .mole-who svg { width: 100%; height: 100%; }
+  .mole-who .dog-face { font-size: clamp(2.6rem, 15vw, 4.2rem); line-height: 1; margin-bottom: 4%; }
+  .mole-hole.up .mole-who { transform: translateY(0); }
+  .mole-hole.hit .mole-who { transform: translateY(18%) scaleY(.82); transition: transform .08s; }
+  .mole-dirt { position: absolute; left: 2%; right: 2%; bottom: 4%; height: 22%; border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    background: #8a5a34; box-shadow: inset 0 6px 0 #a8703f; }
+  .mole-pop { position: absolute; left: 50%; top: 18%; transform: translateX(-50%); font-weight: 800; font-size: 1.5rem; color: #fff;
+    text-shadow: 0 2px 0 rgba(0,0,0,.35); pointer-events: none; animation: molepop .7s ease-out forwards; white-space: nowrap; }
+  .mole-pop.bad { color: #ffd0d0; }
+  @keyframes molepop { to { transform: translate(-50%, -60%); opacity: 0; } }
+  .mole-hammer { position: absolute; font-size: 2.6rem; pointer-events: none; transform-origin: 80% 80%; animation: molebonk .18s ease-in forwards; z-index: 3; }
+  @keyframes molebonk { from { transform: translate(-30%, -90%) rotate(-50deg); } to { transform: translate(-30%, -90%) rotate(15deg); } }
+  .mole-count { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 5rem; font-weight: 800;
+    color: #fff; text-shadow: 0 4px 0 rgba(0,0,0,.25); pointer-events: none; z-index: 4; }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -413,6 +436,7 @@
       <button class="level w3" id="soloPool">🎱 Pool<small>8-ball tegen het hondje</small></button>
       <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
+      <button class="level w3" id="soloMole">🔨 Mollen meppen<small>Mep de mollen, niet het hondje!</small></button>
       <button class="level l4" id="soloSudoku">🧩 Sudoku<small>Cijferpuzzel in 4 levels</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -472,6 +496,7 @@
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
+        <button class="level w3" id="lobbyMole">🔨 Mollen meppen<small>Wie mept de meeste mollen?</small></button>
         <button class="level l3" id="lobbyCrash">💫 Crash<small>Botsautootjes in dezelfde arena</small></button>
         <button class="level l4" id="lobbyDam">⚫ Dammen<small>Echt dammen op het grote bord</small></button>
         <button class="level l2" id="lobbyPong">🏓 Ping pong<small>Ieder een eigen batje</small></button>
@@ -771,6 +796,30 @@
     <button class="back" id="snakeBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Mollen meppen: hoe snel -->
+  <section id="moleLevel" class="hidden">
+    <p class="sub">Hoe snel zijn de mollen?</p>
+    <div class="levels" id="moleSpeeds">
+      <button class="level l1" data-mspeed="1">🐢 Langzaam<small id="mrec1"></small></button>
+      <button class="level l2" data-mspeed="2">🐇 Gewoon<small id="mrec2"></small></button>
+      <button class="level l3" data-mspeed="3">🚀 Snel<small id="mrec3"></small></button>
+    </div>
+    <button class="back" id="moleLevelBack" data-hold="together">← Terug</button>
+  </section>
+
+  <!-- Mollen meppen: spelen -->
+  <section id="mole" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="mMe"></span><span id="mOther"></span></div>
+      <div class="mole-field" id="moleField"></div>
+      <p class="ttt-status" id="moleStatus"></p>
+      <div class="ttt-end" id="moleEnd" hidden>
+        <button class="again" id="moleAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="moleBack" data-hold="always">← Ander spel</button>
+  </section>
+
   <!-- Stenen-breker: hoe snel -->
   <section id="bricksLevel" class="hidden">
     <p class="sub">Hoe snel gaat het balletje?</p>
@@ -962,7 +1011,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -1410,14 +1459,16 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
     if (m.type === 'dmove' && screen === 'dam') damApply(m.p, false);
-    if (m.type === 'rscore' && ['bricks', 'snake', 'gravity'].includes(screen)) raceOther(m.score, m.done);
+    if (m.type === 'rscore' && ['bricks', 'snake', 'gravity', 'mole'].includes(screen)) raceOther(m.score, m.done);
+    if (m.type === 'pick' && m.game === 'mole' && screen === 'moleLevel') moleBegin(m.speed);
+    if (m.type === 'moleAgain' && screen === 'mole' && ml.over) moleBegin(ml.speed);
     if (m.type === 'gravityAgain' && screen === 'gravity' && gr.over) gravityBegin();
     if (m.type === 'cz' && screen === 'crash' && !iAmHost) crashState(m);
     if (m.type === 'ct' && screen === 'crash' && iAmHost && cr.cars[1]) { cr.cars[1].tx = m.x; cr.cars[1].ty = m.y; }
@@ -5408,6 +5459,155 @@
       const [dr, dc] = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key] || [0, 0];
       sd.sel = (r + dr + 9) % 9 * 9 + (c + dc + 9) % 9; sdRender();
     }
+  });
+
+  // ----- Mollen meppen: moles pop out of nine holes; tap them before they hide. Golden mole = 3, the dog = hands off! -----
+  // Alone: a record per speed. Together: a points race, each on their own device.
+
+  const MOLE_SVG = `<svg viewBox="0 0 100 100"><path d="M10 100 V55 a40 40 0 0 1 80 0 V100z" fill="var(--mc,#8b5e3c)"/><ellipse cx="50" cy="68" rx="26" ry="24" fill="var(--mb,#c99a6e)"/><circle cx="36" cy="46" r="7" fill="#1d1420"/><circle cx="64" cy="46" r="7" fill="#1d1420"/><circle cx="38.5" cy="43.5" r="2.4" fill="#fff"/><circle cx="66.5" cy="43.5" r="2.4" fill="#fff"/><ellipse cx="50" cy="60" rx="9" ry="7" fill="#ff8fb1"/><path d="M45 70 h10 v7 h-10z" fill="#fff" stroke="#e0d0c0" stroke-width="1"/><path d="M50 70 v7" stroke="#e0d0c0" stroke-width="1"/><ellipse cx="24" cy="62" rx="5" ry="3.5" fill="#ff9fb8" opacity=".7"/><ellipse cx="76" cy="62" rx="5" ry="3.5" fill="#ff9fb8" opacity=".7"/><ellipse cx="22" cy="92" rx="10" ry="7" fill="#ffb8c8"/><ellipse cx="78" cy="92" rx="10" ry="7" fill="#ffb8c8"/></svg>`;
+  const MOLE_SECONDS = 30;
+  const MOLE_UP = { 1: 1300, 2: 950, 3: 700 };        // how long a mole stays up at the start (ms); it gets quicker
+  const ml = { speed: 2, score: 0, left: MOLE_SECONDS, over: true, running: false, holes: [], timers: [], clock: null, spawn: null, t0: 0 };
+
+  function moleStart() {                         // from the game menu: choose the speed
+    for (const n of [1, 2, 3]) { const r = recordOf('mole-' + n); $('mrec' + n).textContent = mode === 'solo' && r ? `Record: ${r}` : ''; }
+    $('moleLevelBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('moleLevel');
+  }
+
+  function molePickSpeed(speed) {
+    if (mode === 'together') send('pick', { game: 'mole', speed });
+    moleBegin(speed);
+  }
+
+  function moleStop() {
+    ml.running = false;
+    ml.timers.forEach(clearTimeout); ml.timers = [];
+    clearInterval(ml.clock); clearTimeout(ml.spawn);
+    clearTimeout(race.timer);
+  }
+
+  function moleBegin(speed) {
+    moleStop();
+    stopMusic();
+    Object.assign(ml, { speed, score: 0, left: MOLE_SECONDS, over: false });
+    raceStart('moleStatus', 'moleEnd', moleHud);
+    $('moleEnd').hidden = true;
+    $('moleStatus').textContent = 'Mep de mollen! Niet het hondje!';
+    const field = $('moleField');
+    field.innerHTML = [...Array(9)].map((_, i) =>
+      `<div class="mole-hole" data-h="${i}"><div class="mole-pit"></div><div class="mole-clip"><div class="mole-who"></div></div><div class="mole-dirt"></div></div>`).join('');
+    ml.holes = [...field.querySelectorAll('.mole-hole')].map(el => ({ el, who: null, up: false, hit: false }));
+    moleHud();
+    show('mole');
+    moleGo();
+  }
+
+  // 3, 2, 1 … go (at the start, and after coming back to the app)
+  function moleGo() {
+    const field = $('moleField');
+    const count = document.createElement('div'); count.className = 'mole-count'; field.appendChild(count);
+    [3, 2, 1].forEach((n, k) => ml.timers.push(setTimeout(() => { count.textContent = n; blip(440); }, k * 700)));
+    ml.timers.push(setTimeout(() => {
+      count.remove(); blip(880);
+      ml.running = true; ml.t0 = performance.now() - (MOLE_SECONDS - ml.left) * 1000;
+      ml.clock = setInterval(moleTick, 1000);
+      moleSpawn();
+    }, 2100));
+  }
+
+  function moleHud() {
+    $('mMe').textContent = `⏱️ ${ml.left} seconden · ${ml.score} punten`;
+    $('mOther').textContent = mode === 'together' && other ? raceLabel() : '';
+  }
+
+  function moleTick() {
+    if (!ml.running) return;
+    ml.left--;
+    if (ml.left <= 5 && ml.left > 0) blip(660);
+    moleHud();
+    if (ml.left <= 0) moleOver();
+  }
+
+  // Later in the round the moles come quicker and stay up shorter
+  function molePace() { return 1 - Math.min((performance.now() - ml.t0) / (MOLE_SECONDS * 1000), 1) * .4; }
+
+  function moleSpawn() {
+    if (!ml.running) return;
+    const free = ml.holes.filter(h => !h.up);
+    if (free.length) {
+      const h = free[Math.floor(Math.random() * free.length)], r = Math.random();
+      h.who = r < .08 ? 'gold' : r < .22 ? 'dog' : 'mole';
+      h.hit = false; h.up = true;
+      const who = h.el.querySelector('.mole-who');
+      who.innerHTML = h.who === 'dog' ? '<span class="dog-face">🐶</span>' : MOLE_SVG;
+      who.style.cssText = h.who === 'gold' ? '--mc:#e8b100;--mb:#ffe27a' : '';
+      h.el.classList.remove('hit'); h.el.classList.add('up');
+      const stay = MOLE_UP[ml.speed] * molePace() * (h.who === 'gold' ? .75 : 1);
+      ml.timers.push(setTimeout(() => moleDown(h), stay));
+    }
+    const gap = MOLE_UP[ml.speed] * molePace() * (.45 + Math.random() * .4);
+    ml.spawn = setTimeout(moleSpawn, gap);
+  }
+
+  function moleDown(h) { h.up = false; h.el.classList.remove('up', 'hit'); }
+
+  function moleSay(h, text, bad) {
+    const pop = document.createElement('div'); pop.className = 'mole-pop' + (bad ? ' bad' : ''); pop.textContent = text;
+    h.el.appendChild(pop); setTimeout(() => pop.remove(), 700);
+  }
+
+  function moleWhack(e) {
+    e.preventDefault();
+    const field = $('moleField'), box = field.getBoundingClientRect();
+    const ham = document.createElement('div'); ham.className = 'mole-hammer'; ham.textContent = '🔨';
+    ham.style.left = (e.clientX - box.left) + 'px'; ham.style.top = (e.clientY - box.top) + 'px';
+    field.appendChild(ham); setTimeout(() => ham.remove(), 260);
+    if (!ml.running) return;
+    const el = e.target.closest('.mole-hole'); if (!el) return;
+    const h = ml.holes[+el.dataset.h];
+    if (!h.up || h.hit) return;
+    h.hit = true; el.classList.add('hit');
+    if (h.who === 'dog') { ml.score = Math.max(0, ml.score - 3); moleSay(h, 'Au! Woef! −3', true); blip(150); blip(110); }
+    else if (h.who === 'gold') { ml.score += 3; moleSay(h, '+3 ✨'); blip(900); blip(1200); }
+    else { ml.score += 1; moleSay(h, '+1'); blip(520); blip(780); }
+    ml.timers.push(setTimeout(() => moleDown(h), 260));
+    raceScore(ml.score);
+  }
+
+  function moleOver() {
+    moleStop();
+    ml.over = true;
+    ml.holes.forEach(moleDown);
+    moleHud();
+    if (mode === 'solo') return soloRecord('mole-' + ml.speed, ml.score, 'punten', 'Tijd is om! ');
+    raceDone();
+  }
+
+  function moleLeave() {
+    moleStop();
+    ml.over = true;
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  $('soloMole').addEventListener('click', () => { mode = 'solo'; moleStart(); });
+  $('lobbyMole').addEventListener('click', moleStart);
+  document.querySelectorAll('#moleSpeeds [data-mspeed]').forEach(b => b.addEventListener('click', () => molePickSpeed(+b.dataset.mspeed)));
+  $('moleField').addEventListener('pointerdown', moleWhack);
+  $('moleLevelBack').addEventListener('click', moleLeave);
+  $('moleBack').addEventListener('click', moleLeave);
+  $('moleAgain').addEventListener('click', () => {
+    if (mode === 'together') send('moleAgain', {});
+    moleBegin(ml.speed);
+  });
+  // Away from the app: the moles wait; back again: 3, 2, 1 and on
+  document.addEventListener('visibilitychange', () => {
+    if (screen !== 'mole' || ml.over) return;
+    if (document.hidden) { moleStop(); ml.holes.forEach(moleDown); $('moleField').querySelectorAll('.mole-count').forEach(c => c.remove()); }
+    else if (!ml.running) moleGo();
   });
 
   greet();

@@ -371,6 +371,15 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Mollen meppen ---
+  ['🔨 Mollen meppen', '🔨 Uderz kreta', '🔨 Whac-a-mole'],
+  ['Mep de mollen, niet het hondje!', 'Uderzaj krety, nie pieska!', 'Whack the moles, not the dog!'],
+  ['Wie mept de meeste mollen?', 'Kto uderzy najwięcej kretów?', 'Who whacks the most moles?'],
+  ['Hoe snel zijn de mollen?', 'Jak szybkie są krety?', 'How fast are the moles?'],
+  ['Mep de mollen! Niet het hondje!', 'Uderzaj krety! Nie pieska!', 'Whack the moles! Not the dog!'],
+  ['⏱️ {0} seconden · {1} punten', '⏱️ {0} s · {1} {1|punkt|punkty|punktów}', '⏱️ {0} seconds · {1} points'],
+  ['Au! Woef! −3', 'Au! Hau! −3', 'Ouch! Woof! −3'],
+
   // --- Sudoku ---
   ['🧩 Sudoku', '🧩 Sudoku', '🧩 Sudoku'],
   ['Cijferpuzzel in 4 levels', 'Łamigłówka liczbowa, 4 poziomy', 'Number puzzle in 4 levels'],
