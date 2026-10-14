@@ -45,6 +45,12 @@ hands = sorted(p.name for p in (here / 'hands').glob('*.jpg'))
 for name in hands:
     shutil.copy(here / 'hands' / name, here / 'docs' / 'hands' / name)
 
+# The Wirusy card pictures
+(here / 'docs' / 'cards').mkdir(exist_ok=True)
+cards = sorted(p.name for p in (here / 'cards').glob('*.jpg'))
+for name in cards:
+    shutil.copy(here / 'cards' / name, here / 'docs' / 'cards' / name)
+
 # The chess piece pictures
 (here / 'docs' / 'pieces').mkdir(exist_ok=True)
 pieces = sorted(p.name for p in (here / 'pieces').glob('*.png'))
@@ -67,7 +73,7 @@ for name in pieces:
 
 # Offline: keep a copy of the game on the iPad. A new version number makes the iPad fetch the update.
 (here / 'docs' / 'sw.js').write_text(f'''const CACHE = 'raadspel-{version}';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}];
+const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}, {', '.join(repr('cards/' + x) for x in cards)}];
 self.addEventListener('install', e => {{
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 }});
