@@ -318,6 +318,43 @@
   @keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
   button:focus-visible { outline: 3px solid var(--down); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) { .confetti, .shake { animation: none; display: none; } .dog { animation: none !important; } }
+  /* Sudoku */
+  :root { --sd-line: #2b2140; --sd-thin: #d9ccf2; --sd-peer: #f1e9ff; --sd-same: #cfe4ff; --sd-sel: #ffd59e; --sd-mine: #2f6fd0; --sd-wrong: #e0442a; --sd-wrong-bg: #ffe0d6; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sd-line: #f6f0ff; --sd-thin: #4a4070; --sd-peer: #352c52; --sd-same: #2c4a78; --sd-sel: #7a5a20; --sd-mine: #8cc4ff; --sd-wrong: #ff8a66; --sd-wrong-bg: #5a3340; } }
+  :root[data-theme="dark"] { --sd-line: #f6f0ff; --sd-thin: #4a4070; --sd-peer: #352c52; --sd-same: #2c4a78; --sd-sel: #7a5a20; --sd-mine: #8cc4ff; --sd-wrong: #ff8a66; --sd-wrong-bg: #5a3340; }
+  .sd-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; gap: 8px; }
+  .sd-top #sdFaults.bad { color: var(--sd-wrong); }
+  .sd-grid { display: grid; grid-template-columns: repeat(9, 1fr); border: 3px solid var(--sd-line); border-radius: 6px; overflow: hidden;
+    aspect-ratio: 1; user-select: none; -webkit-user-select: none; touch-action: manipulation; background: var(--card); }
+  .sd-cell { display: flex; align-items: center; justify-content: center; font-size: clamp(1.2rem, 6vw, 1.9rem); font-weight: 700; line-height: 1;
+    border-right: 1px solid var(--sd-thin); border-bottom: 1px solid var(--sd-thin); cursor: pointer; position: relative; min-width: 0; }
+  .sd-cell:nth-child(9n) { border-right: none; }
+  .sd-cell:nth-child(n+73) { border-bottom: none; }
+  .sd-cell.sd-r { border-right: 2px solid var(--sd-line); }
+  .sd-cell.sd-b { border-bottom: 2px solid var(--sd-line); }
+  .sd-cell.sd-peer { background: var(--sd-peer); }
+  .sd-cell.sd-same { background: var(--sd-same); }
+  .sd-cell.sd-sel { background: var(--sd-sel); }
+  .sd-cell.sd-given { color: var(--ink); }
+  .sd-cell.sd-mine { color: var(--sd-mine); font-weight: 600; }
+  .sd-cell.sd-wrong { color: var(--sd-wrong); background: var(--sd-wrong-bg); font-weight: 600; }
+  .sd-cell.sd-wrong.sd-sel { background: var(--sd-sel); }
+  .sd-cell.sd-pop { animation: sdpop .35s ease; }
+  @keyframes sdpop { 50% { transform: scale(1.25); } }
+  .sd-notes { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; height: 100%; padding: 1px; }
+  .sd-notes i { font-style: normal; font-size: clamp(.5rem, 2.4vw, .72rem); font-weight: 600; color: var(--soft); display: flex; align-items: center; justify-content: center; }
+  .sd-notes i.on { color: var(--sd-mine); font-weight: 800; }
+  .sd-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 12px 0 8px; }
+  .sd-tools button { font: inherit; font-size: clamp(.75rem, 3.6vw, .95rem); white-space: nowrap; border: none; border-radius: 14px; padding: 8px 2px; background: var(--key); color: var(--ink); cursor: pointer; box-shadow: 0 3px 0 var(--key-edge); }
+  .sd-tools button:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
+  .sd-tools button.on { background: var(--ok); color: var(--on); box-shadow: 0 3px 0 var(--ok-edge); }
+  .sd-nums { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; }
+  .sd-nums button { font: inherit; font-size: clamp(1.3rem, 6.5vw, 2rem); font-weight: 800; border: none; border-radius: 12px; padding: 4px 0 2px;
+    background: var(--key); color: var(--sd-mine); cursor: pointer; box-shadow: 0 3px 0 var(--key-edge); line-height: 1.1; touch-action: manipulation; }
+  .sd-nums button small { display: block; font-size: .65rem; font-weight: 600; color: var(--soft); }
+  .sd-nums button:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
+  .sd-nums button.done { visibility: hidden; }
+  .sd-nums.notes button { color: var(--soft); font-weight: 600; font-size: clamp(1rem, 5vw, 1.5rem); }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -364,6 +401,7 @@
       <button class="level w3" id="soloPool">🎱 Pool<small>8-ball tegen het hondje</small></button>
       <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
+      <button class="level l4" id="soloSudoku">🧩 Sudoku<small>Cijferpuzzel in 4 levels</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
   </section>
@@ -646,6 +684,40 @@
     <button class="back" id="crashBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Sudoku: kies een level -->
+  <section id="sudokuLevel" class="hidden">
+    <p class="sub">Hoe moeilijk?</p>
+    <div class="levels" id="sdLevels">
+      <button class="level w2" id="sdResume" hidden>▶️ Verder spelen<small><span id="sdResumeLevel"></span> · <span id="sdResumeTime"></span></small></button>
+      <button class="level l1" data-sd="1">🐣 Makkelijk<small></small></button>
+      <button class="level l2" data-sd="2">🐰 Gemiddeld<small></small></button>
+      <button class="level l3" data-sd="3">🦊 Moeilijk<small></small></button>
+      <button class="level l4" data-sd="4">🦄 Meester<small></small></button>
+    </div>
+    <button class="back" data-to="soloGames">← Terug</button>
+  </section>
+
+  <!-- Sudoku: spelen -->
+  <section id="sudoku" class="hidden">
+    <div class="card">
+      <div class="sd-top"><span id="sdLevelName"></span><span id="sdFaults"></span><span id="sdTime">0:00</span></div>
+      <div class="sd-grid" id="sdGrid"></div>
+      <div class="sd-tools">
+        <button id="sdUndo">↩️ Terug</button>
+        <button id="sdErase">🧽 Gum</button>
+        <button id="sdNotes">✏️ Notities</button>
+        <button id="sdHint">💡 Hint</button>
+      </div>
+      <div class="sd-nums" id="sdNums"></div>
+      <p class="ttt-status" id="sdStatus"></p>
+      <div class="ttt-end" id="sdEnd" hidden>
+        <button class="again" id="sdChance">💪 Nog een kans</button>
+        <button class="again" id="sdAgain">✨ Nieuw spel</button>
+      </div>
+    </div>
+    <button class="back" id="sdBack" data-hold="always">← Ander level</button>
+  </section>
+
   <!-- Gravity Run -->
   <section id="gravity" class="hidden">
     <div class="card">
@@ -879,7 +951,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -5002,6 +5074,329 @@
   });
   $('back').addEventListener('click', () => mode === 'solo' ? show('start') : stopTogether());
   $('back2').addEventListener('click', () => { stopMusic(); mode === 'solo' ? show('start') : stopTogether(); });
+
+  // ----- Sudoku (alone): four levels, notes, three faults, a clock; the game is kept on the device -----
+  // A level is set by how the puzzle can be solved: 1 = only "this is the one spot / the one number",
+  // 2 = also pairs and lines (smarter tricks), 3 = harder than that. Fewer given numbers make it harder too.
+  const SD_LEVELS = {
+    1: { name: '🐣 Makkelijk', grade: 1, minClues: 38 },
+    2: { name: '🐰 Gemiddeld', grade: 1, minClues: 27 },
+    3: { name: '🦊 Moeilijk', grade: 2, minClues: 22 },
+    4: { name: '🦄 Meester', grade: 3, minClues: 17 },
+  };
+  const SD_ALL = 0x3fe;                                   // the numbers 1 to 9, one bit each
+  const sdBox = i => Math.floor(i / 27) * 3 + Math.floor(i % 9 / 3);
+  const sdBits = m => { let n = 0; while (m) { m &= m - 1; n++; } return n; };
+  const SD_UNITS = [];                                    // 9 rows, 9 columns, 9 boxes
+  for (let r = 0; r < 9; r++) SD_UNITS.push([...Array(9)].map((_, c) => r * 9 + c));
+  for (let c = 0; c < 9; c++) SD_UNITS.push([...Array(9)].map((_, r) => r * 9 + c));
+  for (let b = 0; b < 9; b++) SD_UNITS.push([...Array(9)].map((_, k) => (Math.floor(b / 3) * 3 + Math.floor(k / 3)) * 9 + b % 3 * 3 + k % 3));
+  const SD_PEERS = [...Array(81)].map((_, i) => [...new Set(SD_UNITS.filter(u => u.includes(i)).flat())].filter(j => j !== i));
+  const SD_LOCKS = [];                                    // a box and a line that share three cells
+  for (const a of SD_UNITS) for (const b of SD_UNITS) {
+    const both = a.filter(i => b.includes(i));
+    if (a !== b && both.length === 3) SD_LOCKS.push({ both, aRest: a.filter(i => !both.includes(i)), bRest: b.filter(i => !both.includes(i)) });
+  }
+
+  // Counts the solutions (up to a limit); fills an empty grid at random to make a new solution
+  function sdCount(grid, limit, random) {
+    const g = grid.slice(), row = Array(9).fill(0), col = Array(9).fill(0), box = Array(9).fill(0);
+    for (let i = 0; i < 81; i++) if (g[i]) { const b = 1 << g[i]; row[i / 9 | 0] |= b; col[i % 9] |= b; box[sdBox(i)] |= b; }
+    let found = 0, first = null;
+    (function step() {
+      let at = -1, free = 0, n = 10;
+      for (let i = 0; i < 81; i++) if (!g[i]) {
+        const f = SD_ALL & ~(row[i / 9 | 0] | col[i % 9] | box[sdBox(i)]), k = sdBits(f);
+        if (k < n) { at = i; free = f; n = k; if (k <= 1) break; }
+      }
+      if (at < 0) { found++; if (!first) first = g.slice(); return found >= limit; }
+      const ds = []; for (let d = 1; d <= 9; d++) if (free & 1 << d) ds.push(d);
+      if (random) shuffle(ds);
+      const r = at / 9 | 0, c = at % 9, x = sdBox(at);
+      for (const d of ds) {
+        const b = 1 << d; g[at] = d; row[r] |= b; col[c] |= b; box[x] |= b;
+        const stop = step();
+        g[at] = 0; row[r] &= ~b; col[c] &= ~b; box[x] &= ~b;
+        if (stop) return true;
+      }
+      return false;
+    })();
+    return { found, first };
+  }
+
+  // How hard is a puzzle? Solves it the way a person does and says which tricks were needed (3 = not enough)
+  function sdGrade(puzzle) {
+    const v = puzzle.slice(), c = v.map(x => x ? 0 : SD_ALL);
+    const place = (i, d) => { v[i] = d; c[i] = 0; for (const p of SD_PEERS[i]) c[p] &= ~(1 << d); };
+    for (let i = 0; i < 81; i++) if (v[i]) for (const p of SD_PEERS[i]) c[p] &= ~(1 << v[i]);
+    const singles = () => {
+      for (let i = 0; i < 81; i++) if (!v[i] && sdBits(c[i]) === 1) { place(i, 31 - Math.clz32(c[i])); return true; }
+      for (const u of SD_UNITS) for (let d = 1; d <= 9; d++) {
+        let at = -1, n = 0;
+        for (const i of u) if (c[i] & 1 << d) { at = i; n++; }
+        if (n === 1) { place(at, d); return true; }
+      }
+      return false;
+    };
+    const lines = () => {
+      for (const L of SD_LOCKS) for (let d = 1; d <= 9; d++) {
+        const bit = 1 << d;
+        if (!L.both.some(i => c[i] & bit) || L.aRest.some(i => c[i] & bit)) continue;
+        let did = false;
+        for (const i of L.bRest) if (c[i] & bit) { c[i] &= ~bit; did = true; }
+        if (did) return true;
+      }
+      return false;
+    };
+    const naked = () => {
+      for (const u of SD_UNITS) {
+        const open = u.filter(i => !v[i]);
+        for (let x = 0; x < open.length; x++) for (let y = x + 1; y < open.length; y++) {
+          const m2 = c[open[x]] | c[open[y]];
+          for (const [m, set] of [[m2, [open[x], open[y]]], ...open.slice(y + 1).map(z => [m2 | c[z], [open[x], open[y], z]])]) {
+            if (sdBits(m) !== set.length) continue;
+            let did = false;
+            for (const i of open) if (!set.includes(i) && c[i] & m) { c[i] &= ~m; did = true; }
+            if (did) return true;
+          }
+        }
+      }
+      return false;
+    };
+    const hidden = () => {
+      for (const u of SD_UNITS) {
+        const where = [];
+        for (let d = 1; d <= 9; d++) where[d] = u.filter(i => c[i] & 1 << d);
+        for (let d = 1; d <= 9; d++) for (let e = d + 1; e <= 9; e++) {
+          if (where[d].length !== 2 || where[e].length !== 2 || where[d][0] !== where[e][0] || where[d][1] !== where[e][1]) continue;
+          const keep = 1 << d | 1 << e; let did = false;
+          for (const i of where[d]) if (c[i] & ~keep) { c[i] &= keep; did = true; }
+          if (did) return true;
+        }
+      }
+      return false;
+    };
+    let grade = 1;
+    for (;;) {
+      if (singles()) continue;
+      if (lines() || naked() || hidden()) { grade = 2; continue; }
+      break;
+    }
+    return v.includes(0) ? 3 : grade;
+  }
+
+  // A new puzzle with exactly one solution, at the level's difficulty, the same when turned upside down
+  function sdMake(level) {
+    const L = SD_LEVELS[level];
+    let last = null;
+    for (let tries = 0; tries < 60; tries++) {
+      const solution = sdCount(Array(81).fill(0), 1, true).first, puzzle = solution.slice();
+      let clues = 81;
+      for (const i of shuffle([...Array(41).keys()])) {
+        const pair = i === 40 ? [40] : [i, 80 - i];
+        if (clues - pair.length < L.minClues) continue;
+        const keep = pair.map(k => puzzle[k]);
+        pair.forEach(k => { puzzle[k] = 0; });
+        if (sdCount(puzzle, 2).found === 1 && (L.grade === 3 || sdGrade(puzzle) <= L.grade)) clues -= pair.length;
+        else pair.forEach((k, n) => { puzzle[k] = keep[n]; });
+      }
+      last = { puzzle, solution };
+      if (sdGrade(puzzle) === L.grade) break;
+    }
+    return last;
+  }
+
+  const sd = { level: 1, puzzle: null, solution: null, vals: null, notes: null, sel: -1, notesOn: false,
+               faults: 0, secs: 0, hints: 0, undo: [], over: false, clock: null, pop: -1 };
+  const SD_FAULTS = 3;
+  const sdTime = s => { const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = String(s % 60).padStart(2, '0'); return h ? `${h}:${String(m).padStart(2, '0')}:${x}` : `${m}:${x}`; };
+  function sdLoad(key) { try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; } }
+  function sdSave() {
+    if (!sd.puzzle) return;
+    try {
+      if (sd.over && !sd.vals.includes(0) && sd.vals.every((v, i) => v === sd.solution[i])) localStorage.removeItem('raadspel-sudoku');
+      else localStorage.setItem('raadspel-sudoku', JSON.stringify({ level: sd.level, puzzle: sd.puzzle, solution: sd.solution, vals: sd.vals,
+        notes: sd.notes, faults: sd.faults, secs: sd.secs, hints: sd.hints }));
+    } catch (e) {}
+  }
+
+  function sudokuMenu() {
+    const best = sdLoad('raadspel-sudoku-best') || {};
+    document.querySelectorAll('#sdLevels [data-sd] small').forEach(el => {
+      const t = best[el.parentNode.dataset.sd];
+      el.textContent = t ? `Record: ${sdTime(t)}` : 'Nog geen record';
+    });
+    const saved = sdLoad('raadspel-sudoku');
+    $('sdResume').hidden = !saved;
+    if (saved) { $('sdResumeLevel').textContent = SD_LEVELS[saved.level].name; $('sdResumeTime').textContent = sdTime(saved.secs); }
+    show('sudokuLevel');
+  }
+
+  function sudokuNew(level) {
+    $('sdGrid').innerHTML = ''; $('sdNums').innerHTML = '';
+    $('sdStatus').textContent = 'Even wachten…'; $('sdEnd').hidden = true;
+    $('sdLevelName').textContent = SD_LEVELS[level].name; $('sdFaults').textContent = ''; $('sdTime').textContent = '0:00';
+    show('sudoku');
+    setTimeout(() => {
+      const { puzzle, solution } = sdMake(level);
+      sudokuPlay({ level, puzzle, solution, vals: puzzle.slice(), notes: Array(81).fill(0), faults: 0, secs: 0, hints: 0 });
+    }, 50);
+  }
+
+  function sudokuPlay(game) {
+    Object.assign(sd, game, { sel: -1, notesOn: false, undo: [], over: false, pop: -1 });
+    $('sdLevelName').textContent = SD_LEVELS[sd.level].name;
+    $('sdNums').innerHTML = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(d => `<button data-d="${d}">${d}<small></small></button>`).join('');
+    $('sdEnd').hidden = true;
+    $('sdStatus').textContent = 'Tik op een vakje en kies een cijfer.';
+    show('sudoku');
+    sdSave();
+    sdClock(true);
+    sdRender();
+  }
+
+  function sdClock(on) {
+    clearInterval(sd.clock); sd.clock = null;
+    if (!on) return;
+    sd.clock = setInterval(() => {
+      if (screen !== 'sudoku' || sd.over || document.hidden) return;
+      sd.secs++; $('sdTime').textContent = sdTime(sd.secs);
+      if (sd.secs % 5 === 0) sdSave();
+    }, 1000);
+  }
+
+  function sdRender() {
+    if (!sd.vals) return;
+    const sel = sd.sel, selV = sel >= 0 ? sd.vals[sel] : 0;
+    let html = '';
+    for (let i = 0; i < 81; i++) {
+      const r = i / 9 | 0, c = i % 9, v = sd.vals[i], cls = ['sd-cell'];
+      if (c === 2 || c === 5) cls.push('sd-r');
+      if (r === 2 || r === 5) cls.push('sd-b');
+      if (sd.puzzle[i]) cls.push('sd-given'); else if (v && v !== sd.solution[i]) cls.push('sd-wrong'); else if (v) cls.push('sd-mine');
+      if (i === sel) cls.push('sd-sel');
+      else if (selV && v === selV) cls.push('sd-same');
+      else if (sel >= 0 && (r === (sel / 9 | 0) || c === sel % 9 || sdBox(i) === sdBox(sel))) cls.push('sd-peer');
+      if (i === sd.pop) cls.push('sd-pop');
+      let inner = v || '';
+      if (!v && sd.notes[i]) inner = '<span class="sd-notes">' + [1, 2, 3, 4, 5, 6, 7, 8, 9].map(d =>
+        sd.notes[i] & 1 << d ? `<i${d === selV ? ' class="on"' : ''}>${d}</i>` : '<i></i>').join('') + '</span>';
+      html += `<div class="${cls.join(' ')}" data-i="${i}">${inner}</div>`;
+    }
+    $('sdGrid').innerHTML = html;
+    sd.pop = -1;
+    const left = Array(10).fill(9);
+    for (let i = 0; i < 81; i++) if (sd.vals[i] && sd.vals[i] === sd.solution[i]) left[sd.vals[i]]--;
+    $('sdNums').querySelectorAll('button').forEach(b => { const d = +b.dataset.d; b.querySelector('small').textContent = left[d]; b.classList.toggle('done', !left[d]); });
+    $('sdNums').classList.toggle('notes', sd.notesOn);
+    $('sdNotes').classList.toggle('on', sd.notesOn);
+    $('sdFaults').textContent = `Fouten: ${sd.faults}/${SD_FAULTS}`;
+    $('sdFaults').classList.toggle('bad', sd.faults > 0);
+    $('sdTime').textContent = sdTime(sd.secs);
+  }
+
+  const sdFixed = i => sd.puzzle[i] || (sd.vals[i] && sd.vals[i] === sd.solution[i]);   // given or already right: stays
+  function sdRemember() { sd.undo.push({ vals: sd.vals.slice(), notes: sd.notes.slice() }); if (sd.undo.length > 200) sd.undo.shift(); }
+
+  // A right number also leaves the notes of its row, column and box
+  function sdPlace(i, d) {
+    sd.vals[i] = d; sd.notes[i] = 0; sd.pop = i;
+    if (d === sd.solution[i]) for (const p of SD_PEERS[i]) sd.notes[p] &= ~(1 << d);
+  }
+
+  function sdInput(d) {
+    const i = sd.sel;
+    if (sd.over || i < 0 || sdFixed(i)) return;
+    if (sd.notesOn) {
+      if (sd.vals[i]) return;
+      sdRemember(); sd.notes[i] ^= 1 << d;
+    } else {
+      if (sd.vals[i] === d) return;
+      sdRemember(); sdPlace(i, d);
+      if (d !== sd.solution[i]) {
+        sd.faults++;
+        $('sdStatus').textContent = sd.faults >= SD_FAULTS ? '' : 'Dat cijfer past daar niet.';
+      } else $('sdStatus').textContent = '';
+    }
+    sdAfter();
+  }
+
+  function sdAfter() {
+    sdRender();
+    if (sd.vals.every((v, i) => v === sd.solution[i])) return sdWon();
+    if (sd.faults >= SD_FAULTS) {
+      sd.over = true;
+      $('sdStatus').textContent = `😵 ${SD_FAULTS} fouten: het spel is voorbij.`;
+      $('sdChance').hidden = false; $('sdEnd').hidden = false;
+    }
+    sdSave();
+  }
+
+  function sdWon() {
+    sd.over = true; sd.sel = -1; sdRender();
+    const best = sdLoad('raadspel-sudoku-best') || {}, record = !best[sd.level] || sd.secs < best[sd.level];
+    if (record) { best[sd.level] = sd.secs; try { localStorage.setItem('raadspel-sudoku-best', JSON.stringify(best)); } catch (e) {} }
+    $('sdStatus').textContent = `🎉 Opgelost in ${sdTime(sd.secs)}!` + (record ? ' 🏆 Nieuw record!' : '');
+    $('sdChance').hidden = true; $('sdEnd').hidden = false;
+    sdSave(); sdClock(false);
+    confetti(); winSound();
+  }
+
+  function sdErase() {
+    const i = sd.sel;
+    if (sd.over || i < 0 || sdFixed(i) || (!sd.vals[i] && !sd.notes[i])) return;
+    sdRemember(); sd.vals[i] = 0; sd.notes[i] = 0; sdAfter();
+  }
+
+  function sdHint() {
+    if (sd.over) return;
+    let i = sd.sel;
+    if (i < 0 || sdFixed(i)) {
+      const open = [...Array(81).keys()].filter(k => !sdFixed(k));
+      i = open[Math.floor(Math.random() * open.length)];
+    }
+    sdRemember(); sd.sel = i; sdPlace(i, sd.solution[i]); sd.hints++;
+    $('sdStatus').textContent = '';
+    sdAfter();
+  }
+
+  function sdUndo() {
+    if (sd.over || !sd.undo.length) return;
+    const u = sd.undo.pop(); sd.vals = u.vals; sd.notes = u.notes; sdRender(); sdSave();
+  }
+
+  function sdLeave() { sdSave(); sdClock(false); stopMusic(); sudokuMenu(); }
+
+  $('soloSudoku').addEventListener('click', () => { mode = 'solo'; sudokuMenu(); });
+  document.querySelectorAll('#sdLevels [data-sd]').forEach(b => b.addEventListener('click', () => sudokuNew(+b.dataset.sd)));
+  $('sdResume').addEventListener('click', () => { const g = sdLoad('raadspel-sudoku'); if (g) sudokuPlay(g); });
+  $('sdGrid').addEventListener('pointerdown', e => {
+    const cell = e.target.closest('[data-i]'); if (!cell || !sd.vals) return;
+    e.preventDefault(); sd.sel = +cell.dataset.i; sdRender();
+  });
+  $('sdNums').addEventListener('click', e => { const b = e.target.closest('[data-d]'); if (b) sdInput(+b.dataset.d); });
+  $('sdUndo').addEventListener('click', sdUndo);
+  $('sdErase').addEventListener('click', sdErase);
+  $('sdNotes').addEventListener('click', () => { sd.notesOn = !sd.notesOn; sdRender(); });
+  $('sdHint').addEventListener('click', sdHint);
+  $('sdChance').addEventListener('click', () => {
+    sd.faults = SD_FAULTS - 1; sd.over = false; $('sdEnd').hidden = true; $('sdStatus').textContent = ''; sdRender(); sdSave();
+  });
+  $('sdAgain').addEventListener('click', () => sudokuNew(sd.level));
+  $('sdBack').addEventListener('click', sdLeave);
+  document.addEventListener('keydown', e => {
+    if (screen !== 'sudoku' || !sd.vals) return;
+    if (/^[1-9]$/.test(e.key)) sdInput(+e.key);
+    else if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') sdErase();
+    else if (e.key === 'n' || e.key === 'N') { sd.notesOn = !sd.notesOn; sdRender(); }
+    else if ((e.metaKey || e.ctrlKey) && e.key === 'z') { e.preventDefault(); sdUndo(); }
+    else if (e.key.startsWith('Arrow')) {
+      e.preventDefault();
+      const i = sd.sel < 0 ? 40 : sd.sel, r = i / 9 | 0, c = i % 9;
+      const [dr, dc] = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key] || [0, 0];
+      sd.sel = (r + dr + 9) % 9 * 9 + (c + dc + 9) % 9; sdRender();
+    }
+  });
 
   greet();
   show('welcome');

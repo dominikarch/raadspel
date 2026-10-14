@@ -371,6 +371,24 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Sudoku ---
+  ['🧩 Sudoku', '🧩 Sudoku', '🧩 Sudoku'],
+  ['Cijferpuzzel in 4 levels', 'Łamigłówka liczbowa, 4 poziomy', 'Number puzzle in 4 levels'],
+  ['Hoe moeilijk?', 'Jak trudno?', 'How hard?'],
+  ['▶️ Verder spelen', '▶️ Graj dalej', '▶️ Continue'],
+  ['Nog geen record', 'Jeszcze bez rekordu', 'No record yet'],
+  ['↩️ Terug', '↩️ Cofnij', '↩️ Undo'],
+  ['🧽 Gum', '🧽 Gumka', '🧽 Erase'],
+  ['✏️ Notities', '✏️ Notatki', '✏️ Notes'],
+  ['💡 Hint', '💡 Podpowiedź', '💡 Hint'],
+  ['💪 Nog een kans', '💪 Jeszcze jedna szansa', '💪 One more chance'],
+  ['Fouten: {0}/{1}', 'Błędy: {0}/{1}', 'Mistakes: {0}/{1}'],
+  ['Tik op een vakje en kies een cijfer.', 'Stuknij pole i wybierz cyfrę.', 'Tap a square and choose a number.'],
+  ['Dat cijfer past daar niet.', 'Ta cyfra tu nie pasuje.', "That number doesn't fit there."],
+  ['😵 {0} fouten: het spel is voorbij.', '😵 {0} błędy: koniec gry.', '😵 {0} mistakes: game over.'],
+  ['🎉 Opgelost in {0}!', '🎉 Rozwiązane w {0}!', '🎉 Solved in {0}!'],
+  ['🏆 Nieuw record!', '🏆 Nowy rekord!', '🏆 New record!'],
+
   // --- Nagelsalon ---
   ['💅 Welkom in de nagelsalon!', '💅 Witaj w salonie paznokci!', '💅 Welcome to the nail salon!'],
   ['🎨 Vrij spelen', '🎨 Swobodna zabawa', '🎨 Free play'],
