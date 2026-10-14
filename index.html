@@ -318,43 +318,55 @@
   @keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
   button:focus-visible { outline: 3px solid var(--down); outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) { .confetti, .shake { animation: none; display: none; } .dog { animation: none !important; } }
-  /* Sudoku */
-  :root { --sd-line: #2b2140; --sd-thin: #d9ccf2; --sd-peer: #f1e9ff; --sd-same: #cfe4ff; --sd-sel: #ffd59e; --sd-mine: #2f6fd0; --sd-wrong: #e0442a; --sd-wrong-bg: #ffe0d6; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sd-line: #f6f0ff; --sd-thin: #4a4070; --sd-peer: #352c52; --sd-same: #2c4a78; --sd-sel: #7a5a20; --sd-mine: #8cc4ff; --sd-wrong: #ff8a66; --sd-wrong-bg: #5a3340; } }
-  :root[data-theme="dark"] { --sd-line: #f6f0ff; --sd-thin: #4a4070; --sd-peer: #352c52; --sd-same: #2c4a78; --sd-sel: #7a5a20; --sd-mine: #8cc4ff; --sd-wrong: #ff8a66; --sd-wrong-bg: #5a3340; }
-  .sd-top { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; gap: 8px; }
-  .sd-top #sdFaults.bad { color: var(--sd-wrong); }
-  .sd-grid { display: grid; grid-template-columns: repeat(9, 1fr); border: 3px solid var(--sd-line); border-radius: 6px; overflow: hidden;
-    aspect-ratio: 1; user-select: none; -webkit-user-select: none; touch-action: manipulation; background: var(--card); }
-  .sd-cell { display: flex; align-items: center; justify-content: center; font-size: clamp(1.2rem, 6vw, 1.9rem); font-weight: 700; line-height: 1;
-    border-right: 1px solid var(--sd-thin); border-bottom: 1px solid var(--sd-thin); cursor: pointer; position: relative; min-width: 0; }
+  /* Sudoku: Dominik's own game — plain, light, full width, like a classic sudoku app; the same in dark mode */
+  body.sd-mode { background: #fff; color: #222; padding-left: 0; padding-right: 0; }
+  body.sd-mode main { max-width: 640px; }
+  body.sd-mode h1 { display: none; }
+  .sd-page { font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #222; color-scheme: light; }
+  .sd-page button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
+  .sd-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid #ddd; font-size: 1.25rem; font-weight: 400; color: #444; }
+  .sd-bar button { background: none; border: none; padding: 0; font-size: 1.25rem; color: #444; cursor: pointer; }
+  .sd-icons { display: flex; align-items: center; gap: 4px; padding: 8px 10px; }
+  .sd-icons .grow { flex: 1; }
+  .sd-icons button { background: none; border: none; width: 46px; height: 42px; border-radius: 10px; color: #555; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .sd-icons button svg { width: 26px; height: 26px; }
+  .sd-icons button.on { background: #e3effc; color: #2f7fe0; }
+  #sdFaults { font-size: 1.05rem; color: #888; padding-left: 4px; }
+  #sdFaults.bad b { color: #e0442a; font-weight: 500; }
+  .sd-grid { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: repeat(9, minmax(0, 1fr)); aspect-ratio: 1; user-select: none; -webkit-user-select: none; touch-action: manipulation;
+    background: #fff; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+  .sd-cell { display: flex; align-items: center; justify-content: center; font-size: clamp(1.5rem, 8.5vw, 2.6rem); font-weight: 300; line-height: 1;
+    border-right: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2; cursor: pointer; min-width: 0; color: #222; background: #fff; }
   .sd-cell:nth-child(9n) { border-right: none; }
   .sd-cell:nth-child(n+73) { border-bottom: none; }
-  .sd-cell.sd-r { border-right: 2px solid var(--sd-line); }
-  .sd-cell.sd-b { border-bottom: 2px solid var(--sd-line); }
-  .sd-cell.sd-peer { background: var(--sd-peer); }
-  .sd-cell.sd-same { background: var(--sd-same); }
-  .sd-cell.sd-sel { background: var(--sd-sel); }
-  .sd-cell.sd-given { color: var(--ink); }
-  .sd-cell.sd-mine { color: var(--sd-mine); font-weight: 600; }
-  .sd-cell.sd-wrong { color: var(--sd-wrong); background: var(--sd-wrong-bg); font-weight: 600; }
-  .sd-cell.sd-wrong.sd-sel { background: var(--sd-sel); }
-  .sd-cell.sd-pop { animation: sdpop .35s ease; }
-  @keyframes sdpop { 50% { transform: scale(1.25); } }
-  .sd-notes { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; height: 100%; padding: 1px; }
-  .sd-notes i { font-style: normal; font-size: clamp(.5rem, 2.4vw, .72rem); font-weight: 600; color: var(--soft); display: flex; align-items: center; justify-content: center; }
-  .sd-notes i.on { color: var(--sd-mine); font-weight: 800; }
-  .sd-tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 12px 0 8px; }
-  .sd-tools button { font: inherit; font-size: clamp(.75rem, 3.6vw, .95rem); white-space: nowrap; border: none; border-radius: 14px; padding: 8px 2px; background: var(--key); color: var(--ink); cursor: pointer; box-shadow: 0 3px 0 var(--key-edge); }
-  .sd-tools button:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
-  .sd-tools button.on { background: var(--ok); color: var(--on); box-shadow: 0 3px 0 var(--ok-edge); }
-  .sd-nums { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; }
-  .sd-nums button { font: inherit; font-size: clamp(1.3rem, 6.5vw, 2rem); font-weight: 800; border: none; border-radius: 12px; padding: 4px 0 2px;
-    background: var(--key); color: var(--sd-mine); cursor: pointer; box-shadow: 0 3px 0 var(--key-edge); line-height: 1.1; touch-action: manipulation; }
-  .sd-nums button small { display: block; font-size: .65rem; font-weight: 600; color: var(--soft); }
-  .sd-nums button:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--key-edge); }
+  .sd-cell.sd-r { border-right: 1.5px solid #888; }
+  .sd-cell.sd-b { border-bottom: 1.5px solid #888; }
+  .sd-cell.sd-mine { color: #2f7fe0; }
+  .sd-cell.sd-wrong { color: #e0442a; }
+  .sd-cell.sd-same, .sd-cell.sd-sel { background: #a9d0f7; }
+  .sd-cell.sd-pop { animation: sdpop .3s ease; }
+  @keyframes sdpop { 50% { transform: scale(1.18); } }
+  .sd-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); width: 100%; height: 100%; padding: 2px; }
+  .sd-notes i { font-style: normal; font-size: clamp(.5rem, 2.6vw, .8rem); color: #888; display: flex; align-items: center; justify-content: center; }
+  .sd-notes i.on { color: #2f7fe0; font-weight: 600; }
+  .sd-time { font-size: 1.4rem; font-weight: 300; color: #666; margin: 14px 0 12px; font-variant-numeric: tabular-nums; }
+  .sd-nums { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 2px; padding: 0 2px; }
+  .sd-nums button { font-size: clamp(1.6rem, 8vw, 2.4rem); font-weight: 300; border: none; border-radius: 0; padding: 0; height: clamp(44px, 11vw, 64px); min-width: 0;
+    background: #f2f4f7; color: #2f7fe0; cursor: pointer; touch-action: manipulation; line-height: 1; }
+  .sd-nums button small { display: none; }
+  .sd-nums button:active { background: #dbe8f7; }
   .sd-nums button.done { visibility: hidden; }
-  .sd-nums.notes button { color: var(--soft); font-weight: 600; font-size: clamp(1rem, 5vw, 1.5rem); }
+  .sd-nums.notes button { color: #888; font-size: clamp(1.1rem, 5.5vw, 1.6rem); }
+  .sd-status { min-height: 1.6rem; margin: 14px 12px 0; font-size: 1.05rem; color: #666; }
+  .sd-end { display: flex; gap: 10px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .sd-end button { font-size: 1.1rem; border: 1px solid #2f7fe0; color: #2f7fe0; background: #fff; border-radius: 10px; padding: 8px 16px; cursor: pointer; }
+  .sd-page .back, #sudokuLevel .back { border: none; color: #888; font-family: inherit; }
+  #sudokuLevel .levels { gap: 0; border-top: 1px solid #ddd; }
+  #sudokuLevel .level { background: #fff !important; color: #222; box-shadow: none; border-radius: 0; border-bottom: 1px solid #ddd; font-weight: 400;
+    font-size: 1.3rem; text-align: left; padding: 14px 18px; font-family: inherit; }
+  #sudokuLevel .level small { color: #888; opacity: 1; font-size: .95rem; }
+  #sudokuLevel .level:active { transform: none; background: #f2f4f7 !important; }
+  #sudokuLevel .sub { font-family: -apple-system, "Helvetica Neue", sans-serif; color: #888; margin: 8px 0 12px; }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -685,37 +697,36 @@
   </section>
 
   <!-- Sudoku: kies een level -->
-  <section id="sudokuLevel" class="hidden">
+  <section id="sudokuLevel" class="hidden sd-page">
     <p class="sub">Hoe moeilijk?</p>
     <div class="levels" id="sdLevels">
-      <button class="level w2" id="sdResume" hidden>▶️ Verder spelen<small><span id="sdResumeLevel"></span> · <span id="sdResumeTime"></span></small></button>
-      <button class="level l1" data-sd="1">🐣 Makkelijk<small></small></button>
-      <button class="level l2" data-sd="2">🐰 Gemiddeld<small></small></button>
-      <button class="level l3" data-sd="3">🦊 Moeilijk<small></small></button>
-      <button class="level l4" data-sd="4">🦄 Meester<small></small></button>
+      <button class="level" id="sdResume" hidden>Verder spelen<small><span id="sdResumeLevel"></span> · <span id="sdResumeTime"></span></small></button>
+      <button class="level" data-sd="1">Makkelijk<small></small></button>
+      <button class="level" data-sd="2">Gemiddeld<small></small></button>
+      <button class="level" data-sd="3">Moeilijk<small></small></button>
+      <button class="level" data-sd="4">Meester<small></small></button>
     </div>
     <button class="back" data-to="soloGames">← Terug</button>
   </section>
 
   <!-- Sudoku: spelen -->
-  <section id="sudoku" class="hidden">
-    <div class="card">
-      <div class="sd-top"><span id="sdLevelName"></span><span id="sdFaults"></span><span id="sdTime">0:00</span></div>
-      <div class="sd-grid" id="sdGrid"></div>
-      <div class="sd-tools">
-        <button id="sdUndo">↩️ Terug</button>
-        <button id="sdErase">🧽 Gum</button>
-        <button id="sdNotes">✏️ Notities</button>
-        <button id="sdHint">💡 Hint</button>
-      </div>
-      <div class="sd-nums" id="sdNums"></div>
-      <p class="ttt-status" id="sdStatus"></p>
-      <div class="ttt-end" id="sdEnd" hidden>
-        <button class="again" id="sdChance">💪 Nog een kans</button>
-        <button class="again" id="sdAgain">✨ Nieuw spel</button>
-      </div>
+  <section id="sudoku" class="hidden sd-page">
+    <div class="sd-bar"><button id="sdBack">Nieuw spel</button><span id="sdLevelName"></span></div>
+    <div class="sd-icons">
+      <span id="sdFaults"></span><span class="grow"></span>
+      <button id="sdUndo" title="Ongedaan maken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+      <button id="sdErase" title="Gum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3a1 1 0 0 1 0-1.4l10-10a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4L13 19"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg></button>
+      <button id="sdHint" title="Hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></button>
+      <button id="sdNotes" title="Notities"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="m15 5 4 4"/></svg></button>
     </div>
-    <button class="back" id="sdBack" data-hold="always">← Ander level</button>
+    <div class="sd-grid" id="sdGrid"></div>
+    <div class="sd-time" id="sdTime">0:00</div>
+    <div class="sd-nums" id="sdNums"></div>
+    <p class="sd-status" id="sdStatus"></p>
+    <div class="sd-end" id="sdEnd" hidden>
+      <button id="sdChance">Nog een kans</button>
+      <button id="sdAgain">Nieuw spel</button>
+    </div>
   </section>
 
   <!-- Gravity Run -->
@@ -959,6 +970,7 @@
 
   function show(name) {
     screen = name;
+    document.body.classList.toggle('sd-mode', name === 'sudoku' || name === 'sudokuLevel');
     for (const s of SCREENS) $(s).classList.toggle('hidden', s !== name);
     const slot = document.querySelector('#' + name + ' .pad-slot');
     const pad = $('pad');
@@ -5079,10 +5091,10 @@
   // A level is set by how the puzzle can be solved: 1 = only "this is the one spot / the one number",
   // 2 = also pairs and lines (smarter tricks), 3 = harder than that. Fewer given numbers make it harder too.
   const SD_LEVELS = {
-    1: { name: '🐣 Makkelijk', grade: 1, minClues: 38 },
-    2: { name: '🐰 Gemiddeld', grade: 1, minClues: 27 },
-    3: { name: '🦊 Moeilijk', grade: 2, minClues: 22 },
-    4: { name: '🦄 Meester', grade: 3, minClues: 17 },
+    1: { name: 'Makkelijk', grade: 1, minClues: 38 },
+    2: { name: 'Gemiddeld', grade: 1, minClues: 27 },
+    3: { name: 'Moeilijk', grade: 2, minClues: 22 },
+    4: { name: 'Meester', grade: 3, minClues: 17 },
   };
   const SD_ALL = 0x3fe;                                   // the numbers 1 to 9, one bit each
   const sdBox = i => Math.floor(i / 27) * 3 + Math.floor(i % 9 / 3);
@@ -5235,7 +5247,7 @@
   function sudokuNew(level) {
     $('sdGrid').innerHTML = ''; $('sdNums').innerHTML = '';
     $('sdStatus').textContent = 'Even wachten…'; $('sdEnd').hidden = true;
-    $('sdLevelName').textContent = SD_LEVELS[level].name; $('sdFaults').textContent = ''; $('sdTime').textContent = '0:00';
+    $('sdLevelName').textContent = SD_LEVELS[level].name; $('sdFaults').innerHTML = ''; $('sdTime').textContent = '0:00';
     show('sudoku');
     setTimeout(() => {
       const { puzzle, solution } = sdMake(level);
@@ -5290,7 +5302,7 @@
     $('sdNums').querySelectorAll('button').forEach(b => { const d = +b.dataset.d; b.querySelector('small').textContent = left[d]; b.classList.toggle('done', !left[d]); });
     $('sdNums').classList.toggle('notes', sd.notesOn);
     $('sdNotes').classList.toggle('on', sd.notesOn);
-    $('sdFaults').textContent = `Fouten: ${sd.faults}/${SD_FAULTS}`;
+    $('sdFaults').innerHTML = `<span>Fouten</span> <b>${sd.faults}/${SD_FAULTS}</b>`;
     $('sdFaults').classList.toggle('bad', sd.faults > 0);
     $('sdTime').textContent = sdTime(sd.secs);
   }
@@ -5326,7 +5338,7 @@
     if (sd.vals.every((v, i) => v === sd.solution[i])) return sdWon();
     if (sd.faults >= SD_FAULTS) {
       sd.over = true;
-      $('sdStatus').textContent = `😵 ${SD_FAULTS} fouten: het spel is voorbij.`;
+      $('sdStatus').textContent = `${SD_FAULTS} fouten: het spel is voorbij.`;
       $('sdChance').hidden = false; $('sdEnd').hidden = false;
     }
     sdSave();
@@ -5336,7 +5348,7 @@
     sd.over = true; sd.sel = -1; sdRender();
     const best = sdLoad('raadspel-sudoku-best') || {}, record = !best[sd.level] || sd.secs < best[sd.level];
     if (record) { best[sd.level] = sd.secs; try { localStorage.setItem('raadspel-sudoku-best', JSON.stringify(best)); } catch (e) {} }
-    $('sdStatus').textContent = `🎉 Opgelost in ${sdTime(sd.secs)}!` + (record ? ' 🏆 Nieuw record!' : '');
+    $('sdStatus').textContent = `Opgelost in ${sdTime(sd.secs)}!` + (record ? ' Nieuw record!' : '');
     $('sdChance').hidden = true; $('sdEnd').hidden = false;
     sdSave(); sdClock(false);
     confetti(); winSound();
