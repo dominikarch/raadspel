@@ -18,6 +18,9 @@ head = '''<!doctype html>
 <link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <style>[hidden]{display:none!important} body{padding-top:max(16px, env(safe-area-inset-top))!important}</style>
+<script>
+''' + (here / 'lang.js').read_text() + '''
+</script>
 '''
 tail = '''
 <script>
