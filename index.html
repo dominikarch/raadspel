@@ -457,6 +457,38 @@
   #pkLight.on { background: #ffd23f; color: #2b1f4a; font-weight: 800; }
   .pk-room .photo-box:not([hidden]) { background: var(--card); border-radius: 18px; padding: 10px; }
   #batCanvas { display: block; width: 100%; max-width: 460px; margin: 0 auto; border-radius: 16px; background: #140b2e; touch-action: none; cursor: pointer; }
+  /* Rummi, plain look (a switch per device): white, full width, real-looking tiles; the same in dark mode */
+  .rk-look { font: inherit; font-size: .95rem; border: none; border-radius: 12px; padding: 4px 12px; background: var(--key); color: var(--ink); cursor: pointer; margin: 0 0 6px auto; display: block; }
+  body.rk-plain { background: #fff; color: #222; padding-left: 0; padding-right: 0; }
+  body.rk-plain main { max-width: 680px; }
+  body.rk-plain h1 { display: none; }
+  body.rk-plain #rummi { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #222; color-scheme: light; }
+  body.rk-plain #rummi .card { background: none; box-shadow: none; padding: 0; border-radius: 0; }
+  body.rk-plain .rk-look { background: #f2f4f7; color: #444; margin-right: 10px; font-family: inherit; }
+  body.rk-plain .rk-seats { gap: 4px 12px; margin: 0 8px 6px; font-size: .95rem; }
+  body.rk-plain .rk-seats span { background: none; padding: 2px 0; border-radius: 0; color: #666; font-size: .95rem; }
+  body.rk-plain .rk-seats span.turn { outline: none; color: #222; font-weight: 600; border-bottom: 2px solid #2f7fe0; }
+  body.rk-plain .rk-table { background: #f2f4f7; border-radius: 0; padding: 8px 6px; gap: 8px 6px; min-height: 200px; border-top: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2; }
+  body.rk-plain .rk-set { background: #fff; border: 1px solid #dcdcdc; border-radius: 6px; padding: 3px; gap: 1px; min-height: 0; }
+  body.rk-plain .rk-set.bad { background: #ffecee; outline: 1px solid #e0442a; }
+  body.rk-plain .rk-set.target { outline: 2px solid #2f7fe0; }
+  body.rk-plain .rk-set.changed { animation: none; outline: 2px solid #a9d0f7; }
+  body.rk-plain .rk-new { color: #2f7fe0; border: 1px dashed #9cc3ef; border-radius: 6px; min-height: 42px; font-size: .9rem; }
+  body.rk-plain .rk-table .wait { color: #888 !important; }
+  body.rk-plain .rk-tile { width: 28px; height: 38px; border-radius: 4px; background: #fffdf6; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size: 1.1rem;
+    box-shadow: 0 1px 0 #d8d0c0, 0 1px 3px rgba(0,0,0,.2); }
+  body.rk-plain .rk-tile.sel { transform: translateY(-4px); box-shadow: 0 0 0 2px #2f7fe0, 0 4px 6px rgba(0,0,0,.2); }
+  body.rk-plain .rk-tile.new { box-shadow: 0 0 0 2px #9cc3ef; }
+  body.rk-plain .rk-tile.fresh { animation: none; background: #dcebfb; box-shadow: 0 0 0 1px #a9d0f7; }
+  body.rk-plain #rkStatus { font-size: 1rem; font-weight: 500; color: #444; margin: 10px 12px; min-height: 1.4rem; }
+  body.rk-plain .rk-rack { background: #f2f4f7; border-radius: 0; padding: 8px; margin-top: 0; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; border-top: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2; }
+  body.rk-plain .rk-rack .rk-tile { width: 100%; height: auto; aspect-ratio: 3 / 4; font-size: clamp(1.1rem, 5.2vw, 1.7rem); }
+  body.rk-plain .rk-rack .wait { color: #888 !important; grid-column: 1 / -1; }
+  body.rk-plain .rk-tools { padding: 0 8px; gap: 6px; }
+  body.rk-plain .rk-tools button { font-family: inherit; font-size: .9rem; background: #f2f4f7; color: #333; border-radius: 10px; padding: 10px 2px; }
+  body.rk-plain .rk-tools .go { background: #2f7fe0; color: #fff; font-weight: 600; }
+  body.rk-plain .rk-tools button:disabled { opacity: .45; }
+  body.rk-plain #rummi .back { border: none; color: #888; font-family: inherit; }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -723,6 +755,7 @@
 
   <!-- Rummi: de tafel -->
   <section id="rummi" class="hidden">
+    <button class="rk-look" id="rkLook"></button>
     <div class="card">
       <div class="rk-seats" id="rkSeats"></div>
       <div class="rk-table" id="rkTable"></div>
@@ -1183,6 +1216,7 @@
   function show(name) {
     screen = name;
     document.body.classList.toggle('sd-mode', name === 'sudoku' || name === 'sudokuLevel');
+    document.body.classList.toggle('rk-plain', name === 'rummi' && rkPlain());
     for (const s of SCREENS) $(s).classList.toggle('hidden', s !== name);
     const slot = document.querySelector('#' + name + ' .pad-slot');
     const pad = $('pad');
@@ -2856,6 +2890,15 @@
 
   const myTurn = () => rk.st && !rk.st.over && rk.st.turn === rk.mySeat;
 
+  // The look of the table, chosen per device: the colourful one, or a plain one like Sudoku
+  function rkPlain() { try { return localStorage.getItem('raadspel-rk-look') === 'plain'; } catch (e) { return false; } }
+  function rkLookButton() { $('rkLook').textContent = rkPlain() ? '🎨 Kleurig' : '◻️ Rustig'; }
+  $('rkLook').addEventListener('click', () => {
+    try { localStorage.setItem('raadspel-rk-look', rkPlain() ? 'color' : 'plain'); } catch (e) {}
+    document.body.classList.toggle('rk-plain', rkPlain());
+    rkLookButton();
+  });
+
   function rummiNext() {
     const st = rk.st, s = st.seats[st.turn];
     rummiDraw();
@@ -2902,6 +2945,7 @@
 
   function rummiDraw() {
     const st = rk.st;
+    rkLookButton();
     $('rkSeats').innerHTML = st.seats.map((s, k) => `<span class="${k === st.turn && !st.over ? 'turn' : ''}">${s.dog ? '🐶' : '🙂'} ${k === rk.mySeat ? 'Jij' : s.name}: ${s.rack.length}</span>`).join('') +
       `<span>🎴 ${st.pool.length}</span>`;
     const mine = myTurn();

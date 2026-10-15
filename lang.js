@@ -340,6 +340,8 @@ window.LANG_TEXTS = [
   ['Hondje Bo: {0}', 'Piesek Bo: {0}', 'Doggy Bo: {0}'],
   ['Hondje Fien: {0}', 'Piesek Fien: {0}', 'Doggy Fien: {0}'],
   ['Hondje Max: {0}', 'Piesek Max: {0}', 'Doggy Max: {0}'],
+  ['◻️ Rustig', '◻️ Spokojnie', '◻️ Plain'],
+  ['🎨 Kleurig', '🎨 Kolorowo', '🎨 Colourful'],
   ['🔢 Sorteer', '🔢 Sortuj', '🔢 Sort'],
   ['🎨 Sorteer', '🎨 Sortuj', '🎨 Sort'],
   ['🎴 Pak een steen', '🎴 Weź kamień', '🎴 Take a tile'],
