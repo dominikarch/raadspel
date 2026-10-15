@@ -442,6 +442,20 @@
   @keyframes wvfresh { 50% { transform: scale(1.12); } }
   .wv-rules { text-align: left; font-size: 1rem; line-height: 1.35; }
   .wv-rules p { margin: 0 0 8px; }
+  /* Pompoen versieren */
+  .pk-room { background: #2b1f4a; }
+  .pk-wrap canvas { width: 100%; aspect-ratio: 1; border-radius: 22px; display: block; touch-action: none; background: #111; }
+  .pk-tabs { grid-template-columns: repeat(5, 1fr); }
+  .pk-tabs button { font-size: .8rem; }
+  .pk-sel { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+  .pk-sel button { font: inherit; font-size: 1.3rem; border: none; border-radius: 12px; background: var(--card); color: var(--ink); padding: 6px 10px; cursor: pointer; min-width: 44px; }
+  .pk-hint { color: #ffd9a0; margin: 8px 0 0; font-size: 1rem; min-height: 1.3em; }
+  .pk-thumb { width: 52px; height: 52px; object-fit: contain; display: block; }
+  .pk-photo { padding: 3px !important; }
+  .pk-photo img { width: 84px; height: 94px; object-fit: cover; border-radius: 10px; display: block; }
+  .pk-actions { grid-template-columns: 1fr 1fr 1fr 1.2fr; }
+  #pkLight.on { background: #ffd23f; color: #2b1f4a; font-weight: 800; }
+  .pk-room .photo-box:not([hidden]) { background: var(--card); border-radius: 18px; padding: 10px; }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -488,6 +502,7 @@
       <button class="level w3" id="soloPool">🎱 Pool<small>8-ball tegen het hondje</small></button>
       <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
+      <button class="level l3" id="soloPumpkin">🎃 Pompoen versieren<small>Snijden, verven en versieren voor Halloween</small></button>
       <button class="level l2" id="soloWirus">🦠 Virussen<small>Kaartspel: maak een gezond lichaam</small></button>
       <button class="level w3" id="soloMole">🔨 Mollen meppen<small>Mep de mollen, niet het hondje!</small></button>
       <button class="level l4" id="soloSudoku">🧩 Sudoku<small>Cijferpuzzel in 4 levels</small></button>
@@ -654,6 +669,30 @@
       <p><b>Transplantatie:</b> ruil een orgaan tussen twee spelers. <b>Orgaandief:</b> pak een orgaan van een ander. <b>Besmetting:</b> je virussen springen naar vrije organen van anderen. <b>Latex handschoen:</b> alle anderen gooien hun kaarten weg en slaan een beurt over. <b>Medische fout:</b> ruil je hele lichaam met een ander. Immuun 🛡️ kan niet geruild of gestolen worden (behalve bij medische fout), en je mag nooit twee dezelfde organen krijgen.</p>
     </div>
     <button class="back" id="wvBack" data-hold="always">← Ander spel</button>
+  </section>
+
+  <!-- Pompoen versieren -->
+  <section id="pumpkin" class="hidden">
+    <div class="salon pk-room">
+      <div class="pk-wrap"><canvas id="pkCanvas" width="800" height="800" aria-label="Pompoen"></canvas></div>
+      <div class="pk-sel" id="pkSel" hidden>
+        <button data-do="smaller" title="Kleiner">➖</button><button data-do="bigger" title="Groter">➕</button>
+        <button data-do="left" title="Draaien">↺</button><button data-do="right" title="Draaien">↻</button>
+        <button data-do="flip" title="Spiegelen">⇋</button><button data-do="front" title="Naar voren">⬆️</button>
+        <button data-do="copy" title="Nog een">📄</button><button data-do="delete" title="Weg">🗑️</button>
+      </div>
+      <p class="pk-hint" id="pkHint"></p>
+      <div class="tabs pk-tabs" id="pkTabs"></div>
+      <div class="palette" id="pkPalette"></div>
+      <div class="salon-actions pk-actions">
+        <button id="pkUndo">↩️ Terug</button>
+        <button id="pkLight">🕯️ Licht</button>
+        <button id="pkClear">🧹 Alles weg</button>
+        <button class="done" id="pkDone">✨ Klaar!</button>
+      </div>
+      <div class="photo-box" id="pkPhoto" hidden></div>
+    </div>
+    <button class="back" id="pkBack" data-hold="always">← Ander spel</button>
   </section>
 
   <!-- Rummi: instellen -->
@@ -1108,7 +1147,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -6185,6 +6224,486 @@
     if (d === 'cancel') { wv.del = null; wvSay('Jij bent aan de beurt!'); return wvDraw(); }
     if (d === 'throw' && wv.del && wv.del.size) wvThrow();
   });
+
+  // ----- Pompoen versieren (Halloween): carve, paint and dress up a pumpkin; a candle lights the carved face.
+  // Everything on the pumpkin is a list of things (cuts, paint strokes, stickers) drawn on one 800 × 800 canvas, so each
+  // thing can be picked up, moved, turned, made bigger or smaller, mirrored and removed. Pictures: pompoen/ (Nano Banana).
+
+  const PK = 800;
+  const PK_PUMPKINS = ['p-round', 'p-tall', 'p-wide', 'p-white', 'p-green', 'p-gold'];
+  const PK_STICKERS = ['s-witchhat', 's-wizard', 's-tophat', 's-crown', 's-bow', 's-catears', 's-glasses', 's-mustache', 's-bowtie',
+                       's-bat', 's-spider', 's-ghost', 's-cat', 's-candy', 's-leaves', 's-owl'];
+  const PK_EMOJI = ['🦇', '🕷️', '🕸️', '👻', '💀', '🍬', '🍭', '🌙', '⭐', '✨', '🍂', '🐈‍⬛', '🔮', '🧙‍♀️', '🦉', '💜'];
+  const PK_BACKS = [{ img: 'b-porch' }, { img: 'b-patch' }, { img: 'b-house' }, { img: 'b-forest' },
+                    { color: '#2b1f4a' }, { color: '#ff9f43' }, { color: '#111018' }, { color: '#3cc47c' }, { color: '#fff7e8' }];
+  const PK_PAINT = ['#ffffff', '#111018', '#e8344e', '#ff8fb1', '#b05cff', '#4aa3ff', '#3cc47c', '#ffd23f', '#ff9f43', '#8a5a34'];
+
+  // The carving shapes: a path in a w × h box. Holes inside a shape (fill-rule evenodd) stay pumpkin: teeth, fangs, pupils.
+  const PK_CUTS = {
+    'eye-tri':    { w: 100, h: 100, d: 'M50 10 L92 88 L8 88 Z' },
+    'eye-round':  { w: 100, h: 100, d: 'M50 12 A38 38 0 1 1 49.9 12 Z' },
+    'eye-cute':   { w: 100, h: 100, d: 'M50 10 A40 40 0 1 1 49.9 10 Z M64 24 A11 11 0 1 1 63.9 24 Z' },
+    'eye-star':   { w: 100, h: 100, d: 'M50 5 L61 38 L96 38 L68 59 L79 93 L50 72 L21 93 L32 59 L4 38 L39 38 Z' },
+    'eye-heart':  { w: 100, h: 100, d: 'M50 90 C20 66 4 46 14 27 C24 9 44 13 50 30 C56 13 76 9 86 27 C96 46 80 66 50 90 Z' },
+    'eye-moon':   { w: 100, h: 100, d: 'M8 72 Q50 8 92 72 Q50 40 8 72 Z' },
+    'eye-angry':  { w: 100, h: 100, d: 'M8 30 L92 58 L82 90 L18 86 Z' },
+    'eye-cat':    { w: 100, h: 100, d: 'M4 50 Q50 0 96 50 Q50 100 4 50 Z M50 22 Q60 50 50 78 Q40 50 50 22 Z' },
+    'eye-diamond':{ w: 100, h: 100, d: 'M50 6 L90 50 L50 94 L10 50 Z' },
+    'nose-tri':   { w: 100, h: 100, d: 'M50 15 L86 85 L14 85 Z' },
+    'nose-down':  { w: 100, h: 100, d: 'M14 18 L86 18 L50 86 Z' },
+    'nose-round': { w: 100, h: 100, d: 'M50 20 A30 30 0 1 1 49.9 20 Z' },
+    'nose-heart': { w: 100, h: 100, d: 'M50 88 C22 66 8 48 16 30 C25 13 44 16 50 32 C56 16 75 13 84 30 C92 48 78 66 50 88 Z' },
+    'nose-skull': { w: 100, h: 100, d: 'M38 30 Q48 55 40 78 Q22 70 30 48 Q32 36 38 30 Z M62 30 Q68 36 70 48 Q78 70 60 78 Q52 55 62 30 Z' },
+    'mouth-grin': { w: 200, h: 110, d: 'M4 26 L24 46 L44 26 L64 48 L84 26 L104 48 L124 26 L144 48 L164 26 L184 44 L196 26 Q100 140 4 26 Z' },
+    'mouth-smile':{ w: 200, h: 100, d: 'M8 20 Q100 112 192 20 Q100 66 8 20 Z' },
+    'mouth-o':    { w: 200, h: 110, d: 'M100 12 A40 46 0 1 1 99.9 12 Z' },
+    'mouth-vamp': { w: 200, h: 110, d: 'M8 26 Q100 6 192 26 Q100 128 8 26 Z M54 16 L68 56 L80 15 Z M120 15 L132 56 L146 16 Z' },
+    'mouth-teeth':{ w: 200, h: 100, d: 'M8 28 Q100 124 192 28 Q100 56 8 28 Z M76 40 h20 v22 h-20 Z M104 40 h20 v22 h-20 Z' },
+    'mouth-cat':  { w: 200, h: 90, d: 'M28 18 Q52 62 100 32 Q148 62 172 18 L180 30 Q150 84 100 48 Q50 84 20 30 Z' },
+    'mouth-wavy': { w: 200, h: 100, d: 'M8 40 Q34 12 60 40 Q86 68 110 40 Q136 12 160 40 Q182 64 194 44 L194 64 Q182 88 160 60 Q136 32 110 60 Q86 88 60 60 Q34 32 8 60 Z' },
+    'mouth-scream':{ w: 200, h: 130, d: 'M100 6 C150 6 160 60 140 100 C126 128 74 128 60 100 C40 60 50 6 100 6 Z' },
+    'shape-bat':  { w: 100, h: 70, d: 'M50 22 C46 12 40 12 38 20 C30 12 15 12 4 28 C15 28 20 35 22 44 C28 36 35 36 40 42 C44 36 47 38 50 48 C53 38 56 36 60 42 C65 36 72 36 78 44 C80 35 85 28 96 28 C85 12 70 12 62 20 C60 12 54 12 50 22 Z' },
+    'shape-ghost':{ w: 100, h: 100, d: 'M20 95 L20 45 A30 30 0 0 1 80 45 L80 95 L70 84 L60 95 L50 84 L40 95 L30 84 Z M38 40 A6 8 0 1 1 37.9 40 Z M62 40 A6 8 0 1 1 61.9 40 Z' },
+    'shape-moon': { w: 100, h: 100, d: 'M62 8 A44 44 0 1 0 92 76 A34 34 0 1 1 62 8 Z' },
+    'shape-star': { w: 100, h: 100, d: 'M50 5 L61 38 L96 38 L68 59 L79 93 L50 72 L21 93 L32 59 L4 38 L39 38 Z' },
+    'shape-heart':{ w: 100, h: 100, d: 'M50 90 C20 66 4 46 14 27 C24 9 44 13 50 30 C56 13 76 9 86 27 C96 46 80 66 50 90 Z' },
+    'shape-cat':  { w: 100, h: 100, d: 'M30 96 C22 80 24 60 34 48 L26 20 L42 34 Q50 30 58 34 L74 20 L66 48 C76 60 78 80 70 96 Z M70 96 C82 92 92 80 88 66 L94 64 C98 82 88 98 70 98 Z' },
+    'brow':       { w: 100, h: 60, d: 'M6 40 L94 14 L96 28 L8 54 Z' },
+    'shape-dots': { w: 100, h: 100, d: 'M20 50 A10 10 0 1 1 19.9 50 Z M50 50 A10 10 0 1 1 49.9 50 Z M80 50 A10 10 0 1 1 79.9 50 Z' },
+  };
+  const PK_PATHS = {};
+  for (const [k, v] of Object.entries(PK_CUTS)) PK_PATHS[k] = new Path2D(v.d);
+
+  const PK_GROUPS = {
+    eyes:   ['eye-tri', 'eye-round', 'eye-cute', 'eye-star', 'eye-heart', 'eye-moon', 'eye-angry', 'eye-cat', 'eye-diamond', 'brow'],
+    nose:   ['nose-tri', 'nose-down', 'nose-round', 'nose-heart', 'nose-skull'],
+    mouth:  ['mouth-grin', 'mouth-smile', 'mouth-o', 'mouth-vamp', 'mouth-teeth', 'mouth-cat', 'mouth-wavy', 'mouth-scream'],
+    shapes: ['shape-bat', 'shape-ghost', 'shape-moon', 'shape-star', 'shape-heart', 'shape-cat', 'shape-dots'],
+  };
+  // Ready-made faces: [shape, x, y, size] with x and y as part of the pumpkin (0 to 1)
+  const PK_FACES = [
+    ['🎃', 'Klassiek', [['eye-tri', .5, .40, 1], ['nose-tri', .5, .55, .6], ['mouth-grin', .5, .70, 1]]],
+    ['🥰', 'Lief', [['eye-cute', .5, .40, .95], ['nose-heart', .5, .55, .5], ['mouth-smile', .5, .69, .9]]],
+    ['🧛', 'Vampier', [['eye-angry', .5, .40, .9], ['nose-down', .5, .55, .5], ['mouth-vamp', .5, .70, 1]]],
+    ['🐱', 'Poes', [['eye-cat', .5, .41, .9], ['nose-tri', .5, .56, .4], ['mouth-cat', .5, .67, .8]]],
+    ['😮', 'Verbaasd', [['eye-round', .5, .40, .85], ['brow', .5, .29, .7], ['nose-round', .5, .55, .45], ['mouth-o', .5, .70, .7]]],
+    ['😄', 'Blij', [['eye-moon', .5, .40, .9], ['nose-round', .5, .55, .4], ['mouth-teeth', .5, .69, 1]]],
+    ['😱', 'Bang', [['eye-round', .5, .38, .8], ['mouth-scream', .5, .66, .75]]],
+    ['⭐', 'Sterren', [['eye-star', .5, .40, .9], ['nose-heart', .5, .55, .45], ['mouth-wavy', .5, .70, .85]]],
+  ];
+
+  const pk = { pumpkin: 'p-round', back: 0, light: false, items: [], sel: -1, tab: 'pumpkin', tool: null, paint: { c: '#ffffff', w: 14, glitter: false },
+               undo: [], imgs: {}, box: null, ptrs: new Map(), drag: null, frame: 0 };
+
+  function pkImg(name) {
+    if (!pk.imgs[name]) { const im = new Image(); im.onload = pkDraw; im.src = `pompoen/${name}.${name.startsWith('b-') ? 'jpg' : 'webp'}`; pk.imgs[name] = im; }
+    return pk.imgs[name];
+  }
+
+  // Where the pumpkin sits on the canvas (fits a box, keeps its shape)
+  function pkBox() {
+    const im = pkImg(pk.pumpkin);
+    if (!im.naturalWidth) return { x: 130, y: 210, w: 540, h: 500 };
+    const maxW = 560, maxH = 520, sc = Math.min(maxW / im.naturalWidth, maxH / im.naturalHeight);
+    const w = im.naturalWidth * sc, h = im.naturalHeight * sc;
+    return { x: (PK - w) / 2, y: PK - 60 - h, w, h };
+  }
+
+  function pkSave() { try { localStorage.setItem('raadspel-pumpkin', JSON.stringify({ pumpkin: pk.pumpkin, back: pk.back, light: pk.light, items: pk.items })); } catch (e) {} }
+  function pkRemember() { pk.undo.push(JSON.stringify({ pumpkin: pk.pumpkin, back: pk.back, items: pk.items })); if (pk.undo.length > 50) pk.undo.shift(); }
+
+  function pumpkinStart() {
+    mode = 'solo';
+    try { const s = JSON.parse(localStorage.getItem('raadspel-pumpkin')); if (s) Object.assign(pk, s); } catch (e) {}
+    pk.sel = -1; pk.tool = null; pk.undo = []; pk.tab = 'pumpkin';
+    [...PK_PUMPKINS, ...PK_STICKERS, 'b-porch', 'b-patch', 'b-house', 'b-forest'].forEach(pkImg);
+    $('pkPhoto').hidden = true;
+    show('pumpkin');
+    pkTools(); pkDraw();
+    if (!pk.looping) pkLoop();
+  }
+
+  // --- drawing ---
+  const pkLayer = () => { const n = document.createElement('canvas'); n.width = n.height = PK; return n; };
+  const PK_LAYERS = { mask: pkLayer(), paint: pkLayer(), cut: pkLayer(), wall: pkLayer(), inner: pkLayer() };
+
+  function pkPlace(ctx, it, fn) {               // draws one thing at its place (twice, mirrored, for a pair of eyes)
+    const spots = it.pair ? [[-1, -it.s * 62], [1, it.s * 62]] : [[it.flip ? -1 : 1, 0]];
+    for (const [mirror, dx] of spots) {
+      ctx.save();
+      ctx.translate(it.x, it.y); ctx.rotate(it.r || 0); ctx.translate(dx, 0);
+      ctx.scale(it.pair ? (it.flip ? -mirror : mirror) : mirror, 1);
+      fn(ctx);
+      ctx.restore();
+    }
+  }
+
+  function pkCutShape(ctx, it) {
+    if (it.t === 'knife') { const p = new Path2D(); it.pts.forEach(([x, y], k) => k ? p.lineTo(x, y) : p.moveTo(x, y)); p.closePath(); ctx.fill(p, 'evenodd'); return; }
+    const sh = PK_CUTS[it.k], unit = it.s * (sh.w > 100 ? 1.25 : .9);
+    pkPlace(ctx, it, c => { c.scale(unit, unit); c.translate(-sh.w / 2, -sh.h / 2); c.fill(PK_PATHS[it.k], 'evenodd'); });
+  }
+
+  function pkSticker(ctx, it) {
+    if (it.e) {
+      pkPlace(ctx, it, c => { c.fillStyle = '#000'; c.font = `${Math.round(130 * it.s)}px system-ui, "Apple Color Emoji", sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(it.e, 0, 0); });
+      return;
+    }
+    const im = pkImg(it.k); if (!im.naturalWidth) return;
+    const w = 230 * it.s, h = w * im.naturalHeight / im.naturalWidth;
+    pkPlace(ctx, it, c => c.drawImage(im, -w / 2, -h / 2, w, h));
+  }
+
+  // A pseudo-random number from a seed, so glitter sparkles stay where they are
+  const pkRand = seed => () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+
+  function pkDraw(forPhoto) {
+    const c = $('pkCanvas'); if (!c) return;
+    const ctx = c.getContext('2d'), L = PK_LAYERS, box = pk.box = pkBox(), flick = pk.light ? .85 + Math.random() * .15 : 1;
+    ctx.clearRect(0, 0, PK, PK);
+    // background
+    const back = PK_BACKS[pk.back] || PK_BACKS[0];
+    if (back.img) { const im = pkImg(back.img); if (im.naturalWidth) ctx.drawImage(im, 0, 0, PK, PK); }
+    else { ctx.fillStyle = back.color; ctx.fillRect(0, 0, PK, PK); }
+    // a soft shadow and the pumpkin
+    ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.beginPath(); ctx.ellipse(PK / 2, box.y + box.h - 6, box.w * .45, 22, 0, 0, Math.PI * 2); ctx.fill();
+    const pim = pkImg(pk.pumpkin);
+    if (pim.naturalWidth) ctx.drawImage(pim, box.x, box.y, box.w, box.h);
+    // the mask: only on the pumpkin
+    const m = L.mask.getContext('2d'); m.clearRect(0, 0, PK, PK); if (pim.naturalWidth) m.drawImage(pim, box.x, box.y, box.w, box.h);
+    // paint
+    const p = L.paint.getContext('2d'); p.clearRect(0, 0, PK, PK);
+    pk.items.forEach((it, n) => {
+      if (it.t !== 'paint') return;
+      p.save();
+      p.globalCompositeOperation = it.erase ? 'destination-out' : 'source-over';
+      p.strokeStyle = it.c; p.lineWidth = it.w; p.lineCap = p.lineJoin = 'round';
+      p.beginPath(); it.pts.forEach(([x, y], k) => k ? p.lineTo(x, y) : p.moveTo(x, y)); if (it.pts.length === 1) p.lineTo(it.pts[0][0] + .1, it.pts[0][1]); p.stroke();
+      if (it.glitter && !it.erase) {
+        const rnd = pkRand(n * 7919 + 13);
+        for (const [x, y] of it.pts) for (let k = 0; k < 3; k++) {
+          p.fillStyle = ['#fff', '#fff7b0', '#ffd6f0'][k];
+          p.globalAlpha = .9; p.beginPath(); p.arc(x + (rnd() - .5) * it.w, y + (rnd() - .5) * it.w, 1 + rnd() * 2.2, 0, Math.PI * 2); p.fill();
+        }
+        p.globalAlpha = 1;
+      }
+      p.restore();
+    });
+    p.globalCompositeOperation = 'destination-in'; p.drawImage(L.mask, 0, 0); p.globalCompositeOperation = 'source-over';
+    ctx.drawImage(L.paint, 0, 0);
+    // the carved holes: a wall of pumpkin flesh, and inside dark (or candle light)
+    const cut = L.cut.getContext('2d'); cut.clearRect(0, 0, PK, PK); cut.fillStyle = '#000';
+    pk.items.forEach(it => { if (it.t === 'cut' || it.t === 'knife') pkCutShape(cut, it); });
+    cut.globalCompositeOperation = 'destination-in'; cut.drawImage(L.mask, 0, 0); cut.globalCompositeOperation = 'source-over';
+    const wall = L.wall.getContext('2d'); wall.clearRect(0, 0, PK, PK); wall.drawImage(L.cut, 0, 0);
+    wall.globalCompositeOperation = 'source-in'; wall.fillStyle = pk.light ? '#ffcf6b' : '#e9a24a'; wall.fillRect(0, 0, PK, PK); wall.globalCompositeOperation = 'source-over';
+    const inn = L.inner.getContext('2d'); inn.clearRect(0, 0, PK, PK); inn.drawImage(L.cut, 0, 0);
+    inn.globalCompositeOperation = 'destination-in'; inn.drawImage(L.cut, 4, 12);
+    inn.globalCompositeOperation = 'source-in';
+    if (pk.light) {
+      const g = inn.createRadialGradient(PK / 2, box.y + box.h * .6, 10, PK / 2, box.y + box.h * .6, box.w * .6);
+      g.addColorStop(0, '#fffbe0'); g.addColorStop(.35, '#ffd23f'); g.addColorStop(1, '#ff7a1a');
+      inn.fillStyle = g;
+    } else inn.fillStyle = '#2a1206';
+    inn.fillRect(0, 0, PK, PK); inn.globalCompositeOperation = 'source-over';
+    const drawCuts = () => {
+      ctx.drawImage(L.wall, 0, 0);
+      if (pk.light) { ctx.save(); ctx.shadowColor = `rgba(255,170,40,${.9 * flick})`; ctx.shadowBlur = 34 * flick; ctx.drawImage(L.inner, 0, 0); ctx.drawImage(L.inner, 0, 0); ctx.restore(); }
+      else ctx.drawImage(L.inner, 0, 0);
+    };
+    if (!pk.light) drawCuts();
+    pk.items.forEach(it => { if (it.t === 'st') pkSticker(ctx, it); });
+    if (pk.light) {                                 // night: everything darker, the candle shines through the holes
+      ctx.fillStyle = 'rgba(12,8,34,.58)'; ctx.fillRect(0, 0, PK, PK);
+      ctx.save(); ctx.globalCompositeOperation = 'lighter';
+      const g = ctx.createRadialGradient(PK / 2, box.y + box.h * .55, 20, PK / 2, box.y + box.h * .55, box.w * .75);
+      g.addColorStop(0, `rgba(255,150,40,${.22 * flick})`); g.addColorStop(1, 'rgba(255,120,20,0)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, PK, PK); ctx.restore();
+      drawCuts();
+    }
+    // the thing that is picked up
+    if (!forPhoto && pk.sel >= 0 && pk.items[pk.sel]) {
+      const it = pk.items[pk.sel], r = pkRadius(it);
+      ctx.save(); ctx.strokeStyle = '#4aa3ff'; ctx.lineWidth = 4; ctx.setLineDash([12, 8]);
+      ctx.beginPath(); ctx.ellipse(it.x, it.y, r * (it.pair ? 2 : 1), r, it.r || 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+    }
+    if (!forPhoto && pk.knife && pk.knife.length > 1) {
+      ctx.save(); ctx.strokeStyle = '#ff5c8a'; ctx.lineWidth = 5; ctx.setLineDash([10, 8]);
+      ctx.beginPath(); pk.knife.forEach(([x, y], k) => k ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); ctx.restore();
+    }
+  }
+
+  // The candle flickers
+  function pkLoop() {
+    if (screen !== 'pumpkin') { pk.looping = false; return; }
+    pk.looping = true;
+    if (pk.light && performance.now() - pk.frame > 90) { pk.frame = performance.now(); pkDraw(); }
+    requestAnimationFrame(pkLoop);
+  }
+
+  // --- picking things up ---
+  function pkRadius(it) { return it.t === 'st' ? 105 * it.s : it.t === 'knife' ? 40 : (PK_CUTS[it.k].w > 100 ? 120 : 46) * it.s; }
+  function pkHit(x, y) {
+    for (let n = pk.items.length - 1; n >= 0; n--) {
+      const it = pk.items[n];
+      if (it.t === 'paint') continue;
+      if (it.t === 'knife') { const xs = it.pts.map(p => p[0]), ys = it.pts.map(p => p[1]); if (x >= Math.min(...xs) && x <= Math.max(...xs) && y >= Math.min(...ys) && y <= Math.max(...ys)) return n; continue; }
+      const r = pkRadius(it), dx = x - it.x, dy = y - it.y;
+      if (it.pair ? Math.abs(dy) < r && Math.abs(dx) < r * 2.2 : dx * dx + dy * dy < r * r * 1.1) return n;
+    }
+    return -1;
+  }
+  function pkPoint(e) { const r = $('pkCanvas').getBoundingClientRect(); return [(e.clientX - r.left) * PK / r.width, (e.clientY - r.top) * PK / r.height]; }
+
+  function pkDown(e) {
+    e.preventDefault();
+    $('pkCanvas').setPointerCapture(e.pointerId);
+    const [x, y] = pkPoint(e);
+    pk.ptrs.set(e.pointerId, [x, y]);
+    if (pk.ptrs.size === 2 && pk.sel >= 0) {                 // two fingers: turn and size
+      const [a, b] = [...pk.ptrs.values()], it = pk.items[pk.sel];
+      pk.drag = { pinch: true, d0: Math.hypot(b[0] - a[0], b[1] - a[1]), a0: Math.atan2(b[1] - a[1], b[0] - a[0]), s0: it.s, r0: it.r || 0 };
+      return;
+    }
+    if (pk.ptrs.size > 1) return;
+    if (pk.tool === 'paint' || pk.tool === 'erase') {
+      pkRemember();
+      pk.items.push({ t: 'paint', c: pk.paint.c, w: pk.paint.w, glitter: pk.paint.glitter, erase: pk.tool === 'erase', pts: [[x, y]] });
+      pk.drag = { paint: pk.items.length - 1 };
+      return pkDraw();
+    }
+    if (pk.tool === 'knife') { pk.knife = [[x, y]]; pk.drag = { knife: true }; return; }
+    const n = pkHit(x, y);
+    pk.sel = n;
+    if (n >= 0) { pkRemember(); const it = pk.items[n]; pk.drag = { dx: x - it.x, dy: y - it.y, moved: false }; }
+    pkSelBar(); pkDraw();
+  }
+
+  function pkMove(e) {
+    if (!pk.ptrs.has(e.pointerId)) return;
+    const [x, y] = pkPoint(e);
+    pk.ptrs.set(e.pointerId, [x, y]);
+    const d = pk.drag; if (!d) return;
+    if (d.pinch) {
+      const [a, b] = [...pk.ptrs.values()], it = pk.items[pk.sel]; if (!it || !b) return;
+      it.s = Math.max(.2, Math.min(4, d.s0 * Math.hypot(b[0] - a[0], b[1] - a[1]) / d.d0));
+      if (it.t !== 'knife') it.r = d.r0 + Math.atan2(b[1] - a[1], b[0] - a[0]) - d.a0;
+      return pkDraw();
+    }
+    if (d.paint !== undefined) { pk.items[d.paint].pts.push([Math.round(x), Math.round(y)]); return pkDraw(); }
+    if (d.knife) { pk.knife.push([Math.round(x), Math.round(y)]); return pkDraw(); }
+    const it = pk.items[pk.sel]; if (!it) return;
+    if (it.t === 'knife') { const ox = it.x, oy = it.y; it.x = x - d.dx; it.y = y - d.dy; it.pts = it.pts.map(([px, py]) => [px + it.x - ox, py + it.y - oy]); }
+    else { it.x = x - d.dx; it.y = y - d.dy; }
+    d.moved = true;
+    pkDraw();
+  }
+
+  function pkUp(e) {
+    pk.ptrs.delete(e.pointerId);
+    const d = pk.drag;
+    if (pk.ptrs.size) return;
+    pk.drag = null;
+    if (d && d.knife && pk.knife) {                     // a closed shape of at least a little size becomes a hole
+      const pts = pk.knife; pk.knife = null;
+      const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+      if (pts.length > 4 && Math.max(...xs) - Math.min(...xs) > 14 && Math.max(...ys) - Math.min(...ys) > 14) {
+        pkRemember();
+        const cx = (Math.max(...xs) + Math.min(...xs)) / 2, cy = (Math.max(...ys) + Math.min(...ys)) / 2;
+        pk.items.push({ t: 'knife', pts, x: cx, y: cy, s: 1 }); pkChop();
+      }
+    }
+    if (d && d.moved === false) pk.undo.pop();          // only tapped: nothing changed
+    pkSave(); pkDraw();
+  }
+
+  function pkChop() { blip(220); setTimeout(() => blip(180), 70); }
+
+  // --- adding things ---
+  function pkAddCut(k) {
+    const b = pk.box || pkBox(), group = k.split('-')[0];
+    const at = { eye: [.40, .95], brow: [.29, .7], nose: [.55, .55], mouth: [.70, 1], shape: [.5, .8] }[group];
+    pkRemember();
+    const scale = b.w / 540;
+    pk.items.push({ t: 'cut', k, pair: group === 'eye' || group === 'brow', x: b.x + b.w / 2 + (group === 'shape' ? (Math.random() - .5) * b.w * .4 : 0),
+                    y: b.y + b.h * at[0] + (group === 'shape' ? (Math.random() - .5) * b.h * .3 : 0), s: at[1] * scale, r: 0, flip: false });
+    pk.sel = pk.items.length - 1;
+    pkChop(); pkAfter();
+  }
+
+  function pkAddFace(n) {
+    const b = pk.box || pkBox(), scale = b.w / 540;
+    pkRemember();
+    pk.items = pk.items.filter(it => it.t !== 'cut' && it.t !== 'knife');
+    for (const [k, fx, fy, s] of PK_FACES[n][2]) {
+      const group = k.split('-')[0];
+      pk.items.push({ t: 'cut', k, pair: group === 'eye' || group === 'brow', x: b.x + b.w * fx, y: b.y + b.h * fy, s: s * scale, r: 0, flip: false });
+    }
+    pk.sel = -1;
+    pkChop(); pkAfter();
+  }
+
+  function pkAddSticker(k, e) {
+    const b = pk.box || pkBox();
+    const spot = { 's-witchhat': [.5, -.12, 1.1], 's-wizard': [.5, -.14, 1.1], 's-tophat': [.5, -.08, .9], 's-crown': [.5, -.02, .8], 's-bow': [.72, .06, .6],
+                   's-catears': [.5, .02, 1.1], 's-glasses': [.5, .40, 1.05], 's-mustache': [.5, .62, .7], 's-bowtie': [.5, 1.02, .7] }[k];
+    pkRemember();
+    const [fx, fy, s] = spot || [.15 + Math.random() * .7, .2 + Math.random() * .6, .55];
+    pk.items.push({ t: 'st', k: e ? null : k, e: e || null, x: b.x + b.w * fx, y: b.y + b.h * fy, s: s * b.w / 540, r: 0, flip: false });
+    pk.sel = pk.items.length - 1;
+    blip(700); pkAfter();
+  }
+
+  function pkAfter() { pkSave(); pkSelBar(); pkDraw(); }
+
+  // --- the bar for the thing that is picked up ---
+  function pkSelBar() {
+    const it = pk.items[pk.sel];
+    $('pkSel').hidden = !it;
+  }
+  function pkSelDo(what) {
+    const it = pk.items[pk.sel]; if (!it) return;
+    pkRemember();
+    if (what === 'bigger') it.s = Math.min(4, it.s * 1.15);
+    if (what === 'smaller') it.s = Math.max(.2, it.s / 1.15);
+    if (what === 'left') it.r = (it.r || 0) - Math.PI / 16;
+    if (what === 'right') it.r = (it.r || 0) + Math.PI / 16;
+    if (what === 'flip') it.flip = !it.flip;
+    if (what === 'front') { pk.items.splice(pk.sel, 1); pk.items.push(it); pk.sel = pk.items.length - 1; }
+    if (what === 'copy') { const c = JSON.parse(JSON.stringify(it)); c.x += 40; c.y += 30; if (c.pts) c.pts = c.pts.map(([x, y]) => [x + 40, y + 30]); pk.items.push(c); pk.sel = pk.items.length - 1; }
+    if (what === 'delete') { pk.items.splice(pk.sel, 1); pk.sel = -1; }
+    if (it.t === 'knife' && (what === 'bigger' || what === 'smaller')) {     // a hand-cut hole grows around its middle
+      const f = what === 'bigger' ? 1.15 : 1 / 1.15;
+      it.pts = it.pts.map(([x, y]) => [it.x + (x - it.x) * f, it.y + (y - it.y) * f]); it.s = 1;
+    }
+    pkAfter();
+  }
+
+  // --- the tool rows ---
+  const PK_TABS = [['pumpkin', '🎃', 'Pompoen'], ['faces', '😀', 'Gezichten'], ['eyes', '👀', 'Ogen'], ['nose', '👃', 'Neus'], ['mouth', '👄', 'Mond'],
+                   ['shapes', '✂️', 'Snijden'], ['paint', '🖌️', 'Verven'], ['stickers', '🎩', 'Spulletjes'], ['back', '🖼️', 'Plek'], ['gallery', '📚', 'Mijn pompoenen']];
+  const pkSvg = k => { const v = PK_CUTS[k]; return `<svg viewBox="0 0 ${v.w} ${v.h}" width="44" height="${Math.round(44 * v.h / v.w)}"><path d="${v.d}" fill-rule="evenodd" fill="#3a1a05"/></svg>`; };
+
+  function pkTools() {
+    $('pkTabs').innerHTML = PK_TABS.map(([k, e, name]) => `<button data-tab="${k}" class="${pk.tab === k ? 'on' : ''}"><span>${e}</span>${name}</button>`).join('');
+    let html = '';
+    const t = pk.tab;
+    if (t === 'pumpkin') html = PK_PUMPKINS.map(k => `<button data-pumpkin="${k}" class="${pk.pumpkin === k ? 'on' : ''}"><img src="pompoen/${k}.webp" alt="" class="pk-thumb"></button>`).join('');
+    if (t === 'faces') html = PK_FACES.map(([e, name], n) => `<button data-face="${n}"><span class="emo">${e}</span><small>${name}</small></button>`).join('');
+    if (t === 'eyes' || t === 'nose' || t === 'mouth') html = PK_GROUPS[t].map(k => `<button data-cut="${k}">${pkSvg(k)}</button>`).join('');
+    if (t === 'shapes') html = `<button data-tool="knife" class="${pk.tool === 'knife' ? 'on' : ''}"><span class="emo">🔪</span><small>Zelf snijden</small></button>` +
+      PK_GROUPS.shapes.map(k => `<button data-cut="${k}">${pkSvg(k)}</button>`).join('');
+    if (t === 'paint') html = PK_PAINT.map(c => `<button data-color="${c}" class="${pk.tool === 'paint' && pk.paint.c === c ? 'on' : ''}"><div class="swatch" style="background:${c}"></div></button>`).join('') +
+      '<span class="row-break"></span>' +
+      [[8, 'dun'], [16, 'middel'], [30, 'dik']].map(([w, n]) => `<button data-width="${w}" class="${pk.paint.w === w ? 'on' : ''}"><span class="emo" style="font-size:${.6 + w / 30}rem">●</span><small>${n}</small></button>`).join('') +
+      `<button data-glitter class="${pk.paint.glitter ? 'on' : ''}"><span class="emo">✨</span><small>glitter</small></button>` +
+      `<button data-tool="erase" class="${pk.tool === 'erase' ? 'on' : ''}"><span class="emo">🧽</span><small>gum</small></button>`;
+    if (t === 'stickers') html = PK_STICKERS.map(k => `<button data-sticker="${k}"><img src="pompoen/${k}.webp" alt="" class="pk-thumb"></button>`).join('') +
+      '<span class="row-break"></span>' + PK_EMOJI.map(e => `<button data-emoji="${e}"><span class="emo">${e}</span></button>`).join('');
+    if (t === 'back') html = PK_BACKS.map((b, n) => `<button data-back="${n}" class="${pk.back === n ? 'on' : ''}">${b.img ? `<img src="pompoen/${b.img}.jpg" alt="" class="pk-thumb">` : `<div class="swatch" style="background:${b.color};width:44px;height:44px;border-radius:10px"></div>`}</button>`).join('');
+    if (t === 'gallery') html = pkGalleryHtml();
+    $('pkPalette').innerHTML = html;
+    const hint = { shapes: pk.tool === 'knife' ? 'Teken met je vinger een rondje op de pompoen: dat wordt een gat.' : 'Kies een vorm, of 🔪 en snij zelf.',
+                   paint: pk.tool === 'erase' ? 'Veeg over de verf om hem weg te halen.' : 'Kies een kleur en verf met je vinger op de pompoen.',
+                   faces: 'Kies een heel gezicht in één keer.', eyes: 'Tik op ogen. Daarna kun je ze verschuiven.', nose: 'Tik op een neus.', mouth: 'Tik op een mond.',
+                   stickers: 'Tik op iets om het op je pompoen te zetten.', pumpkin: 'Kies je pompoen.', back: 'Waar staat je pompoen?',
+                   gallery: pkGallery().length ? 'Tik op een foto om hem groot te zien.' : 'Nog geen foto’s. Tik op ✨ Klaar! om er een te maken.' }[t];
+    $('pkHint').textContent = hint || '';
+    $('pkLight').classList.toggle('on', pk.light);
+  }
+
+  function pkPickTab(t) {
+    pk.tab = t;
+    if (t !== 'paint' && t !== 'shapes') pk.tool = null;
+    if (t === 'paint' && pk.tool !== 'erase') pk.tool = 'paint';
+    pk.sel = -1; pkSelBar(); pkTools(); pkDraw();
+  }
+
+  // --- photo and gallery ---
+  function pkGallery() { try { return JSON.parse(localStorage.getItem('raadspel-pumpkins')) || []; } catch (e) { return []; } }
+  function pkGalleryHtml() {
+    return pkGallery().map((src, n) => `<button data-photo="${n}" class="pk-photo"><img src="${src}" alt=""></button>`).join('');
+  }
+
+  function pkDone() {
+    pk.sel = -1; pkSelBar();
+    pkDraw(true);
+    const src = $('pkCanvas'), c = document.createElement('canvas'), size = 900;
+    c.width = size; c.height = size + 100;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#2b1f4a'; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(src, 0, 0, size, size);
+    ctx.fillStyle = '#ffd23f'; ctx.font = '800 54px "Baloo 2", system-ui, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(myName ? `🎃 De pompoen van ${myName}` : '🎃 Mijn pompoen', size / 2, size + 70);
+    // a small copy goes in the gallery (at most 12)
+    const small = document.createElement('canvas'); small.width = 360; small.height = 400;
+    small.getContext('2d').drawImage(c, 0, 0, 360, 400);
+    const list = pkGallery(); list.unshift(small.toDataURL('image/jpeg', .8));
+    try { localStorage.setItem('raadspel-pumpkins', JSON.stringify(list.slice(0, 12))); } catch (e) {}
+    confetti(); winSound();
+    c.toBlob(blob => pkShowPhoto(URL.createObjectURL(blob), blob), 'image/png');
+    pkDraw();
+  }
+
+  function pkShowPhoto(url, blob, n) {
+    const box = $('pkPhoto');
+    box.hidden = false;
+    box.innerHTML = `<p class="who">📸 Je foto is klaar!</p><img src="${url}" alt="">
+      <p class="wait">Houd je vinger op de foto en kies <b>Bewaar in Foto's</b>.</p>
+      <button class="again" id="pkShare" hidden>Bewaren of delen</button>
+      ${n !== undefined ? `<button class="back" id="pkForget">🗑️ Weg uit mijn pompoenen</button>` : ''}`;
+    const file = blob && new File([blob], 'mijn-pompoen.png', { type: blob.type });
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      $('pkShare').hidden = false;
+      $('pkShare').addEventListener('click', () => navigator.share({ files: [file] }).catch(() => {}));
+    }
+    if (n !== undefined) $('pkForget').addEventListener('click', () => {
+      const list = pkGallery(); list.splice(n, 1);
+      try { localStorage.setItem('raadspel-pumpkins', JSON.stringify(list)); } catch (e) {}
+      box.hidden = true; pkTools();
+    });
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function pkLeave() { pkSave(); pk.sel = -1; show('soloGames'); }
+
+  $('soloPumpkin').addEventListener('click', pumpkinStart);
+  $('pkCanvas').addEventListener('pointerdown', pkDown);
+  $('pkCanvas').addEventListener('pointermove', pkMove);
+  $('pkCanvas').addEventListener('pointerup', pkUp);
+  $('pkCanvas').addEventListener('pointercancel', pkUp);
+  $('pkTabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) pkPickTab(b.dataset.tab); });
+  $('pkPalette').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const d = b.dataset;
+    if (d.pumpkin) { pkRemember(); const old = pk.box || pkBox(); pk.pumpkin = d.pumpkin; pkImg(d.pumpkin);
+      const now = pkBox(); pk.items.forEach(it => {                                    // keep the face in the same place on the new pumpkin
+        const fx = (it.x - old.x) / old.w, fy = (it.y - old.y) / old.h;
+        const nx = now.x + fx * now.w, ny = now.y + fy * now.h, dx = nx - it.x, dy = ny - it.y;
+        if (it.pts) it.pts = it.pts.map(([x, y]) => [x + dx, y + dy]);
+        it.x = nx; it.y = ny;
+      });
+      pkAfter(); return pkTools(); }
+    if (d.face !== undefined) return pkAddFace(Number(d.face));
+    if (d.cut) { pk.tool = null; pkAddCut(d.cut); return pkTools(); }
+    if (d.tool) { pk.tool = pk.tool === d.tool ? (d.tool === 'erase' ? 'paint' : null) : d.tool; pk.sel = -1; pkSelBar(); pkDraw(); return pkTools(); }
+    if (d.color) { pk.paint.c = d.color; pk.tool = 'paint'; return pkTools(); }
+    if (d.width) { pk.paint.w = Number(d.width); if (pk.tool !== 'erase') pk.tool = 'paint'; return pkTools(); }
+    if (d.glitter !== undefined) { pk.paint.glitter = !pk.paint.glitter; pk.tool = 'paint'; return pkTools(); }
+    if (d.sticker) return pkAddSticker(d.sticker);
+    if (d.emoji) return pkAddSticker(null, d.emoji);
+    if (d.back !== undefined) { pkRemember(); pk.back = Number(d.back); pkAfter(); return pkTools(); }
+    if (d.photo !== undefined) { const src = pkGallery()[Number(d.photo)]; if (src) fetch(src).then(r => r.blob()).then(blob => pkShowPhoto(src, blob, Number(d.photo))); }
+  });
+  $('pkSel').addEventListener('click', e => { const b = e.target.closest('[data-do]'); if (b) pkSelDo(b.dataset.do); });
+  $('pkUndo').addEventListener('click', () => {
+    if (!pk.undo.length) return;
+    Object.assign(pk, JSON.parse(pk.undo.pop())); pk.sel = -1; pkAfter(); pkTools();
+  });
+  $('pkLight').addEventListener('click', () => { pk.light = !pk.light; blip(pk.light ? 880 : 330); pkSave(); pkTools(); pkDraw(); });
+  $('pkClear').addEventListener('click', () => { if (!pk.items.length) return; pkRemember(); pk.items = []; pk.sel = -1; pkAfter(); });
+  $('pkDone').addEventListener('click', pkDone);
+  $('pkBack').addEventListener('click', pkLeave);
 
   greet();
   show('welcome');
