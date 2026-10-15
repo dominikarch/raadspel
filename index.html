@@ -428,6 +428,18 @@
   .wv-tools button { font: inherit; font-size: 1.05rem; border: none; border-radius: 14px; padding: 8px 14px; background: var(--key); color: var(--ink); cursor: pointer; box-shadow: 0 3px 0 var(--key-edge); }
   .wv-tools button.go { background: var(--ok); color: var(--on); box-shadow: 0 3px 0 var(--ok-edge); }
   #wvStatus { font-size: 1.15rem; min-height: 1.8rem; margin: 4px 0 8px; }
+  #wirus > .card { position: relative; }
+  .wv-pop { position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%); z-index: 6; width: 170px; background: #fff; color: #2b2140;
+    border: 5px solid #ccc; border-radius: 20px; padding: 8px 8px 10px; box-shadow: 0 12px 30px rgba(0,0,0,.35); text-align: center; cursor: pointer;
+    animation: wvpopin .3s cubic-bezier(.2, 1.4, .5, 1); transition: opacity .4s, transform .4s; }
+  .wv-pop.bye { opacity: 0; transform: translate(-50%, -50%) scale(.7); }
+  .wv-pop .who { display: block; font-weight: 800; font-size: 1.05rem; margin-bottom: 4px; }
+  .wv-pop img { width: 100%; aspect-ratio: 1; object-fit: contain; display: block; }
+  .wv-pop .lbl { display: block; font-weight: 700; }
+  .wv-pop .big { display: block; font-size: 2.6rem; padding: 18px 0; }
+  @keyframes wvpopin { from { transform: translate(-50%, -50%) scale(.3); opacity: 0; } }
+  .wv-slot.fresh { box-shadow: 0 0 0 4px #ffd84a, 0 0 16px 6px #ffb300; animation: wvfresh .6s ease 3; }
+  @keyframes wvfresh { 50% { transform: scale(1.12); } }
   .wv-rules { text-align: left; font-size: 1rem; line-height: 1.35; }
   .wv-rules p { margin: 0 0 8px; }
 </style>
@@ -5818,12 +5830,17 @@
   }
 
   // The turn is over: somebody with a healthy body wins (the player who moved first), else draw and the next one
-  function wvEnd(say) {
-    const st = wv.st, p = st.turn;
+  // What a body looks like, per organ: to see afterwards which organs a move changed
+  const wvLook = st => { const m = {}; st.seats.forEach((x, q) => x.body.forEach(s => { m[s.organ] = q + ':' + s.on.join(','); })); return m; };
+
+  function wvEnd(say, info = {}) {
+    const st = wv.st, p = st.turn, after = wvLook(st), before = wv.look || {};
+    const marks = Object.keys(after).filter(id => after[id] !== before[id]).map(Number);
     for (let k = 0; k < st.seats.length && !st.over; k++) { const q = (p + k) % st.seats.length; if (wvWins(st.seats[q].body)) st.over = { winner: q }; }
     wvFill(st, p);
     if (!st.over) st.turn = (p + 1) % st.seats.length;
     st.v++; st.say = say;
+    st.last = { by: p, v: st.v, marks, card: info.card ?? null, thrown: info.thrown || 0, refill: !!info.refill };
     wv.sel = null; wv.pick = null; wv.del = null; wv.spread = null;
     wvSend();
     wvNext();
@@ -5894,18 +5911,42 @@
 
   function wvNext() {
     const st = wv.st, s = st.seats[st.turn];
+    wv.look = wvLook(st);
     wvDraw();
+    const shown = wvShowMove();
     if (st.over) return wvShowEnd();
     const lead = st.say ? st.say + ' ' : '';
     // after the latex glove: this turn is only for drawing new cards
     if (!s.hand.length && (wvMyTurn() || (s.dog && st.runner === myId))) {
       $('wvStatus').textContent = lead;
-      setTimeout(() => { if (wv.st === st && st.turn === st.seats.indexOf(s) && !s.hand.length) wvEnd(`🧤 ${s.name} pakt nieuwe kaarten en slaat een beurt over.`); }, 1400);
+      setTimeout(() => { if (wv.st === st && st.turn === st.seats.indexOf(s) && !s.hand.length) wvEnd(`🧤 ${s.name} pakt nieuwe kaarten en slaat een beurt over.`, { refill: true }); }, shown ? 2600 : 1400);
       return;
     }
     if (wvMyTurn()) $('wvStatus').textContent = lead + 'Jij bent aan de beurt!';
     else $('wvStatus').textContent = lead + `${s.dog ? '🐶 ' : ''}${s.name} is aan de beurt…`;
-    if (s.dog && st.runner === myId && !wv.dogBusy) { wv.dogBusy = true; setTimeout(wvDog, 1300); }
+    if (s.dog && st.runner === myId && !wv.dogBusy) { wv.dogBusy = true; setTimeout(wvDog, shown ? 2600 : 1300); }
+  }
+
+  // Somebody else just moved: their card pops up in the middle for a moment (a tap closes it); changed organs glow
+  function wvShowMove() {
+    const st = wv.st, last = st.last;
+    if (!last || last.v !== st.v || last.by === wv.me || wv.shownV === st.id + last.v) return false;
+    wv.shownV = st.id + last.v;
+    const x = st.seats[last.by];
+    let what;
+    if (last.card !== null) what = `<img src="${wvImg(last.card)}" alt=""><span class="lbl">${wvLabel(last.card)}</span>`;
+    else if (last.thrown) what = `<span class="big">🗑️ × ${last.thrown}</span>`;
+    else what = `<span class="big">🧤 🃏🃏🃏</span>`;
+    document.querySelectorAll('.wv-pop').forEach(e => e.remove());
+    const pop = document.createElement('div');
+    pop.className = 'wv-pop' + (last.card !== null ? ' ' + wvCls(last.card) : '');
+    pop.innerHTML = `<span class="who">${x.dog ? '🐶 ' : ''}<span>${x.name}</span></span>${what}`;
+    pop.addEventListener('click', () => pop.remove());
+    $('wirus').querySelector('.card').appendChild(pop);
+    setTimeout(() => pop.classList.add('bye'), 2100);
+    setTimeout(() => pop.remove(), 2500);
+    blip(520); setTimeout(() => blip(700), 90);
+    return true;
   }
 
   function wvShowEnd() {
@@ -5955,7 +5996,8 @@
   function wvSlotHtml(q, k, s, t) {
     const key = q + ':' + k, state = wvState(s);
     const badges = s.on.map((id, n) => `<img class="b b${n + 1}" src="${wvImg(id)}" alt="">`).join('');
-    const cls = ['wv-slot', wvCls(s.organ), state, t.slots.has(key) ? 'target' : '', wv.pick === key || (wv.spread && wv.spread.from === k && q === wv.me) ? 'chosen' : ''].join(' ');
+    const fresh = wv.st.last && wv.st.last.v === wv.st.v && wv.st.last.marks.includes(s.organ);
+    const cls = ['wv-slot', wvCls(s.organ), state, fresh ? 'fresh' : '', t.slots.has(key) ? 'target' : '', wv.pick === key || (wv.spread && wv.spread.from === k && q === wv.me) ? 'chosen' : ''].join(' ');
     return `<div class="${cls}" data-slot="${key}"><img class="o" src="${wvImg(s.organ)}" alt="${wvLabel(s.organ)}">${badges}</div>`;
   }
 
@@ -6028,30 +6070,31 @@
       m = pq < q ? { card: wv.sel, q: pq, k: pk, q2: q, k2: k } : { card: wv.sel, q, k, q2: pq, k2: pk };
     } else m = { card: wv.sel, q, k };
     blip(600);
-    wvEnd(wvApply(st, wv.me, m));
+    wvEnd(wvApply(st, wv.me, m), { card: m.card });
   }
 
   function wvTapSeat(q) {
     if (!wvMyTurn() || wv.sel === null || !wvTargets().seats.has(q)) return;
     blip(600);
-    wvEnd(wvApply(wv.st, wv.me, { card: wv.sel, q }));
+    wvEnd(wvApply(wv.st, wv.me, { card: wv.sel, q }), { card: wv.sel });
   }
 
   function wvPlayButton() {
     const st = wv.st, c = WV[wv.sel];
     if (c.t === 'spread') {
       st.seats[wv.me].hand.splice(st.seats[wv.me].hand.indexOf(wv.sel), 1); st.discard.push(wv.sel);
-      wv.spread = { from: null, n: 0 }; wv.sel = null;
+      wv.spread = { from: null, n: 0, card: wv.sel }; wv.sel = null;
       return wvSpreadNext();
     }
     blip(600);
-    wvEnd(wvApply(st, wv.me, { card: wv.sel }));
+    const card = wv.sel;
+    wvEnd(wvApply(st, wv.me, { card }), { card });
   }
 
   // Contagion, one virus at a time, as long as one can jump
   function wvSpreadNext() {
     const pairs = wvSpreadPairs(wv.st, wv.me);
-    if (!pairs.length) { const n = wv.spread.n; return wvEnd(`🤧 ${wv.st.seats[wv.me].name} verspreidt virussen: ${n}!`); }
+    if (!pairs.length) { const n = wv.spread.n; return wvEnd(`🤧 ${wv.st.seats[wv.me].name} verspreidt virussen: ${n}!`, { card: wv.spread.card }); }
     const from = [...new Set(pairs.map(m => m.k))];
     if (from.length === 1) { wv.spread.from = from[0]; wvSay('Besmetting: tik op een vrij orgaan van een ander.'); }
     else wvSay('Besmetting: tik op je zieke orgaan.');
@@ -6062,7 +6105,7 @@
     const st = wv.st, me = st.seats[wv.me], n = wv.del.size;
     for (const id of wv.del) { me.hand.splice(me.hand.indexOf(id), 1); st.discard.push(id); }
     blip(400);
-    wvEnd(`🗑️ ${me.name} gooit kaarten weg: ${n}.`);
+    wvEnd(`🗑️ ${me.name} gooit kaarten weg: ${n}.`, { thrown: n });
   }
 
   // --- the dogs ---
@@ -6100,13 +6143,13 @@
         while ((pairs = wvSpreadPairs(st, p)).length) { wvSpreadOne(st, p, pairs[0]); best.n++; }
       }
       blip(600);
-      return wvEnd(wvApply(st, p, best));
+      return wvEnd(wvApply(st, p, best), { card: best.card });
     }
     // nothing good to play: throw away the cards that cannot be played (or one card)
     let away = me.hand.filter(c => !wvMoves(st, p, c).length);
     if (!away.length) away = [me.hand[Math.floor(Math.random() * me.hand.length)]];
     for (const id of away) { me.hand.splice(me.hand.indexOf(id), 1); st.discard.push(id); }
-    wvEnd(`🗑️ ${me.name} gooit kaarten weg: ${away.length}.`);
+    wvEnd(`🗑️ ${me.name} gooit kaarten weg: ${away.length}.`, { thrown: away.length });
   }
 
   function wirusLeave() {
