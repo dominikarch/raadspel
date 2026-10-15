@@ -386,6 +386,19 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Vleermuis-vlucht ---
+  ['🦇 Vleermuis-vlucht', '🦇 Lot nietoperza', '🦇 Bat flight'],
+  ['Fladder langs spinnen en spoken, pak het snoep', 'Leć obok pająków i duchów, zbieraj cukierki', 'Flutter past spiders and ghosts, grab the candy'],
+  ['Wie vliegt het verst?', 'Kto doleci najdalej?', 'Who flies the furthest?'],
+  ['Hoe snel vliegt de vleermuis?', 'Jak szybko leci nietoperz?', 'How fast does the bat fly?'],
+  ['Tik om te fladderen! Pak het snoep, bots nergens tegen.', 'Stukaj, żeby machać skrzydłami! Zbieraj cukierki i w nic nie uderzaj.', "Tap to flap! Grab the candy, don't bump into anything."],
+  ['Tik om te vliegen!', 'Stuknij, żeby lecieć!', 'Tap to fly!'],
+  ['Tik om verder te vliegen!', 'Stuknij, żeby lecieć dalej!', 'Tap to fly on!'],
+  ['{0} 🍬 {1} · {2} punten', '{0} 🍬 {1} · {2} {2|punkt|punkty|punktów}', '{0} 🍬 {1} · {2} points'],
+  ['🍬 {0} · {1} punten', '🍬 {0} · {1} {1|punkt|punkty|punktów}', '🍬 {0} · {1} points'],
+  ['🦇 {0} meter', '🦇 {0} {0|metr|metry|metrów}', '🦇 {0} metres'],
+  ['🦇 Au! {0} meter en {1} 🍬.', '🦇 Au! {0} {0|metr|metry|metrów} i {1} 🍬.', '🦇 Ouch! {0} metres and {1} 🍬.'],
+
   // --- Pompoen versieren ---
   ['🎃 Pompoen versieren', '🎃 Ozdabianie dyni', '🎃 Pumpkin carving'],
   ['Snijden, verven en versieren voor Halloween', 'Wycinanie, malowanie i ozdabianie na Halloween', 'Carve, paint and decorate for Halloween'],
@@ -653,12 +666,13 @@ window.LANG_TEXTS = [
       break;
     }
     // Not found whole: the games often glue sentences together ("… ✨ Jij bent aan de beurt!"), so try the pieces
+    // (best: a cut where both parts are known, so "Au! 3 meter en 2 💎." is not cut after "Au!"; else a cut where one part is)
     if (out === core) {
-      for (let i = 1; i < core.length - 1; i++) {
-        if (core[i] !== ' ' || !/[.!?…✨🎉⬆️⬇️]$/u.test(core.slice(0, i))) continue;
-        const a = tr(core.slice(0, i)), b = tr(core.slice(i + 1));
-        if (a !== core.slice(0, i) || b !== core.slice(i + 1)) { out = a + ' ' + b; break; }
-      }
+      const cuts = [];
+      for (let i = 1; i < core.length - 1; i++) if (core[i] === ' ' && /[.!?…✨🎉⬆️⬇️]$/u.test(core.slice(0, i))) cuts.push(i);
+      const known = i => [tr(core.slice(0, i)) !== core.slice(0, i), tr(core.slice(i + 1)) !== core.slice(i + 1)];
+      const at = cuts.find(i => known(i).every(Boolean)) ?? cuts.find(i => known(i).some(Boolean));
+      if (at !== undefined) out = tr(core.slice(0, at)) + ' ' + tr(core.slice(at + 1));
     }
     if (cache.size > 3000) cache.clear();
     cache.set(core, out);
@@ -1165,6 +1179,7 @@ window.LANG_TEXTS = [
   .pk-actions { grid-template-columns: 1fr 1fr 1fr 1.2fr; }
   #pkLight.on { background: #ffd23f; color: #2b1f4a; font-weight: 800; }
   .pk-room .photo-box:not([hidden]) { background: var(--card); border-radius: 18px; padding: 10px; }
+  #batCanvas { display: block; width: 100%; max-width: 460px; margin: 0 auto; border-radius: 16px; background: #140b2e; touch-action: none; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -1182,7 +1197,7 @@ window.LANG_TEXTS = [
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 15-10 19.48</p>
+    <p class="version" id="version">versie 15-10 19.56</p>
   </section>
 
   <!-- Naam -->
@@ -1215,6 +1230,7 @@ window.LANG_TEXTS = [
       <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
       <button class="level l3" id="soloPumpkin">🎃 Pompoen versieren<small>Snijden, verven en versieren voor Halloween</small></button>
+      <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
       <button class="level l2" id="soloWirus">🦠 Virussen<small>Kaartspel: maak een gezond lichaam</small></button>
       <button class="level w3" id="soloMole">🔨 Mollen meppen<small>Mep de mollen, niet het hondje!</small></button>
       <button class="level l4" id="soloSudoku">🧩 Sudoku<small>Cijferpuzzel in 4 levels</small></button>
@@ -1276,6 +1292,7 @@ window.LANG_TEXTS = [
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
+        <button class="level l4" id="lobbyBat">🦇 Vleermuis-vlucht<small>Wie vliegt het verst?</small></button>
         <button class="level w3" id="lobbyMole">🔨 Mollen meppen<small>Wie mept de meeste mollen?</small></button>
         <button class="level l3" id="lobbyCrash">💫 Crash<small>Botsautootjes in dezelfde arena</small></button>
         <button class="level l4" id="lobbyDam">⚫ Dammen<small>Echt dammen op het grote bord</small></button>
@@ -1644,6 +1661,30 @@ window.LANG_TEXTS = [
     <button class="back" id="snakeBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Vleermuis-vlucht: hoe snel -->
+  <section id="batLevel" class="hidden">
+    <p class="sub">Hoe snel vliegt de vleermuis?</p>
+    <div class="levels" id="batSpeeds">
+      <button class="level l1" data-bspeed="1">🐢 Langzaam<small id="brec1"></small></button>
+      <button class="level l2" data-bspeed="2">🐇 Gewoon<small id="brec2"></small></button>
+      <button class="level l3" data-bspeed="3">🚀 Snel<small id="brec3"></small></button>
+    </div>
+    <button class="back" id="batLevelBack" data-hold="together">← Terug</button>
+  </section>
+
+  <!-- Vleermuis-vlucht: vliegen -->
+  <section id="bat" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="btMe"></span><span id="btOther"></span></div>
+      <canvas id="batCanvas" width="360" height="480" aria-label="Vleermuis-vlucht"></canvas>
+      <p class="ttt-status" id="batStatus"></p>
+      <div class="ttt-end" id="batEnd" hidden>
+        <button class="again" id="batAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="batBack" data-hold="always">← Ander spel</button>
+  </section>
+
   <!-- Mollen meppen: hoe snel -->
   <section id="moleLevel" class="hidden">
     <p class="sub">Hoe snel zijn de mollen?</p>
@@ -1859,7 +1900,7 @@ window.LANG_TEXTS = [
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2228,6 +2269,7 @@ window.LANG_TEXTS = [
     bricksStop();
     snakeStop();
     gravityStop();
+    batStop();
     crashStop();
     pongStop();
     drawLobby(typeof note === 'string' ? note : '');
@@ -2308,14 +2350,16 @@ window.LANG_TEXTS = [
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
     if (m.type === 'dmove' && screen === 'dam') damApply(m.p, false);
-    if (m.type === 'rscore' && ['bricks', 'snake', 'gravity', 'mole'].includes(screen)) raceOther(m.score, m.done);
+    if (m.type === 'rscore' && ['bricks', 'snake', 'gravity', 'mole', 'bat'].includes(screen)) raceOther(m.score, m.done);
+    if (m.type === 'pick' && m.game === 'bat' && screen === 'batLevel') batBegin(m.speed);
+    if (m.type === 'batAgain' && screen === 'bat' && bt.over) batBegin(bt.speed);
     if (m.type === 'pick' && m.game === 'mole' && screen === 'moleLevel') moleBegin(m.speed);
     if (m.type === 'moleAgain' && screen === 'mole' && ml.over) moleBegin(ml.speed);
     if (m.type === 'gravityAgain' && screen === 'gravity' && gr.over) gravityBegin();
@@ -7416,6 +7460,251 @@ window.LANG_TEXTS = [
   $('pkClear').addEventListener('click', () => { if (!pk.items.length) return; pkRemember(); pk.items = []; pk.sel = -1; pkAfter(); });
   $('pkDone').addEventListener('click', pkDone);
   $('pkBack').addEventListener('click', pkLeave);
+
+  // ----- Vleermuis-vlucht (Halloween): a tap and the bat flaps up; fly past spiders, gravestones, pumpkins and ghosts,
+  // catch candy. Alone: a record per speed. Together: a points race, each on their own device. Touching the sky or the
+  // ground does no harm; bumping into something costs a heart.
+
+  const BW = 360, BH = 480, BAT_X = 92, BAT_R = 15, GROUND = BH - 34;
+  const BAT_SPEED = { 1: 115, 2: 150, 3: 190 };
+  const bt = { speed: 2, running: false, started: false, over: true, y: BH / 2, vy: 0, dist: 0, candy: 0, bonus: 0, lives: 3, hurt: 0,
+               shield: false, things: [], next: 0, last: 0, t: 0, flap: 0, msg: '' };
+  const BAT_STARS = [...Array(40)].map((_, k) => [(k * 97) % BW, (k * 53) % (GROUND - 160), (k % 7) / 7]);
+
+  function batStart() {
+    for (const n of [1, 2, 3]) { const r = recordOf('bat-' + n); $('brec' + n).textContent = mode === 'solo' && r ? `Record: ${r}` : ''; }
+    $('batLevelBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('batLevel');
+  }
+
+  function batPickSpeed(speed) {
+    if (mode === 'together') send('pick', { game: 'bat', speed });
+    batBegin(speed);
+  }
+
+  function batBegin(speed) {
+    batStop();
+    stopMusic();
+    pkImg('s-bat');
+    Object.assign(bt, { speed, started: false, over: false, y: BH / 2, vy: 0, dist: 0, candy: 0, bonus: 0, lives: 3, hurt: 0, shield: false, things: [], next: 260, t: 0, flap: 0 });
+    raceStart('batStatus', 'batEnd', batHud);
+    $('batEnd').hidden = true;
+    $('batStatus').textContent = 'Tik om te fladderen! Pak het snoep, bots nergens tegen.';
+    batHud();
+    show('bat');
+    const c = $('batCanvas'), ratio = window.devicePixelRatio || 1;
+    c.width = BW * ratio; c.height = BH * ratio;
+    c.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+    bt.running = true;
+    bt.last = performance.now();
+    requestAnimationFrame(batFrame);
+  }
+
+  function batStop() { bt.running = false; clearTimeout(race.timer); }
+
+  const batScore = () => Math.floor(bt.dist / 10) + bt.candy * 10 + bt.bonus;
+
+  function batHud() {
+    $('btMe').textContent = `${'💖'.repeat(Math.max(bt.lives, 0))}${bt.shield ? ' 🫧' : ''} 🍬 ${bt.candy} · ${batScore()} punten`;
+    $('btOther').textContent = mode === 'together' && other ? raceLabel() : `🦇 ${Math.floor(bt.dist / 10)} meter`;
+  }
+
+  function batFlap() {
+    if (bt.over) return;
+    if (!bt.started) { bt.started = true; $('batStatus').textContent = ''; }
+    bt.vy = -330; bt.flap = .25;
+    blip(520);
+  }
+
+  // A new group of things to fly past, a bit further away every time; later in the flight they come closer together
+  function batSpawn() {
+    const x = BW + 40, r = Math.random(), gap = BH * (bt.speed === 1 ? .42 : bt.speed === 2 ? .37 : .32);
+    const things = bt.things;
+    const candyLine = (y0, y1) => { for (let k = 0; k < 4; k++) things.push({ kind: 'candy', x: x + 60 + k * 30, y: y0 + (y1 - y0) * k / 3, r: 13 }); };
+    if (r < .35) {                                         // a spider on its thread from the top and a gravestone from the ground
+      const top = 40 + Math.random() * (GROUND - gap - 80);
+      things.push({ kind: 'spider', x, y: top, r: 17, bob: Math.random() * 6 });
+      const h = Math.max(40, GROUND - (top + gap));
+      things.push({ kind: 'stone', x: x - 22, y: GROUND - h, w: 44, h });
+      candyLine(top + gap * .35, top + gap * .65);
+    } else if (r < .55) {                                  // pumpkins stacked up
+      const n = 1 + Math.floor(Math.random() * 3);
+      for (let k = 0; k < n; k++) things.push({ kind: 'pumpkin', x, y: GROUND - 20 - k * 38, r: 19 });
+      candyLine(GROUND - n * 38 - 90, GROUND - n * 38 - 140);
+    } else if (r < .8) {                                   // a ghost floating up and down
+      const y = 120 + Math.random() * (GROUND - 240);
+      things.push({ kind: 'ghost', x, y, base: y, r: 20, phase: Math.random() * 6 });
+      candyLine(y > BH / 2 ? y - 120 : y + 120, y > BH / 2 ? y - 120 : y + 120);
+    } else {                                               // two spiders
+      const a = 60 + Math.random() * 120;
+      things.push({ kind: 'spider', x, y: a, r: 17, bob: 0 });
+      things.push({ kind: 'spider', x: x + 120, y: a + 120 + Math.random() * 80, r: 17, bob: 2 });
+      candyLine(a + 90, a + 60);
+    }
+    // now and then something special
+    const s = Math.random();
+    const sy = 80 + Math.random() * (GROUND - 160);
+    if (s < .07) things.push({ kind: 'gold', x: x + 200, y: sy, r: 15 });
+    else if (s < .1 && bt.lives < 3) things.push({ kind: 'heart', x: x + 200, y: sy, r: 15 });
+    else if (s < .13 && !bt.shield) things.push({ kind: 'shield', x: x + 200, y: sy, r: 15 });
+  }
+
+  function batFrame(now) {
+    if (!bt.running) return;
+    const dt = Math.min((now - bt.last) / 1000, .05);
+    bt.last = now;
+    if (bt.started && !bt.over) batStep(dt);
+    else if (!bt.over) { bt.t += dt; if (!bt.dist) bt.y = BH / 2 + Math.sin(bt.t * 3) * 10; }
+    batDraw();
+    if (bt.running) requestAnimationFrame(batFrame);
+  }
+
+  function batStep(dt) {
+    const speed = BAT_SPEED[bt.speed] * Math.min(1.6, 1 + bt.dist / 25000);
+    bt.t += dt; bt.flap = Math.max(0, bt.flap - dt);
+    bt.vy = Math.min(bt.vy + 900 * dt, 420);
+    bt.y += bt.vy * dt;
+    if (bt.y < BAT_R + 4) { bt.y = BAT_R + 4; bt.vy = 0; }                  // the sky and the ground do no harm
+    if (bt.y > GROUND - BAT_R) { bt.y = GROUND - BAT_R; bt.vy = 0; }
+    bt.dist += speed * dt;
+    for (const th of bt.things) {
+      th.x -= speed * dt;
+      if (th.kind === 'ghost') th.y = th.base + Math.sin(bt.t * 2 + th.phase) * 55;
+    }
+    bt.things = bt.things.filter(th => th.x + (th.w || 0) > -60 && !th.taken);
+    bt.next -= speed * dt;
+    if (bt.next <= 0) { batSpawn(); bt.next = 230 + Math.random() * 90 - Math.min(80, bt.dist / 300); }
+    if (bt.hurt > 0) bt.hurt -= dt;
+    for (const th of bt.things) {
+      let hit;
+      if (th.kind === 'stone') {
+        const cx = Math.max(th.x, Math.min(BAT_X, th.x + th.w)), cy = Math.max(th.y, Math.min(bt.y, th.y + th.h));
+        hit = (cx - BAT_X) ** 2 + (cy - bt.y) ** 2 < (BAT_R - 3) ** 2;
+      } else hit = (th.x - BAT_X) ** 2 + (th.y + (th.kind === 'spider' ? Math.sin(bt.t * 3 + th.bob) * 6 : 0) - bt.y) ** 2 < (th.r + BAT_R - 5) ** 2;
+      if (!hit) continue;
+      if (th.kind === 'candy') { th.taken = true; bt.candy++; blip(900); }
+      else if (th.kind === 'gold') { th.taken = true; bt.bonus += 50; blip(900); blip(1200); blip(1500); }
+      else if (th.kind === 'heart') { th.taken = true; bt.lives = Math.min(3, bt.lives + 1); blip(700); blip(1000); }
+      else if (th.kind === 'shield') { th.taken = true; bt.shield = true; blip(600); blip(900); }
+      else if (bt.hurt <= 0) {
+        if (bt.shield) { bt.shield = false; bt.hurt = 1.2; blip(300); }
+        else {
+          bt.lives--; bt.hurt = 1.6; blip(150);
+          if (bt.lives <= 0) return batOver();
+        }
+      }
+    }
+    batHud();
+    raceScore(batScore());
+  }
+
+  function batOver() {
+    bt.over = true;
+    batHud();
+    if (mode === 'solo') return soloRecord('bat-' + bt.speed, batScore(), 'punten', `🦇 Au! ${Math.floor(bt.dist / 10)} meter en ${bt.candy} 🍬. `);
+    raceDone();
+  }
+
+  // --- drawing: a night sky, a haunted village far away, the graveyard ground, and everything that flies past ---
+  function batHouse(ctx, x, k) {
+    const w = 70 + (k * 37) % 50, h = 60 + (k * 53) % 70, base = GROUND - 30;
+    ctx.fillStyle = '#24163f';
+    ctx.fillRect(x, base - h, w, h);
+    ctx.beginPath(); ctx.moveTo(x - 8, base - h); ctx.lineTo(x + w / 2, base - h - 36 - (k % 3) * 10); ctx.lineTo(x + w + 8, base - h); ctx.fill();
+    if (k % 2) { ctx.fillRect(x + w - 18, base - h - 50, 12, 40); ctx.beginPath(); ctx.moveTo(x + w - 22, base - h - 50); ctx.lineTo(x + w - 12, base - h - 70); ctx.lineTo(x + w - 2, base - h - 50); ctx.fill(); }
+    ctx.fillStyle = '#ffcf5a';
+    for (let wy = 0; wy < 2; wy++) for (let wx = 0; wx < 2; wx++) if ((k + wx + wy) % 3) ctx.fillRect(x + 12 + wx * (w - 36), base - h + 14 + wy * 26, 12, 14);
+  }
+
+  function batEmoji(ctx, e, x, y, size, alpha = 1) {
+    ctx.globalAlpha = alpha; ctx.fillStyle = '#000';
+    ctx.font = `${size}px system-ui, "Apple Color Emoji", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(e, x, y); ctx.globalAlpha = 1;
+  }
+
+  function batDraw() {
+    const ctx = $('batCanvas').getContext('2d');
+    const sky = ctx.createLinearGradient(0, 0, 0, BH); sky.addColorStop(0, '#140b2e'); sky.addColorStop(1, '#3d2468');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, BW, BH);
+    for (const [x, y, p] of BAT_STARS) { ctx.globalAlpha = .4 + .6 * Math.abs(Math.sin(bt.t * 1.5 + p * 6)); ctx.fillStyle = '#fff'; ctx.fillRect(x, y, 2, 2); }
+    ctx.globalAlpha = 1;
+    // the moon
+    const g = ctx.createRadialGradient(290, 70, 10, 290, 70, 70); g.addColorStop(0, 'rgba(255,240,180,.5)'); g.addColorStop(1, 'rgba(255,240,180,0)');
+    ctx.fillStyle = g; ctx.fillRect(200, 0, 160, 150);
+    ctx.fillStyle = '#fff3c4'; ctx.beginPath(); ctx.arc(290, 70, 30, 0, Math.PI * 2); ctx.fill();
+    // the village, slower than the rest
+    const far = bt.dist * .25, span = 150;
+    for (let k = Math.floor(far / span) - 1; k < Math.floor(far / span) + 4; k++) batHouse(ctx, k * span - far, Math.abs(k));
+    // the ground: grass with little crosses
+    ctx.fillStyle = '#1d3a2a'; ctx.fillRect(0, GROUND, BW, BH - GROUND);
+    ctx.fillStyle = '#2f5a3e'; ctx.fillRect(0, GROUND, BW, 6);
+    const near = bt.dist % 60;
+    ctx.fillStyle = '#4a3d63';
+    for (let x = -near; x < BW + 60; x += 60) { ctx.fillRect(x + 20, GROUND + 10, 4, 16); ctx.fillRect(x + 15, GROUND + 15, 14, 4); }
+    // what flies past
+    for (const th of bt.things) {
+      if (th.kind === 'spider') {
+        const y = th.y + Math.sin(bt.t * 3 + th.bob) * 6;
+        ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(th.x, 0); ctx.lineTo(th.x, y - 12); ctx.stroke();
+        batEmoji(ctx, '🕸️', th.x, 14, 30, .8);
+        batEmoji(ctx, '🕷️', th.x, y, 34);
+      } else if (th.kind === 'stone') {
+        ctx.fillStyle = '#8a8fa6'; ctx.strokeStyle = '#5c6078'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(th.x, th.y + th.h); ctx.lineTo(th.x, th.y + 22); ctx.arc(th.x + th.w / 2, th.y + 22, th.w / 2, Math.PI, 0); ctx.lineTo(th.x + th.w, th.y + th.h); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#5c6078'; ctx.fillRect(th.x + th.w / 2 - 2, th.y + 14, 4, 22); ctx.fillRect(th.x + th.w / 2 - 9, th.y + 20, 18, 4);
+      } else {
+        const e = { pumpkin: '🎃', ghost: '👻', candy: '🍬', gold: '🌟', heart: '💖', shield: '🫧' }[th.kind];
+        batEmoji(ctx, e, th.x, th.y, th.kind === 'candy' ? 24 : th.kind === 'pumpkin' ? 38 : 34, th.kind === 'ghost' ? .9 : 1);
+      }
+    }
+    // the bat
+    if (!(bt.hurt > 0 && Math.floor(bt.hurt * 10) % 2)) {
+      const im = pkImg('s-bat');
+      ctx.save(); ctx.translate(BAT_X, bt.y); ctx.rotate(Math.max(-.5, Math.min(.6, bt.vy / 700)));
+      const wing = bt.started ? 1 - .35 * Math.abs(Math.sin((bt.t + bt.flap) * 14)) : 1 - .2 * Math.abs(Math.sin(bt.t * 6));
+      if (im.naturalWidth) { const w = 68, h = w * im.naturalHeight / im.naturalWidth; ctx.scale(1, wing); ctx.drawImage(im, -w / 2, -h / 2, w, h); }
+      else batEmoji(ctx, '🦇', 0, 0, 40);
+      ctx.restore();
+    }
+    if (bt.shield) { ctx.strokeStyle = 'rgba(140,220,255,.85)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(BAT_X, bt.y, 30, 0, Math.PI * 2); ctx.stroke(); }
+    if (!bt.started && !bt.over) {
+      ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.font = '700 22px "Baloo 2", system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Tik om te vliegen!', BW / 2, BH / 2 + 70);
+    }
+    if (bt.over) {
+      ctx.fillStyle = 'rgba(20,11,46,.55)'; ctx.fillRect(0, 0, BW, BH);
+      ctx.fillStyle = '#fff'; ctx.font = '800 30px "Baloo 2", system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Geen hartjes meer!', BW / 2, BH / 2);
+    }
+  }
+
+  function batLeave() {
+    batStop();
+    bt.over = true;
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  $('soloBat').addEventListener('click', () => { mode = 'solo'; batStart(); });
+  $('lobbyBat').addEventListener('click', batStart);
+  document.querySelectorAll('#batSpeeds [data-bspeed]').forEach(b => b.addEventListener('click', () => batPickSpeed(+b.dataset.bspeed)));
+  $('batCanvas').addEventListener('pointerdown', e => { e.preventDefault(); batFlap(); });
+  document.addEventListener('keydown', e => {
+    if (screen !== 'bat') return;
+    if (e.key === ' ' || e.key === 'ArrowUp') { e.preventDefault(); batFlap(); }
+  });
+  $('batLevelBack').addEventListener('click', batLeave);
+  $('batBack').addEventListener('click', batLeave);
+  $('batAgain').addEventListener('click', () => {
+    if (mode === 'together') send('batAgain', {});
+    batBegin(bt.speed);
+  });
+  // Away from the app: the bat waits in the air until the next tap
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && screen === 'bat' && !bt.over && bt.started) { bt.started = false; bt.vy = 0; bt.last = performance.now(); $('batStatus').textContent = 'Tik om verder te vliegen!'; }
+  });
 
   greet();
   show('welcome');

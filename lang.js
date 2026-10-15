@@ -371,6 +371,19 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Vleermuis-vlucht ---
+  ['🦇 Vleermuis-vlucht', '🦇 Lot nietoperza', '🦇 Bat flight'],
+  ['Fladder langs spinnen en spoken, pak het snoep', 'Leć obok pająków i duchów, zbieraj cukierki', 'Flutter past spiders and ghosts, grab the candy'],
+  ['Wie vliegt het verst?', 'Kto doleci najdalej?', 'Who flies the furthest?'],
+  ['Hoe snel vliegt de vleermuis?', 'Jak szybko leci nietoperz?', 'How fast does the bat fly?'],
+  ['Tik om te fladderen! Pak het snoep, bots nergens tegen.', 'Stukaj, żeby machać skrzydłami! Zbieraj cukierki i w nic nie uderzaj.', "Tap to flap! Grab the candy, don't bump into anything."],
+  ['Tik om te vliegen!', 'Stuknij, żeby lecieć!', 'Tap to fly!'],
+  ['Tik om verder te vliegen!', 'Stuknij, żeby lecieć dalej!', 'Tap to fly on!'],
+  ['{0} 🍬 {1} · {2} punten', '{0} 🍬 {1} · {2} {2|punkt|punkty|punktów}', '{0} 🍬 {1} · {2} points'],
+  ['🍬 {0} · {1} punten', '🍬 {0} · {1} {1|punkt|punkty|punktów}', '🍬 {0} · {1} points'],
+  ['🦇 {0} meter', '🦇 {0} {0|metr|metry|metrów}', '🦇 {0} metres'],
+  ['🦇 Au! {0} meter en {1} 🍬.', '🦇 Au! {0} {0|metr|metry|metrów} i {1} 🍬.', '🦇 Ouch! {0} metres and {1} 🍬.'],
+
   // --- Pompoen versieren ---
   ['🎃 Pompoen versieren', '🎃 Ozdabianie dyni', '🎃 Pumpkin carving'],
   ['Snijden, verven en versieren voor Halloween', 'Wycinanie, malowanie i ozdabianie na Halloween', 'Carve, paint and decorate for Halloween'],
@@ -638,12 +651,13 @@ window.LANG_TEXTS = [
       break;
     }
     // Not found whole: the games often glue sentences together ("… ✨ Jij bent aan de beurt!"), so try the pieces
+    // (best: a cut where both parts are known, so "Au! 3 meter en 2 💎." is not cut after "Au!"; else a cut where one part is)
     if (out === core) {
-      for (let i = 1; i < core.length - 1; i++) {
-        if (core[i] !== ' ' || !/[.!?…✨🎉⬆️⬇️]$/u.test(core.slice(0, i))) continue;
-        const a = tr(core.slice(0, i)), b = tr(core.slice(i + 1));
-        if (a !== core.slice(0, i) || b !== core.slice(i + 1)) { out = a + ' ' + b; break; }
-      }
+      const cuts = [];
+      for (let i = 1; i < core.length - 1; i++) if (core[i] === ' ' && /[.!?…✨🎉⬆️⬇️]$/u.test(core.slice(0, i))) cuts.push(i);
+      const known = i => [tr(core.slice(0, i)) !== core.slice(0, i), tr(core.slice(i + 1)) !== core.slice(i + 1)];
+      const at = cuts.find(i => known(i).every(Boolean)) ?? cuts.find(i => known(i).some(Boolean));
+      if (at !== undefined) out = tr(core.slice(0, at)) + ' ' + tr(core.slice(at + 1));
     }
     if (cache.size > 3000) cache.clear();
     cache.set(core, out);
