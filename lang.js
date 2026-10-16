@@ -387,6 +387,12 @@ window.LANG_TEXTS = [
   ['🦇 Au! {0} meter en {1} 🍬.', '🦇 Au! {0} {0|metr|metry|metrów} i {1} 🍬.', '🦇 Ouch! {0} metres and {1} 🍬.'],
 
   // --- Pompoen versieren ---
+  ['🎃 Halloween versieren', '🎃 Halloweenowe ozdabianie', '🎃 Halloween dress-up'],
+  ['Pompoenen, zombies, skeletten en meer', 'Dynie, zombie, szkielety i więcej', 'Pumpkins, zombies, skeletons and more'],
+  ['Kiezen', 'Wybierz', 'Choose'],
+  ['Kies een pompoen of een figuur.', 'Wybierz dynię albo postać.', 'Choose a pumpkin or a character.'],
+  ['🎃 Gemaakt door {0}', '🎃 Zrobione przez: {0}', '🎃 Made by {0}'],
+  ['🎃 Mijn Halloween', '🎃 Moje Halloween', '🎃 My Halloween'],
   ['🎃 Pompoen versieren', '🎃 Ozdabianie dyni', '🎃 Pumpkin carving'],
   ['Snijden, verven en versieren voor Halloween', 'Wycinanie, malowanie i ozdabianie na Halloween', 'Carve, paint and decorate for Halloween'],
   ['Pompoen', 'Dynia', 'Pumpkin'], ['Gezichten', 'Buzie', 'Faces'], ['Ogen', 'Oczy', 'Eyes'], ['Neus', 'Nos', 'Nose'], ['Mond', 'Usta', 'Mouth'],
