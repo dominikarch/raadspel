@@ -388,6 +388,22 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Lingo ---
+  ['🔤 Lingo', '🔤 Lingo', '🔤 Lingo'],
+  ['Raad het woord, zoals op tv', 'Zgadnij słowo, jak w telewizji', 'Guess the word, like on TV'],
+  ['Om de beurt raden: wie vindt het woord?', 'Zgadujcie na zmianę: kto znajdzie słowo?', 'Take turns guessing: who finds the word?'],
+  ['Hoe lang zijn de woorden?', 'Jak długie są słowa?', 'How long are the words?'],
+  ['🐣 4 letters', '🐣 4 litery', '🐣 4 letters'], ['🐰 5 letters', '🐰 5 liter', '🐰 5 letters'], ['🦊 6 letters', '🦊 6 liter', '🦊 6 letters'],
+  ['Woord {0}', 'Słowo {0}', 'Word {0}'],
+  ['Woord {0}. Jij bent aan de beurt!', 'Słowo {0}. Twoja kolej!', 'Word {0}. Your turn!'],
+  ['Woord {0}. {1} is aan de beurt…', 'Słowo {0}. Teraz {1}…', "Word {0}. It's {1}'s turn…"],
+  ['Het woord heeft {0} letters.', 'Słowo ma {0} {0|literę|litery|liter}.', 'The word has {0} letters.'],
+  ['🎉 Goed zo! +{0} punten.', '🎉 Brawo! +{0} {0|punkt|punkty|punktów}.', '🎉 Well done! +{0} points.'],
+  ['{0} heeft het geraden! +{1} punten.', '{0} zgadł(a)! +{1} {1|punkt|punkty|punktów}.', '{0} guessed it! +{1} points.'],
+  ['🐶 Woef! Het woord was {0}.', '🐶 Hau! To było słowo {0}.', '🐶 Woof! The word was {0}.'],
+  ['⭐ {0} punten', '⭐ {0} {0|punkt|punkty|punktów}', '⭐ {0} points'],
+  ['Klaar!', 'Gotowe!', 'Done!'],
+
   // --- Vleermuis-vlucht ---
   ['🦇 Vleermuis-vlucht', '🦇 Lot nietoperza', '🦇 Bat flight'],
   ['Fladder langs spinnen en spoken, pak het snoep', 'Leć obok pająków i duchów, zbieraj cukierki', 'Flutter past spiders and ghosts, grab the candy'],
@@ -1220,6 +1236,26 @@ window.LANG_TEXTS = [
   body.rk-plain .rk-tools .go { background: #2f7fe0; color: #fff; font-weight: 600; }
   body.rk-plain .rk-tools button:disabled { opacity: .45; }
   body.rk-plain #rummi .back { border: none; color: #888; font-family: inherit; }
+  /* Lingo */
+  .lg-board { display: grid; gap: 6px; margin: 4px auto 8px; max-width: 420px; }
+  .lg-row { display: grid; gap: 6px; }
+  .lg-tile { aspect-ratio: 1; width: 100%; min-width: 0; background: #24489c; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff;
+    font-weight: 800; font-size: clamp(1.3rem, 7vw, 2rem); position: relative; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25); }
+  .lg-tile span { position: relative; z-index: 1; }
+  .lg-tile.ok { background: #e8344e; }
+  .lg-tile.in::before { content: ''; position: absolute; inset: 9%; border-radius: 50%; background: #ffd23f; }
+  .lg-tile.in { color: #2b2140; }
+  .lg-tile.now { background: #2f6fd6; }
+  .lg-tile.hint span { opacity: .45; }
+  .lg-keys { margin-top: 8px; }
+  .lg-keys.off { opacity: .45; pointer-events: none; }
+  .lg-krow { display: flex; gap: 4px; justify-content: center; margin-top: 5px; }
+  .lg-krow button { flex: 1; max-width: 40px; height: 46px; border: none; border-radius: 8px; background: var(--key); font: inherit; font-weight: 700; font-size: 1.05rem;
+    color: var(--ink); cursor: pointer; padding: 0; box-shadow: 0 2px 0 var(--key-edge); touch-action: manipulation; }
+  .lg-krow button.wide { max-width: 58px; flex: 1.5; }
+  .lg-krow button.ok { background: #e8344e; color: #fff; }
+  .lg-krow button.in { background: #ffd23f; color: #2b2140; }
+  .lg-krow button.no { background: #8a8fa6; color: #fff; opacity: .55; }
 </style>
 </head>
 <body>
@@ -1237,7 +1273,7 @@ window.LANG_TEXTS = [
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 16-10 20.02</p>
+    <p class="version" id="version">versie 16-10 20.32</p>
   </section>
 
   <!-- Naam -->
@@ -1270,6 +1306,7 @@ window.LANG_TEXTS = [
       <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
       <button class="level l3" id="soloPumpkin">🎃 Halloween versieren<small>Pompoenen, zombies, skeletten en meer</small></button>
+      <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
       <button class="level l2" id="soloWirus">🦠 Virussen<small>Kaartspel: maak een gezond lichaam</small></button>
       <button class="level w3" id="soloMole">🔨 Mollen meppen<small>Mep de mollen, niet het hondje!</small></button>
@@ -1332,6 +1369,7 @@ window.LANG_TEXTS = [
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
+        <button class="level l1" id="lobbyLingo">🔤 Lingo<small>Om de beurt raden: wie vindt het woord?</small></button>
         <button class="level l4" id="lobbyBat">🦇 Vleermuis-vlucht<small>Wie vliegt het verst?</small></button>
         <button class="level w3" id="lobbyMole">🔨 Mollen meppen<small>Wie mept de meeste mollen?</small></button>
         <button class="level l3" id="lobbyCrash">💫 Crash<small>Botsautootjes in dezelfde arena</small></button>
@@ -1726,6 +1764,31 @@ window.LANG_TEXTS = [
     <button class="back" id="batBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Lingo: hoe lang -->
+  <section id="lingoLevel" class="hidden">
+    <p class="sub">Hoe lang zijn de woorden?</p>
+    <div class="levels" id="lgLevels">
+      <button class="level l1" data-len="4">🐣 4 letters<small id="lgrec4"></small></button>
+      <button class="level l2" data-len="5">🐰 5 letters<small id="lgrec5"></small></button>
+      <button class="level l3" data-len="6">🦊 6 letters<small id="lgrec6"></small></button>
+    </div>
+    <button class="back" id="lingoLevelBack" data-hold="together">← Terug</button>
+  </section>
+
+  <!-- Lingo: raden -->
+  <section id="lingo" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="lgMe"></span><span id="lgOther"></span></div>
+      <div class="lg-board" id="lgBoard"></div>
+      <p class="ttt-status" id="lgStatus"></p>
+      <div class="lg-keys" id="lgKeys"></div>
+      <div class="ttt-end" id="lgEnd" hidden>
+        <button class="again" id="lgAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="lgBack" data-hold="always">← Ander spel</button>
+  </section>
+
   <!-- Mollen meppen: hoe snel -->
   <section id="moleLevel" class="hidden">
     <p class="sub">Hoe snel zijn de mollen?</p>
@@ -1941,7 +2004,7 @@ window.LANG_TEXTS = [
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat', 'lingoLevel', 'lingo',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2392,15 +2455,17 @@ window.LANG_TEXTS = [
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
     if (m.type === 'dmove' && screen === 'dam') damApply(m.p, false);
     if (m.type === 'rscore' && ['bricks', 'snake', 'gravity', 'mole', 'bat'].includes(screen)) raceOther(m.score, m.done);
     if (m.type === 'pick' && m.game === 'bat' && screen === 'batLevel') batBegin(m.speed);
+    if (m.type === 'pick' && m.game === 'lingo' && (screen === 'lingoLevel' || screen === 'lingo')) lingoBegin(m);
+    if (m.type === 'lgg' && screen === 'lingo' && m.k === lg.k && m.i === lg.guesses && !lg.done) lingoGuess(m.g);
     if (m.type === 'batAgain' && screen === 'bat' && bt.over) batBegin(bt.speed);
     if (m.type === 'pick' && m.game === 'mole' && screen === 'moleLevel') moleBegin(m.speed);
     if (m.type === 'moleAgain' && screen === 'mole' && ml.over) moleBegin(ml.speed);
@@ -7775,6 +7840,190 @@ window.LANG_TEXTS = [
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && screen === 'bat' && !bt.over && bt.started) { bt.started = false; bt.vy = 0; bt.last = performance.now(); $('batStatus').textContent = 'Tik om verder te vliegen!'; }
   });
+
+  // ----- Lingo (the word part of the TV game): find the word; the first letter is given. Red square = right letter in the
+  // right place, yellow circle = in the word but elsewhere, blue = not in it. 5 words a round. Alone: points and a record per
+  // length. Together: the players take turns guessing the same word; whoever finds it gets the points.
+  // The words follow the language of the device that starts (Dutch IJ is one letter). A guess is not checked against a dictionary.
+
+  const LG_WORDS = {"nl": {"4": "AUTO BABY BANG BANK BEEN BEER BERG BLAD BLOK BOEK BOER BOOM BOOS BOOT BORD BRIL BRUG BUIK DANS DEUR DORP DROP DUIF EEND EGEL ETEN FLES GEEL GEIT GELD GLAS GOLF GOUD GRAS GRIJS HAAI HAAR HAAS HAND HARD HART HEKS HOED HOND HOOI HUIS JAAR JONG JURK KAAS KADO KALF KAST KERS KIND KIWI KLAS KLOK KNIE KOEK KORT KOUD KRAB LAMP LANG LIEF MAAN MAIS MAMA MEER MELK MIER MOND MOOI MUIS MUNT MUTS MUUR NEUS NOOT OVEN PAPA PEER PONY RAAM REUS RING ROOD ROOS ROZE SAUS SLAK SNEL SOEP SPEL SPIN STAD STAL STER STIL TAND TEEN THEE TONG TRAP TUIN VELD VINK VOET VORK VUUR WANT WARM WEEK WIND WOLF WOLK WORM ZAND ZEEP ZIEK ZOET ZOUT ZUUR", "5": "AARDE AKKER APPEL AVOND BEKER BEVER BLAUW BLOEM BOTER BROEK BROER BROOD BRUIN CHIPS DRAAK DROOG DRUIF EMMER FEEST FIETS FLUIT FRIET GIRAF GRAAN GROEN GROOT KAARS KAART KETEL KIJKEN KLEIN KOKEN KONIJN KRAAI KROON LAARS LEEUW LENTE LEPEL LEZEN LICHT LOPEN LUCHT MAAND MANGO MARKT NACHT NIEUW OTTER PAARD PAARS PAREL PEPER PIANO PINDA PIZZA PRINS PRUIM RAKET REGEN ROBOT SCHAT SCHIP SJAAL SLOOT SNOEP SPOOK STOEL STORM TAART TAFEL TARWE TIJGER TOREN TRAAG TREIN VIOOL VLIEG VOGEL WAFEL WATER WEIDE WORST ZACHT ZEBRA ZOMER ZWAAN ZWART", "6": "ANANAS BAKKEN BAKKER BALLON BANAAN BOOTJE DOKTER DOLFIJN DONKER GITAAR HERFST HONING HUILEN JONGEN KAASJE KIKKER KOEKJE KOFFIE KONING KREEFT KUIKEN LACHEN LIEDJE MEISJE MELOEN MIDDAG MORGEN MUZIEK ORANJE PALEIS PERZIK PIRAAT PRATEN PUZZEL RENNEN RIDDER RIVIER ROEPEN SCHELP SCHILD SCHOEN SCHOOL SCHUUR SLAGER SLAPEN SNEEUW SPELEN STRAAT STRAND SUIKER TOMAAT VARKEN VINGER VRIEND VROLIJK WALVIS WINKEL WINTER WORTEL ZILVER ZINGEN ZWAARD"}, "pl": {"4": "AUTO BRAT BUTY DUCH DUŻY DŻEM FLET GÓRA KAWA KINO KOZA KRÓL KURA LATO LIŚĆ LODY MAMA MAŁY MIÓD MYSZ NOGA NOWY OKNO OWCA PIES PTAK RYBA RĘKA SMOK SOWA STÓŁ SŁOŃ TATA TORT UCHO USTA WILK WODA ZIMA ZUPA ŻABA", "5": "BAJKA BALON BANAN BIAŁY BURZA BĘBEN CHLEB DOBRY DRZWI DYNIA DZIEŃ GRZYB GUMKA JAJKO JĘZYK KOLOR KONIK KOTEK KROWA KUBEK KWIAT LALKA LAMPA MASŁO MAŁPA MELON MIECZ MLEKO MORZE MOTYL NIEBO OBIAD OGIEŃ PAJĄK PALEC PIRAT PIŁKA PLAŻA PLECY RANEK ROBOT ROWER RYNEK RZEKA SERCE SKARB SKLEP STARY SZAFA TEATR TORBA TRAWA WIATR WIEŻA WOLNY WŁOSY ZAJĄC ZAMEK ZEBRA ZEGAR ZIMNY ZŁOTO ŁADNY ŁYŻKA ŁÓDKA ŁÓŻKO ŚNIEG", "6": "ANANAS BABCIA BRZUCH CEBULA CHMURA CHOMIK CIASTO CIEPŁY CUKIER CZAPKA CZARNY DESZCZ DRZEWO GARNEK GITARA JABŁKO JESIEŃ KACZKA KARTKA KLOCKI KOLANO KORONA KREDKA KURTKA LEKARZ LUSTRO MALINA MRÓWKA MUZYKA OGÓREK ORZECH OŁÓWEK PIASEK PIESEK PLECAK POCIĄG POTWÓR ROLNIK RYCERZ RÓŻOWY SMUTNY SREBRO STATEK SZALIK SZKOŁA SZYBKI SŁOŃCE TALERZ TANIEC TYGRYS WESOŁY WIOSNA WIŚNIA ZABAWA ZESZYT ZIEMIA ŚLIMAK ŚLIWKA ŚLIWKI ŚWIECA ŻOŁĄDŹ ŻYRAFA"}, "en": {"4": "BABY BAKE BALL BARN BEAR BIKE BIRD BLUE BOAT BOOK BOOT CAKE CITY COAT COLD COOK CRAB DARK DOLL DOOR DRAW DRUM DUCK FAST FIRE FISH FOOT FORK FROG GAME GIFT GIRL GOAT GOLD HAIR HAND HARE HILL JUMP KING KITE KNEE LAKE LAMP LEAF LION LONG MILK MOON NOSE PEAR PINK PLAY PLUM PONY RAIN READ RING ROOF SALT SAND SHIP SHOE SHOP SING SLOW SNOW SOCK SONG SOUP SOUR STAR SWIM TOWN TREE WALL WARM WIND WOLF WORM", "5": "ACORN ANGRY APPLE APRON BEACH BERRY BLACK BREAD BROWN BUNNY CANDY CHAIR CLASS CLOCK CLOUD CROWN DANCE DRESS DRINK EARTH FAIRY FENCE FLUTE GHOST GLOVE GRAPE GRASS GREEN HAPPY HEART HONEY HORSE HOUSE JUICE KNIFE KOALA LAUGH LEMON LIGHT MELON MONEY MOUSE MOUTH MUSIC OCEAN PANDA PAPER PARTY PEACH PIANO PIZZA PLANE PLATE PUPPY QUEEN RIVER ROBOT SCARF SHARK SHEEP SHELL SHORT SKIRT SLEEP SLIDE SMALL SMILE SNAIL SPADE SPOON SUGAR SWEET SWING SWORD TABLE TEDDY TIGER TIRED TOOTH TOWER TRAIN WATER WHALE WHITE WITCH WRITE ZEBRA", "6": "AUTUMN BANANA BASKET BOTTLE BRIDGE BUCKET BUTTER BUTTON CANDLE CARROT CASTLE CEREAL CHEESE CHERRY CIRCLE COOKIE DOCTOR DONKEY DRAGON FAMILY FARMER FATHER FINGER FLOWER FOREST FRIEND GARDEN ISLAND JUNGLE KETTLE KITTEN KNIGHT MEADOW MITTEN MONKEY MOTHER MUFFIN NOODLE ORANGE PARROT PEBBLE PENCIL PILLOW PIRATE PLANET POTATO PURPLE PUZZLE RABBIT ROCKET SADDLE SCHOOL SHIELD SILVER SISTER SPIDER SPRING STREET SUMMER SUNDAY TOMATO TURTLE WAFFLE WINDOW WINTER YELLOW YOGURT"}};
+  const LG_ROUND = 5;
+  const lg = { len: 5, lang: 'nl', words: [], k: 0, rows: [], typed: [], over: false, done: false, score: [0, 0], starter: null, players: [], guesses: 0, wait: false };
+
+  const lgTiles = word => lg.lang === 'nl' ? word.match(/IJ|./gu) : [...word];
+  const lgLang = () => (window.LANG in LG_WORDS ? window.LANG : 'nl');
+  const lgMaxRows = () => mode === 'together' ? 6 : 5;
+  const lgWord = () => lgTiles(lg.words[lg.k]);
+
+  function lingoStart() {
+    for (const n of [4, 5, 6]) { const r = recordOf(`lingo-${lgLang()}-${n}`); $('lgrec' + n).textContent = mode === 'solo' && r ? `Record: ${r}` : ''; }
+    $('lingoLevelBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('lingoLevel');
+  }
+
+  function lingoPick(len) {
+    const list = LG_WORDS[lgLang()][len].split(' ');
+    const words = shuffle(list.slice()).slice(0, LG_ROUND);
+    const game = { len, lang: lgLang(), words, starter: myId };
+    if (mode === 'together') send('pick', { game: 'lingo', ...game });
+    lingoBegin(game);
+  }
+
+  function lingoBegin(game) {
+    stopMusic();
+    Object.assign(lg, { len: game.len, lang: game.lang, words: game.words, k: 0, score: [0, 0], starter: game.starter, over: false });
+    lg.players = mode === 'together' ? [game.starter, game.starter === myId ? other.id : myId] : [myId];
+    raceStart('lgStatus', 'lgEnd', () => {});
+    $('lgEnd').hidden = true;
+    show('lingo');
+    lingoWordStart();
+  }
+
+  function lingoWordStart() {
+    lg.rows = []; lg.done = false; lg.guesses = 0; lg.wait = false;
+    lg.typed = [lgWord()[0]];
+    lingoDraw();
+    lingoSayTurn();
+  }
+
+  // Together, the players take turns per guess; who begins changes every word
+  const lgTurnId = () => lg.players[(lg.k + lg.guesses) % lg.players.length];
+  const lgMine = () => mode !== 'together' || lgTurnId() === myId;
+  const lgName = id => id === myId ? 'Jij' : (other && other.name) || '';
+
+  function lingoSayTurn() {
+    if (lg.done || lg.over) return;
+    const n = `${lg.k + 1}/${LG_ROUND}`;
+    if (mode !== 'together') $('lgStatus').textContent = `Woord ${n}`;
+    else $('lgStatus').textContent = lgMine() ? `Woord ${n}. Jij bent aan de beurt!` : `Woord ${n}. ${other.name} is aan de beurt…`;
+  }
+
+  // Red, yellow or blue for every letter (a letter that is twice in the guess but once in the word is yellow only once)
+  function lgCheck(guess, word) {
+    const res = guess.map(() => 'no'), left = {};
+    word.forEach((c, i) => { if (guess[i] === c) res[i] = 'ok'; else left[c] = (left[c] || 0) + 1; });
+    guess.forEach((c, i) => { if (res[i] !== 'ok' && left[c]) { res[i] = 'in'; left[c]--; } });
+    return res;
+  }
+
+  // The letters already found in their place (and the first letter) show in the next row
+  function lgKnown() {
+    const word = lgWord(), known = word.map(() => '');
+    known[0] = word[0];
+    for (const r of lg.rows) r.res.forEach((s, i) => { if (s === 'ok') known[i] = word[i]; });
+    return known;
+  }
+
+  function lingoDraw() {
+    const word = lgWord(), n = word.length, rows = lgMaxRows(), known = lgKnown();
+    let html = '';
+    for (let r = 0; r < rows; r++) {
+      html += `<div class="lg-row" style="grid-template-columns:repeat(${n},minmax(0,1fr))">`;
+      const done = lg.rows[r];
+      for (let i = 0; i < n; i++) {
+        if (done) html += `<div class="lg-tile ${done.res[i]}"><span>${done.g[i]}</span></div>`;
+        else if (r === lg.rows.length && !lg.done) {
+          const c = lg.typed[i];
+          html += `<div class="lg-tile now${c ? '' : ' hint'}"><span>${c || known[i]}</span></div>`;
+        } else html += '<div class="lg-tile"></div>';
+      }
+      html += '</div>';
+    }
+    if (lg.done && lg.showWord) html += `<div class="lg-row" style="grid-template-columns:repeat(${n},minmax(0,1fr))">${word.map(c => `<div class="lg-tile ok"><span>${c}</span></div>`).join('')}</div>`;
+    $('lgBoard').innerHTML = html;
+    // the keyboard, coloured with what is known
+    const best = {};
+    for (const r of lg.rows) r.res.forEach((s, i) => { const c = r.g[i], rank = { ok: 3, in: 2, no: 1 }; if (!best[c] || rank[s] > rank[best[c]]) best[c] = s; });
+    const rowsK = [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['⌫', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '⏎']];
+    if (lg.lang === 'nl') rowsK[1].push('IJ');
+    if (lg.lang === 'pl') rowsK.splice(2, 0, ['Ą', 'Ć', 'Ę', 'Ł', 'Ń', 'Ó', 'Ś', 'Ź', 'Ż']);
+    $('lgKeys').innerHTML = rowsK.map(row => `<div class="lg-krow">${row.map(k => `<button data-k="${k}" class="${best[k] || ''}${k.length > 1 && k !== 'IJ' ? ' wide' : ''}">${k}</button>`).join('')}</div>`).join('');
+    $('lgKeys').classList.toggle('off', !lgMine() || lg.done || lg.over);
+    $('lgMe').textContent = mode === 'together' ? `Jij: ${lg.score[lg.players.indexOf(myId)]}` : `⭐ ${lg.score[0]} punten`;
+    $('lgOther').textContent = mode === 'together' && other ? `${other.name}: ${lg.score[lg.players.indexOf(other.id)]}` : '';
+  }
+
+  function lingoKey(k) {
+    if (!lgMine() || lg.done || lg.over || lg.wait) return;
+    const n = lgWord().length;
+    if (k === '⌫') { if (lg.typed.length > 1) lg.typed.pop(); }
+    else if (k === '⏎') {
+      if (lg.typed.length < n) { $('lgStatus').textContent = `Het woord heeft ${n} letters.`; return; }
+      const g = lg.typed.slice();
+      if (mode === 'together') send('lgg', { k: lg.k, i: lg.guesses, g });
+      return lingoGuess(g);
+    } else if (lg.typed.length < n) {
+      if (k === 'J' && lg.lang === 'nl' && lg.typed[lg.typed.length - 1] === 'I' && lg.typed.length > 1) lg.typed[lg.typed.length - 1] = 'IJ';
+      else lg.typed.push(k);
+      blip(500);
+    }
+    lingoDraw();
+  }
+
+  // A guess (mine, or the other player's from their device)
+  function lingoGuess(g) {
+    const word = lgWord(), res = lgCheck(g, word), who = lgTurnId();
+    lg.rows.push({ g, res });
+    lg.guesses++;
+    lg.typed = [word[0]];
+    const right = res.every(s => s === 'ok');
+    if (right) {
+      const pts = (lgMaxRows() - lg.rows.length + 1) * 10, seat = mode === 'together' ? lg.players.indexOf(who) : 0;
+      lg.score[seat] += pts;
+      lg.done = true;
+      if (who === myId) { confetti(); blip(880); setTimeout(() => blip(1200), 120); }
+      $('lgStatus').textContent = mode === 'together'
+        ? (who === myId ? `🎉 Goed zo! +${pts} punten.` : `${other.name} heeft het geraden! +${pts} punten.`)
+        : `🎉 Goed zo! +${pts} punten.`;
+    } else if (lg.rows.length >= lgMaxRows()) {
+      lg.done = true; lg.showWord = true;
+      $('lgStatus').textContent = `🐶 Woef! Het woord was ${word.join('')}.`;
+      blip(200);
+    } else {
+      res.forEach((s, i) => setTimeout(() => blip(s === 'ok' ? 700 : s === 'in' ? 520 : 300), i * 90));
+      lingoSayTurn();
+    }
+    lingoDraw();
+    lg.showWord = false;
+    if (lg.done) setTimeout(lingoNextWord, 2600);
+  }
+
+  function lingoNextWord() {
+    if (screen !== 'lingo' || lg.over) return;
+    lg.k++;
+    if (lg.k < LG_ROUND) return lingoWordStart();
+    lg.over = true;
+    lingoDraw();
+    if (mode === 'solo') return soloRecord(`lingo-${lg.lang}-${lg.len}`, lg.score[0], 'punten', 'Klaar! ');
+    const me = lg.score[lg.players.indexOf(myId)], them = lg.score[lg.players.indexOf(other.id)];
+    if (me > them) { $('lgStatus').textContent = `🎉 Jij wint! ${me} tegen ${them}`; confetti(); winSound(); }
+    else if (me < them) $('lgStatus').textContent = `${other.name} wint! ${them} tegen ${me}`;
+    else $('lgStatus').textContent = `🤝 Gelijkspel! Allebei ${me}`;
+    $('lgEnd').hidden = false;
+  }
+
+  function lingoLeave() {
+    lg.over = true;
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  $('soloLingo').addEventListener('click', () => { mode = 'solo'; lingoStart(); });
+  $('lobbyLingo').addEventListener('click', lingoStart);
+  document.querySelectorAll('#lgLevels [data-len]').forEach(b => b.addEventListener('click', () => lingoPick(Number(b.dataset.len))));
+  $('lgKeys').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (b) lingoKey(b.dataset.k); });
+  document.addEventListener('keydown', e => {
+    if (screen !== 'lingo') return;
+    if (e.key === 'Backspace') { e.preventDefault(); return lingoKey('⌫'); }
+    if (e.key === 'Enter') { e.preventDefault(); return lingoKey('⏎'); }
+    const k = e.key.toUpperCase();
+    if (k.length === 1 && /\p{L}/u.test(k)) lingoKey(k);
+  });
+  $('lingoLevelBack').addEventListener('click', lingoLeave);
+  $('lgBack').addEventListener('click', lingoLeave);
+  $('lgAgain').addEventListener('click', lingoStart);
 
   greet();
   show('welcome');

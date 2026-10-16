@@ -373,6 +373,22 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Lingo ---
+  ['🔤 Lingo', '🔤 Lingo', '🔤 Lingo'],
+  ['Raad het woord, zoals op tv', 'Zgadnij słowo, jak w telewizji', 'Guess the word, like on TV'],
+  ['Om de beurt raden: wie vindt het woord?', 'Zgadujcie na zmianę: kto znajdzie słowo?', 'Take turns guessing: who finds the word?'],
+  ['Hoe lang zijn de woorden?', 'Jak długie są słowa?', 'How long are the words?'],
+  ['🐣 4 letters', '🐣 4 litery', '🐣 4 letters'], ['🐰 5 letters', '🐰 5 liter', '🐰 5 letters'], ['🦊 6 letters', '🦊 6 liter', '🦊 6 letters'],
+  ['Woord {0}', 'Słowo {0}', 'Word {0}'],
+  ['Woord {0}. Jij bent aan de beurt!', 'Słowo {0}. Twoja kolej!', 'Word {0}. Your turn!'],
+  ['Woord {0}. {1} is aan de beurt…', 'Słowo {0}. Teraz {1}…', "Word {0}. It's {1}'s turn…"],
+  ['Het woord heeft {0} letters.', 'Słowo ma {0} {0|literę|litery|liter}.', 'The word has {0} letters.'],
+  ['🎉 Goed zo! +{0} punten.', '🎉 Brawo! +{0} {0|punkt|punkty|punktów}.', '🎉 Well done! +{0} points.'],
+  ['{0} heeft het geraden! +{1} punten.', '{0} zgadł(a)! +{1} {1|punkt|punkty|punktów}.', '{0} guessed it! +{1} points.'],
+  ['🐶 Woef! Het woord was {0}.', '🐶 Hau! To było słowo {0}.', '🐶 Woof! The word was {0}.'],
+  ['⭐ {0} punten', '⭐ {0} {0|punkt|punkty|punktów}', '⭐ {0} points'],
+  ['Klaar!', 'Gotowe!', 'Done!'],
+
   // --- Vleermuis-vlucht ---
   ['🦇 Vleermuis-vlucht', '🦇 Lot nietoperza', '🦇 Bat flight'],
   ['Fladder langs spinnen en spoken, pak het snoep', 'Leć obok pająków i duchów, zbieraj cukierki', 'Flutter past spiders and ghosts, grab the candy'],
