@@ -420,6 +420,7 @@ window.LANG_TEXTS = [
   ['🎃 Halloween versieren', '🎃 Halloweenowe ozdabianie', '🎃 Halloween dress-up'],
   ['Pompoenen, zombies, skeletten en meer', 'Dynie, zombie, szkielety i więcej', 'Pumpkins, zombies, skeletons and more'],
   ['Kiezen', 'Wybierz', 'Choose'],
+  ['Zombie', 'Zombie', 'Zombie'], ['Heks', 'Czarownica', 'Witch'], ['Clown', 'Klaun', 'Clown'], ['Verliefd', 'Zakochana', 'In love'], ['Slaperig', 'Śpiąca', 'Sleepy'],
   ['Kies een pompoen of een figuur.', 'Wybierz dynię albo postać.', 'Choose a pumpkin or a character.'],
   ['🎃 Gemaakt door {0}', '🎃 Zrobione przez: {0}', '🎃 Made by {0}'],
   ['🎃 Mijn Halloween', '🎃 Moje Halloween', '🎃 My Halloween'],

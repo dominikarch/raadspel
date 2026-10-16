@@ -435,6 +435,7 @@ window.LANG_TEXTS = [
   ['🎃 Halloween versieren', '🎃 Halloweenowe ozdabianie', '🎃 Halloween dress-up'],
   ['Pompoenen, zombies, skeletten en meer', 'Dynie, zombie, szkielety i więcej', 'Pumpkins, zombies, skeletons and more'],
   ['Kiezen', 'Wybierz', 'Choose'],
+  ['Zombie', 'Zombie', 'Zombie'], ['Heks', 'Czarownica', 'Witch'], ['Clown', 'Klaun', 'Clown'], ['Verliefd', 'Zakochana', 'In love'], ['Slaperig', 'Śpiąca', 'Sleepy'],
   ['Kies een pompoen of een figuur.', 'Wybierz dynię albo postać.', 'Choose a pumpkin or a character.'],
   ['🎃 Gemaakt door {0}', '🎃 Zrobione przez: {0}', '🎃 Made by {0}'],
   ['🎃 Mijn Halloween', '🎃 Moje Halloween', '🎃 My Halloween'],
@@ -1298,7 +1299,7 @@ window.LANG_TEXTS = [
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 16-10 20.41</p>
+    <p class="version" id="version">versie 16-10 20.49</p>
   </section>
 
   <!-- Naam -->
@@ -7178,6 +7179,21 @@ window.LANG_TEXTS = [
     'f-vampgirl': { eyes: .38, nose: .47, mouth: .55, s: .62 }, 'f-blob': { eyes: .40, nose: .52, mouth: .62, s: .9 },
     'f-bride': { eyes: .56, nose: .65, mouth: .74, s: .6 }, 'f-batvamp': { eyes: .48, nose: .58, mouth: .67, s: .7 } };
   const pkFace = () => PK_FACE_AT[pk.pumpkin] || PK_FACE_AT.pumpkin;
+  // Drawn eyes, noses and mouths for the figures (pumpkins get carved ones)
+  const PK_FEATS = {
+    eyes: ['e-big', 'e-lash', 'e-happy', 'e-sleepy', 'e-angry', 'e-dizzy', 'e-red', 'e-cat', 'e-heart', 'e-star', 'e-googly'],
+    nose: ['n-button', 'n-dot', 'n-clown', 'n-witch', 'n-cat'],
+    mouth: ['m-smile', 'm-laugh', 'm-fangs', 'm-zombie', 'm-oh', 'm-tongue', 'm-lips', 'm-sad', 'm-monster'],
+  };
+  const PK_FIG_FACES = [
+    ['😀', 'Klassiek', ['e-big', 'n-button', 'm-smile']], ['🥰', 'Lief', ['e-lash', 'n-button', 'm-lips']],
+    ['🧛', 'Vampier', ['e-red', 'n-dot', 'm-fangs']], ['🐱', 'Poes', ['e-cat', 'n-cat', 'm-smile']],
+    ['😮', 'Verbaasd', ['e-googly', 'n-button', 'm-oh']], ['😄', 'Blij', ['e-happy', 'n-button', 'm-laugh']],
+    ['🧟', 'Zombie', ['e-dizzy', 'n-dot', 'm-zombie']], ['🧙', 'Heks', ['e-angry', 'n-witch', 'm-monster']],
+    ['🤡', 'Clown', ['e-star', 'n-clown', 'm-tongue']], ['😍', 'Verliefd', ['e-heart', 'n-button', 'm-smile']],
+    ['😴', 'Slaperig', ['e-sleepy', 'n-button', 'm-sad']],
+  ];
+  const pkIsFeat = k => /^[enm]-/.test(k || '');
   const pkCarved = () => pk.pumpkin.startsWith('p-');
   const PK_STICKERS = ['s-witchhat', 's-wizard', 's-tophat', 's-crown', 's-bow', 's-catears', 's-glasses', 's-mustache', 's-bowtie',
                        's-bat', 's-spider', 's-ghost', 's-cat', 's-candy', 's-leaves', 's-owl'];
@@ -7264,7 +7280,7 @@ window.LANG_TEXTS = [
     mode = 'solo';
     try { const s = JSON.parse(localStorage.getItem('raadspel-pumpkin')); if (s) Object.assign(pk, s); } catch (e) {}
     pk.sel = -1; pk.tool = null; pk.undo = []; pk.tab = 'pumpkin';
-    [...PK_PUMPKINS, ...PK_STICKERS, 'b-porch', 'b-patch', 'b-house', 'b-forest'].forEach(pkImg);
+    [...PK_PUMPKINS, ...PK_STICKERS, ...PK_FEATS.eyes, ...PK_FEATS.nose, ...PK_FEATS.mouth, 'b-porch', 'b-patch', 'b-house', 'b-forest'].forEach(pkImg);
     $('pkPhoto').hidden = true;
     show('pumpkin');
     pkTools(); pkDraw();
@@ -7276,7 +7292,8 @@ window.LANG_TEXTS = [
   const PK_LAYERS = { mask: pkLayer(), paint: pkLayer(), cut: pkLayer(), wall: pkLayer(), inner: pkLayer() };
 
   function pkPlace(ctx, it, fn) {               // draws one thing at its place (twice, mirrored, for a pair of eyes)
-    const spots = it.pair ? [[-1, -it.s * 62], [1, it.s * 62]] : [[it.flip ? -1 : 1, 0]];
+    const gap = (it.gap || 62) * it.s;
+    const spots = it.pair ? [[-1, -gap], [1, gap]] : [[it.flip ? -1 : 1, 0]];
     for (const [mirror, dx] of spots) {
       ctx.save();
       ctx.translate(it.x, it.y); ctx.rotate(it.r || 0); ctx.translate(dx, 0);
@@ -7480,7 +7497,22 @@ window.LANG_TEXTS = [
     pkChop(); pkAfter();
   }
 
+  function pkAddFeat(k, quiet) {
+    const b = pk.box || pkBox(), F = pkFace(), scale = b.w / 540, kind = k[0];
+    const [y, size] = { e: [F.eyes, .56], n: [F.nose, .36], m: [F.mouth, .68] }[kind];
+    if (!quiet) pkRemember();
+    pk.items.push({ t: 'st', k, pair: kind === 'e', gap: 128, x: b.x + b.w / 2, y: b.y + b.h * y, s: size * scale * F.s, r: 0, flip: false });
+    pk.sel = quiet ? -1 : pk.items.length - 1;
+    if (!quiet) { blip(700); pkAfter(); }
+  }
+
   function pkAddFace(n) {
+    if (!pkCarved()) {                                   // a figure gets a whole drawn face
+      pkRemember();
+      pk.items = pk.items.filter(it => it.t !== 'cut' && it.t !== 'knife' && !pkIsFeat(it.k));
+      PK_FIG_FACES[n][2].forEach(k => pkAddFeat(k, true));
+      blip(700); return pkAfter();
+    }
     const b = pk.box || pkBox(), scale = b.w / 540, F = pkFace();
     pkRemember();
     pk.items = pk.items.filter(it => it.t !== 'cut' && it.t !== 'knife');
@@ -7541,8 +7573,9 @@ window.LANG_TEXTS = [
     let html = '';
     const t = pk.tab;
     if (t === 'pumpkin') html = PK_PUMPKINS.map(k => `<button data-pumpkin="${k}" class="${pk.pumpkin === k ? 'on' : ''}"><img src="pompoen/${k}.webp" alt="" class="pk-thumb"></button>`).join('');
-    if (t === 'faces') html = PK_FACES.map(([e, name], n) => `<button data-face="${n}"><span class="emo">${e}</span><small>${name}</small></button>`).join('');
-    if (t === 'eyes' || t === 'nose' || t === 'mouth') html = PK_GROUPS[t].map(k => `<button data-cut="${k}">${pkSvg(k)}</button>`).join('');
+    if (t === 'faces') html = (pkCarved() ? PK_FACES : PK_FIG_FACES).map(([e, name], n) => `<button data-face="${n}"><span class="emo">${e}</span><small>${name}</small></button>`).join('');
+    if ((t === 'eyes' || t === 'nose' || t === 'mouth') && pkCarved()) html = PK_GROUPS[t].map(k => `<button data-cut="${k}">${pkSvg(k)}</button>`).join('');
+    if ((t === 'eyes' || t === 'nose' || t === 'mouth') && !pkCarved()) html = PK_FEATS[t].map(k => `<button data-feat="${k}"><img src="pompoen/${k}.webp" alt="" class="pk-thumb"></button>`).join('');
     if (t === 'shapes') html = `<button data-tool="knife" class="${pk.tool === 'knife' ? 'on' : ''}"><span class="emo">🔪</span><small>Zelf snijden</small></button>` +
       PK_GROUPS.shapes.map(k => `<button data-cut="${k}">${pkSvg(k)}</button>`).join('');
     if (t === 'paint') html = PK_PAINT.map(c => `<button data-color="${c}" class="${pk.tool === 'paint' && pk.paint.c === c ? 'on' : ''}"><div class="swatch" style="background:${c}"></div></button>`).join('') +
@@ -7638,6 +7671,7 @@ window.LANG_TEXTS = [
       pkAfter(); return pkTools(); }
     if (d.face !== undefined) return pkAddFace(Number(d.face));
     if (d.cut) { pk.tool = null; pkAddCut(d.cut); return pkTools(); }
+    if (d.feat) { pk.tool = null; pkAddFeat(d.feat); return pkTools(); }
     if (d.tool) { pk.tool = pk.tool === d.tool ? (d.tool === 'erase' ? 'paint' : null) : d.tool; pk.sel = -1; pkSelBar(); pkDraw(); return pkTools(); }
     if (d.color) { pk.paint.c = d.color; pk.tool = 'paint'; return pkTools(); }
     if (d.width) { pk.paint.w = Number(d.width); if (pk.tool !== 'erase') pk.tool = 'paint'; return pkTools(); }
