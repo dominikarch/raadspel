@@ -388,6 +388,20 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Memory ---
+  ['🃏 Memory', '🃏 Memory', '🃏 Memory'],
+  ['Zoek de paren, tegen het hondje of alleen', 'Szukaj par, z pieskiem albo sam', 'Find the pairs, against the dog or alone'],
+  ['Wie vindt de meeste paren?', 'Kto znajdzie najwięcej par?', 'Who finds the most pairs?'],
+  ['Welke kaartjes?', 'Jakie karty?', 'Which cards?'], ['🎃 Halloween', '🎃 Halloween', '🎃 Halloween'], ['🦠 Virussen', '🦠 Wirusy', '🦠 Viruses'],
+  ['🐶 Dieren', '🐶 Zwierzęta', '🐶 Animals'], ['Hoeveel paren?', 'Ile par?', 'How many pairs?'], ['Tegen wie?', 'Z kim grasz?', 'Against whom?'],
+  ['🙋 Alleen', '🙋 Sam', '🙋 Alone'], ['Record: {0} beurten', 'Rekord: {0} {0|ruch|ruchy|ruchów}', 'Record: {0} turns'],
+  ['Beurten: {0}', 'Ruchy: {0}', 'Turns: {0}'], ['🐶 Hondje: {0}', '🐶 Piesek: {0}', '🐶 Doggy: {0}'],
+  ['Zoek de twee die hetzelfde zijn!', 'Znajdź dwie takie same!', 'Find the two that are the same!'],
+  ['🎉 Een paar! Je mag nog een keer.', '🎉 Para! Grasz jeszcze raz.', '🎉 A pair! You go again.'],
+  ['{0} vond een paar en mag nog een keer.', '{0} znalazł(a) parę i gra jeszcze raz.', '{0} found a pair and goes again.'],
+  ['🎉 Alles gevonden in {0} beurten!', '🎉 Wszystko znalezione w {0} {0|ruchu|ruchach|ruchach}!', '🎉 All found in {0} turns!'],
+  ['Het hondje wint! {0} tegen {1}', 'Piesek wygrywa! {0} do {1}', 'The dog wins! {0} to {1}'],
+
   // --- Lingo ---
   ['🔤 Lingo', '🔤 Lingo', '🔤 Lingo'],
   ['Raad het woord, zoals op tv', 'Zgadnij słowo, jak w telewizji', 'Guess the word, like on TV'],
@@ -1256,6 +1270,17 @@ window.LANG_TEXTS = [
   .lg-krow button.ok { background: #e8344e; color: #fff; }
   .lg-krow button.in { background: #ffd23f; color: #2b2140; }
   .lg-krow button.no { background: #8a8fa6; color: #fff; opacity: .55; }
+  /* Memory */
+  .mm-grid { display: grid; gap: 8px; }
+  .mm-card { aspect-ratio: 1; border: none; padding: 0; background: none; perspective: 600px; cursor: pointer; min-width: 0; touch-action: manipulation; }
+  .mm-in { position: relative; width: 100%; height: 100%; transition: transform .35s; transform-style: preserve-3d; }
+  .mm-card.up .mm-in { transform: rotateY(180deg); }
+  .mm-back, .mm-face { position: absolute; inset: 0; border-radius: 12px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; align-items: center; justify-content: center; }
+  .mm-back { background: linear-gradient(135deg, #b05cff, #4aa3ff); color: #fff; font-size: 1.6rem; box-shadow: 0 3px 0 var(--shadow); }
+  .mm-face { background: #fff; transform: rotateY(180deg); box-shadow: 0 0 0 3px #ffd23f; }
+  .mm-face img { width: 88%; height: 88%; object-fit: contain; }
+  .mm-face span { font-size: clamp(1.8rem, 9vw, 3rem); line-height: 1; }
+  .mm-card.gone .mm-face { box-shadow: 0 0 0 3px #3cc47c; opacity: .7; }
 </style>
 </head>
 <body>
@@ -1273,7 +1298,7 @@ window.LANG_TEXTS = [
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 16-10 20.32</p>
+    <p class="version" id="version">versie 16-10 20.41</p>
   </section>
 
   <!-- Naam -->
@@ -1306,6 +1331,7 @@ window.LANG_TEXTS = [
       <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
       <button class="level l3" id="soloPumpkin">🎃 Halloween versieren<small>Pompoenen, zombies, skeletten en meer</small></button>
+      <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
       <button class="level l2" id="soloWirus">🦠 Virussen<small>Kaartspel: maak een gezond lichaam</small></button>
@@ -1369,6 +1395,7 @@ window.LANG_TEXTS = [
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
+        <button class="level w2" id="lobbyMemory">🃏 Memory<small>Wie vindt de meeste paren?</small></button>
         <button class="level l1" id="lobbyLingo">🔤 Lingo<small>Om de beurt raden: wie vindt het woord?</small></button>
         <button class="level l4" id="lobbyBat">🦇 Vleermuis-vlucht<small>Wie vliegt het verst?</small></button>
         <button class="level w3" id="lobbyMole">🔨 Mollen meppen<small>Wie mept de meeste mollen?</small></button>
@@ -1764,6 +1791,38 @@ window.LANG_TEXTS = [
     <button class="back" id="batBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Memory: instellen -->
+  <section id="memorySetup" class="hidden">
+    <div class="card">
+      <p class="who">Welke kaartjes?</p>
+      <div class="rk-pick" id="mmTheme">
+        <button data-theme="halloween">🎃 Halloween</button><button data-theme="virus">🦠 Virussen</button><button data-theme="animals">🐶 Dieren</button>
+      </div>
+      <p class="who" style="margin-top:14px">Hoeveel paren?</p>
+      <div class="rk-pick" id="mmSize"><button data-pairs="6">🐣 6</button><button data-pairs="10">🐰 10</button><button data-pairs="15">🦊 15</button></div>
+      <div id="mmVsBox">
+        <p class="who" style="margin-top:14px">Tegen wie?</p>
+        <div class="rk-pick" id="mmVs"><button data-vs="0">🐶 Puppy</button><button data-vs="1">🐕 Slimme hond</button><button data-vs="2">🙋 Alleen</button></div>
+      </div>
+      <p class="wait" id="mmBest"></p>
+      <button class="again" id="mmGo">Spelen!</button>
+    </div>
+    <button class="back" id="mmSetupBack" data-hold="together">← Terug</button>
+  </section>
+
+  <!-- Memory: spelen -->
+  <section id="memory" class="hidden">
+    <div class="card">
+      <div class="bricks-top"><span id="mmMe"></span><span id="mmOther"></span></div>
+      <div class="mm-grid" id="mmGrid"></div>
+      <p class="ttt-status" id="mmStatus"></p>
+      <div class="ttt-end" id="mmEnd" hidden>
+        <button class="again" id="mmAgain">Nog een keer!</button>
+      </div>
+    </div>
+    <button class="back" id="mmBack" data-hold="always">← Ander spel</button>
+  </section>
+
   <!-- Lingo: hoe lang -->
   <section id="lingoLevel" class="hidden">
     <p class="sub">Hoe lang zijn de woorden?</p>
@@ -2004,7 +2063,7 @@ window.LANG_TEXTS = [
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat', 'lingoLevel', 'lingo',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2455,9 +2514,9 @@ window.LANG_TEXTS = [
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
@@ -2465,6 +2524,8 @@ window.LANG_TEXTS = [
     if (m.type === 'rscore' && ['bricks', 'snake', 'gravity', 'mole', 'bat'].includes(screen)) raceOther(m.score, m.done);
     if (m.type === 'pick' && m.game === 'bat' && screen === 'batLevel') batBegin(m.speed);
     if (m.type === 'pick' && m.game === 'lingo' && (screen === 'lingoLevel' || screen === 'lingo')) lingoBegin(m);
+    if (m.type === 'pick' && m.game === 'memory' && (screen === 'memorySetup' || screen === 'memory')) memoryBegin(m);
+    if (m.type === 'mmf' && screen === 'memory' && m.n === mm.flips && !mm.over && !mmMine()) memoryFlip(m.i);
     if (m.type === 'lgg' && screen === 'lingo' && m.k === lg.k && m.i === lg.guesses && !lg.done) lingoGuess(m.g);
     if (m.type === 'batAgain' && screen === 'bat' && bt.over) batBegin(bt.speed);
     if (m.type === 'pick' && m.game === 'mole' && screen === 'moleLevel') moleBegin(m.speed);
@@ -8024,6 +8085,180 @@ window.LANG_TEXTS = [
   $('lingoLevelBack').addEventListener('click', lingoLeave);
   $('lgBack').addEventListener('click', lingoLeave);
   $('lgAgain').addEventListener('click', lingoStart);
+
+  // ----- Memory: turn two cards; the same picture = a pair, and you may go again. Alone: against the dog (it remembers
+  // some of what it saw) or by yourself (as few turns as possible). Together: the one who starts sends the shuffled cards,
+  // every flip goes to the other device.
+
+  const MM_THEMES = {
+    halloween: ['s-witchhat', 's-wizard', 's-tophat', 's-crown', 's-bow', 's-catears', 's-glasses', 's-mustache', 's-bowtie', 's-bat', 's-spider',
+                's-ghost', 's-cat', 's-candy', 's-leaves', 's-owl', 'p-round', 'p-tall', 'p-white', 'p-green', 'p-gold'].map(k => `pompoen/${k}.webp`),
+    virus: ['organ-red', 'organ-green', 'organ-blue', 'organ-yellow', 'organ-multi', 'virus-red', 'virus-green', 'virus-blue', 'virus-yellow', 'virus-multi',
+            'med-red', 'med-green', 'med-blue', 'med-yellow', 'med-multi', 't-transplant', 't-thief', 't-spread', 't-glove', 't-error'].map(k => `cards/${k}.jpg`),
+    animals: ['🐶', '🐱', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🦄', '🐙', '🦋', '🐢', '🐬'],
+  };
+  const MM_COLS = { 6: 4, 10: 4, 15: 5 };
+  const mm = { theme: 'halloween', pairs: 6, vs: 1, deck: [], up: [], gone: [], turn: 0, score: [0, 0], players: [], busy: false, tries: 0, flips: 0,
+               seen: {}, over: false };
+
+  function memoryStart() {
+    drawMemorySetup();
+    $('mmSetupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('memorySetup');
+  }
+
+  function drawMemorySetup() {
+    document.querySelectorAll('#mmTheme button').forEach(b => b.classList.toggle('on', b.dataset.theme === mm.theme));
+    document.querySelectorAll('#mmSize button').forEach(b => b.classList.toggle('on', Number(b.dataset.pairs) === mm.pairs));
+    document.querySelectorAll('#mmVs button').forEach(b => b.classList.toggle('on', Number(b.dataset.vs) === mm.vs));
+    $('mmVsBox').hidden = mode === 'together';
+    const best = mmBest();
+    $('mmBest').textContent = mode === 'solo' && mm.vs === 2 && best ? `Record: ${best} beurten` : '';
+  }
+  const mmBestKey = () => `raadspel-memory-${mm.theme}-${mm.pairs}`;
+  function mmBest() { try { return Number(localStorage.getItem(mmBestKey())) || 0; } catch (e) { return 0; } }
+
+  function memoryGo() {
+    const pics = shuffle(MM_THEMES[mm.theme].slice()).slice(0, mm.pairs);
+    const deck = shuffle([...pics, ...pics]);
+    const game = { theme: mm.theme, pairs: mm.pairs, deck, starter: myId };
+    if (mode === 'together') send('pick', { game: 'memory', ...game });
+    memoryBegin(game);
+  }
+
+  function memoryBegin(game) {
+    stopMusic();
+    Object.assign(mm, { theme: game.theme, pairs: game.pairs, deck: game.deck, up: [], gone: game.deck.map(() => -1), turn: 0, score: [0, 0],
+                        busy: false, tries: 0, flips: 0, seen: {}, over: false });
+    if (mode === 'together') mm.players = [game.starter, game.starter === myId ? other.id : myId];
+    else mm.players = mm.vs === 2 ? [myId] : [myId, 'dog'];
+    $('mmEnd').hidden = true;
+    $('mmGrid').style.gridTemplateColumns = `repeat(${MM_COLS[mm.pairs]}, minmax(0, 1fr))`;
+    $('mmGrid').innerHTML = mm.deck.map((pic, i) => {
+      const face = pic.includes('/') ? `<img src="${pic}" alt="">` : `<span>${pic}</span>`;
+      return `<button class="mm-card" data-i="${i}"><div class="mm-in"><div class="mm-back">🐾</div><div class="mm-face">${face}</div></div></button>`;
+    }).join('');
+    show('memory');
+    memoryHud();
+    memorySayTurn();
+  }
+
+  const mmWho = () => mm.players[mm.turn];
+  const mmMine = () => mmWho() === myId;
+  const mmName = id => id === myId ? 'Jij' : id === 'dog' ? 'Het hondje' : (other && other.name) || '';
+
+  function memoryHud() {
+    if (mm.players.length === 1) { $('mmMe').textContent = `🃏 ${mm.score[0]}/${mm.pairs}`; $('mmOther').textContent = `Beurten: ${mm.tries}`; return; }
+    const me = mm.players.indexOf(myId), them = 1 - me;
+    $('mmMe').textContent = `Jij: ${mm.score[me]}`;
+    $('mmOther').textContent = `${mm.players[them] === 'dog' ? '🐶 Hondje' : other.name}: ${mm.score[them]}`;
+  }
+
+  function memorySayTurn() {
+    if (mm.over) return;
+    if (mm.players.length === 1) return void ($('mmStatus').textContent = 'Zoek de twee die hetzelfde zijn!');
+    if (mmMine()) $('mmStatus').textContent = 'Jij bent aan de beurt!';
+    else if (mmWho() === 'dog') { $('mmStatus').textContent = 'Het hondje denkt na…'; setTimeout(memoryDog, 900); }
+    else $('mmStatus').textContent = `${other.name} is aan de beurt…`;
+  }
+
+  function memoryDraw() {
+    document.querySelectorAll('#mmGrid .mm-card').forEach(b => {
+      const i = Number(b.dataset.i);
+      b.classList.toggle('up', mm.up.includes(i) || mm.gone[i] >= 0);
+      b.classList.toggle('gone', mm.gone[i] >= 0);
+    });
+  }
+
+  // The dog remembers what it saw (the puppy only now and then)
+  function mmSee(i) { if (Math.random() < (mm.vs === 0 ? .35 : .8)) mm.seen[i] = mm.deck[i]; }
+
+  function memoryTap(i) {
+    if (mm.over || mm.busy || !mmMine() || mm.up.includes(i) || mm.gone[i] >= 0) return;
+    if (mode === 'together') send('mmf', { n: mm.flips, i });
+    memoryFlip(i);
+  }
+
+  function memoryFlip(i) {
+    mm.flips++;
+    mm.up.push(i); mmSee(i); blip(500);
+    memoryDraw();
+    if (mm.up.length < 2) return;
+    mm.busy = true; mm.tries++;
+    const [a, b] = mm.up;
+    if (mm.deck[a] === mm.deck[b]) {
+      setTimeout(() => {
+        mm.gone[a] = mm.gone[b] = mm.turn; mm.score[mm.turn]++; mm.up = []; mm.busy = false;
+        delete mm.seen[a]; delete mm.seen[b];
+        blip(800); setTimeout(() => blip(1100), 90);
+        memoryDraw(); memoryHud();
+        if (mm.gone.every(g => g >= 0)) return memoryOver();
+        if (mm.players.length > 1) $('mmStatus').textContent = mmMine() ? '🎉 Een paar! Je mag nog een keer.' : `${mmName(mmWho())} vond een paar en mag nog een keer.`;
+        if (mmWho() === 'dog') setTimeout(memoryDog, 900);
+      }, 650);
+    } else {
+      setTimeout(() => {
+        mm.up = []; mm.busy = false;
+        if (mm.players.length > 1) mm.turn = 1 - mm.turn;
+        memoryDraw(); memoryHud(); memorySayTurn();
+      }, 1200);
+    }
+  }
+
+  function memoryDog() {
+    if (mm.over || mmWho() !== 'dog' || mm.busy || screen !== 'memory') return;
+    const open = mm.deck.map((_, i) => i).filter(i => mm.gone[i] < 0);
+    const known = open.filter(i => mm.seen[i]);
+    // a pair it remembers?
+    let pick = null;
+    for (const a of known) { const b = known.find(x => x !== a && mm.seen[x] === mm.seen[a]); if (b !== undefined) { pick = [a, b]; break; } }
+    const unknown = open.filter(i => !mm.seen[i]);
+    const first = pick ? pick[0] : (unknown.length ? unknown[Math.floor(Math.random() * unknown.length)] : open[0]);
+    memoryFlip(first);
+    setTimeout(() => {
+      if (mm.over) return;
+      let second = pick ? pick[1] : known.find(x => x !== first && mm.seen[x] === mm.deck[first]);
+      if (second === undefined) { const rest = open.filter(i => i !== first && !mm.seen[i]); second = rest.length ? rest[Math.floor(Math.random() * rest.length)] : open.find(i => i !== first); }
+      memoryFlip(second);
+    }, 800);
+  }
+
+  function memoryOver() {
+    mm.over = true;
+    memoryHud();
+    if (mm.players.length === 1) {
+      const best = mmBest(), record = !best || mm.tries < best;
+      if (record) try { localStorage.setItem(mmBestKey(), mm.tries); } catch (e) {}
+      $('mmStatus').textContent = `🎉 Alles gevonden in ${mm.tries} beurten!` + (record ? ' 🏆 Nieuw record!' : '');
+      confetti(); winSound();
+    } else {
+      const me = mm.score[mm.players.indexOf(myId)], them = mm.score[1 - mm.players.indexOf(myId)];
+      const name = mm.players.includes('dog') ? 'Het hondje' : other.name;
+      if (me > them) { $('mmStatus').textContent = `🎉 Jij wint! ${me} tegen ${them}`; confetti(); winSound(); }
+      else if (me < them) $('mmStatus').textContent = `${name} wint! ${them} tegen ${me}`;
+      else $('mmStatus').textContent = `🤝 Gelijkspel! Allebei ${me}`;
+    }
+    $('mmEnd').hidden = false;
+  }
+
+  function memoryLeave() {
+    mm.over = true;
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  $('soloMemory').addEventListener('click', () => { mode = 'solo'; memoryStart(); });
+  $('lobbyMemory').addEventListener('click', memoryStart);
+  $('mmTheme').addEventListener('click', e => { const b = e.target.closest('[data-theme]'); if (b) { mm.theme = b.dataset.theme; drawMemorySetup(); } });
+  $('mmSize').addEventListener('click', e => { const b = e.target.closest('[data-pairs]'); if (b) { mm.pairs = Number(b.dataset.pairs); drawMemorySetup(); } });
+  $('mmVs').addEventListener('click', e => { const b = e.target.closest('[data-vs]'); if (b) { mm.vs = Number(b.dataset.vs); drawMemorySetup(); } });
+  $('mmGo').addEventListener('click', memoryGo);
+  $('mmGrid').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) memoryTap(Number(b.dataset.i)); });
+  $('mmSetupBack').addEventListener('click', memoryLeave);
+  $('mmBack').addEventListener('click', memoryLeave);
+  $('mmAgain').addEventListener('click', memoryStart);
 
   greet();
   show('welcome');

@@ -373,6 +373,20 @@ window.LANG_TEXTS = [
   ['{0} pakte een steen.', '{0} wziął (wzięła) kamień.', '{0} took a tile.'],
   ['{0} paste.', '{0} pasuje.', '{0} passed.'],
 
+  // --- Memory ---
+  ['🃏 Memory', '🃏 Memory', '🃏 Memory'],
+  ['Zoek de paren, tegen het hondje of alleen', 'Szukaj par, z pieskiem albo sam', 'Find the pairs, against the dog or alone'],
+  ['Wie vindt de meeste paren?', 'Kto znajdzie najwięcej par?', 'Who finds the most pairs?'],
+  ['Welke kaartjes?', 'Jakie karty?', 'Which cards?'], ['🎃 Halloween', '🎃 Halloween', '🎃 Halloween'], ['🦠 Virussen', '🦠 Wirusy', '🦠 Viruses'],
+  ['🐶 Dieren', '🐶 Zwierzęta', '🐶 Animals'], ['Hoeveel paren?', 'Ile par?', 'How many pairs?'], ['Tegen wie?', 'Z kim grasz?', 'Against whom?'],
+  ['🙋 Alleen', '🙋 Sam', '🙋 Alone'], ['Record: {0} beurten', 'Rekord: {0} {0|ruch|ruchy|ruchów}', 'Record: {0} turns'],
+  ['Beurten: {0}', 'Ruchy: {0}', 'Turns: {0}'], ['🐶 Hondje: {0}', '🐶 Piesek: {0}', '🐶 Doggy: {0}'],
+  ['Zoek de twee die hetzelfde zijn!', 'Znajdź dwie takie same!', 'Find the two that are the same!'],
+  ['🎉 Een paar! Je mag nog een keer.', '🎉 Para! Grasz jeszcze raz.', '🎉 A pair! You go again.'],
+  ['{0} vond een paar en mag nog een keer.', '{0} znalazł(a) parę i gra jeszcze raz.', '{0} found a pair and goes again.'],
+  ['🎉 Alles gevonden in {0} beurten!', '🎉 Wszystko znalezione w {0} {0|ruchu|ruchach|ruchach}!', '🎉 All found in {0} turns!'],
+  ['Het hondje wint! {0} tegen {1}', 'Piesek wygrywa! {0} do {1}', 'The dog wins! {0} to {1}'],
+
   // --- Lingo ---
   ['🔤 Lingo', '🔤 Lingo', '🔤 Lingo'],
   ['Raad het woord, zoals op tv', 'Zgadnij słowo, jak w telewizji', 'Guess the word, like on TV'],
