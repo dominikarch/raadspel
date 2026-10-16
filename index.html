@@ -6305,14 +6305,18 @@
 
   const PK = 800;
   const PK_PUMPKINS = ['p-round', 'p-tall', 'p-wide', 'p-white', 'p-green', 'p-gold',
-                       'f-zombie', 'f-skeleton', 'f-ghost', 'f-mummy', 'f-vampire', 'f-witch', 'f-franken', 'f-cat'];
+                       'f-zombie', 'f-skeleton', 'f-ghost', 'f-mummy', 'f-vampire', 'f-witch', 'f-franken', 'f-cat',
+                       'f-werewolf', 'f-invisible', 'f-vampgirl', 'f-blob', 'f-bride', 'f-batvamp'];
   // Where the face goes on each pumpkin or figure (part of its height: eyes, nose, mouth) and how big; ink = colour of a drawn face.
   // Pumpkins get carved holes; the figures (f-…) get a drawn face, which glows when the light is on.
   const PK_FACE_AT = { pumpkin: { eyes: .40, nose: .55, mouth: .70, s: 1 },
     'f-zombie': { eyes: .36, nose: .47, mouth: .57, s: .8 }, 'f-skeleton': { eyes: .34, nose: .47, mouth: .59, s: .85 },
     'f-ghost': { eyes: .34, nose: .46, mouth: .56, s: .95 }, 'f-mummy': { eyes: .28, nose: .37, mouth: .46, s: .65 },
     'f-vampire': { eyes: .29, nose: .38, mouth: .47, s: .65 }, 'f-witch': { eyes: .31, nose: .40, mouth: .49, s: .62 },
-    'f-franken': { eyes: .28, nose: .38, mouth: .48, s: .68 }, 'f-cat': { eyes: .36, nose: .47, mouth: .56, s: .85, ink: '#ffd84a' } };
+    'f-franken': { eyes: .28, nose: .38, mouth: .48, s: .68 }, 'f-cat': { eyes: .36, nose: .47, mouth: .56, s: .85, ink: '#ffd84a' },
+    'f-werewolf': { eyes: .36, nose: .46, mouth: .55, s: .75 }, 'f-invisible': { eyes: .28, nose: .37, mouth: .46, s: .6 },
+    'f-vampgirl': { eyes: .38, nose: .47, mouth: .55, s: .62 }, 'f-blob': { eyes: .40, nose: .52, mouth: .62, s: .9 },
+    'f-bride': { eyes: .56, nose: .65, mouth: .74, s: .6 }, 'f-batvamp': { eyes: .48, nose: .58, mouth: .67, s: .7 } };
   const pkFace = () => PK_FACE_AT[pk.pumpkin] || PK_FACE_AT.pumpkin;
   const pkCarved = () => pk.pumpkin.startsWith('p-');
   const PK_STICKERS = ['s-witchhat', 's-wizard', 's-tophat', 's-crown', 's-bow', 's-catears', 's-glasses', 's-mustache', 's-bowtie',
