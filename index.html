@@ -554,6 +554,11 @@
   .kt-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: rgba(232,96,60,.7); }
   .kt-stars { font-size: 2rem; }
   .kt-book-row { display: flex; gap: 10px; align-items: center; text-align: left; padding: 8px; border-bottom: 1px solid var(--key); }
+  /* Monsterkaart */
+  #cdCanvas { width: 100%; max-width: 420px; aspect-ratio: 3 / 4; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; box-shadow: 0 6px 20px var(--shadow); }
+  .cd-tabs { grid-template-columns: repeat(4, 1fr); }
+  .cd-thumb { width: 60px; height: 80px; object-fit: cover; border-radius: 8px; display: block; }
+  .palette .cd-word { font-size: 1rem; font-weight: 700; padding: 8px 10px; }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -601,6 +606,7 @@
       <button class="level l3" id="soloRummi">🀄 Rummi<small>Stenen-spel met 1 tot 4 spelers</small></button>
       <button class="level w4" id="soloShips">🚢 Zeeslag<small>Laat de schepen van het hondje zinken</small></button>
       <button class="level l3" id="soloPumpkin">🎃 Halloween versieren<small>Pompoenen, zombies, skeletten en meer</small></button>
+      <button class="level w1" id="soloCard">💌 Monsterkaart<small>Maak een kaart voor een verjaardag of Halloween</small></button>
       <button class="level w4" id="soloKitchen">👾 Monsterkeuken<small>Maak je monster en kook gekke recepten</small></button>
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
@@ -1109,6 +1115,28 @@
     <button class="back" id="ktBookBack">← Terug</button>
   </section>
 
+  <!-- Monsterkaart -->
+  <section id="cardMake" class="hidden">
+    <div class="card">
+      <canvas id="cdCanvas" width="600" height="800" aria-label="Monsterkaart"></canvas>
+      <div class="pk-sel" id="cdSel" hidden>
+        <button data-do="smaller">➖</button><button data-do="bigger">➕</button>
+        <button data-do="left">↺</button><button data-do="right">↻</button>
+        <button data-do="flip">⇋</button><button data-do="front">⬆️</button><button data-do="delete">🗑️</button>
+      </div>
+      <div class="tabs cd-tabs" id="cdTabs"></div>
+      <div class="palette" id="cdPalette"></div>
+      <div class="salon-actions">
+        <button id="cdUndo">↩️ Terug</button>
+        <button id="cdClear">🧹 Alles weg</button>
+        <button id="cdNone" style="visibility:hidden"></button>
+        <button class="done" id="cdDone">✨ Klaar!</button>
+      </div>
+      <div class="photo-box" id="cdPhoto" hidden></div>
+    </div>
+    <button class="back" id="cdBack">← Ander spel</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -1381,7 +1409,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -6577,7 +6605,7 @@
                undo: [], imgs: {}, box: null, ptrs: new Map(), drag: null, frame: 0 };
 
   function pkImg(name) {
-    if (!pk.imgs[name]) { const im = new Image(); im.onload = pkDraw; im.src = `pompoen/${name}.${name.startsWith('b-') ? 'jpg' : 'webp'}`; pk.imgs[name] = im; }
+    if (!pk.imgs[name]) { const im = new Image(); im.onload = pkDraw; im.src = `pompoen/${name}.${/^[bc]-/.test(name) ? 'jpg' : 'webp'}`; pk.imgs[name] = im; }
     return pk.imgs[name];
   }
 
@@ -7954,6 +7982,173 @@
     if (d.do === 'cook') return ktCookGo();
     if (d.do === 'serve') return ktServe();
   });
+
+  // ----- Monsterkaart: make a card (birthday, Halloween, party, love) with monsters, stickers and words; save it as a photo.
+  // Everything on the card is a list of things on a 600 × 800 canvas: tap to pick up, drag to move, buttons for size and turning.
+
+  const CD_W = 600, CD_H = 800;
+  const CD_BACKS = ['c-birthday', 'c-halloween', 'c-party', 'c-love'];
+  const CD_MONSTERS = ['mine', 'mon-purple', 'mon-green', 'mon-blue', 'mon-orange', 'f-ghost', 'f-cat', 's-bat', 's-ghost', 's-cat', 's-owl', 's-spider'];
+  const CD_EMOJI = ['🎈', '🎉', '🎁', '🎂', '🧁', '🎊', '⭐', '✨', '💖', '🌈', '🎃', '👻', '🦇', '🕷️', '🍬', '🍭', '🍫', '🌙', '🔮', '💀', '🌸', '🦄', '👑', '🎀'];
+  const CD_WORDS = ['Gefeliciteerd!', 'Fijne verjaardag, monster!', 'Hiep hiep hoera!', 'Happy Halloween!', 'Boe!', 'Snoep of je leven!',
+                    'Je bent een lief monster', 'Ik vind jou lief', 'Groetjes van je monster'];
+  const CD_INKS = ['#e8344e', '#b05cff', '#2f6fd6', '#2fb06c', '#ff9f43', '#2b2140', '#ffffff'];
+  const cd = { back: 'c-birthday', items: [], sel: -1, tab: 'back', ink: '#e8344e', drag: null, undo: [] };
+
+  function cardStart() {
+    mode = 'solo';
+    try { const s = JSON.parse(localStorage.getItem('raadspel-card')); if (s) Object.assign(cd, s); } catch (e) {}
+    cd.sel = -1; cd.undo = [];
+    CD_BACKS.forEach(k => pkImg(k)); CD_MONSTERS.forEach(k => k !== 'mine' && pkImg(k));
+    $('cdPhoto').hidden = true;
+    show('cardMake');
+    cdTools(); cdDraw(); setTimeout(cdDraw, 500); setTimeout(cdDraw, 1500);
+  }
+
+  function cdSave() { try { localStorage.setItem('raadspel-card', JSON.stringify({ back: cd.back, items: cd.items, ink: cd.ink })); } catch (e) {} }
+  function cdRemember() { cd.undo.push(JSON.stringify({ back: cd.back, items: cd.items })); if (cd.undo.length > 40) cd.undo.shift(); }
+
+  function cdThing(it) {                                  // the picture for a monster or sticker
+    if (it.k === 'mine') { const p = mbPicture(); return p && p.canvas; }
+    return it.k ? pkImg(it.k) : null;
+  }
+
+  function cdSize(ctx, it) {                              // how big a thing is (for picking it up)
+    if (it.t === 'tx') { ctx.font = `800 ${Math.round(48 * it.s)}px "Baloo 2", system-ui, sans-serif`; return [ctx.measureText(it.text).width + 20, 64 * it.s]; }
+    if (it.e) return [120 * it.s, 120 * it.s];
+    const im = cdThing(it), w = 220 * it.s;
+    const w0 = im && (im.naturalWidth || im.width), h0 = im && (im.naturalHeight || im.height);
+    return [w, w0 ? w * h0 / w0 : w];
+  }
+
+  function cdDraw(forPhoto) {
+    const c = $('cdCanvas'); if (!c) return;
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, CD_W, CD_H);
+    const bg = pkImg(cd.back);
+    if (bg.naturalWidth) ctx.drawImage(bg, 0, 0, CD_W, CD_H); else { ctx.fillStyle = '#fff7e8'; ctx.fillRect(0, 0, CD_W, CD_H); }
+    cd.items.forEach((it, n) => {
+      ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.r || 0); if (it.flip) ctx.scale(-1, 1);
+      if (it.t === 'tx') {
+        ctx.font = `800 ${Math.round(48 * it.s)}px "Baloo 2", system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.lineWidth = 10 * it.s; ctx.strokeStyle = it.ink === '#ffffff' ? '#2b2140' : '#ffffff'; ctx.lineJoin = 'round';
+        ctx.strokeText(it.text, 0, 0); ctx.fillStyle = it.ink; ctx.fillText(it.text, 0, 0);
+      } else if (it.e) {
+        ctx.font = `${Math.round(110 * it.s)}px system-ui, "Apple Color Emoji", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#000';
+        ctx.fillText(it.e, 0, 0);
+      } else {
+        const im = cdThing(it), [w, h] = cdSize(ctx, it);
+        if (im && (im.naturalWidth || im.width)) ctx.drawImage(im, -w / 2, -h / 2, w, h);
+      }
+      ctx.restore();
+      if (!forPhoto && n === cd.sel) {
+        const [w, h] = cdSize(ctx, it);
+        ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.r || 0);
+        ctx.strokeStyle = '#4aa3ff'; ctx.lineWidth = 4; ctx.setLineDash([12, 8]); ctx.strokeRect(-w / 2 - 6, -h / 2 - 6, w + 12, h + 12); ctx.restore();
+      }
+    });
+  }
+
+  function cdAdd(it) {
+    cdRemember();
+    cd.items.push(Object.assign({ x: CD_W / 2 + (Math.random() - .5) * 160, y: CD_H / 2 + (Math.random() - .5) * 240, s: 1, r: 0, flip: false }, it));
+    cd.sel = cd.items.length - 1;
+    blip(650); cdSave(); cdSel(); cdDraw();
+  }
+
+  function cdSel() { $('cdSel').hidden = cd.sel < 0; }
+
+  const CD_TABS = [['back', '🖼️', 'Kaart'], ['monsters', '👾', 'Monsters'], ['stickers', '🎈', 'Stickers'], ['words', '🔤', 'Tekst']];
+  function cdTools() {
+    $('cdTabs').innerHTML = CD_TABS.map(([k, e, n]) => `<button data-tab="${k}" class="${cd.tab === k ? 'on' : ''}"><span>${e}</span>${n}</button>`).join('');
+    let html = '';
+    if (cd.tab === 'back') html = CD_BACKS.map(k => `<button data-back="${k}" class="${cd.back === k ? 'on' : ''}"><img src="pompoen/${k}.jpg" alt="" class="cd-thumb"></button>`).join('');
+    if (cd.tab === 'monsters') html = CD_MONSTERS.map(k => k === 'mine'
+      ? (mbLoad() ? `<button data-mon="mine"><span class="emo">⭐</span><small>Mijn monster</small></button>` : '')
+      : `<button data-mon="${k}"><img src="pompoen/${k}.webp" alt="" class="pk-thumb"></button>`).join('');
+    if (cd.tab === 'stickers') html = CD_EMOJI.map(e => `<button data-emoji="${e}"><span class="emo">${e}</span></button>`).join('');
+    if (cd.tab === 'words') html = CD_INKS.map(c => `<button data-ink="${c}" class="${cd.ink === c ? 'on' : ''}"><div class="swatch" style="background:${c};outline:1px solid #ccc"></div></button>`).join('') +
+      '<span class="row-break"></span>' + CD_WORDS.map(w => `<button data-word="${w}" class="cd-word">${w}</button>`).join('') +
+      `<button data-own class="cd-word">✏️ Zelf typen</button>`;
+    $('cdPalette').innerHTML = html;
+  }
+
+  // --- picking things up and moving them ---
+  function cdPoint(e) { const r = $('cdCanvas').getBoundingClientRect(); return [(e.clientX - r.left) * CD_W / r.width, (e.clientY - r.top) * CD_H / r.height]; }
+  function cdHit(x, y) {
+    const ctx = $('cdCanvas').getContext('2d');
+    for (let n = cd.items.length - 1; n >= 0; n--) {
+      const it = cd.items[n], [w, h] = cdSize(ctx, it);
+      const dx = x - it.x, dy = y - it.y, a = -(it.r || 0), rx = dx * Math.cos(a) - dy * Math.sin(a), ry = dx * Math.sin(a) + dy * Math.cos(a);
+      if (Math.abs(rx) < w / 2 + 10 && Math.abs(ry) < h / 2 + 10) return n;
+    }
+    return -1;
+  }
+  $('cdCanvas').addEventListener('pointerdown', e => {
+    e.preventDefault(); $('cdCanvas').setPointerCapture(e.pointerId);
+    const [x, y] = cdPoint(e), n = cdHit(x, y);
+    cd.sel = n;
+    if (n >= 0) { cdRemember(); cd.drag = { dx: x - cd.items[n].x, dy: y - cd.items[n].y, moved: false }; }
+    cdSel(); cdDraw();
+  });
+  $('cdCanvas').addEventListener('pointermove', e => {
+    if (!cd.drag || cd.sel < 0) return;
+    const [x, y] = cdPoint(e), it = cd.items[cd.sel];
+    it.x = x - cd.drag.dx; it.y = y - cd.drag.dy; cd.drag.moved = true; cdDraw();
+  });
+  const cdUp = () => { if (cd.drag && !cd.drag.moved) cd.undo.pop(); cd.drag = null; cdSave(); };
+  $('cdCanvas').addEventListener('pointerup', cdUp);
+  $('cdCanvas').addEventListener('pointercancel', cdUp);
+
+  $('cdSel').addEventListener('click', e => {
+    const b = e.target.closest('[data-do]'), it = cd.items[cd.sel]; if (!b || !it) return;
+    cdRemember();
+    const d = b.dataset.do;
+    if (d === 'bigger') it.s = Math.min(4, it.s * 1.15);
+    if (d === 'smaller') it.s = Math.max(.25, it.s / 1.15);
+    if (d === 'left') it.r = (it.r || 0) - Math.PI / 16;
+    if (d === 'right') it.r = (it.r || 0) + Math.PI / 16;
+    if (d === 'flip') it.flip = !it.flip;
+    if (d === 'front') { cd.items.splice(cd.sel, 1); cd.items.push(it); cd.sel = cd.items.length - 1; }
+    if (d === 'delete') { cd.items.splice(cd.sel, 1); cd.sel = -1; }
+    cdSave(); cdSel(); cdDraw();
+  });
+  $('cdTabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) { cd.tab = b.dataset.tab; cd.sel = -1; cdSel(); cdTools(); cdDraw(); } });
+  $('cdPalette').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const d = b.dataset;
+    if (d.back) { cdRemember(); cd.back = d.back; cdSave(); cdTools(); return cdDraw(); }
+    if (d.mon) return cdAdd({ t: 'pic', k: d.mon, s: d.mon.startsWith('s-') ? .7 : 1 });
+    if (d.emoji) return cdAdd({ t: 'pic', e: d.emoji, s: .8 });
+    if (d.ink) { cd.ink = d.ink; const it = cd.items[cd.sel]; if (it && it.t === 'tx') { it.ink = d.ink; cdDraw(); } cdSave(); return cdTools(); }
+    if (d.word) return cdAdd({ t: 'tx', text: d.word, ink: cd.ink, y: 140, x: CD_W / 2, s: d.word.length > 18 ? .8 : 1 });
+    if (d.own !== undefined) {
+      const text = prompt(window.t ? window.t('Wat wil je schrijven?') : 'Wat wil je schrijven?', '');
+      if (text && text.trim()) cdAdd({ t: 'tx', text: text.trim().slice(0, 40), ink: cd.ink, x: CD_W / 2, y: CD_H - 140, s: .9 });
+    }
+  });
+  $('cdUndo').addEventListener('click', () => { if (!cd.undo.length) return; Object.assign(cd, JSON.parse(cd.undo.pop())); cd.sel = -1; cdSave(); cdSel(); cdTools(); cdDraw(); });
+  $('cdClear').addEventListener('click', () => { if (!cd.items.length) return; cdRemember(); cd.items = []; cd.sel = -1; cdSave(); cdSel(); cdDraw(); });
+  $('cdDone').addEventListener('click', () => {
+    cd.sel = -1; cdSel(); cdDraw(true);
+    confetti(); winSound();
+    $('cdCanvas').toBlob(blob => {
+      const url = URL.createObjectURL(blob), box = $('cdPhoto');
+      box.hidden = false;
+      box.innerHTML = `<p class="who">📸 Je kaart is klaar!</p><img src="${url}" alt="">
+        <p class="wait">Houd je vinger op de foto en kies <b>Bewaar in Foto's</b>.</p>
+        <button class="again" id="cdShare" hidden>Bewaren of delen</button>`;
+      const file = new File([blob], 'monsterkaart.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        $('cdShare').hidden = false;
+        $('cdShare').addEventListener('click', () => navigator.share({ files: [file] }).catch(() => {}));
+      }
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 'image/png');
+    cdDraw();
+  });
+  $('soloCard').addEventListener('click', cardStart);
+  $('cdBack').addEventListener('click', () => { cdSave(); show('soloGames'); });
 
   greet();
   show('welcome');

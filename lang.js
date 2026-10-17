@@ -410,6 +410,17 @@ window.LANG_TEXTS = [
   ['Slijmsoep', 'Zupa z glutów', 'Slime soup'], ['Bottenpizza', 'Pizza z kośćmi', 'Bone pizza'], ['Rupsen-ijs', 'Lody z gąsienicami', 'Caterpillar ice cream'],
   ['Tandentaart', 'Tort z zębami', 'Tooth cake'], ['Wormenspaghetti', 'Spaghetti z robakami', 'Worm spaghetti'], ['Vliegenbroodje', 'Kanapka z muchami', 'Fly sandwich'],
   ['Schoenenburger', 'Burger z butem', 'Shoe burger'], ['Snoeppizza', 'Pizza z cukierkami', 'Candy pizza'],
+  // --- Monsterkaart ---
+  ['💌 Monsterkaart', '💌 Kartka z potworem', '💌 Monster card'],
+  ['Maak een kaart voor een verjaardag of Halloween', 'Zrób kartkę na urodziny albo na Halloween', 'Make a card for a birthday or Halloween'],
+  ['Kaart', 'Kartka', 'Card'], ['Monsters', 'Potwory', 'Monsters'], ['Tekst', 'Tekst', 'Words'], ['Mijn monster', 'Mój potwór', 'My monster'],
+  ['✏️ Zelf typen', '✏️ Napisz sam', '✏️ Type it yourself'], ['Wat wil je schrijven?', 'Co chcesz napisać?', 'What do you want to write?'],
+  ['📸 Je kaart is klaar!', '📸 Twoja kartka jest gotowa!', '📸 Your card is ready!'],
+  ['Gefeliciteerd!', 'Wszystkiego najlepszego!', 'Congratulations!'], ['Fijne verjaardag, monster!', 'Wesołych urodzin, potworze!', 'Happy birthday, monster!'],
+  ['Hiep hiep hoera!', 'Hip hip hurra!', 'Hip hip hooray!'], ['Happy Halloween!', 'Wesołego Halloween!', 'Happy Halloween!'], ['Boe!', 'Buu!', 'Boo!'],
+  ['Snoep of je leven!', 'Cukierek albo psikus!', 'Trick or treat!'], ['Je bent een lief monster', 'Jesteś kochanym potworem', "You're a sweet monster"],
+  ['Ik vind jou lief', 'Lubię cię', 'I like you'], ['Groetjes van je monster', 'Pozdrowienia od twojego potwora', 'Love from your monster'],
+
   // --- Memory ---
   ['🃏 Memory', '🃏 Memory', '🃏 Memory'],
   ['Zoek de paren, tegen het hondje of alleen', 'Szukaj par, z pieskiem albo sam', 'Find the pairs, against the dog or alone'],
