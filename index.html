@@ -360,13 +360,13 @@
   .sd-status { min-height: 1.6rem; margin: 14px 12px 0; font-size: 1.05rem; color: #666; }
   .sd-end { display: flex; gap: 10px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
   .sd-end button { font-size: 1.1rem; border: 1px solid #2f7fe0; color: #2f7fe0; background: #fff; border-radius: 10px; padding: 8px 16px; cursor: pointer; }
-  .sd-page .back, #sudokuLevel .back { border: none; color: #888; font-family: inherit; }
-  #sudokuLevel .levels { gap: 0; border-top: 1px solid #ddd; }
-  #sudokuLevel .level { background: #fff !important; color: #222; box-shadow: none; border-radius: 0; border-bottom: 1px solid #ddd; font-weight: 400;
+  .sd-page .back, #sudokuLevel .back, #mahjongLevel .back { border: none; color: #888; font-family: inherit; }
+  #sudokuLevel .levels, #mahjongLevel .levels { gap: 0; border-top: 1px solid #ddd; }
+  #sudokuLevel .level, #mahjongLevel .level { background: #fff !important; color: #222; box-shadow: none; border-radius: 0; border-bottom: 1px solid #ddd; font-weight: 400;
     font-size: 1.3rem; text-align: left; padding: 14px 18px; font-family: inherit; }
-  #sudokuLevel .level small { color: #888; opacity: 1; font-size: .95rem; }
-  #sudokuLevel .level:active { transform: none; background: #f2f4f7 !important; }
-  #sudokuLevel .sub { font-family: -apple-system, "Helvetica Neue", sans-serif; color: #888; margin: 8px 0 12px; }
+  #sudokuLevel .level small, #mahjongLevel .level small { color: #888; opacity: 1; font-size: .95rem; }
+  #sudokuLevel .level:active, #mahjongLevel .level:active { transform: none; background: #f2f4f7 !important; }
+  #sudokuLevel .sub, #mahjongLevel .sub { font-family: -apple-system, "Helvetica Neue", sans-serif; color: #888; margin: 8px 0 12px; }
   /* Mollen meppen */
   .mole-field { position: relative; background: linear-gradient(#9be08a, #6cc46a); border-radius: 22px; padding: 14px 10px 6px;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 8px; touch-action: manipulation; user-select: none; -webkit-user-select: none;
@@ -559,6 +559,8 @@
   .cd-tabs { grid-template-columns: repeat(4, 1fr); }
   .cd-thumb { width: 60px; height: 80px; object-fit: cover; border-radius: 8px; display: block; }
   .palette .cd-word { font-size: 1rem; font-weight: 700; padding: 8px 10px; }
+  #mjCanvas { width: 100%; display: block; touch-action: manipulation; }
+  .mj-left { font-size: 1.05rem; color: #888; padding-left: 4px; }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -613,6 +615,7 @@
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
       <button class="level l2" id="soloWirus">🦠 Virussen<small>Kaartspel: maak een gezond lichaam</small></button>
       <button class="level w3" id="soloMole">🔨 Mollen meppen<small>Mep de mollen, niet het hondje!</small></button>
+      <button class="level l3" id="soloMahjong">🎴 Mahjong<small>Zoek gelijke stenen die vrij liggen</small></button>
       <button class="level l4" id="soloSudoku">🧩 Sudoku<small>Cijferpuzzel in 4 levels</small></button>
     </div>
     <button class="back" data-to="welcome">← Terug</button>
@@ -967,6 +970,33 @@
       </div>
     </div>
     <button class="back" id="crashBack" data-hold="always">← Ander spel</button>
+  </section>
+
+  <!-- Mahjong: welke stapel -->
+  <section id="mahjongLevel" class="hidden sd-page">
+    <p class="sub">Welke stapel?</p>
+    <div class="levels" id="mjLevels">
+      <button class="level" id="mjResume" hidden>Verder spelen<small><span id="mjResumeName"></span> · <span id="mjResumeTime"></span></small></button>
+      <button class="level" data-layout="pyramid">Piramide<small></small></button>
+      <button class="level" data-layout="square">Vierkant<small></small></button>
+      <button class="level" data-layout="turtle">Schildpad<small></small></button>
+    </div>
+    <button class="back" data-to="soloGames">← Terug</button>
+  </section>
+
+  <!-- Mahjong: spelen -->
+  <section id="mahjong" class="hidden sd-page">
+    <div class="sd-bar"><button id="mjBack">Nieuw spel</button><span id="mjName"></span></div>
+    <div class="sd-icons">
+      <span id="mjLeft" class="mj-left"></span><span class="grow"></span>
+      <button id="mjUndo" title="Ongedaan maken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+      <button id="mjHint" title="Hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></button>
+      <button id="mjShuffle" title="Schudden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3c4 0 6 10 10 10h5"/><path d="M18 14l3 3-3 3"/><path d="M3 17h3c1.5 0 2.7-1.4 3.8-3.2"/><path d="M14.2 9.2C15.3 7.4 16.5 7 18 7h3"/><path d="M18 4l3 3-3 3"/></svg></button>
+    </div>
+    <canvas id="mjCanvas" aria-label="Mahjong"></canvas>
+    <div class="sd-time" id="mjTime">0:00</div>
+    <p class="sd-status" id="mjStatus"></p>
+    <div class="sd-end" id="mjEnd" hidden><button id="mjShuffle2">Schudden</button><button id="mjAgain">Nieuw spel</button></div>
   </section>
 
   <!-- Sudoku: kies een level -->
@@ -1409,7 +1439,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -1417,7 +1447,7 @@
 
   function show(name) {
     screen = name;
-    document.body.classList.toggle('sd-mode', name === 'sudoku' || name === 'sudokuLevel');
+    document.body.classList.toggle('sd-mode', ['sudoku', 'sudokuLevel', 'mahjong', 'mahjongLevel'].includes(name));
     document.body.classList.toggle('rk-plain', name === 'rummi' && rkPlain());
     for (const s of SCREENS) $(s).classList.toggle('hidden', s !== name);
     const slot = document.querySelector('#' + name + ' .pad-slot');
@@ -8149,6 +8179,239 @@
   });
   $('soloCard').addEventListener('click', cardStart);
   $('cdBack').addEventListener('click', () => { cdSave(); show('soloGames'); });
+
+  // ----- Mahjong (solitaire): take away two equal tiles that are free (nothing on top, left or right side open) until the
+  // stack is empty. Plain look like Sudoku. Every deal can be solved: the tiles are laid by taking a full stack apart
+  // pair by pair (only free tiles), then given faces in that order. Positions are in half tiles: x, y and layer z.
+
+  const MJ_LAYOUTS = (() => {
+    const L = {}, add = (list, x0, y0, w, h, z) => { for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) list.push([(x0 + x) * 2, (y0 + y) * 2, z]); };
+    const pyr = []; add(pyr, 0, 0, 8, 6, 0); add(pyr, 1, 1, 6, 4, 1); add(pyr, 2, 2, 4, 2, 2); add(pyr, 3, 2, 2, 1, 3);
+    L.pyramid = { name: 'Piramide', tiles: pyr };
+    const sq = []; add(sq, 0, 0, 8, 8, 0); add(sq, 1, 1, 6, 6, 1); add(sq, 2, 2, 4, 4, 2); add(sq, 3, 3, 2, 2, 3);
+    L.square = { name: 'Vierkant', tiles: sq };
+    const tu = [];                                       // the classic turtle: 144 tiles
+    [[1, 12], [3, 8], [2, 10], [1, 12], [1, 12], [2, 10], [3, 8], [1, 12]].forEach(([x0, w], y) => add(tu, x0, y, w, 1, 0));
+    tu.push([0, 7, 0], [26, 7, 0], [28, 7, 0]);
+    add(tu, 4, 1, 6, 6, 1); add(tu, 5, 2, 4, 4, 2); add(tu, 6, 3, 2, 2, 3); tu.push([13, 7, 4]);
+    L.turtle = { name: 'Schildpad', tiles: tu };
+    return L;
+  })();
+
+  // 42 faces: circles 1-9, bamboo 1-9, characters 1-9, 4 winds, 3 dragons, 4 flowers, 4 seasons. A flower matches any flower.
+  const mjKey = f => f >= 38 ? 'season' : f >= 34 ? 'flower' : String(f);
+  function mjPairs(n) {                                  // n/2 pairs out of the real 144-tile set
+    const pairs = [];
+    for (let f = 0; f < 34; f++) pairs.push([f, f], [f, f]);
+    pairs.push([34, 35], [36, 37], [38, 39], [40, 41]);
+    return shuffle(pairs).slice(0, n / 2);
+  }
+
+  const mj = { layout: 'pyramid', tiles: [], face: [], on: [], sel: -1, hist: [], secs: 0, clock: null, over: false, hint: null, nb: null };
+
+  // Who lies on top of / left of / right of each tile
+  function mjNeighbours(tiles) {
+    return tiles.map(([x, y, z]) => ({
+      top: tiles.map((t, j) => j).filter(j => tiles[j][2] === z + 1 && Math.abs(tiles[j][0] - x) < 2 && Math.abs(tiles[j][1] - y) < 2),
+      left: tiles.map((t, j) => j).filter(j => tiles[j][2] === z && tiles[j][0] === x - 2 && Math.abs(tiles[j][1] - y) < 2),
+      right: tiles.map((t, j) => j).filter(j => tiles[j][2] === z && tiles[j][0] === x + 2 && Math.abs(tiles[j][1] - y) < 2),
+    }));
+  }
+  const mjFree = (i, on = mj.on) => on[i] && !mj.nb[i].top.some(j => on[j]) && (!mj.nb[i].left.some(j => on[j]) || !mj.nb[i].right.some(j => on[j]));
+
+  // Lay faces on the given tiles so that they can all be taken away (tries until it works)
+  function mjDeal(places, pairs) {
+    for (let tries = 0; tries < 200; tries++) {
+      const on = mj.tiles.map((_, i) => places.includes(i)), order = [];
+      let ok = true;
+      for (let k = 0; k < places.length / 2; k++) {
+        const free = places.filter(i => on[i] && mjFree(i, on));
+        if (free.length < 2) { ok = false; break; }
+        const a = free.splice(Math.floor(Math.random() * free.length), 1)[0], b = free[Math.floor(Math.random() * free.length)];
+        on[a] = on[b] = false; order.push([a, b]);
+      }
+      if (!ok) continue;
+      const ps = shuffle(pairs.slice());
+      order.forEach(([a, b], k) => { mj.face[a] = ps[k][0]; mj.face[b] = ps[k][1]; });
+      return true;
+    }
+    return false;
+  }
+
+  function mahjongMenu() {
+    mode = 'solo';
+    const best = mjLoad('raadspel-mahjong-best') || {};
+    document.querySelectorAll('#mjLevels [data-layout] small').forEach(el => {
+      const s = best[el.parentNode.dataset.layout];
+      el.textContent = s ? `Record: ${sdTime(s)}` : 'Nog geen record';
+    });
+    const saved = mjLoad('raadspel-mahjong');
+    $('mjResume').hidden = !saved;
+    if (saved) { $('mjResumeName').textContent = MJ_LAYOUTS[saved.layout].name; $('mjResumeTime').textContent = sdTime(saved.secs); }
+    show('mahjongLevel');
+  }
+  function mjLoad(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+  function mjSave() {
+    try {
+      if (mj.over && !mj.on.some(Boolean)) localStorage.removeItem('raadspel-mahjong');
+      else localStorage.setItem('raadspel-mahjong', JSON.stringify({ layout: mj.layout, face: mj.face, on: mj.on, secs: mj.secs, hist: mj.hist }));
+    } catch (e) {}
+  }
+
+  function mahjongNew(layout) {
+    mj.layout = layout; mj.tiles = MJ_LAYOUTS[layout].tiles; mj.nb = mjNeighbours(mj.tiles);
+    mj.face = []; mjDeal(mj.tiles.map((_, i) => i), mjPairs(mj.tiles.length));
+    mahjongPlay({ layout, face: mj.face, on: mj.tiles.map(() => true), secs: 0, hist: [] });
+  }
+
+  function mahjongPlay(g) {
+    mj.layout = g.layout; mj.tiles = MJ_LAYOUTS[g.layout].tiles; mj.nb = mjNeighbours(mj.tiles);
+    Object.assign(mj, { face: g.face, on: g.on, secs: g.secs, hist: g.hist || [], sel: -1, over: false, hint: null });
+    $('mjName').textContent = MJ_LAYOUTS[g.layout].name;
+    $('mjEnd').hidden = true; $('mjStatus').textContent = 'Tik op twee gelijke stenen die vrij liggen.';
+    show('mahjong');
+    clearInterval(mj.clock);
+    mj.clock = setInterval(() => {
+      if (screen !== 'mahjong' || mj.over || document.hidden) return;
+      mj.secs++; $('mjTime').textContent = sdTime(mj.secs); if (mj.secs % 5 === 0) mjSave();
+    }, 1000);
+    $('mjShuffle2').hidden = false;
+    mjSize(); mjAfter();
+  }
+
+  // --- drawing: tiles step up and to the left as layers go up; the edge shows right and below ---
+  function mjSize() {
+    const c = $('mjCanvas'), maxX = Math.max(...mj.tiles.map(t => t[0])) + 2, maxY = Math.max(...mj.tiles.map(t => t[1])) + 2, maxZ = Math.max(...mj.tiles.map(t => t[2]));
+    const cssW = c.clientWidth || 360, tw = (cssW - 12) / (maxX / 2 + maxZ * .14 + .14), th = tw * 1.32, dz = tw * .14;
+    const cssH = maxY / 2 * th + maxZ * dz + dz + 12, ratio = window.devicePixelRatio || 1;
+    c.width = cssW * ratio; c.height = cssH * ratio; c.style.height = cssH + 'px';
+    Object.assign(mj, { tw, th, dz, maxZ, ratio });
+  }
+  const mjPos = i => { const [x, y, z] = mj.tiles[i]; return [6 + x / 2 * mj.tw + (mj.maxZ - z) * mj.dz, 6 + y / 2 * mj.th + (mj.maxZ - z) * mj.dz]; };
+  function mjOrder() { return mj.tiles.map((_, i) => i).sort((a, b) => mj.tiles[a][2] - mj.tiles[b][2] || mj.tiles[a][1] - mj.tiles[b][1] || mj.tiles[a][0] - mj.tiles[b][0]); }
+
+  const MJ_NUM = ['一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  const MJ_DOTS = [[[.5, .5]], [[.5, .28], [.5, .72]], [[.25, .2], [.5, .5], [.75, .8]], [[.3, .28], [.7, .28], [.3, .72], [.7, .72]],
+    [[.28, .22], [.72, .22], [.5, .5], [.28, .78], [.72, .78]], [[.3, .2], [.7, .2], [.3, .5], [.7, .5], [.3, .8], [.7, .8]],
+    [[.22, .16], [.5, .26], [.78, .36], [.3, .62], [.7, .62], [.3, .86], [.7, .86]], [[.3, .14], [.7, .14], [.3, .38], [.7, .38], [.3, .62], [.7, .62], [.3, .86], [.7, .86]],
+    [[.22, .18], [.5, .18], [.78, .18], [.22, .5], [.5, .5], [.78, .5], [.22, .82], [.5, .82], [.78, .82]]];
+  function mjFace(ctx, f, x, y, w, h) {
+    const cx = x + w / 2, cy = y + h / 2, font = (s, wgt = 700) => `${wgt} ${s}px -apple-system, "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    if (f < 9) {                                          // circles
+      const n = f + 1, r = n === 1 ? w * .3 : n <= 4 ? w * .17 : n <= 6 ? w * .14 : w * .12;
+      MJ_DOTS[f].forEach(([px, py], k) => {
+        ctx.beginPath(); ctx.arc(x + px * w, y + py * h, r, 0, Math.PI * 2);
+        ctx.fillStyle = n === 1 ? '#c8283c' : ['#2f6fd6', '#1f8a52', '#c8283c'][k % 3]; ctx.fill();
+        ctx.beginPath(); ctx.arc(x + px * w, y + py * h, r * .45, 0, Math.PI * 2); ctx.fillStyle = '#fbf8f0'; ctx.fill();
+      });
+    } else if (f < 18) {                                  // bamboo
+      const n = f - 8;
+      if (n === 1) { ctx.font = `${w * .62}px system-ui, "Apple Color Emoji", sans-serif`; ctx.fillStyle = '#000'; ctx.fillText('🐦', cx, cy); return; }
+      MJ_DOTS[n - 1].forEach(([px, py], k) => {
+        const bw = w * .11, bh = h * (n <= 4 ? .3 : .2);
+        ctx.fillStyle = n === 9 && k % 3 === 1 ? '#c8283c' : '#1f8a52';
+        ctx.beginPath(); ctx.roundRect(x + px * w - bw / 2, y + py * h - bh / 2, bw, bh, bw / 2); ctx.fill();
+        ctx.fillStyle = '#fbf8f0'; ctx.fillRect(x + px * w - bw / 2, y + py * h - 1, bw, 2);
+      });
+    } else if (f < 27) {                                  // characters
+      ctx.fillStyle = '#1d2a5a'; ctx.font = font(w * .42); ctx.fillText(MJ_NUM[f - 18], cx, y + h * .3);
+      ctx.fillStyle = '#c8283c'; ctx.font = font(w * .46); ctx.fillText('萬', cx, y + h * .7);
+    } else if (f < 31) { ctx.fillStyle = '#1d2a5a'; ctx.font = font(w * .62); ctx.fillText('東南西北'[f - 27], cx, cy); }
+    else if (f === 31) { ctx.fillStyle = '#c8283c'; ctx.font = font(w * .66); ctx.fillText('中', cx, cy); }
+    else if (f === 32) { ctx.fillStyle = '#1f8a52'; ctx.font = font(w * .62); ctx.fillText('發', cx, cy); }
+    else if (f === 33) { ctx.strokeStyle = '#2f6fd6'; ctx.lineWidth = Math.max(1.5, w * .06); ctx.strokeRect(x + w * .22, y + h * .2, w * .56, h * .6); }
+    else { ctx.font = `${w * .58}px system-ui, "Apple Color Emoji", sans-serif`; ctx.fillStyle = '#000'; ctx.fillText(['🌸', '🌺', '🌼', '🌷', '🌱', '☀️', '🍂', '❄️'][f - 34], cx, cy); }
+  }
+
+  function mjDraw() {
+    const c = $('mjCanvas'), ctx = c.getContext('2d');
+    ctx.setTransform(mj.ratio, 0, 0, mj.ratio, 0, 0);
+    ctx.clearRect(0, 0, c.width, c.height);
+    const { tw, th, dz } = mj, w = tw - 1, h = th - 1;
+    for (const i of mjOrder()) {
+      if (!mj.on[i]) continue;
+      const [x, y] = mjPos(i);
+      ctx.fillStyle = '#c9bea4'; ctx.beginPath(); ctx.roundRect(x + dz * .8, y + dz * .8, w, h, 4); ctx.fill();      // the edge
+      ctx.fillStyle = '#e4dbc6'; ctx.beginPath(); ctx.roundRect(x + dz * .4, y + dz * .4, w, h, 4); ctx.fill();
+      const lit = i === mj.sel || (mj.hint && mj.hint.includes(i));
+      ctx.fillStyle = lit ? '#a9d0f7' : '#fbf8f0'; ctx.strokeStyle = '#b8ad95'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.roundRect(x, y, w, h, 4); ctx.fill(); ctx.stroke();
+      mjFace(ctx, mj.face[i], x, y, w, h);
+    }
+  }
+
+  function mjHit(px, py) {
+    const order = mjOrder().reverse();
+    return order.find(i => { if (!mj.on[i]) return false; const [x, y] = mjPos(i); return px >= x && px <= x + mj.tw && py >= y && py <= y + mj.th; });
+  }
+
+  function mjMoves() {
+    const free = mj.tiles.map((_, i) => i).filter(i => mjFree(i)), seen = {};
+    for (const i of free) { const k = mjKey(mj.face[i]); if (seen[k] !== undefined) return [seen[k], i]; seen[k] = i; }
+    return null;
+  }
+
+  function mjTap(e) {
+    if (mj.over) return;
+    const r = $('mjCanvas').getBoundingClientRect(), i = mjHit(e.clientX - r.left, e.clientY - r.top);
+    mj.hint = null;
+    if (i === undefined) { mj.sel = -1; return mjDraw(); }
+    if (!mjFree(i)) { $('mjStatus').textContent = 'Die steen ligt niet vrij.'; blip(200); mj.sel = -1; return mjDraw(); }
+    if (mj.sel === i) { mj.sel = -1; return mjDraw(); }
+    if (mj.sel >= 0 && mjKey(mj.face[mj.sel]) === mjKey(mj.face[i])) {
+      mj.on[mj.sel] = mj.on[i] = false; mj.hist.push([mj.sel, i]); mj.sel = -1;
+      blip(700); setTimeout(() => blip(950), 80);
+      mjAfter(); return;
+    }
+    mj.sel = i; blip(500); $('mjStatus').textContent = '';
+    mjDraw();
+  }
+
+  function mjAfter() {
+    const left = mj.on.filter(Boolean).length;
+    $('mjLeft').textContent = `${left} stenen`;
+    mjDraw(); mjSave();
+    if (!left) return mjWon();
+    if (!mjMoves()) { $('mjStatus').textContent = 'Geen zetten meer. Schudden?'; $('mjEnd').hidden = false; }
+    else $('mjEnd').hidden = true;
+  }
+
+  function mjWon() {
+    mj.over = true; clearInterval(mj.clock);
+    const best = mjLoad('raadspel-mahjong-best') || {}, record = !best[mj.layout] || mj.secs < best[mj.layout];
+    if (record) { best[mj.layout] = mj.secs; try { localStorage.setItem('raadspel-mahjong-best', JSON.stringify(best)); } catch (e) {} }
+    $('mjStatus').textContent = `Opgelost in ${sdTime(mj.secs)}!` + (record ? ' Nieuw record!' : '');
+    $('mjEnd').hidden = false; $('mjShuffle2').hidden = true;
+    mjSave(); confetti(); winSound();
+  }
+
+  // Shuffle what is left, again so that it can be finished
+  function mjShuffle() {
+    if (mj.over) return;
+    const places = mj.tiles.map((_, i) => i).filter(i => mj.on[i]), byKey = {};
+    places.forEach(i => { (byKey[mjKey(mj.face[i])] = byKey[mjKey(mj.face[i])] || []).push(mj.face[i]); });
+    const pairs = []; Object.values(byKey).forEach(fs => { for (let k = 0; k + 1 < fs.length; k += 2) pairs.push([fs[k], fs[k + 1]]); });
+    if (mjDeal(places, pairs)) { mj.sel = -1; mj.hint = null; blip(400); $('mjStatus').textContent = 'Geschud!'; $('mjShuffle2').hidden = false; mjAfter(); }
+  }
+
+  $('soloMahjong').addEventListener('click', mahjongMenu);
+  document.querySelectorAll('#mjLevels [data-layout]').forEach(b => b.addEventListener('click', () => mahjongNew(b.dataset.layout)));
+  $('mjResume').addEventListener('click', () => { const g = mjLoad('raadspel-mahjong'); if (g) mahjongPlay(g); });
+  $('mjCanvas').addEventListener('click', mjTap);
+  $('mjUndo').addEventListener('click', () => {
+    if (mj.over || !mj.hist.length) return;
+    const [a, b] = mj.hist.pop(); mj.on[a] = mj.on[b] = true; mj.sel = -1; mj.hint = null; mjAfter();
+  });
+  $('mjHint').addEventListener('click', () => {
+    const m = mjMoves(); if (!m) return mjAfter();
+    mj.hint = m; mj.sel = -1; mjDraw(); setTimeout(() => { mj.hint = null; mjDraw(); }, 1600);
+  });
+  $('mjShuffle').addEventListener('click', mjShuffle);
+  $('mjShuffle2').addEventListener('click', mjShuffle);
+  $('mjAgain').addEventListener('click', () => mahjongNew(mj.layout));
+  $('mjBack').addEventListener('click', () => { mjSave(); clearInterval(mj.clock); mahjongMenu(); });
+  window.addEventListener('resize', () => { if (screen === 'mahjong') { mjSize(); mjDraw(); } });
 
   greet();
   show('welcome');

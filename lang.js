@@ -574,6 +574,14 @@ window.LANG_TEXTS = [
   ['⏱️ {0} seconden · {1} punten', '⏱️ {0} s · {1} {1|punkt|punkty|punktów}', '⏱️ {0} seconds · {1} points'],
   ['Au! Woef! −3', 'Au! Hau! −3', 'Ouch! Woof! −3'],
 
+  // --- Mahjong ---
+  ['🎴 Mahjong', '🎴 Mahjong', '🎴 Mahjong'], ['Zoek gelijke stenen die vrij liggen', 'Szukaj takich samych wolnych kamieni', 'Find matching tiles that are free'],
+  ['Welke stapel?', 'Który układ?', 'Which layout?'], ['Piramide', 'Piramida', 'Pyramid'], ['Vierkant', 'Kwadrat', 'Square'], ['Schildpad', 'Żółw', 'Turtle'],
+  ['Schudden', 'Przetasuj', 'Shuffle'], ['{0} stenen', '{0} {0|kamień|kamienie|kamieni}', '{0} tiles'],
+  ['Tik op twee gelijke stenen die vrij liggen.', 'Stuknij dwa takie same wolne kamienie.', 'Tap two matching tiles that are free.'],
+  ['Die steen ligt niet vrij.', 'Ten kamień nie jest wolny.', "That tile isn't free."], ['Geen zetten meer. Schudden?', 'Brak ruchów. Przetasować?', 'No moves left. Shuffle?'],
+  ['Geschud!', 'Przetasowane!', 'Shuffled!'],
+
   // --- Sudoku ---
   ['🧩 Sudoku', '🧩 Sudoku', '🧩 Sudoku'],
   ['Cijferpuzzel in 4 levels', 'Łamigłówka liczbowa, 4 poziomy', 'Number puzzle in 4 levels'],
