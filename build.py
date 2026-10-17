@@ -57,6 +57,11 @@ pompoen = sorted(p.name for p in (here / 'pompoen').glob('*') if p.suffix in ('.
 for name in pompoen:
     shutil.copy(here / 'pompoen' / name, here / 'docs' / 'pompoen' / name)
 
+# The Gwint card pictures (not kept offline in advance: there are many; the iPad keeps the ones it has shown)
+(here / 'docs' / 'gwint').mkdir(exist_ok=True)
+for f in (here / 'gwint').glob('*.webp'):
+    shutil.copy(f, here / 'docs' / 'gwint' / f.name)
+
 # The chess piece pictures
 (here / 'docs' / 'pieces').mkdir(exist_ok=True)
 pieces = sorted(p.name for p in (here / 'pieces').glob('*.png'))

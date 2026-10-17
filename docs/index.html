@@ -589,6 +589,228 @@ window.LANG_TEXTS = [
   ['⏱️ {0} seconden · {1} punten', '⏱️ {0} s · {1} {1|punkt|punkty|punktów}', '⏱️ {0} seconds · {1} points'],
   ['Au! Woef! −3', 'Au! Hau! −3', 'Ouch! Woof! −3'],
 
+  // --- Gwint ---
+  ['🗡️ Gwint', '🗡️ Gwint', '🗡️ Gwent'], ['Het kaartspel uit Wiedźmin, met onze eigen kaarten', 'Gra karciana z Wiedźmina, z naszymi kartami', 'The card game from The Witcher, with our own cards'],
+  ['Het grote kaartspel, wie wint 2 rondes?', 'Wielka gra karciana: kto wygra 2 rundy?', 'The big card game: who wins 2 rounds?'],
+  ['🗡️ Echt', '🗡️ Prawdziwe', '🗡️ Realistic'], ['🐶 Voor kinderen', '🐶 Dla dzieci', '🐶 For kids'], ['Kies je volk', 'Wybierz frakcję', 'Choose your faction'],
+  ['Hoe slim is de tegenstander?', 'Jak sprytny jest przeciwnik?', 'How clever is the opponent?'], ['⚔️ Spelen!', '⚔️ Graj!', '⚔️ Play!'],
+  ['🃏 Deck bouwen', '🃏 Zbuduj talię', '🃏 Build deck'], ['Leider', 'Dowódca', 'Leader'], ['↩️ Standaard deck', '↩️ Talia standardowa', '↩️ Standard deck'],
+  ['Eenheden: {0} · Speciaal: {1}', 'Jednostki: {0} · Specjalne: {1}', 'Units: {0} · Special: {1}'],
+  ['Eenheden: {0} (minstens 22) · Speciaal: {1} (hoogstens 10)', 'Jednostki: {0} (co najmniej 22) · Specjalne: {1} (najwyżej 10)', 'Units: {0} (at least 22) · Special: {1} (at most 10)'],
+  ['Je deck klopt nog niet: minstens 22 eenheden en hoogstens 10 speciale kaarten.', 'Talia jeszcze się nie zgadza: co najmniej 22 jednostki i najwyżej 10 kart specjalnych.', 'Your deck is not right yet: at least 22 units and at most 10 special cards.'],
+  ['Wachten tot {0} klaar is…', 'Czekamy, aż {0} będzie gotowy…', 'Waiting for {0} to be ready…'],
+  ['Noordrijk', 'Królestwa Północy', 'Northern Kingdom'], ['Hondenrijk', 'Psie Królestwo', 'Dog Kingdom'], ['Zonnerijk', 'Cesarstwo Słońca', 'Sun Empire'], ['Kattenrijk', 'Kocie Cesarstwo', 'Cat Empire'],
+  ['Woudvolk', 'Lud Lasu', 'Forest Folk'], ['Bosdieren', 'Leśne zwierzęta', 'Forest animals'], ['Lieve monsters', 'Słodkie potwory', 'Sweet monsters'], ['Neutraal', 'Neutralne', 'Neutral'],
+  ['Pakt een kaart na elke gewonnen ronde.', 'Dobiera kartę po każdej wygranej rundzie.', 'Draws a card after each won round.'],
+  ['Wint een ronde die gelijk eindigt.', 'Wygrywa rundę zakończoną remisem.', 'Wins a round that ends in a draw.'],
+  ['Kiest wie er begint.', 'Wybiera, kto zaczyna.', 'Chooses who starts.'],
+  ['Houdt na elke ronde één willekeurige eenheid op het veld.', 'Po każdej rundzie zostawia na polu jedną losową jednostkę.', 'Keeps one random unit on the field after each round.'],
+  ['Passen', 'Pas', 'Pass'], ['Gepast', 'Pas', 'Passed'], ['✋ Gepast', '✋ Pas', '✋ Passed'], ['Ronde {0}', 'Runda {0}', 'Round {0}'],
+  ['Wissel kaarten die je niet wilt (nog {0}).', 'Wymień karty, których nie chcesz (zostało {0}).', "Swap cards you don't want ({0} left)."],
+  ['✅ Klaar met wisselen', '✅ Koniec wymiany', '✅ Done swapping'], ['Wachten op {0}…', 'Czekamy na: {0}…', 'Waiting for {0}…'],
+  ['Jouw volk mag kiezen: wie begint?', 'Twoja frakcja wybiera: kto zaczyna?', 'Your faction chooses: who starts?'], ['{0} kiest wie er begint…', '{0} wybiera, kto zaczyna…', '{0} chooses who starts…'],
+  ['Ik begin', 'Ja zaczynam', 'I start'], ['{0} begint', 'Zaczyna {0}', '{0} starts'],
+  ['Kies een kaart uit je aflegstapel.', 'Wybierz kartę ze stosu kart odrzuconych.', 'Pick a card from your discard pile.'],
+  ['➕ Kies een kaart om terug te halen', '➕ Wybierz kartę do przywrócenia', '➕ Pick a card to bring back'],
+  ['Tik op een eenheid die oplicht.', 'Stuknij podświetloną jednostkę.', 'Tap a unit that lights up.'], ['Tik op een rij die oplicht.', 'Stuknij podświetlony rząd.', 'Tap a row that lights up.'],
+  ['▶️ Speel', '▶️ Zagraj', '▶️ Play'], ['Sluiten', 'Zamknij', 'Close'], ['👑 Gebruiken', '👑 Użyj', '👑 Use'], ['Al gebruikt.', 'Już użyty.', 'Already used.'],
+  ['Kaarten van de tegenstander', 'Karty przeciwnika', "Opponent's cards"],
+  ['🎉 Jij wint de ronde!', '🎉 Wygrywasz rundę!', '🎉 You win the round!'], ['{0} wint de ronde.', '{0} wygrywa rundę.', '{0} wins the round.'],
+  ['🤝 Gelijk: allebei een leven kwijt.', '🤝 Remis: oboje tracicie życie.', '🤝 Draw: both lose a life.'],
+  ['🏆 Jij wint het spel!', '🏆 Wygrywasz grę!', '🏆 You win the game!'], ['{0} wint het spel.', '{0} wygrywa grę.', '{0} wins the game.'],
+  ['Kracht {0}', 'Siła {0}', 'Strength {0}'], ['👑 Leider: {0}', '👑 Dowódca: {0}', '👑 Leader: {0}'],
+  ['👁️ Spion: komt aan de kant van de tegenstander (telt voor hem), jij pakt 2 kaarten.', '👁️ Szpieg: trafia na stronę przeciwnika (liczy się dla niego), a ty dobierasz 2 karty.', "👁️ Spy: goes to the opponent's side (counts for them), you draw 2 cards."],
+  ['➕ Dokter: kies een kaart uit je aflegstapel en speel die meteen (geen helden of speciale kaarten).', '➕ Medyk: wybierz kartę ze stosu odrzuconych i od razu ją zagraj (bez bohaterów i kart specjalnych).', '➕ Medic: pick a card from your discard pile and play it at once (no heroes or special cards).'],
+  ['👥 Verzamelen: alle kaarten met dezelfde naam uit je stapel komen meteen mee.', '👥 Zbiórka: wszystkie karty o tej samej nazwie z talii wchodzą od razu.', '👥 Muster: all cards with the same name come from your deck at once.'],
+  ['🤝 Sterke band: naast dezelfde kaart in de rij wordt de kracht verdubbeld (bij 3: verdrievoudigd).', '🤝 Więź: obok takiej samej karty w rzędzie siła się podwaja (przy 3: potraja).', '🤝 Tight bond: next to the same card in the row the strength doubles (with 3: triples).'],
+  ['💪 Moed: alle andere eenheden in deze rij krijgen +1.', '💪 Morale: wszystkie inne jednostki w rzędzie dostają +1.', '💪 Morale: all other units in this row get +1.'],
+  ['📯 Hoorn: verdubbelt alle andere eenheden in deze rij.', '📯 Róg: podwaja wszystkie inne jednostki w tym rzędzie.', '📯 Horn: doubles all other units in this row.'],
+  ['🔥 Verschroeien: heeft de tegenstander 10 of meer in zijn nabije rij, dan sterven zijn sterkste eenheden daar.', '🔥 Pożoga: jeśli przeciwnik ma 10 lub więcej w rzędzie walki wręcz, giną tam jego najsilniejsze jednostki.', '🔥 Scorch: if the opponent has 10 or more in close combat, their strongest units there die.'],
+  ['🔥 Verschroeien: heeft de tegenstander 10 of meer in zijn belegeringsrij, dan sterven zijn sterkste eenheden daar.', '🔥 Pożoga: jeśli przeciwnik ma 10 lub więcej w rzędzie oblężniczym, giną tam jego najsilniejsze jednostki.', '🔥 Scorch: if the opponent has 10 or more in siege, their strongest units there die.'],
+  ['❄️ Vorst: alle eenheden in de nabije rij (beide kanten) hebben kracht 1.', '❄️ Mróz: wszystkie jednostki walki wręcz (obie strony) mają siłę 1.', '❄️ Frost: all close combat units (both sides) have strength 1.'],
+  ['🌫️ Mist: alle eenheden in de afstandsrij (beide kanten) hebben kracht 1.', '🌫️ Mgła: wszystkie jednostki dystansowe (obie strony) mają siłę 1.', '🌫️ Fog: all ranged units (both sides) have strength 1.'],
+  ['🌧️ Regen: alle eenheden in de belegeringsrij (beide kanten) hebben kracht 1.', '🌧️ Deszcz: wszystkie jednostki oblężnicze (obie strony) mają siłę 1.', '🌧️ Rain: all siege units (both sides) have strength 1.'],
+  ['☀️ Helder weer: haalt al het weer weg.', '☀️ Czyste niebo: usuwa całą pogodę.', '☀️ Clear weather: removes all weather.'],
+  ['📯 Krijgshoorn: verdubbelt de eenheden in een rij naar keuze (geen helden). Eén per rij.', '📯 Róg dowódcy: podwaja jednostki w wybranym rzędzie (bez bohaterów). Jeden na rząd.', "📯 Commander's horn: doubles the units in a row of your choice (no heroes). One per row."],
+  ['🔥 Vuurzee: de sterkste eenheid of eenheden op het hele veld sterven (geen helden).', '🔥 Pożoga: najsilniejsza jednostka lub jednostki na całym polu giną (bez bohaterów).', '🔥 Scorch: the strongest unit or units on the whole field die (no heroes).'],
+  ['🧸 Lokpop: wissel met een eenheid aan jouw kant; die gaat terug naar je hand.', '🧸 Manekin: zamień z jednostką po twojej stronie; wraca ona do ręki.', '🧸 Decoy: swap with a unit on your side; it goes back to your hand.'],
+  ['⭐ Held: niets kan deze kaart veranderen of verslaan.', '⭐ Bohater: nic nie może tej karty zmienić ani pokonać.', '⭐ Hero: nothing can change or defeat this card.'],
+  ['↔️ Wendbaar: mag in de nabije rij of in de afstandsrij.', '↔️ Zwinny: może iść do walki wręcz albo dystansowej.', '↔️ Agile: may go in close combat or ranged.'],
+  ['Haalt al het weer weg.', 'Usuwa całą pogodę.', 'Removes all weather.'], ['Krijgshoorn op je belegeringsrij.', 'Róg dowódcy na twoim rzędzie oblężniczym.', "Commander's horn on your siege row."],
+  ['Bekijk 3 willekeurige kaarten van de tegenstander.', 'Zobacz 3 losowe karty przeciwnika.', "Look at 3 random cards of the opponent."], ['Speel een Regen-kaart uit je stapel.', 'Zagraj kartę Deszczu ze swojej talii.', 'Play a Rain card from your deck.'],
+  ['Heeft de tegenstander 10 of meer in zijn nabije rij, dan sterven zijn sterkste eenheden daar.', 'Jeśli przeciwnik ma 10 lub więcej w walce wręcz, giną tam jego najsilniejsze jednostki.', 'If the opponent has 10 or more in close combat, their strongest units there die.'],
+  ['Krijgshoorn op je afstandsrij.', 'Róg dowódcy na twoim rzędzie dystansowym.', "Commander's horn on your ranged row."], ['Krijgshoorn op je nabije rij.', 'Róg dowódcy na twoim rzędzie walki wręcz.', "Commander's horn on your close combat row."],
+  ['Pak een kaart uit je aflegstapel terug in je hand.', 'Weź kartę ze stosu odrzuconych z powrotem do ręki.', 'Take a card from your discard pile back into your hand.'],
+  ['Doel:', 'Cel:', 'Goal:'], ['Begin:', 'Początek:', 'Start:'], ['Je beurt:', 'Twoja kolej:', 'Your turn:'], ['Rijen:', 'Rzędy:', 'Rows:'], ['Weer:', 'Pogoda:', 'Weather:'], ['Speciaal:', 'Specjalne:', 'Special:'], ['Eigenschappen:', 'Zdolności:', 'Abilities:'],
+  ['win 2 van de 3 rondes. Wie aan het eind van een ronde de meeste kracht op het veld heeft, wint die ronde. Bij gelijkspel verliezen allebei een leven.', 'wygraj 2 z 3 rund. Kto na końcu rundy ma najwięcej siły na polu, wygrywa rundę. Przy remisie oboje tracą życie.', 'win 2 of the 3 rounds. Whoever has the most strength on the field at the end of a round wins it. In a draw both lose a life.'],
+  ['je krijgt 10 kaarten en mag er 2 wisselen. Je krijgt daarna géén nieuwe kaarten meer (behalve door spionnen en het Noordrijk), dus spaar ze!', 'dostajesz 10 kart i możesz wymienić 2. Potem nie dostajesz nowych kart (oprócz szpiegów i Królestw Północy), więc oszczędzaj je!', "you get 10 cards and may swap 2. After that you get no new cards (except from spies and the Northern Kingdom), so save them!"],
+  ['speel één kaart, gebruik je leider (één keer per spel), of pas. Wie past, doet die ronde niet meer mee. Als allebei gepast hebben, is de ronde voorbij.', 'zagraj jedną kartę, użyj dowódcy (raz na grę) albo spasuj. Kto spasuje, nie gra już w tej rundzie. Gdy oboje spasują, runda się kończy.', 'play one card, use your leader (once per game), or pass. Who passes is out for that round. When both passed, the round is over.'],
+  ['⚔️ nabij, 🏹 afstand, 🏰 belegering. Wendbare kaarten (↔️) mogen nabij of op afstand.', '⚔️ walka wręcz, 🏹 dystans, 🏰 oblężenie. Karty zwinne (↔️) mogą iść wręcz albo na dystans.', '⚔️ close, 🏹 ranged, 🏰 siege. Agile cards (↔️) may go close or ranged.'],
+  ['❄️ vorst, 🌫️ mist en 🌧️ regen zetten alle eenheden in hun rij op 1, aan beide kanten. ☀️ haalt het weer weg.', '❄️ mróz, 🌫️ mgła i 🌧️ deszcz ustawiają wszystkie jednostki w swoim rzędzie na 1, po obu stronach. ☀️ usuwa pogodę.', '❄️ frost, 🌫️ fog and 🌧️ rain set all units in their row to 1, on both sides. ☀️ removes the weather.'],
+  ['📯 hoorn verdubbelt een rij. 🔥 vuurzee doodt de sterkste eenheden op het veld. 🧸 lokpop haalt een eenheid terug naar je hand. ⭐ helden kan niets raken.', '📯 róg podwaja rząd. 🔥 pożoga zabija najsilniejsze jednostki na polu. 🧸 manekin zabiera jednostkę z powrotem do ręki. ⭐ bohaterów nic nie rusza.', '📯 the horn doubles a row. 🔥 scorch kills the strongest units on the field. 🧸 the decoy takes a unit back to your hand. ⭐ nothing can touch heroes.'],
+  ['👁️ spion (bij de tegenstander, jij pakt 2 kaarten), ➕ dokter (haal een kaart terug uit je aflegstapel), 👥 verzamelen (dezelfde kaarten komen mee), 🤝 sterke band (samen dubbel), 💪 moed (+1 voor de rest van de rij).', '👁️ szpieg (u przeciwnika, ty dobierasz 2 karty), ➕ medyk (przywróć kartę ze stosu odrzuconych), 👥 zbiórka (takie same karty przychodzą razem), 🤝 więź (razem podwójnie), 💪 morale (+1 dla reszty rzędu).', '👁️ spy (with the opponent, you draw 2 cards), ➕ medic (bring a card back from your discard pile), 👥 muster (the same cards come along), 🤝 tight bond (double together), 💪 morale (+1 for the rest of the row).'],
+  ['IJzige vorst', 'Przenikliwy mróz', 'Biting frost'],
+  ['Dichte mist', 'Gęsta mgła', 'Thick fog'],
+  ['Stortregen', 'Ulewa', 'Torrential rain'],
+  ['Heldere hemel', 'Czyste niebo', 'Clear sky'],
+  ['Krijgshoorn', 'Róg wojenny', 'War horn'],
+  ['Vuurzee', 'Pożoga', 'Scorch'],
+  ['Lokpop', 'Manekin', 'Decoy'],
+  ['De Grijze Jager', 'Szary Łowca', 'The Grey Hunter'],
+  ['Zwaardvrouw Ilka', 'Miecznica Ilka', 'Swordswoman Ilka'],
+  ['Heks Morvena', 'Czarodziejka Morvena', 'Witch Morvena'],
+  ['Gouden Draak', 'Złoty Smok', 'Golden Dragon'],
+  ['Blauwe garde', 'Niebieska Gwardia', 'Blue Guard'],
+  ['Boerenrekruut', 'Chłopski rekrut', 'Peasant recruit'],
+  ['Kruisboogschutter', 'Kusznik', 'Crossbowman'],
+  ['Katapult', 'Katapulta', 'Catapult'],
+  ['Blijde', 'Trebusz', 'Trebuchet'],
+  ['Belegeringstoren', 'Wieża oblężnicza', 'Siege tower'],
+  ['Veldarts', 'Medyk polowy', 'Field medic'],
+  ['Bouwmeester', 'Mistrz oblężeń', 'Siege master'],
+  ['Smokkelaar', 'Przemytnik', 'Smuggler'],
+  ['Hofmagiër', 'Czarodziejka dworu', 'Court mage'],
+  ['Bijlvechter', 'Topornik', 'Axe fighter'],
+  ['Keizerlijke wacht', 'Gwardia cesarska', 'Imperial guard'],
+  ['Woestijnruiter', 'Jeździec pustyni', 'Desert rider'],
+  ['Hulpboogschutter', 'Łucznik pomocniczy', 'Auxiliary archer'],
+  ['Mecanicus', 'Mechanik', 'Mechanic'],
+  ['Zware schorpioen', 'Ciężki skorpion', 'Heavy scorpion'],
+  ['Schorpioen', 'Skorpion', 'Scorpion'],
+  ['Zwarte boogschutter', 'Czarny łucznik', 'Black archer'],
+  ['Ingenieur', 'Inżynier', 'Engineer'],
+  ['Fluisteraar', 'Szeptacz', 'Whisperer'],
+  ['Sterrenmagiër', 'Mag gwiazd', 'Star mage'],
+  ['Zonneridder', 'Rycerz Słońca', 'Sun knight'],
+  ['Zwarte Mantel', 'Czarny Płaszcz', 'Black Cloak'],
+  ['Elfenkoningin Aelin', 'Królowa elfów Aelin', 'Elf queen Aelin'],
+  ['Woudgeest Thal', 'Duch lasu Thal', 'Forest spirit Thal'],
+  ['Wolf van het woud', 'Wilk z lasu', 'Wolf of the forest'],
+  ['Dwergenstrijder', 'Krasnoludzki wojownik', 'Dwarf fighter'],
+  ['Elfenstrijder', 'Elfi wojownik', 'Elf fighter'],
+  ['Kruidengenezer', 'Zielarz', 'Herbal healer'],
+  ['Bergdwerg', 'Górski krasnolud', 'Mountain dwarf'],
+  ['Rotsverdediger', 'Obrońca skał', 'Rock defender'],
+  ['Woudveteraan', 'Leśny weteran', 'Forest veteran'],
+  ['Verkenner', 'Zwiadowca', 'Scout'],
+  ['Elfenboogschutter', 'Elfi łucznik', 'Elf archer'],
+  ['Jachtvrouw Mira', 'Łowczyni Mira', 'Huntress Mira'],
+  ['Brandstichter', 'Podpalacz', 'Firestarter'],
+  ['Woudloper', 'Leśny strażnik', 'Ranger'],
+  ['Bijlzwaaier', 'Rębacz', 'Axe swinger'],
+  ['Doodsridder', 'Rycerz śmierci', 'Death knight'],
+  ['Botkoning', 'Król kości', 'Bone king'],
+  ['Boomdemon', 'Drzewny demon', 'Tree demon'],
+  ['Moerasbeest', 'Bestia z bagien', 'Swamp beast'],
+  ['Spinnenbeest', 'Pajęcza bestia', 'Spider beast'],
+  ['Spinnenkoningin', 'Królowa pająków', 'Spider queen'],
+  ['Ghoul', 'Ghul', 'Ghoul'],
+  ['Holenkruiper', 'Jaskiniowiec', 'Cave crawler'],
+  ['Vampier', 'Wampir', 'Vampire'],
+  ['Moerasheks', 'Wiedźma z bagien', 'Swamp hag'],
+  ['Steenreus', 'Kamienny olbrzym', 'Stone giant'],
+  ['IJsreus', 'Lodowy olbrzym', 'Ice giant'],
+  ['Harpij', 'Harpia', 'Harpy'],
+  ['Weerwolf', 'Wilkołak', 'Werewolf'],
+  ['Griffioen', 'Gryf', 'Griffin'],
+  ['Grafgeest', 'Duch grobu', 'Grave spirit'],
+  ['Spookkoning', 'Król widm', 'Wraith king'],
+  ['Spookkoning de Verzamelaar', 'Król widm Zbieracz', 'Wraith king the Collector'],
+  ['Koning Aldemar de Belegeraar', 'Król Aldemar Oblegający', 'King Aldemar the Besieger'],
+  ['Keizer Sol de Stormheer', 'Cesarz Sol Pan Burz', 'Emperor Sol the Stormlord'],
+  ['Koningin Ylva de Jaagster', 'Królowa Ylva Łowczyni', 'Queen Ylva the Huntress'],
+  ['Koningin Ylva', 'Królowa Ylva', 'Queen Ylva'],
+  ['Keizer Sol', 'Cesarz Sol', 'Emperor Sol'],
+  ['Koning Aldemar', 'Król Aldemar', 'King Aldemar'],
+  ['Generaal Varo', 'Generał Varo', 'General Varo'],
+  ['Vuurmeester Kassim', 'Mistrz ognia Kassim', 'Firemaster Kassim'],
+  ['Gezant Sorell', 'Poseł Sorell', 'Envoy Sorell'],
+  ['Magistra Elske', 'Magistra Elske', 'Magistra Elske'],
+  ['Kapitein Bram', 'Kapitan Bram', 'Captain Bram'],
+  ['Prins Joran', 'Książę Joran', 'Prince Joran'],
+  ['Sneeuwbui', 'Śnieżyca', 'Snow shower'],
+  ['Mistwolk', 'Chmurka mgły', 'Fog cloud'],
+  ['Regenbui', 'Ulewa', 'Rain shower'],
+  ['Zonnetje', 'Słoneczko', 'Sunshine'],
+  ['Toeter', 'Trąbka', 'Trumpet'],
+  ['Vuurwerk', 'Fajerwerki', 'Fireworks'],
+  ['Knuffelpop', 'Przytulanka', 'Cuddle doll'],
+  ['Superhond Rex', 'Superpies Rex', 'Superdog Rex'],
+  ['Ridder Pip', 'Rycerz Pip', 'Knight Pip'],
+  ['Toverfee Luna', 'Wróżka Luna', 'Fairy Luna'],
+  ['Zingende Vogel', 'Śpiewający ptak', 'Singing bird'],
+  ['Lieve Draak', 'Miły smok', 'Sweet dragon'],
+  ['Koning Bello', 'Król Bello', 'King Bello'],
+  ['Ridder Max', 'Rycerz Max', 'Knight Max'],
+  ['Tovenaar Bobby', 'Czarodziej Bobby', 'Wizard Bobby'],
+  ['Blauwe pup', 'Niebieski szczeniak', 'Blue pup'],
+  ['Kleine pup', 'Mały szczeniak', 'Little pup'],
+  ['Boogpup', 'Szczeniak łucznik', 'Archer pup'],
+  ['Botten-katapult', 'Katapulta na kości', 'Bone catapult'],
+  ['Balwerper', 'Rzucacz piłek', 'Ball thrower'],
+  ['Grote werper', 'Wielki rzucacz', 'Big thrower'],
+  ['Hondentoren', 'Psia wieża', 'Dog tower'],
+  ['Dokter Hond', 'Doktor Pies', 'Doctor Dog'],
+  ['Bouwhond', 'Pies budowniczy', 'Builder dog'],
+  ['Sluiphond', 'Skradający się pies', 'Sneaky dog'],
+  ['Speurneus', 'Tropiciel', 'Sniffer'],
+  ['Toverhond', 'Psi czarodziej', 'Magic dog'],
+  ['Teckel', 'Jamnik', 'Dachshund'],
+  ['Keizerin Minoes', 'Cesarzowa Minoes', 'Empress Minoes'],
+  ['Kater Tijger', 'Kocur Tygrys', 'Tiger tomcat'],
+  ['Zwarte Kat', 'Czarny kot', 'Black cat'],
+  ['Kattenwacht', 'Kocia straż', 'Cat guard'],
+  ['Snelle kat', 'Szybki kot', 'Fast cat'],
+  ['Pleisterkat', 'Kot z plastrami', 'Plaster cat'],
+  ['Knutselkat', 'Kot majsterkowicz', 'Tinker cat'],
+  ['Grote wolkanon', 'Wielkie działo na włóczkę', 'Big yarn cannon'],
+  ['Wolkanon', 'Działo na włóczkę', 'Yarn cannon'],
+  ['Sluipkat', 'Skradający się kot', 'Sneaky cat'],
+  ['Bouwkat', 'Kot budowniczy', 'Builder cat'],
+  ['Spionkat', 'Kot szpieg', 'Spy cat'],
+  ['Fluisterkat', 'Kot szeptacz', 'Whisper cat'],
+  ['Toverkat', 'Kot czarodziej', 'Magic cat'],
+  ['Ridderkat', 'Kot rycerz', 'Knight cat'],
+  ['Uil Wijsneus', 'Sowa Mądrala', 'Owl Wiseguy'],
+  ['Hert Sterrengewei', 'Jeleń Gwiezdne Poroże', 'Star-antler deer'],
+  ['Wolf Grijsvacht', 'Wilk Szare Futro', 'Wolf Greycoat'],
+  ['Egeltje', 'Jeżyk', 'Little hedgehog'],
+  ['Eekhoorn', 'Wiewiórka', 'Squirrel'],
+  ['Konijn Dokter', 'Królik Doktor', 'Doctor Bunny'],
+  ['Das', 'Borsuk', 'Badger'],
+  ['Schildpad', 'Żółw', 'Turtle'],
+  ['Vos', 'Lis', 'Fox'],
+  ['Haas', 'Zając', 'Hare'],
+  ['Specht', 'Dzięcioł', 'Woodpecker'],
+  ['Valk', 'Sokół', 'Falcon'],
+  ['Vuurvliegje', 'Świetlik', 'Firefly'],
+  ['Wasbeer', 'Szop', 'Raccoon'],
+  ['Bever', 'Bóbr', 'Beaver'],
+  ['Grote Blob', 'Wielki Glut', 'Big Blob'],
+  ['Monsterkoning', 'Król potworów', 'Monster king'],
+  ['Boomspook', 'Drzewny duszek', 'Tree ghost'],
+  ['Kwalmonster', 'Meduzowy potwór', 'Jellyfish monster'],
+  ['Spinnetje', 'Pajączek', 'Little spider'],
+  ['Spinnenmama', 'Mama pająk', 'Mother spider'],
+  ['Slijmpje', 'Glucik', 'Little slime'],
+  ['Holbewoner', 'Jaskiniowiec', 'Cave dweller'],
+  ['Vleermuisje', 'Nietoperek', 'Little bat'],
+  ['Heksje', 'Czarownica', 'Little witch'],
+  ['Steenmonster', 'Kamienny potwór', 'Rock monster'],
+  ['Sneeuwmonster', 'Śnieżny potwór', 'Snow monster'],
+  ['Vliegmonster', 'Latający potwór', 'Flying monster'],
+  ['Pluizenwolf', 'Puchaty wilk', 'Fluffy wolf'],
+  ['Vogelmonster', 'Ptasi potwór', 'Bird monster'],
+  ['Spookje', 'Duszek', 'Little ghost'],
+  ['Koningin Hond', 'Królowa Psów', 'Queen Dog'],
+  ['Generaal Hond', 'Generał Pies', 'General Dog'],
+  ['Keizer Kat', 'Cesarz Kot', 'Emperor Cat'],
+  ['Weerkat', 'Pogodowy kot', 'Weather cat'],
+  ['Koningin Uil', 'Królowa Sowa', 'Queen Owl'],
+  ['Uil met hoorn', 'Sowa z rogiem', 'Owl with a horn'],
+  ['Opper-monster', 'Szef potworów', 'Boss monster'],
+  ['Verzamelmonster', 'Potwór zbieracz', 'Collector monster'],
+
   // --- Mahjong ---
   ['🎴 Mahjong', '🎴 Mahjong', '🎴 Mahjong'], ['Zoek gelijke stenen die vrij liggen', 'Szukaj takich samych wolnych kamieni', 'Find matching tiles that are free'],
   ['Welke stapel?', 'Który układ?', 'Which layout?'], ['Piramide', 'Piramida', 'Pyramid'], ['Vierkant', 'Kwadrat', 'Square'], ['Schildpad', 'Żółw', 'Turtle'],
@@ -1379,6 +1601,86 @@ window.LANG_TEXTS = [
   .palette .cd-word { font-size: 1rem; font-weight: 700; padding: 8px 10px; }
   #mjCanvas { width: 100%; display: block; touch-action: manipulation; }
   .mj-left { font-size: 1.05rem; color: #888; padding-left: 4px; }
+  /* Gwint */
+  #gwint { position: relative; }
+  .gw-facs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .gw-fac { font: inherit; border: 3px solid transparent; border-radius: 16px; background: var(--key); color: var(--ink); padding: 8px; cursor: pointer; text-align: center; }
+  .gw-fac.on { border-color: var(--fc); background: var(--card); }
+  .gw-fac img { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; display: block; margin: 0 auto 4px; }
+  .gw-fac b { display: block; color: var(--fc); }
+  .gw-fac small { display: block; font-size: .78rem; color: var(--soft); line-height: 1.15; }
+  .gw-bar { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 14px; background: var(--key); border-left: 6px solid var(--fc); }
+  .gw-bar.turn { outline: 3px solid var(--ok); }
+  .gw-lead { width: 46px; height: 46px; padding: 0; border: 2px solid var(--fc); border-radius: 10px; overflow: hidden; background: none; cursor: pointer; flex: none; }
+  .gw-lead img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gw-lead.used { filter: grayscale(1); opacity: .5; }
+  .gw-lead.ok { box-shadow: 0 0 0 3px #ffd23f; }
+  .gw-who { flex: 1; text-align: left; line-height: 1.15; min-width: 0; }
+  .gw-who small { display: block; color: var(--soft); font-size: .8rem; }
+  .gw-total { font-size: 1.5rem; min-width: 40px; text-align: center; background: var(--card); border-radius: 50%; padding: 4px; }
+  .gw-pass { font: inherit; font-weight: 800; border: none; border-radius: 12px; padding: 8px 12px; background: var(--up); color: #fff; cursor: pointer; }
+  .gw-row { display: flex; align-items: center; gap: 4px; min-height: 56px; margin: 3px 0; padding: 3px 4px; border-radius: 12px; background: rgba(122,110,143,.12); }
+  .gw-row.wet.m { background: rgba(140,200,255,.35); } .gw-row.wet.r { background: rgba(180,180,190,.45); } .gw-row.wet.s { background: rgba(90,140,220,.35); }
+  .gw-row.tgt { outline: 3px dashed #ffd23f; cursor: pointer; animation: wvpulse 1s infinite; }
+  .gw-ri { width: 30px; flex: none; font-size: 1.1rem; display: flex; flex-direction: column; align-items: center; }
+  .gw-ri em { font-style: normal; font-size: .9rem; }
+  .gw-cards { flex: 1; display: flex; gap: 2px; overflow: hidden; min-width: 0; }
+  .gw-cards.tight .gw-c { margin-right: -14px; }
+  .gw-rt { width: 30px; flex: none; text-align: center; font-size: 1.05rem; }
+  .gw-c { position: relative; width: 38px; height: 50px; border-radius: 6px; overflow: hidden; flex: none; background: #333; box-shadow: 0 1px 3px rgba(0,0,0,.4); cursor: pointer; }
+  .gw-c img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gw-c.tgt { outline: 3px solid #ffd23f; }
+  .gw-s { position: absolute; left: 1px; top: 1px; min-width: 18px; height: 18px; border-radius: 9px; background: #fff; color: #2b2140; font-size: .72rem; line-height: 18px; text-align: center; padding: 0 2px; }
+  .gw-s.hero { background: #2b2140; color: #ffd23f; }
+  .gw-s.up { background: #3cc47c; color: #fff; } .gw-s.down { background: #e8344e; color: #fff; }
+  .gw-c i { position: absolute; right: 1px; bottom: 1px; font-style: normal; font-size: .7rem; background: rgba(255,255,255,.85); border-radius: 6px; padding: 0 2px; line-height: 1.2; }
+  .gw-mid { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 6px 4px; font-size: .9rem; color: var(--soft); }
+  .gw-mid span:last-child { color: var(--ink); font-weight: 700; text-align: right; }
+  .gw-weather { font-size: 1.2rem; }
+  .gw-hand { display: flex; gap: 6px; overflow-x: auto; padding: 10px 2px 6px; -webkit-overflow-scrolling: touch; }
+  .gw-hc { flex: none; width: 70px; text-align: center; cursor: pointer; transition: transform .15s; }
+  .gw-hc .gw-c { width: 70px; height: 92px; border-radius: 9px; }
+  .gw-hc .gw-s { min-width: 22px; height: 22px; line-height: 22px; font-size: .85rem; border-radius: 11px; }
+  .gw-hc .gw-c i { font-size: .85rem; }
+  .gw-hc small { display: block; font-size: .7rem; line-height: 1.1; margin-top: 2px; color: var(--soft); }
+  .gw-hc.sel { transform: translateY(-10px); }
+  .gw-hc.sel .gw-c { outline: 3px solid #ffd23f; }
+  .gw-tools { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .gw-tools button { font: inherit; font-size: 1.05rem; border: none; border-radius: 14px; padding: 10px 16px; background: var(--key); color: var(--ink); cursor: pointer; }
+  .gw-tools .go { background: var(--ok); color: var(--on); font-weight: 800; }
+  .gw-detail { position: fixed; inset: 0; background: rgba(20,12,40,.55); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .gw-detail[hidden] { display: none !important; }
+  .gw-big { background: var(--card); color: var(--ink); border-radius: 20px; padding: 14px; max-width: 340px; width: 100%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,.4); max-height: 90vh; overflow: auto; }
+  .gw-big > img { width: 200px; height: 200px; border-radius: 14px; object-fit: cover; display: block; margin: 0 auto 8px; }
+  .gw-big b { display: block; font-size: 1.25rem; }
+  .gw-big p { margin: 6px 0; text-align: left; font-size: .98rem; }
+  .gw-hint { color: var(--soft); align-self: center; }
+  .gw-peek { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
+  .gw-peek > div { width: 80px; cursor: pointer; }
+  .gw-peek img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; display: block; }
+  .gw-peek .gw-c { width: 80px; height: 104px; }
+  .gw-peek small { display: block; font-size: .75rem; line-height: 1.1; }
+  .gw-pop { position: fixed; top: 38%; }
+  .gw-banner { position: fixed; left: 50%; top: 40%; transform: translate(-50%, -50%); z-index: 60; background: var(--card); color: var(--ink); border-radius: 22px; padding: 18px 26px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.4); text-align: center; animation: wvpopin .3s ease; min-width: 240px; }
+  .gw-banner b { display: block; font-size: 1.1rem; color: var(--soft); } .gw-banner span { display: block; font-size: 1.4rem; font-weight: 800; }
+  .gw-banner .gw-score { font-size: 2rem; }
+  .gw-selinfo { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding: 6px 10px; border-radius: 12px; background: #fff3c4; color: #2b2140; font-size: .95rem; }
+  .gw-selinfo[hidden] { display: none; }
+  .gw-selinfo span { flex: 1; text-align: left; }
+  .gw-selinfo i { font-style: normal; }
+  .gw-selinfo button { border: none; background: none; font-size: 1.2rem; cursor: pointer; }
+  .gw-dl { font: inherit; border: 3px solid transparent; border-radius: 14px; background: var(--key); color: var(--ink); padding: 8px; cursor: pointer; display: flex; gap: 8px; align-items: center; text-align: left; width: 100%; margin-bottom: 6px; }
+  .gw-dl.on { border-color: var(--ok); }
+  .gw-dl img { width: 48px; height: 48px; border-radius: 10px; object-fit: cover; flex: none; }
+  .gw-dl small { display: block; font-size: .8rem; color: var(--soft); }
+  #gwDeckCount { font-weight: 700; } #gwDeckCount.bad { color: var(--up); }
+  .gw-dr { display: flex; align-items: center; gap: 8px; padding: 5px 2px; border-bottom: 1px solid var(--key); text-align: left; }
+  .gw-dr.off { opacity: .55; }
+  .gw-dr img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex: none; }
+  .gw-dr > div { flex: 1; min-width: 0; line-height: 1.15; } .gw-dr small { display: block; color: var(--soft); font-size: .8rem; }
+  .gw-dr button { font: inherit; font-size: 1.2rem; width: 36px; height: 36px; border: none; border-radius: 10px; background: var(--key); color: var(--ink); cursor: pointer; }
+  .gw-dr span { width: 34px; text-align: center; font-size: .9rem; }
 </style>
 </head>
 <body>
@@ -1396,7 +1698,7 @@ window.LANG_TEXTS = [
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 17-10 14.17</p>
+    <p class="version" id="version">versie 17-10 14.35</p>
   </section>
 
   <!-- Naam -->
@@ -1436,6 +1738,7 @@ window.LANG_TEXTS = [
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
       <button class="level l2" id="soloWirus">🦠 Virussen<small>Kaartspel: maak een gezond lichaam</small></button>
       <button class="level w3" id="soloMole">🔨 Mollen meppen<small>Mep de mollen, niet het hondje!</small></button>
+      <button class="level l4" id="soloGwint">🗡️ Gwint<small>Het kaartspel uit Wiedźmin, met onze eigen kaarten</small></button>
       <button class="level l3" id="soloMahjong">🎴 Mahjong<small>Zoek gelijke stenen die vrij liggen</small></button>
       <button class="level l4" id="soloSudoku">🧩 Sudoku<small>Cijferpuzzel in 4 levels</small></button>
     </div>
@@ -1496,6 +1799,7 @@ window.LANG_TEXTS = [
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
+        <button class="level l4" id="lobbyGwint">🗡️ Gwint<small>Het grote kaartspel, wie wint 2 rondes?</small></button>
         <button class="level w2" id="lobbyMemory">🃏 Memory<small>Wie vindt de meeste paren?</small></button>
         <button class="level l1" id="lobbyLingo">🔤 Lingo<small>Om de beurt raden: wie vindt het woord?</small></button>
         <button class="level l4" id="lobbyBat">🦇 Vleermuis-vlucht<small>Wie vliegt het verst?</small></button>
@@ -1791,6 +2095,58 @@ window.LANG_TEXTS = [
       </div>
     </div>
     <button class="back" id="crashBack" data-hold="always">← Ander spel</button>
+  </section>
+
+  <!-- Gwint: kies je volk -->
+  <section id="gwintMenu" class="hidden">
+    <div class="card">
+      <p class="who">🗡️ Gwint</p>
+      <div class="rk-pick" id="gwLook"><button data-look="dark">🗡️ Echt</button><button data-look="kids">🐶 Voor kinderen</button></div>
+      <p class="who" style="margin-top:12px">Kies je volk</p>
+      <div class="gw-facs" id="gwFacs"></div>
+      <div id="gwDogBox">
+        <p class="who" style="margin-top:12px">Hoe slim is de tegenstander?</p>
+        <div class="rk-pick" id="gwDog"><button data-smart="0">🐶 Puppy</button><button data-smart="1">🐕 Slimme hond</button></div>
+      </div>
+      <p class="wait" id="gwDeckInfo"></p>
+      <button class="again" id="gwGo">⚔️ Spelen!</button>
+      <div class="kt-row"><button id="gwDeckBtn">🃏 Deck bouwen</button><button id="gwRulesBtn">📖 Regels</button></div>
+      <div class="wv-rules" id="gwRules" hidden>
+        <p><b>Doel:</b> win 2 van de 3 rondes. Wie aan het eind van een ronde de meeste kracht op het veld heeft, wint die ronde. Bij gelijkspel verliezen allebei een leven.</p>
+        <p><b>Begin:</b> je krijgt 10 kaarten en mag er 2 wisselen. Je krijgt daarna géén nieuwe kaarten meer (behalve door spionnen en het Noordrijk), dus spaar ze!</p>
+        <p><b>Je beurt:</b> speel één kaart, gebruik je leider (één keer per spel), of pas. Wie past, doet die ronde niet meer mee. Als allebei gepast hebben, is de ronde voorbij.</p>
+        <p><b>Rijen:</b> ⚔️ nabij, 🏹 afstand, 🏰 belegering. Wendbare kaarten (↔️) mogen nabij of op afstand.</p>
+        <p><b>Weer:</b> ❄️ vorst, 🌫️ mist en 🌧️ regen zetten alle eenheden in hun rij op 1, aan beide kanten. ☀️ haalt het weer weg.</p>
+        <p><b>Speciaal:</b> 📯 hoorn verdubbelt een rij. 🔥 vuurzee doodt de sterkste eenheden op het veld. 🧸 lokpop haalt een eenheid terug naar je hand. ⭐ helden kan niets raken.</p>
+        <p><b>Eigenschappen:</b> 👁️ spion (bij de tegenstander, jij pakt 2 kaarten), ➕ dokter (haal een kaart terug uit je aflegstapel), 👥 verzamelen (dezelfde kaarten komen mee), 🤝 sterke band (samen dubbel), 💪 moed (+1 voor de rest van de rij).</p>
+      </div>
+    </div>
+    <button class="back" id="gwMenuBack" data-hold="together">← Ander spel</button>
+  </section>
+
+  <!-- Gwint: deck bouwen -->
+  <section id="gwintDeck" class="hidden">
+    <div class="card">
+      <p class="who">🃏 Deck bouwen</p>
+      <div class="rk-pick" id="gwDeckFacs"></div>
+      <p class="who" style="margin-top:12px">Leider</p>
+      <div id="gwDeckLeads"></div>
+      <p id="gwDeckCount"></p>
+      <div id="gwDeckList"></div>
+      <div class="kt-row"><button id="gwDeckReset">↩️ Standaard deck</button></div>
+    </div>
+    <button class="back" id="gwDeckBack">← Terug</button>
+  </section>
+
+  <!-- Gwint: het veld -->
+  <section id="gwint" class="hidden">
+    <div id="gwBoard"></div>
+    <div class="gw-selinfo" id="gwSelInfo" hidden></div>
+    <div class="gw-hand" id="gwHand"></div>
+    <div class="gw-tools" id="gwTools"></div>
+    <div class="ttt-end" id="gwEnd" hidden><p class="ttt-status" id="gwStatusEnd"></p><button class="again" id="gwAgain">Nog een keer!</button></div>
+    <div class="gw-detail" id="gwDetail" hidden></div>
+    <button class="back" id="gwBack" data-hold="always">← Stoppen</button>
   </section>
 
   <!-- Mahjong: welke stapel -->
@@ -2260,7 +2616,7 @@ window.LANG_TEXTS = [
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2711,7 +3067,7 @@ window.LANG_TEXTS = [
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
     if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
@@ -2740,6 +3096,12 @@ window.LANG_TEXTS = [
     if (m.type === 'cmove' && screen === 'chess') chessPlay(m.f, m.t, m.p, false);
     if (m.type === 'pshot' && screen === 'pool') poolShoot(m.vx, m.vy, m.cue, false);
     if (m.type === 'rkstate' && ['lobby', 'rummiSetup', 'rummi'].includes(screen)) rummiReceive(m.st);
+    if (m.type === 'gwReady' && ['lobby', 'gwintMenu', 'gwintDeck'].includes(screen)) { gw.ready[m.from] = m; gwMaybeDeal(); }
+    if (m.type === 'gwstate' && ['lobby', 'gwintMenu', 'gwintDeck', 'gwint'].includes(screen)) gwReceive(m.st);
+    if (m.type === 'gwv' && screen === 'gwint' && gw.st && m.gid === gw.st.id && m.v < gw.st.v) send('gwstate', { st: gw.st });
+    if (m.type === 'gwRedraw' && iAmHost && screen === 'gwint' && gw.st && gw.st.phase === 'redraw') {
+      const P = gw.st.p[m.pi]; P.hand = m.hand; P.deck = m.deck; P.ready = true; gw.st.v++; gwSend(); gwShow(gw.st);
+    }
     if (m.type === 'wstate' && ['lobby', 'wirusSetup', 'wirus'].includes(screen)) wirusReceive(m.st);
     if (m.type === 'wv' && screen === 'wirus' && wv.st && m.gid === wv.st.id && m.v < wv.st.v) send('wstate', { st: wv.st });
     if (m.type === 'rkv' && screen === 'rummi' && rk.st && m.gid === rk.st.id && m.v < rk.st.v) send('rkstate', { st: rummiCommitted() });
@@ -9233,6 +9595,654 @@ window.LANG_TEXTS = [
   $('mjAgain').addEventListener('click', () => mahjongNew(mj.layout));
   $('mjBack').addEventListener('click', () => { mjSave(); clearInterval(mj.clock); mahjongMenu(); });
   window.addEventListener('resize', () => { if (screen === 'mahjong') { mjSize(); mjDraw(); } });
+
+  // ----- Gwint (our own version of the card game from Wiedźmin 3; same rules, our own cards and pictures in two looks).
+  // Best of three rounds; each player has 2 lives. Draw 10, swap up to 2. A turn: play one card, use the leader once, or pass.
+  // Strength: weather sets a row's units to 1, then tight bond multiplies, morale adds +1 per booster, the horn doubles;
+  // heroes are never changed. Factions: Northern kingdom draws a card after winning a round, Sun empire wins draws,
+  // Forest folk chooses who starts, Monsters keep one random unit after a round.
+
+  const GW_CARDS = {"frost": {"f": "ne", "row": "x", "str": 0, "hero": 0, "ab": "frost", "grp": "", "n": 3, "dark": "IJzige vorst", "kids": "Sneeuwbui"}, "fog": {"f": "ne", "row": "x", "str": 0, "hero": 0, "ab": "fog", "grp": "", "n": 3, "dark": "Dichte mist", "kids": "Mistwolk"}, "rain": {"f": "ne", "row": "x", "str": 0, "hero": 0, "ab": "rain", "grp": "", "n": 3, "dark": "Stortregen", "kids": "Regenbui"}, "clear": {"f": "ne", "row": "x", "str": 0, "hero": 0, "ab": "clear", "grp": "", "n": 2, "dark": "Heldere hemel", "kids": "Zonnetje"}, "horn": {"f": "ne", "row": "x", "str": 0, "hero": 0, "ab": "horn", "grp": "", "n": 3, "dark": "Krijgshoorn", "kids": "Toeter"}, "scorch": {"f": "ne", "row": "x", "str": 0, "hero": 0, "ab": "scorch", "grp": "", "n": 3, "dark": "Vuurzee", "kids": "Vuurwerk"}, "decoy": {"f": "ne", "row": "x", "str": 0, "hero": 0, "ab": "decoy", "grp": "", "n": 3, "dark": "Lokpop", "kids": "Knuffelpop"}, "hunter": {"f": "ne", "row": "m", "str": 15, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "De Grijze Jager", "kids": "Superhond Rex"}, "swordgirl": {"f": "ne", "row": "m", "str": 15, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Zwaardvrouw Ilka", "kids": "Ridder Pip"}, "witch": {"f": "ne", "row": "r", "str": 7, "hero": 1, "ab": "medic", "grp": "", "n": 1, "dark": "Heks Morvena", "kids": "Toverfee Luna"}, "bard": {"f": "ne", "row": "m", "str": 2, "hero": 0, "ab": "horn", "grp": "", "n": 1, "dark": "Bard Lukas", "kids": "Zingende Vogel"}, "dragon": {"f": "ne", "row": "m", "str": 7, "hero": 0, "ab": "scorchM", "grp": "", "n": 1, "dark": "Gouden Draak", "kids": "Lieve Draak"}, "nr_king": {"f": "nr", "row": "m", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Ser Aldric", "kids": "Koning Bello"}, "nr_captain": {"f": "nr", "row": "m", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Kapitein Bram", "kids": "Ridder Max"}, "nr_mage": {"f": "nr", "row": "r", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Magistra Elske", "kids": "Tovenaar Bobby"}, "nr_guard": {"f": "nr", "row": "m", "str": 4, "hero": 0, "ab": "bond", "grp": "nr_guard", "n": 3, "dark": "Blauwe garde", "kids": "Blauwe pup"}, "nr_recruit": {"f": "nr", "row": "m", "str": 1, "hero": 0, "ab": "bond", "grp": "nr_recruit", "n": 3, "dark": "Boerenrekruut", "kids": "Kleine pup"}, "nr_xbow": {"f": "nr", "row": "r", "str": 5, "hero": 0, "ab": "bond", "grp": "nr_xbow", "n": 3, "dark": "Kruisboogschutter", "kids": "Boogpup"}, "nr_catapult": {"f": "nr", "row": "s", "str": 8, "hero": 0, "ab": "bond", "grp": "nr_catapult", "n": 2, "dark": "Katapult", "kids": "Botten-katapult"}, "nr_ballista": {"f": "nr", "row": "s", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Ballista", "kids": "Balwerper"}, "nr_trebuchet": {"f": "nr", "row": "s", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Blijde", "kids": "Grote werper"}, "nr_tower": {"f": "nr", "row": "s", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Belegeringstoren", "kids": "Hondentoren"}, "nr_medic": {"f": "nr", "row": "s", "str": 5, "hero": 0, "ab": "medic", "grp": "", "n": 1, "dark": "Veldarts", "kids": "Dokter Hond"}, "nr_builder": {"f": "nr", "row": "s", "str": 1, "hero": 0, "ab": "morale", "grp": "", "n": 3, "dark": "Bouwmeester", "kids": "Bouwhond"}, "nr_prince": {"f": "nr", "row": "m", "str": 5, "hero": 0, "ab": "spy", "grp": "", "n": 1, "dark": "Prins Joran", "kids": "Sluiphond"}, "nr_smuggler": {"f": "nr", "row": "s", "str": 1, "hero": 0, "ab": "spy", "grp": "", "n": 1, "dark": "Smokkelaar", "kids": "Speurneus"}, "nr_courtmage": {"f": "nr", "row": "r", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Hofmagiër", "kids": "Toverhond"}, "nr_axe": {"f": "nr", "row": "m", "str": 4, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Bijlvechter", "kids": "Teckel"}, "nf_general": {"f": "nf", "row": "m", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Generaal Varo", "kids": "Keizerin Minoes"}, "nf_firemaster": {"f": "nf", "row": "s", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Vuurmeester Kassim", "kids": "Kater Tijger"}, "nf_shadow": {"f": "nf", "row": "r", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Zwarte Mantel", "kids": "Zwarte Kat"}, "nf_guard": {"f": "nf", "row": "m", "str": 3, "hero": 0, "ab": "bond", "grp": "nf_guard", "n": 4, "dark": "Keizerlijke wacht", "kids": "Kattenwacht"}, "nf_rider": {"f": "nf", "row": "r", "str": 2, "hero": 0, "ab": "bond", "grp": "nf_rider", "n": 3, "dark": "Woestijnruiter", "kids": "Snelle kat"}, "nf_aux": {"f": "nf", "row": "r", "str": 1, "hero": 0, "ab": "medic", "grp": "", "n": 2, "dark": "Hulpboogschutter", "kids": "Pleisterkat"}, "nf_mech": {"f": "nf", "row": "s", "str": 0, "hero": 0, "ab": "medic", "grp": "", "n": 1, "dark": "Mecanicus", "kids": "Knutselkat"}, "nf_bigscorpion": {"f": "nf", "row": "s", "str": 10, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Zware schorpioen", "kids": "Grote wolkanon"}, "nf_scorpion": {"f": "nf", "row": "s", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Schorpioen", "kids": "Wolkanon"}, "nf_archer": {"f": "nf", "row": "r", "str": 10, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Zwarte boogschutter", "kids": "Sluipkat"}, "nf_engineer": {"f": "nf", "row": "s", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Ingenieur", "kids": "Bouwkat"}, "nf_envoy": {"f": "nf", "row": "m", "str": 9, "hero": 0, "ab": "spy", "grp": "", "n": 1, "dark": "Gezant Sorell", "kids": "Spionkat"}, "nf_whisper": {"f": "nf", "row": "m", "str": 4, "hero": 0, "ab": "spy", "grp": "", "n": 1, "dark": "Fluisteraar", "kids": "Fluisterkat"}, "nf_starmage": {"f": "nf", "row": "r", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Sterrenmagiër", "kids": "Toverkat"}, "nf_knight": {"f": "nf", "row": "m", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Zonneridder", "kids": "Ridderkat"}, "st_queen": {"f": "st", "row": "r", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Elfenkoningin Aelin", "kids": "Uil Wijsneus"}, "st_spirit": {"f": "st", "row": "r", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Woudgeest Thal", "kids": "Hert Sterrengewei"}, "st_wolf": {"f": "st", "row": "m", "str": 10, "hero": 1, "ab": "morale", "grp": "", "n": 1, "dark": "Wolf van het woud", "kids": "Wolf Grijsvacht"}, "st_dwarf": {"f": "st", "row": "m", "str": 3, "hero": 0, "ab": "muster", "grp": "st_dwarf", "n": 3, "dark": "Dwergenstrijder", "kids": "Egeltje"}, "st_elf": {"f": "st", "row": "r", "str": 2, "hero": 0, "ab": "muster", "grp": "st_elf", "n": 3, "dark": "Elfenstrijder", "kids": "Eekhoorn"}, "st_healer": {"f": "st", "row": "r", "str": 0, "hero": 0, "ab": "medic", "grp": "", "n": 3, "dark": "Kruidengenezer", "kids": "Konijn Dokter"}, "st_mountain": {"f": "st", "row": "m", "str": 5, "hero": 0, "ab": "muster", "grp": "st_mountain", "n": 3, "dark": "Bergdwerg", "kids": "Das"}, "st_defender": {"f": "st", "row": "m", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Rotsverdediger", "kids": "Schildpad"}, "st_veteran": {"f": "st", "row": "a", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Woudveteraan", "kids": "Vos"}, "st_scout": {"f": "st", "row": "a", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 3, "dark": "Verkenner", "kids": "Haas"}, "st_archer": {"f": "st", "row": "r", "str": 4, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Elfenboogschutter", "kids": "Specht"}, "st_huntress": {"f": "st", "row": "r", "str": 10, "hero": 0, "ab": "morale", "grp": "", "n": 1, "dark": "Jachtvrouw Mira", "kids": "Valk"}, "st_burner": {"f": "st", "row": "s", "str": 8, "hero": 0, "ab": "scorchS", "grp": "", "n": 1, "dark": "Brandstichter", "kids": "Vuurvliegje"}, "st_ranger": {"f": "st", "row": "a", "str": 4, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Woudloper", "kids": "Wasbeer"}, "st_axe": {"f": "st", "row": "m", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Bijlzwaaier", "kids": "Bever"}, "mo_deathknight": {"f": "mo", "row": "m", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Doodsridder", "kids": "Grote Blob"}, "mo_boneking": {"f": "mo", "row": "m", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Botkoning", "kids": "Monsterkoning"}, "mo_treedemon": {"f": "mo", "row": "r", "str": 10, "hero": 1, "ab": "", "grp": "", "n": 1, "dark": "Boomdemon", "kids": "Boomspook"}, "mo_swamp": {"f": "mo", "row": "a", "str": 8, "hero": 1, "ab": "morale", "grp": "", "n": 1, "dark": "Moerasbeest", "kids": "Kwalmonster"}, "mo_spider": {"f": "mo", "row": "m", "str": 4, "hero": 0, "ab": "muster", "grp": "mo_spider", "n": 3, "dark": "Spinnenbeest", "kids": "Spinnetje"}, "mo_spiderqueen": {"f": "mo", "row": "s", "str": 6, "hero": 0, "ab": "muster", "grp": "mo_spider", "n": 1, "dark": "Spinnenkoningin", "kids": "Spinnenmama"}, "mo_ghoul": {"f": "mo", "row": "m", "str": 1, "hero": 0, "ab": "muster", "grp": "mo_ghoul", "n": 3, "dark": "Ghoul", "kids": "Slijmpje"}, "mo_crawler": {"f": "mo", "row": "m", "str": 2, "hero": 0, "ab": "muster", "grp": "mo_crawler", "n": 3, "dark": "Holenkruiper", "kids": "Holbewoner"}, "mo_vampire": {"f": "mo", "row": "m", "str": 4, "hero": 0, "ab": "muster", "grp": "mo_vampire", "n": 4, "dark": "Vampier", "kids": "Vleermuisje"}, "mo_hag": {"f": "mo", "row": "m", "str": 6, "hero": 0, "ab": "muster", "grp": "mo_hag", "n": 3, "dark": "Moerasheks", "kids": "Heksje"}, "mo_stone": {"f": "mo", "row": "s", "str": 6, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Steenreus", "kids": "Steenmonster"}, "mo_icegiant": {"f": "mo", "row": "s", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "IJsreus", "kids": "Sneeuwmonster"}, "mo_harpy": {"f": "mo", "row": "a", "str": 2, "hero": 0, "ab": "", "grp": "", "n": 2, "dark": "Harpij", "kids": "Vliegmonster"}, "mo_werewolf": {"f": "mo", "row": "m", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Weerwolf", "kids": "Pluizenwolf"}, "mo_griffin": {"f": "mo", "row": "m", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Griffioen", "kids": "Vogelmonster"}, "mo_grave": {"f": "mo", "row": "r", "str": 5, "hero": 0, "ab": "", "grp": "", "n": 1, "dark": "Grafgeest", "kids": "Spookje"}};
+  const GW_LEADERS = {"nr_lead_a": {"f": "nr", "ab": "clearWeather", "dark": "Koning Aldemar", "kids": "Koningin Hond"}, "nr_lead_b": {"f": "nr", "ab": "hornSiege", "dark": "Koning Aldemar de Belegeraar", "kids": "Generaal Hond"}, "nf_lead_a": {"f": "nf", "ab": "peek", "dark": "Keizer Sol", "kids": "Keizer Kat"}, "nf_lead_b": {"f": "nf", "ab": "playRain", "dark": "Keizer Sol de Stormheer", "kids": "Weerkat"}, "st_lead_a": {"f": "st", "ab": "scorchMelee", "dark": "Koningin Ylva", "kids": "Koningin Uil"}, "st_lead_b": {"f": "st", "ab": "hornRanged", "dark": "Koningin Ylva de Jaagster", "kids": "Uil met hoorn"}, "mo_lead_a": {"f": "mo", "ab": "hornMelee", "dark": "Spookkoning", "kids": "Opper-monster"}, "mo_lead_b": {"f": "mo", "ab": "returnCard", "dark": "Spookkoning de Verzamelaar", "kids": "Verzamelmonster"}};
+  const GW_FAC = { nr: ['Noordrijk', 'Hondenrijk', '#2f6fd6'], nf: ['Zonnerijk', 'Kattenrijk', '#c9a227'], st: ['Woudvolk', 'Bosdieren', '#2fb06c'],
+                   mo: ['Monsters', 'Lieve monsters', '#c8283c'], ne: ['Neutraal', 'Neutraal', '#7a6e8f'] };
+  const GW_PERK = { nr: 'Pakt een kaart na elke gewonnen ronde.', nf: 'Wint een ronde die gelijk eindigt.',
+                    st: 'Kiest wie er begint.', mo: 'Houdt na elke ronde één willekeurige eenheid op het veld.' };
+  const GW_AB = {
+    spy: ['👁️', 'Spion: komt aan de kant van de tegenstander (telt voor hem), jij pakt 2 kaarten.'],
+    medic: ['➕', 'Dokter: kies een kaart uit je aflegstapel en speel die meteen (geen helden of speciale kaarten).'],
+    muster: ['👥', 'Verzamelen: alle kaarten met dezelfde naam uit je stapel komen meteen mee.'],
+    bond: ['🤝', 'Sterke band: naast dezelfde kaart in de rij wordt de kracht verdubbeld (bij 3: verdrievoudigd).'],
+    morale: ['💪', 'Moed: alle andere eenheden in deze rij krijgen +1.'],
+    horn: ['📯', 'Hoorn: verdubbelt alle andere eenheden in deze rij.'],
+    scorchM: ['🔥', 'Verschroeien: heeft de tegenstander 10 of meer in zijn nabije rij, dan sterven zijn sterkste eenheden daar.'],
+    scorchS: ['🔥', 'Verschroeien: heeft de tegenstander 10 of meer in zijn belegeringsrij, dan sterven zijn sterkste eenheden daar.'],
+    frost: ['❄️', 'Vorst: alle eenheden in de nabije rij (beide kanten) hebben kracht 1.'],
+    fog: ['🌫️', 'Mist: alle eenheden in de afstandsrij (beide kanten) hebben kracht 1.'],
+    rain: ['🌧️', 'Regen: alle eenheden in de belegeringsrij (beide kanten) hebben kracht 1.'],
+    clear: ['☀️', 'Helder weer: haalt al het weer weg.'],
+    hornX: ['📯', 'Krijgshoorn: verdubbelt de eenheden in een rij naar keuze (geen helden). Eén per rij.'],
+    scorch: ['🔥', 'Vuurzee: de sterkste eenheid of eenheden op het hele veld sterven (geen helden).'],
+    decoy: ['🧸', 'Lokpop: wissel met een eenheid aan jouw kant; die gaat terug naar je hand.'],
+    hero: ['⭐', 'Held: niets kan deze kaart veranderen of verslaan.'],
+    agile: ['↔️', 'Wendbaar: mag in de nabije rij of in de afstandsrij.'],
+  };
+  const GW_LEAD_TXT = { clearWeather: 'Haalt al het weer weg.', hornSiege: 'Krijgshoorn op je belegeringsrij.', peek: 'Bekijk 3 willekeurige kaarten van de tegenstander.',
+                        playRain: 'Speel een Regen-kaart uit je stapel.', scorchMelee: 'Heeft de tegenstander 10 of meer in zijn nabije rij, dan sterven zijn sterkste eenheden daar.',
+                        hornRanged: 'Krijgshoorn op je afstandsrij.', hornMelee: 'Krijgshoorn op je nabije rij.', returnCard: 'Pak een kaart uit je aflegstapel terug in je hand.' };
+  const GW_ROWS = ['m', 'r', 's'], GW_ROW_ICON = { m: '⚔️', r: '🏹', s: '🏰' }, GW_WEATHER_ROW = { frost: 'm', fog: 'r', rain: 's' };
+
+  const gwC = (st, uid) => GW_CARDS[st.cards[uid]];
+  const gwOther = pi => 1 - pi;
+  const gwIsUnit = c => c.row !== 'x';
+
+  // --- strength ---
+  function gwStr(st, pi, row, uid) {
+    const c = gwC(st, uid);
+    if (c.ab === 'decoy') return 0;
+    if (c.hero) return c.str;
+    let s = c.str;
+    if (st.weather.some(w => GW_WEATHER_ROW[st.cards[w.uid]] === row)) s = Math.min(s, 1);
+    const list = st.p[pi].rows[row];
+    if (c.ab === 'bond') s *= list.filter(u => gwC(st, u).ab === 'bond' && gwC(st, u).grp === c.grp).length;
+    s += list.filter(u => u !== uid && gwC(st, u).ab === 'morale').length;
+    const horned = st.p[pi].horn[row] || list.some(u => u !== uid && gwC(st, u).ab === 'horn');
+    if (horned) s *= 2;
+    return s;
+  }
+  const gwRowTotal = (st, pi, row) => st.p[pi].rows[row].reduce((sum, u) => sum + gwStr(st, pi, row, u), 0);
+  const gwTotal = (st, pi) => GW_ROWS.reduce((sum, r) => sum + gwRowTotal(st, pi, r), 0);
+
+  function gwDraw(st, pi, n) { const P = st.p[pi]; for (let k = 0; k < n && P.deck.length; k++) P.hand.push(P.deck.pop()); }
+  function gwToGrave(st, side, uid) { const c = gwC(st, uid); if (c) st.p[side].grave.push(uid); }
+
+  // Kill the strongest non-hero units in a list of [side, row]s (all with the top strength die)
+  function gwKillStrongest(st, places) {
+    let best = -1; const found = [];
+    for (const [side, row] of places) for (const u of st.p[side].rows[row]) {
+      const c = gwC(st, u); if (c.hero || c.ab === 'decoy') continue;
+      const s = gwStr(st, side, row, u);
+      if (s > best) { best = s; found.length = 0; }
+      if (s === best) found.push([side, row, u]);
+    }
+    if (best <= 0) return 0;
+    for (const [side, row, u] of found) { st.p[side].rows[row] = st.p[side].rows[row].filter(x => x !== u); gwToGrave(st, side, u); }
+    return found.length;
+  }
+
+  // --- what a card may do: the rows (or units) it can go to ---
+  function gwTargets(st, pi, uid) {
+    const c = gwC(st, uid), P = st.p[pi];
+    if (c.ab === 'decoy') { const out = []; GW_ROWS.forEach(r => P.rows[r].forEach(u => { const x = gwC(st, u); if (!x.hero && x.ab !== 'decoy') out.push({ unit: u, row: r }); })); return out; }
+    if (c.ab === 'horn' && c.row === 'x') return GW_ROWS.filter(r => !P.horn[r]).map(r => ({ row: r }));
+    if (c.row === 'x') return [{ row: 'any' }];
+    if (c.row === 'a') return [{ row: 'm' }, { row: 'r' }];
+    return [{ row: c.row }];
+  }
+
+  // --- playing a card; returns 'medic' when the player must still pick a card from the grave ---
+  function gwPlay(st, pi, uid, t) {
+    const P = st.p[pi], c = gwC(st, uid), O = st.p[gwOther(pi)];
+    P.hand = P.hand.filter(u => u !== uid);
+    st.last = { by: pi, cid: st.cards[uid] };
+    if (c.row === 'x') return gwSpecial(st, pi, uid, t);
+    return gwPlace(st, pi, uid, t.row);
+  }
+
+  function gwPlace(st, pi, uid, row) {
+    const P = st.p[pi], c = gwC(st, uid), O = st.p[gwOther(pi)];
+    if (c.ab === 'spy') { O.rows[row].push(uid); gwDraw(st, pi, 2); return null; }
+    P.rows[row].push(uid);
+    if (c.ab === 'muster') {
+      const same = P.deck.filter(u => gwC(st, u).grp === c.grp);
+      P.deck = P.deck.filter(u => !same.includes(u));
+      same.forEach(u => { const x = gwC(st, u); P.rows[x.row === 'a' ? 'm' : x.row].push(u); });
+    }
+    if (c.ab === 'scorchM' || c.ab === 'scorchS') {
+      const r = c.ab === 'scorchM' ? 'm' : 's', side = gwOther(pi);
+      if (gwRowTotal(st, side, r) >= 10) gwKillStrongest(st, [[side, r]]);
+    }
+    if (c.ab === 'medic' && gwMedicOptions(st, pi).length) return 'medic';
+    return null;
+  }
+
+  const gwMedicOptions = (st, pi) => st.p[pi].grave.filter(u => { const c = gwC(st, u); return gwIsUnit(c) && !c.hero; });
+  function gwRevive(st, pi, uid, row) {
+    const P = st.p[pi], c = gwC(st, uid);
+    P.grave = P.grave.filter(u => u !== uid);
+    return gwPlace(st, pi, uid, row || (c.row === 'a' ? 'm' : c.row));
+  }
+
+  function gwSpecial(st, pi, uid, t) {
+    const P = st.p[pi], c = gwC(st, uid);
+    if (GW_WEATHER_ROW[c.ab]) { st.weather.push({ uid, owner: pi }); return null; }
+    if (c.ab === 'clear') { st.weather.forEach(w => st.p[w.owner].grave.push(w.uid)); st.weather = []; P.grave.push(uid); return null; }
+    if (c.ab === 'horn') { P.horn[t.row] = uid; return null; }
+    if (c.ab === 'scorch') { gwKillStrongest(st, [0, 1].flatMap(side => GW_ROWS.map(r => [side, r]))); P.grave.push(uid); return null; }
+    if (c.ab === 'decoy') {
+      const list = P.rows[t.row], k = list.indexOf(t.unit);
+      if (k >= 0) { list[k] = uid; P.hand.push(t.unit); }
+      return null;
+    }
+    return null;
+  }
+
+  // --- the leader (once per game) ---
+  function gwLeaderOk(st, pi) {
+    const P = st.p[pi], ab = GW_LEADERS[P.lead].ab;
+    if (P.leadUsed) return false;
+    if (ab === 'clearWeather') return st.weather.length > 0;
+    if (ab === 'hornSiege') return !P.horn.s;
+    if (ab === 'hornRanged') return !P.horn.r;
+    if (ab === 'hornMelee') return !P.horn.m;
+    if (ab === 'playRain') return P.deck.some(u => gwC(st, u).ab === 'rain');
+    if (ab === 'returnCard') return P.grave.length > 0;
+    if (ab === 'scorchMelee') return gwRowTotal(st, gwOther(pi), 'm') >= 10;
+    return true;
+  }
+  function gwLeader(st, pi, pick) {
+    const P = st.p[pi], ab = GW_LEADERS[P.lead].ab, O = gwOther(pi);
+    P.leadUsed = true; st.last = { by: pi, lead: P.lead };
+    if (ab === 'clearWeather') { st.weather.forEach(w => st.p[w.owner].grave.push(w.uid)); st.weather = []; }
+    if (ab === 'hornSiege') P.horn.s = 'lead';
+    if (ab === 'hornRanged') P.horn.r = 'lead';
+    if (ab === 'hornMelee') P.horn.m = 'lead';
+    if (ab === 'playRain') { const u = P.deck.find(x => gwC(st, x).ab === 'rain'); if (u) { P.deck = P.deck.filter(x => x !== u); st.weather.push({ uid: u, owner: pi }); } }
+    if (ab === 'scorchMelee') gwKillStrongest(st, [[O, 'm']]);
+    if (ab === 'returnCard') { const u = pick || P.grave[P.grave.length - 1]; if (u) { P.grave = P.grave.filter(x => x !== u); P.hand.push(u); } }
+    if (ab === 'peek') st.peek = { by: pi, cards: shuffle(st.p[O].hand.slice()).slice(0, 3).map(u => st.cards[u]) };
+  }
+
+  // --- turns, rounds, the end ---
+  function gwNextTurn(st, pi) {
+    const O = gwOther(pi);
+    if (st.p[0].passed && st.p[1].passed) return gwEndRound(st);
+    st.turn = st.p[O].passed ? pi : O;
+    // a player without cards (and no leader to use) passes by itself
+    const P = st.p[st.turn];
+    if (!P.passed && !P.hand.length && !gwLeaderOk(st, st.turn)) { P.passed = true; return gwNextTurn(st, st.turn); }
+  }
+
+  function gwPass(st, pi) { st.p[pi].passed = true; st.last = { by: pi, pass: true }; gwNextTurn(st, pi); }
+
+  function gwEndRound(st) {
+    const tot = [gwTotal(st, 0), gwTotal(st, 1)];
+    let win = tot[0] > tot[1] ? 0 : tot[1] > tot[0] ? 1 : -1;
+    if (win === -1) { const nf = [0, 1].filter(i => st.p[i].fac === 'nf'); if (nf.length === 1) win = nf[0]; }
+    if (win === -1) { st.p[0].lives--; st.p[1].lives--; } else { st.p[gwOther(win)].lives--; st.p[win].wins++; }
+    st.rounds.push({ tot, win });
+    if (win >= 0 && st.p[win].fac === 'nr') gwDraw(st, win, 1);
+    // clear the field; Monsters keep one random unit
+    [0, 1].forEach(pi => {
+      const P = st.p[pi];
+      let keep = null;
+      if (P.fac === 'mo') {
+        const units = GW_ROWS.flatMap(r => P.rows[r].map(u => [r, u])).filter(([, u]) => gwC(st, u).ab !== 'decoy');
+        if (units.length) keep = units[Math.floor(Math.random() * units.length)];
+      }
+      GW_ROWS.forEach(r => { P.rows[r].forEach(u => { if (!keep || keep[1] !== u) gwToGrave(st, pi, u); }); P.rows[r] = []; if (P.horn[r] && P.horn[r] !== 'lead') P.grave.push(P.horn[r]); P.horn[r] = null; });
+      if (keep) P.rows[keep[0]].push(keep[1]);
+      P.passed = false;
+    });
+    st.weather.forEach(w => st.p[w.owner].grave.push(w.uid)); st.weather = [];
+    if (st.p[0].lives <= 0 || st.p[1].lives <= 0) {
+      st.over = { win: st.p[0].lives > 0 ? 0 : st.p[1].lives > 0 ? 1 : -1 };
+      return;
+    }
+    st.round++;
+    st.turn = win >= 0 ? win : st.first;
+    const P = st.p[st.turn];
+    if (!P.hand.length && !gwLeaderOk(st, st.turn)) { P.passed = true; st.turn = gwOther(st.turn); }
+  }
+
+  // --- a new game: decks are lists of card ids; each copy gets its own number ---
+  function gwNewState(seats) {
+    const st = { id: Math.random().toString(36).slice(2), v: 1, cards: {}, weather: [], round: 1, rounds: [], turn: 0, first: 0, over: null, last: null, phase: 'redraw', runner: myId, smart: gw.smart };
+    let n = 0;
+    st.p = seats.map(s => {
+      const deck = s.deck.map(cid => { const uid = 'c' + (n++); st.cards[uid] = cid; return uid; });
+      return { id: s.id, name: s.name, dog: !!s.dog, fac: s.fac, lead: s.lead, leadUsed: false, deck: shuffle(deck), hand: [], grave: [],
+               rows: { m: [], r: [], s: [] }, horn: { m: null, r: null, s: null }, lives: 2, wins: 0, passed: false, redraws: 2, ready: !!s.dog };
+    });
+    st.p.forEach((P, i) => gwDraw(st, i, 10));
+    return st;
+  }
+
+  // Who starts: Forest folk chooses (if only one player has it), else a coin
+  function gwStartPlay(st) {
+    const st1 = [0, 1].filter(i => st.p[i].fac === 'st');
+    st.phase = st1.length === 1 ? 'choose' : 'play';
+    st.chooser = st1.length === 1 ? st1[0] : null;
+    if (st.phase === 'play') { st.first = Math.random() < .5 ? 0 : 1; st.turn = st.first; }
+  }
+
+  // --- the computer opponent: tries every card (and its places) on a copy of the game and looks how the scores change ---
+  const gwClone = st => JSON.parse(JSON.stringify(st));
+  const gwCardValue = (st, uid) => { const c = gwC(st, uid); return c.row === 'x' ? 6 : c.str + (c.hero ? 4 : 0); };
+
+  // One whole move for the computer: the card, where it goes, and its medic pick
+  function gwAiOptions(st, pi) {
+    const P = st.p[pi], out = [];
+    for (const uid of P.hand) for (const t of gwTargets(st, pi, uid)) out.push({ uid, t });
+    if (gwLeaderOk(st, pi)) out.push({ lead: true });
+    return out;
+  }
+  function gwAiApply(st, pi, m) {
+    if (m.lead) { gwLeader(st, pi); return; }
+    let r = gwPlay(st, pi, m.uid, m.t);
+    while (r === 'medic') {                                // the dog revives its best card (spies first: they bring cards)
+      const opts = gwMedicOptions(st, pi);
+      const pick = opts.sort((a, b) => (gwC(st, b).ab === 'spy') - (gwC(st, a).ab === 'spy') || gwC(st, b).str - gwC(st, a).str)[0];
+      r = gwRevive(st, pi, pick);
+    }
+  }
+  function gwAiScore(st, pi, m) {
+    const before = gwTotal(st, pi) - gwTotal(st, gwOther(pi)), handBefore = st.p[pi].hand.length;
+    const t = gwClone(st); gwAiApply(t, pi, m);
+    let gain = gwTotal(t, pi) - gwTotal(t, gwOther(pi)) - before;
+    gain += (t.p[pi].hand.length - (handBefore - (m.lead ? 0 : 1))) * 6;   // cards drawn (spies) are worth a lot
+    if (m.lead) gain -= 2;
+    return gain;
+  }
+
+  function gwAiMove(st, pi) {
+    const P = st.p[pi], O = st.p[gwOther(pi)], opts = gwAiOptions(st, pi);
+    const lead = gwTotal(st, pi) - gwTotal(st, gwOther(pi)), mustWin = P.lives === 1;
+    if (!opts.length) return { pass: true };
+    if (!st.smart && Math.random() < .5) return Math.random() < .12 ? { pass: true } : opts[Math.floor(Math.random() * opts.length)];
+    const scored = opts.map(m => ({ m, gain: gwAiScore(st, pi, m), cost: m.lead ? 3 : gwCardValue(st, m.uid) }));
+    // the opponent passed: win with the cheapest card that is enough, or give up the round if it cannot be won
+    if (O.passed) {
+      if (lead > 0) return { pass: true };
+      const enough = scored.filter(s => lead + s.gain > 0).sort((a, b) => a.cost - b.cost);
+      if (enough.length) return enough[0].m;
+      const best = scored.sort((a, b) => b.gain - a.gain)[0];
+      const possible = scored.reduce((sum, s) => sum + Math.max(0, s.gain), 0);
+      if (!mustWin && lead + possible <= 0) return { pass: true };
+      return best.m;
+    }
+    // far ahead in an early round with fewer cards than the opponent: save cards
+    if (!mustWin && lead >= 12 && P.hand.length <= O.hand.length) return { pass: true };
+    if (!mustWin && st.round === 1 && lead >= 20) return { pass: true };
+    // spies first, then the best gain per card spent
+    scored.sort((a, b) => (b.gain - b.cost * .35) - (a.gain - a.cost * .35));
+    const top = scored[0];
+    if (top.gain <= 0 && !mustWin && lead > 0) return { pass: true };
+    return top.m;
+  }
+
+  // --- the screens ---
+  const gw = { look: 'dark', fac: 'nr', smart: 1, st: null, me: 0, sel: null, medic: false, shownRound: 0, shownV: '', ready: {}, deckFac: 'nr', busy: false, redrawLocal: null };
+  try { gw.look = localStorage.getItem('raadspel-gwint-look') || 'dark'; gw.fac = localStorage.getItem('raadspel-gwint-fac') || 'nr'; } catch (e) {}
+  const gwImg = id => `gwint/${gw.look}-${id}.webp`;
+  const gwName = id => (GW_CARDS[id] || GW_LEADERS[id])[gw.look];
+  const gwFacName = f => GW_FAC[f][gw.look === 'kids' ? 1 : 0];
+
+  // --- decks: kept per faction on this device ---
+  function gwDefaultDeck(fac) {
+    const cards = {};
+    for (const [id, c] of Object.entries(GW_CARDS)) {
+      if (c.f === fac) cards[id] = c.n;
+      else if (c.f === 'ne' && c.row !== 'x') cards[id] = 1;
+    }
+    Object.assign(cards, { frost: 1, fog: 1, rain: 1, clear: 1, horn: 2, scorch: 1, decoy: 2 });
+    return { lead: fac + '_lead_a', cards };
+  }
+  function gwDecks() { try { return JSON.parse(localStorage.getItem('raadspel-gwint-decks')) || {}; } catch (e) { return {}; } }
+  function gwDeck(fac) { return gwDecks()[fac] || gwDefaultDeck(fac); }
+  function gwSaveDeck(fac, deck) { const all = gwDecks(); all[fac] = deck; try { localStorage.setItem('raadspel-gwint-decks', JSON.stringify(all)); } catch (e) {} }
+  function gwDeckCount(deck) {
+    let units = 0, specials = 0;
+    for (const [id, n] of Object.entries(deck.cards)) { if (GW_CARDS[id].row === 'x') specials += n; else units += n; }
+    return { units, specials, ok: units >= 22 && specials <= 10 };
+  }
+  const gwDeckList = deck => Object.entries(deck.cards).flatMap(([id, n]) => Array(n).fill(id));
+
+  // --- the menu ---
+  function gwintMenu() {
+    gw.ready = {};
+    $('gwDogBox').hidden = mode === 'together';
+    $('gwMenuBack').textContent = mode === 'solo' ? '← Ander spel' : '← Ander spel';
+    gwMenuDraw();
+    show('gwintMenu');
+  }
+  function gwMenuDraw() {
+    document.querySelectorAll('#gwLook button').forEach(b => b.classList.toggle('on', b.dataset.look === gw.look));
+    document.querySelectorAll('#gwDog button').forEach(b => b.classList.toggle('on', Number(b.dataset.smart) === gw.smart));
+    $('gwFacs').innerHTML = ['nr', 'nf', 'st', 'mo'].map(f => `<button data-fac="${f}" class="gw-fac${gw.fac === f ? ' on' : ''}" style="--fc:${GW_FAC[f][2]}">
+      <img src="${gwImg(gwDeck(f).lead)}" alt=""><b>${gwFacName(f)}</b><small>${GW_PERK[f]}</small></button>`).join('');
+    const n = gwDeckCount(gwDeck(gw.fac));
+    $('gwDeckInfo').textContent = n.ok ? `Eenheden: ${n.units} · Speciaal: ${n.specials}` : `Je deck klopt nog niet: minstens 22 eenheden en hoogstens 10 speciale kaarten.`;
+    $('gwGo').disabled = !n.ok;
+  }
+
+  function gwGo() {
+    const deck = gwDeck(gw.fac), mine = { id: myId, name: myName || 'Jij', fac: gw.fac, lead: deck.lead, deck: gwDeckList(deck) };
+    if (mode === 'together') {
+      gw.ready[myId] = mine;
+      send('gwReady', mine);
+      $('gwDeckInfo').textContent = `Wachten tot ${other.name} klaar is…`;
+      return gwMaybeDeal();
+    }
+    // against the dog: a random other faction with its standard deck
+    const fac = shuffle(['nr', 'nf', 'st', 'mo'].filter(f => f !== gw.fac))[0], d = gwDefaultDeck(fac);
+    d.lead = fac + (Math.random() < .5 ? '_lead_a' : '_lead_b');
+    const st = gwNewState([mine, { id: 'dog', name: 'Hondje', dog: true, fac, lead: d.lead, deck: gwDeckList(d) }]);
+    gwShow(st);
+  }
+
+  function gwMaybeDeal() {
+    if (!iAmHost || !other || !gw.ready[myId] || !gw.ready[other.id]) return;
+    const st = gwNewState([gw.ready[myId], gw.ready[other.id]]);
+    gwShow(st); gwSend();
+  }
+
+  function gwSend() { if (mode === 'together') send('gwstate', { st: gw.st }); }
+  function gwReceive(st) {
+    const old = gw.st;
+    if (old && old.id === st.id && (st.v || 0) <= (old.v || 0)) return;
+    gwShow(st);
+  }
+  setInterval(() => { if (mode === 'together' && channel && screen === 'gwint' && gw.st) transmit({ type: 'gwv', from: myId, gid: gw.st.id, v: gw.st.v || 0 }); }, 4000);
+
+  function gwShow(st) {
+    gw.st = st; gw.me = st.p.findIndex(P => P.id === myId); gw.sel = null; gw.medic = false; gw.busy = false;
+    if (st.phase !== 'redraw') gw.redrawLocal = null;
+    show('gwint');
+    gwRender();
+    gwPopLast();
+    gwRoundBanner();
+    gwAfter();
+  }
+
+  // Something to do now? (the dog's turn, the end)
+  function gwAfter() {
+    const st = gw.st;
+    if (st.over) return gwGameOver();
+    if (st.phase === 'redraw' && st.p.every(P => P.ready) && (mode !== 'together' || iAmHost)) { gwStartPlay(st); st.v++; gwSend(); return gwRender(), gwAfter(); }
+    if (st.phase === 'choose' && st.p[st.chooser].dog && st.runner === myId) { st.first = gwOther(st.chooser); st.turn = st.first; st.phase = 'play'; st.v++; gwSend(); return gwRender(), gwAfter(); }
+    if (st.phase === 'play' && st.p[st.turn].dog && st.runner === myId && !gw.busy) {
+      gw.busy = true;
+      setTimeout(() => {
+        gw.busy = false;
+        if (gw.st !== st || st.over || !st.p[st.turn].dog) return;
+        const m = gwAiMove(st, st.turn), pi = st.turn;
+        if (m.pass) gwPass(st, pi); else { gwAiApply(st, pi, m); gwNextTurn(st, pi); }
+        st.v++;
+        gwShow(st);
+      }, 1400);
+    }
+  }
+
+  // --- drawing the board ---
+  function gwCardHtml(st, uid, side, row, cls = '') {
+    const c = gwC(st, uid), cid = st.cards[uid];
+    let s = '';
+    if (c.row !== 'x' && c.ab !== 'decoy') {
+      const now = row ? gwStr(st, side, row, uid) : c.str;
+      s = `<b class="gw-s${c.hero ? ' hero' : now > c.str ? ' up' : now < c.str ? ' down' : ''}">${now}</b>`;
+    }
+    const ab = c.hero ? '⭐' : c.ab ? (GW_AB[c.ab === 'horn' && c.row === 'x' ? 'hornX' : c.ab] || [''])[0] : c.row === 'a' ? '↔️' : '';
+    return `<div class="gw-c ${cls}" data-uid="${uid}"><img src="${gwImg(cid)}" alt="" loading="lazy">${s}${ab ? `<i>${ab}</i>` : ''}</div>`;
+  }
+
+  function gwPlayerBar(st, pi) {
+    const P = st.p[pi], mine = pi === gw.me, turn = st.phase === 'play' && st.turn === pi && !st.over;
+    const leadOk = mine && turn && gwLeaderOk(st, pi);
+    return `<div class="gw-bar${turn ? ' turn' : ''}" style="--fc:${GW_FAC[P.fac][2]}">
+      <button class="gw-lead${P.leadUsed ? ' used' : ''}${leadOk ? ' ok' : ''}" data-lead="${pi}"><img src="${gwImg(P.lead)}" alt=""></button>
+      <div class="gw-who"><b>${P.dog ? '🐶 ' : ''}${mine ? 'Jij' : P.name}</b><small><span>${gwFacName(P.fac)}</span> · ${'❤️'.repeat(P.lives)}${'🖤'.repeat(2 - P.lives)} · 🂠 ${P.hand.length}${P.passed ? ' · Gepast' : ''}</small></div>
+      <b class="gw-total">${gwTotal(st, pi)}</b>
+      ${mine && turn && !gw.medic ? `<button class="gw-pass" data-pass>Passen</button>` : ''}
+    </div>`;
+  }
+
+  function gwRowHtml(st, side, row, targets) {
+    const P = st.p[side], wet = st.weather.some(w => GW_WEATHER_ROW[st.cards[w.uid]] === row);
+    const hornCard = P.horn[row], horned = hornCard || P.rows[row].some(u => gwC(st, u).ab === 'horn');
+    const tgt = targets.rows.has(side + row);
+    const cards = P.rows[row].map(u => gwCardHtml(st, u, side, row, targets.units.has(u) ? 'tgt' : '')).join('');
+    return `<div class="gw-row${wet ? ' wet ' + row : ''}${tgt ? ' tgt' : ''}" data-side="${side}" data-row="${row}">
+      <span class="gw-ri">${GW_ROW_ICON[row]}${horned ? '<em>📯</em>' : ''}</span><div class="gw-cards${P.rows[row].length > 6 ? ' tight' : ''}">${cards}</div><b class="gw-rt">${gwRowTotal(st, side, row)}</b></div>`;
+  }
+
+  // What the chosen hand card may go to
+  function gwSelTargets() {
+    const st = gw.st, t = { rows: new Set(), units: new Set(), any: false };
+    if (gw.sel === null || st.phase !== 'play' || st.turn !== gw.me) return t;
+    const c = gwC(st, gw.sel);
+    for (const x of gwTargets(st, gw.me, gw.sel)) {
+      if (x.unit) t.units.add(x.unit);
+      else if (x.row === 'any') t.any = true;
+      else t.rows.add((c.ab === 'spy' ? gwOther(gw.me) : gw.me) + x.row);
+    }
+    return t;
+  }
+
+  function gwRender() {
+    const st = gw.st, me = gw.me, op = gwOther(me), t = gwSelTargets();
+    if (gw.sel === null) $('gwSelInfo').hidden = true;
+    const weather = st.weather.map(w => GW_AB[st.cards[w.uid]][0]).join(' ');
+    let status = '';
+    if (st.over) status = '';
+    else if (st.phase === 'redraw') status = st.p[me].ready ? `Wachten op ${st.p[op].name}…` : `Wissel kaarten die je niet wilt (nog ${(gw.redrawLocal || st.p[me]).redraws}).`;
+    else if (st.phase === 'choose') status = st.chooser === me ? 'Jouw volk mag kiezen: wie begint?' : `${st.p[st.chooser].name} kiest wie er begint…`;
+    else if (gw.medic) status = 'Kies een kaart uit je aflegstapel.';
+    else status = st.turn === me ? 'Jij bent aan de beurt!' : `${st.p[op].dog ? '🐶 ' : ''}${st.p[op].name} is aan de beurt…`;
+    $('gwBoard').innerHTML = gwPlayerBar(st, op) + ['s', 'r', 'm'].map(r => gwRowHtml(st, op, r, t)).join('') +
+      `<div class="gw-mid"><span>Ronde ${st.round}</span><span class="gw-weather">${weather}</span><span>${status}</span></div>` +
+      ['m', 'r', 's'].map(r => gwRowHtml(st, me, r, t)).join('') + gwPlayerBar(st, me);
+    // the hand (or the swapping at the start)
+    const hand = st.phase === 'redraw' ? (gw.redrawLocal || st.p[me]).hand : st.p[me].hand;
+    const sorted = hand.slice().sort((a, b) => (gwC(st, a).row === 'x') - (gwC(st, b).row === 'x') || gwC(st, b).str - gwC(st, a).str);
+    $('gwHand').innerHTML = sorted.map(u => `<div class="gw-hc${gw.sel === u ? ' sel' : ''}" data-hand="${u}">${gwCardHtml(st, u, me, null)}<small>${gwName(st.cards[u])}</small></div>`).join('');
+    let tools = '';
+    if (st.phase === 'redraw' && !st.p[me].ready) tools = `<button class="go" data-redraw-done>✅ Klaar met wisselen</button>`;
+    if (st.phase === 'choose' && st.chooser === me) tools = `<button class="go" data-first="me">Ik begin</button><button data-first="op">${st.p[op].name} begint</button>`;
+    $('gwTools').innerHTML = tools;
+  }
+
+  // The big card with its explanation, and what you can do with it
+  function gwDetail(cid, isLead, buttons) {
+    const c = isLead ? null : GW_CARDS[cid];
+    const lines = [];
+    if (isLead) lines.push(`👑 Leider: ${GW_LEAD_TXT[GW_LEADERS[cid].ab]}`);
+    else {
+      if (c.row !== 'x') lines.push(`${c.row === 'a' ? '⚔️/🏹' : GW_ROW_ICON[c.row]} ${c.ab === 'decoy' ? '' : 'Kracht ' + c.str}`);
+      if (c.hero) lines.push(GW_AB.hero.join(' '));
+      if (c.ab) lines.push((GW_AB[c.ab === 'horn' && c.row === 'x' ? 'hornX' : c.ab] || ['', '']).join(' '));
+      if (c.row === 'a') lines.push(GW_AB.agile.join(' '));
+    }
+    $('gwDetail').innerHTML = `<div class="gw-big"><img src="${gwImg(cid)}" alt=""><b>${gwName(cid)}</b>${lines.map(l => `<p>${l}</p>`).join('')}<div class="kt-row">${buttons || ''}<button data-close>Sluiten</button></div></div>`;
+    $('gwDetail').hidden = false;
+  }
+
+  // The card the other player just played pops up
+  function gwPopLast() {
+    const st = gw.st, L = st.last;
+    if (!L || L.by === gw.me || gw.shownV === st.id + st.v) return;
+    gw.shownV = st.id + st.v;
+    const P = st.p[L.by];
+    const what = L.pass ? '<span class="big">✋ Gepast</span>' : `<img src="${gwImg(L.cid || L.lead)}" alt=""><span class="lbl">${gwName(L.cid || L.lead)}</span>`;
+    document.querySelectorAll('.wv-pop').forEach(e => e.remove());
+    const pop = document.createElement('div'); pop.className = 'wv-pop gw-pop';
+    pop.innerHTML = `<span class="who">${P.dog ? '🐶 ' : ''}${P.name}</span>${what}`;
+    pop.addEventListener('click', () => pop.remove());
+    $('gwint').appendChild(pop);
+    setTimeout(() => pop.classList.add('bye'), 1500); setTimeout(() => pop.remove(), 1900);
+    blip(520);
+    if (st.peek && st.peek.by === gw.me) { const p = st.peek; st.peek = null; setTimeout(() => gwPeek(p.cards), 300); }
+  }
+  function gwPeek(cids) {
+    $('gwDetail').innerHTML = `<div class="gw-big"><b>Kaarten van de tegenstander</b><div class="gw-peek">${cids.map(c => `<div><img src="${gwImg(c)}" alt=""><small>${gwName(c)}</small></div>`).join('')}</div><div class="kt-row"><button data-close>Sluiten</button></div></div>`;
+    $('gwDetail').hidden = false;
+  }
+
+  function gwRoundBanner() {
+    const st = gw.st;
+    if (st.rounds.length <= gw.shownRound) return;
+    gw.shownRound = st.rounds.length;
+    const r = st.rounds[st.rounds.length - 1], me = gw.me, op = gwOther(me);
+    const text = r.win === me ? '🎉 Jij wint de ronde!' : r.win === op ? `${st.p[op].name} wint de ronde.` : '🤝 Gelijk: allebei een leven kwijt.';
+    const ban = document.createElement('div'); ban.className = 'gw-banner';
+    ban.innerHTML = `<b>Ronde ${st.rounds.length}</b><span>${text}</span><span class="gw-score">${r.tot[me]} : ${r.tot[op]}</span>`;
+    ban.addEventListener('click', () => ban.remove());
+    $('gwint').appendChild(ban); setTimeout(() => ban.remove(), 2600);
+    if (r.win === me) blip(880); else blip(300);
+  }
+
+  function gwGameOver() {
+    const st = gw.st, w = st.over.win;
+    $('gwEnd').hidden = false;
+    const msg = w === gw.me ? '🏆 Jij wint het spel!' : w === -1 ? '🤝 Gelijkspel!' : `${st.p[w].name} wint het spel.`;
+    $('gwStatusEnd').textContent = msg;
+    if (w === gw.me) { confetti(); winSound(); }
+  }
+
+  // --- my moves ---
+  function gwMyMove(fn) {
+    const st = gw.st;
+    const r = fn(st);
+    if (r === 'medic') { gw.medic = true; gwRender(); return gwMedicPick(); }
+    gw.sel = null; gw.medic = false;
+    gwNextTurn(st, gw.me);
+    st.v++;
+    gwSend(); gwShow(st);
+  }
+
+  function gwMedicPick() {
+    const st = gw.st, opts = gwMedicOptions(st, gw.me);
+    if (!opts.length) { gw.medic = false; gwNextTurn(st, gw.me); st.v++; gwSend(); return gwShow(st); }
+    $('gwDetail').innerHTML = `<div class="gw-big"><b>➕ Kies een kaart om terug te halen</b><div class="gw-peek">${opts.map(u => `<div data-revive="${u}">${gwCardHtml(st, u, gw.me, null)}<small>${gwName(st.cards[u])}</small></div>`).join('')}</div></div>`;
+    $('gwDetail').hidden = false;
+  }
+
+  function gwTapHand(uid) {
+    const st = gw.st;
+    if (st.phase === 'redraw') {
+      const L = gw.redrawLocal || (gw.redrawLocal = { hand: st.p[gw.me].hand.slice(), deck: st.p[gw.me].deck.slice(), redraws: st.p[gw.me].redraws });
+      if (st.p[gw.me].ready || L.redraws <= 0) return;
+      // the card goes back into the pile at a random place, a new one comes from the top
+      L.hand = L.hand.filter(u => u !== uid); L.deck.splice(Math.floor(Math.random() * (L.deck.length + 1)), 0, uid);
+      L.hand.push(L.deck.pop()); L.redraws--; blip(500);
+      return gwRender();
+    }
+    if (st.phase !== 'play' || st.turn !== gw.me || gw.medic) return gwDetail(st.cards[uid]);
+    gw.sel = gw.sel === uid ? null : uid;
+    gwRender();
+    $('gwDetail').hidden = true;
+    if (gw.sel !== null) {
+      const t = gwSelTargets();
+      // cards for the whole field (weather, scorch) are played from the big card; the others by tapping a row or unit
+      if (t.any) gwDetail(st.cards[uid], false, `<button class="go" data-play-any>▶️ Speel</button>`);
+      else gwSelInfo(uid, t);
+    }
+  }
+
+  // A small bar above the hand: which card is chosen and what to tap (the rows stay free to tap)
+  function gwSelInfo(uid, t) {
+    const st = gw.st, c = gwC(st, uid), ab = c.hero ? 'hero' : c.ab === 'horn' && c.row === 'x' ? 'hornX' : c.ab;
+    $('gwSelInfo').innerHTML = `<b>${gwName(st.cards[uid])}</b><i>${ab && GW_AB[ab] ? GW_AB[ab][0] : ''}</i><span>${t.units.size ? 'Tik op een eenheid die oplicht.' : 'Tik op een rij die oplicht.'}</span><button data-info="${uid}">ℹ️</button>`;
+    $('gwSelInfo').hidden = false;
+  }
+
+  function gwRedrawDone() {
+    const st = gw.st, me = gw.me, L = gw.redrawLocal;
+    if (L) { st.p[me].hand = L.hand; st.p[me].deck = L.deck; st.p[me].redraws = L.redraws; }
+    st.p[me].ready = true; gw.redrawLocal = null;
+    if (mode === 'together' && !iAmHost) { send('gwRedraw', { pi: me, hand: st.p[me].hand, deck: st.p[me].deck }); return gwRender(); }
+    st.v++; gwSend(); gwShow(st);
+  }
+
+  // --- the deck builder ---
+  function gwDeckScreen() {
+    gw.deckFac = gw.fac;
+    show('gwintDeck'); gwDeckDraw();
+  }
+  function gwDeckDraw() {
+    const fac = gw.deckFac, deck = gwDeck(fac), n = gwDeckCount(deck);
+    $('gwDeckFacs').innerHTML = ['nr', 'nf', 'st', 'mo'].map(f => `<button data-dfac="${f}" class="${fac === f ? 'on' : ''}">${gwFacName(f)}</button>`).join('');
+    $('gwDeckLeads').innerHTML = [fac + '_lead_a', fac + '_lead_b'].map(l => `<button data-dlead="${l}" class="gw-dl${deck.lead === l ? ' on' : ''}"><img src="${gwImg(l)}" alt=""><b>${gwName(l)}</b><small>${GW_LEAD_TXT[GW_LEADERS[l].ab]}</small></button>`).join('');
+    $('gwDeckCount').textContent = `Eenheden: ${n.units} (minstens 22) · Speciaal: ${n.specials} (hoogstens 10)`;
+    $('gwDeckCount').classList.toggle('bad', !n.ok);
+    const ids = Object.keys(GW_CARDS).filter(id => GW_CARDS[id].f === fac || GW_CARDS[id].f === 'ne');
+    ids.sort((a, b) => (GW_CARDS[a].row === 'x') - (GW_CARDS[b].row === 'x') || GW_CARDS[b].str - GW_CARDS[a].str);
+    $('gwDeckList').innerHTML = ids.map(id => {
+      const c = GW_CARDS[id], have = deck.cards[id] || 0;
+      const ab = c.hero ? '⭐' : c.ab ? (GW_AB[c.ab === 'horn' && c.row === 'x' ? 'hornX' : c.ab] || [''])[0] : '';
+      return `<div class="gw-dr${have ? '' : ' off'}"><img src="${gwImg(id)}" alt="" loading="lazy"><div><b>${gwName(id)}</b><small>${c.row === 'x' ? '' : (c.row === 'a' ? '⚔️/🏹' : GW_ROW_ICON[c.row]) + ' ' + c.str} ${ab}</small></div>
+        <button data-dminus="${id}">−</button><span>${have}/${c.n}</span><button data-dplus="${id}">+</button></div>`;
+    }).join('');
+  }
+
+  function gwLeave() {
+    gw.st = null; $('gwDetail').hidden = true;
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  // --- wiring ---
+  $('soloGwint').addEventListener('click', () => { mode = 'solo'; gwintMenu(); });
+  $('lobbyGwint').addEventListener('click', gwintMenu);
+  $('gwLook').addEventListener('click', e => { const b = e.target.closest('[data-look]'); if (!b) return; gw.look = b.dataset.look; try { localStorage.setItem('raadspel-gwint-look', gw.look); } catch (x) {} gwMenuDraw(); });
+  $('gwDog').addEventListener('click', e => { const b = e.target.closest('[data-smart]'); if (b) { gw.smart = Number(b.dataset.smart); gwMenuDraw(); } });
+  $('gwFacs').addEventListener('click', e => { const b = e.target.closest('[data-fac]'); if (!b) return; gw.fac = b.dataset.fac; try { localStorage.setItem('raadspel-gwint-fac', gw.fac); } catch (x) {} gwMenuDraw(); });
+  $('gwGo').addEventListener('click', gwGo);
+  $('gwDeckBtn').addEventListener('click', gwDeckScreen);
+  $('gwRulesBtn').addEventListener('click', () => { $('gwRules').hidden = !$('gwRules').hidden; });
+  $('gwMenuBack').addEventListener('click', gwLeave);
+  $('gwDeckBack').addEventListener('click', gwintMenu);
+  $('gwDeckReset').addEventListener('click', () => { gwSaveDeck(gw.deckFac, gwDefaultDeck(gw.deckFac)); gwDeckDraw(); });
+  $('gwintDeck').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const d = b.dataset, fac = gw.deckFac, deck = gwDeck(fac);
+    if (d.dfac) { gw.deckFac = d.dfac; return gwDeckDraw(); }
+    if (d.dlead) { deck.lead = d.dlead; gwSaveDeck(fac, deck); return gwDeckDraw(); }
+    if (d.dplus) { const c = GW_CARDS[d.dplus]; deck.cards[d.dplus] = Math.min(c.n, (deck.cards[d.dplus] || 0) + 1); gwSaveDeck(fac, deck); return gwDeckDraw(); }
+    if (d.dminus) { deck.cards[d.dminus] = Math.max(0, (deck.cards[d.dminus] || 0) - 1); if (!deck.cards[d.dminus]) delete deck.cards[d.dminus]; gwSaveDeck(fac, deck); return gwDeckDraw(); }
+  });
+  $('gwHand').addEventListener('click', e => { const h = e.target.closest('[data-hand]'); if (h) gwTapHand(h.dataset.hand); });
+  $('gwSelInfo').addEventListener('click', e => { const b = e.target.closest('[data-info]'); if (b) gwDetail(gw.st.cards[b.dataset.info]); });
+  $('gwTools').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.redrawDone !== undefined) return gwRedrawDone();
+    if (b.dataset.first) {
+      const st = gw.st; st.first = b.dataset.first === 'me' ? gw.me : gwOther(gw.me); st.turn = st.first; st.phase = 'play'; st.v++; gwSend(); gwShow(st);
+    }
+  });
+  $('gwBoard').addEventListener('click', e => {
+    const st = gw.st; if (!st) return;
+    const lead = e.target.closest('[data-lead]');
+    if (lead) {
+      const pi = Number(lead.dataset.lead), P = st.p[pi], ok = pi === gw.me && st.phase === 'play' && st.turn === gw.me && gwLeaderOk(st, gw.me) && !gw.medic;
+      return gwDetail(P.lead, true, ok ? `<button class="go" data-use-lead>👑 Gebruiken</button>` : (P.leadUsed ? '<span class="gw-hint">Al gebruikt.</span>' : ''));
+    }
+    if (e.target.closest('[data-pass]')) { $('gwDetail').hidden = true; return gwMyMove(s => { gwPass(s, gw.me); return null; }), void 0; }
+    if (gw.sel === null) { const c = e.target.closest('[data-uid]'); if (c) gwDetail(st.cards[c.dataset.uid]); return; }
+    const t = gwSelTargets(), unit = e.target.closest('[data-uid]'), row = e.target.closest('[data-row]');
+    if (unit && t.units.has(unit.dataset.uid)) {
+      const r = row.dataset.row, uid = gw.sel;
+      $('gwDetail').hidden = true;
+      return gwMyMove(s => gwPlay(s, gw.me, uid, { unit: unit.dataset.uid, row: r }));
+    }
+    if (row && t.rows.has(row.dataset.side + row.dataset.row)) {
+      const uid = gw.sel, r = row.dataset.row;
+      $('gwDetail').hidden = true;
+      return gwMyMove(s => gwPlay(s, gw.me, uid, { row: r }));
+    }
+  });
+  $('gwDetail').addEventListener('click', e => {
+    const b = e.target.closest('button, [data-revive]');
+    if (!b) { if (e.target === $('gwDetail') && !gw.medic) $('gwDetail').hidden = true; return; }
+    if (b.dataset.close !== undefined) { $('gwDetail').hidden = true; if (!gw.medic && gwSelTargets().any) { gw.sel = null; gwRender(); } return; }
+    if (b.dataset.playAny !== undefined) { const uid = gw.sel; $('gwDetail').hidden = true; return gwMyMove(s => gwPlay(s, gw.me, uid, { row: 'any' })); }
+    if (b.dataset.useLead !== undefined) { $('gwDetail').hidden = true; return gwMyMove(s => { gwLeader(s, gw.me); return null; }); }
+    if (b.dataset.revive) { $('gwDetail').hidden = true; const u = b.dataset.revive; return gwMyMove(s => gwRevive(s, gw.me, u)); }
+  });
+  $('gwAgain').addEventListener('click', () => { $('gwEnd').hidden = true; gwintMenu(); });
+  $('gwBack').addEventListener('click', gwLeave);
 
   greet();
   show('welcome');
