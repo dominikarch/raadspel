@@ -559,7 +559,7 @@
   .cd-tabs { grid-template-columns: repeat(5, 1fr); }
   .cd-group { display: inline-flex; flex-direction: column; align-items: center; background: var(--card); border-radius: 14px; padding: 4px 6px 6px; }
   .cd-group small { font-weight: 700; font-size: .85rem; }
-  .cd-group > div { display: flex; gap: 4px; }
+  .cd-group > div { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
   .cd-group button { padding: 4px; }
   .cd-group .pk-thumb { width: 66px; height: 84px; }
   .cd-group { background: var(--key); }
@@ -8236,7 +8236,7 @@
 
   const CD_TABS = [['back', '🖼️', 'Kaart'], ['styles', '🎨', 'Figuren'], ['monsters', '👾', 'Monsters'], ['stickers', '🎈', 'Stickers'], ['words', '🔤', 'Tekst']];
   // The same characters drawn in different styles (Nano Banana Pro), so you can see which style you like
-  const CD_STYLES = [['real', 'Echt', ['girl', 'cat']], ['3d', '3D', ['girl', 'wolf']], ['comic', 'Strip', ['girl', 'wolf']], ['cartoon', 'Tekenfilm', ['girl', 'wolf']],
+  const CD_STYLES = [['real', 'Echt', ['girl', 'vampire', 'mummy', 'giant', 'invisible', 'cat']], ['3d', '3D', ['girl', 'wolf']], ['comic', 'Strip', ['girl', 'wolf']], ['cartoon', 'Tekenfilm', ['girl', 'wolf']],
                      ['water', 'Waterverf', ['girl', 'wolf']], ['anime', 'Anime', ['girl', 'wolf']], ['clay', 'Klei', ['girl', 'wolf']], ['paper', 'Papier', ['girl', 'wolf']],
                      ['pixel', 'Pixels', ['girl', 'wolf']], ['poster', 'Oude poster', ['girl', 'wolf']]];
   function cdTools() {
