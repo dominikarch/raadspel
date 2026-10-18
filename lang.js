@@ -413,7 +413,8 @@ window.LANG_TEXTS = [
   // --- Monsterkaart ---
   ['💌 Monsterkaart', '💌 Kartka z potworem', '💌 Monster card'],
   ['Maak een kaart voor een verjaardag of Halloween', 'Zrób kartkę na urodziny albo na Halloween', 'Make a card for a birthday or Halloween'],
-  ['Kaart', 'Kartka', 'Card'], ['Monsters', 'Potwory', 'Monsters'], ['Tekst', 'Tekst', 'Words'], ['Mijn monster', 'Mój potwór', 'My monster'],
+  ['Kaart', 'Kartka', 'Card'], ['Figuren', 'Postacie', 'Characters'], ['Strip', 'Komiks', 'Comic'], ['Tekenfilm', 'Kreskówka', 'Cartoon'],
+  ['Waterverf', 'Akwarela', 'Watercolour'], ['Klei', 'Plastelina', 'Clay'], ['Papier', 'Papier', 'Paper'], ['Pixels', 'Piksele', 'Pixels'], ['Oude poster', 'Stary plakat', 'Old poster'], ['3D', '3D', '3D'], ['Anime', 'Anime', 'Anime'], ['Monsters', 'Potwory', 'Monsters'], ['Tekst', 'Tekst', 'Words'], ['Mijn monster', 'Mój potwór', 'My monster'],
   ['✏️ Zelf typen', '✏️ Napisz sam', '✏️ Type it yourself'], ['Wat wil je schrijven?', 'Co chcesz napisać?', 'What do you want to write?'],
   ['📸 Je kaart is klaar!', '📸 Twoja kartka jest gotowa!', '📸 Your card is ready!'],
   ['Gefeliciteerd!', 'Wszystkiego najlepszego!', 'Congratulations!'], ['Fijne verjaardag, monster!', 'Wesołych urodzin, potworze!', 'Happy birthday, monster!'],

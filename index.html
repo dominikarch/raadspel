@@ -556,7 +556,13 @@
   .kt-book-row { display: flex; gap: 10px; align-items: center; text-align: left; padding: 8px; border-bottom: 1px solid var(--key); }
   /* Monsterkaart */
   #cdCanvas { width: 100%; max-width: 420px; aspect-ratio: 3 / 4; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; box-shadow: 0 6px 20px var(--shadow); }
-  .cd-tabs { grid-template-columns: repeat(4, 1fr); }
+  .cd-tabs { grid-template-columns: repeat(5, 1fr); }
+  .cd-group { display: inline-flex; flex-direction: column; align-items: center; background: var(--card); border-radius: 14px; padding: 4px 6px 6px; }
+  .cd-group small { font-weight: 700; font-size: .85rem; }
+  .cd-group > div { display: flex; gap: 4px; }
+  .cd-group button { padding: 4px; }
+  .cd-group .pk-thumb { width: 66px; height: 84px; }
+  .cd-group { background: var(--key); }
   .cd-thumb { width: 60px; height: 80px; object-fit: cover; border-radius: 8px; display: block; }
   .palette .cd-word { font-size: 1rem; font-weight: 700; padding: 8px 10px; }
   #mjCanvas { width: 100%; display: block; touch-action: manipulation; }
@@ -8228,7 +8234,11 @@
 
   function cdSel() { $('cdSel').hidden = cd.sel < 0; }
 
-  const CD_TABS = [['back', '🖼️', 'Kaart'], ['monsters', '👾', 'Monsters'], ['stickers', '🎈', 'Stickers'], ['words', '🔤', 'Tekst']];
+  const CD_TABS = [['back', '🖼️', 'Kaart'], ['styles', '🎨', 'Figuren'], ['monsters', '👾', 'Monsters'], ['stickers', '🎈', 'Stickers'], ['words', '🔤', 'Tekst']];
+  // The same characters drawn in different styles (Nano Banana Pro), so you can see which style you like
+  const CD_STYLES = [['real', 'Echt', ['girl', 'cat']], ['3d', '3D', ['girl', 'wolf']], ['comic', 'Strip', ['girl', 'wolf']], ['cartoon', 'Tekenfilm', ['girl', 'wolf']],
+                     ['water', 'Waterverf', ['girl', 'wolf']], ['anime', 'Anime', ['girl', 'wolf']], ['clay', 'Klei', ['girl', 'wolf']], ['paper', 'Papier', ['girl', 'wolf']],
+                     ['pixel', 'Pixels', ['girl', 'wolf']], ['poster', 'Oude poster', ['girl', 'wolf']]];
   function cdTools() {
     $('cdTabs').innerHTML = CD_TABS.map(([k, e, n]) => `<button data-tab="${k}" class="${cd.tab === k ? 'on' : ''}"><span>${e}</span>${n}</button>`).join('');
     let html = '';
@@ -8236,6 +8246,8 @@
     if (cd.tab === 'monsters') html = CD_MONSTERS.map(k => k === 'mine'
       ? (mbLoad() ? `<button data-mon="mine"><span class="emo">⭐</span><small>Mijn monster</small></button>` : '')
       : `<button data-mon="${k}"><img src="pompoen/${k}.webp" alt="" class="pk-thumb"></button>`).join('');
+    if (cd.tab === 'styles') html = CD_STYLES.map(([k, name, who]) => `<div class="cd-group"><small>${name}</small><div>${who.map(c =>
+      `<button data-mon="ch-${k}-${c}"><img src="pompoen/ch-${k}-${c}.webp" alt="" class="pk-thumb"></button>`).join('')}</div></div>`).join('');
     if (cd.tab === 'stickers') html = CD_EMOJI.map(e => `<button data-emoji="${e}"><span class="emo">${e}</span></button>`).join('');
     if (cd.tab === 'words') html = CD_INKS.map(c => `<button data-ink="${c}" class="${cd.ink === c ? 'on' : ''}"><div class="swatch" style="background:${c};outline:1px solid #ccc"></div></button>`).join('') +
       '<span class="row-break"></span>' + CD_WORDS.map(w => `<button data-word="${w}" class="cd-word">${w}</button>`).join('') +
@@ -8288,7 +8300,7 @@
     const b = e.target.closest('button'); if (!b) return;
     const d = b.dataset;
     if (d.back) { cdRemember(); cd.back = d.back; cdSave(); cdTools(); return cdDraw(); }
-    if (d.mon) return cdAdd({ t: 'pic', k: d.mon, s: d.mon.startsWith('s-') ? .7 : 1 });
+    if (d.mon) return cdAdd({ t: 'pic', k: d.mon, s: d.mon.startsWith('s-') ? .7 : d.mon.startsWith('ch-') ? .9 : 1 });
     if (d.emoji) return cdAdd({ t: 'pic', e: d.emoji, s: .8 });
     if (d.ink) { cd.ink = d.ink; const it = cd.items[cd.sel]; if (it && it.t === 'tx') { it.ink = d.ink; cdDraw(); } cdSave(); return cdTools(); }
     if (d.word) return cdAdd({ t: 'tx', text: d.word, ink: cd.ink, y: 140, x: CD_W / 2, s: d.word.length > 18 ? .8 : 1 });
