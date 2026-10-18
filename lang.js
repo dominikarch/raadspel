@@ -948,7 +948,6 @@ window.LANG_TEXTS = [
   ['Racen!', 'Ścigamy się!', 'Race!'],
   ['Racebaan', 'Tor wyścigowy', 'Race track'],
   ['Links', 'W lewo', 'Left'], ['Rechts', 'W prawo', 'Right'], ['Item gebruiken', 'Użyj przedmiotu', 'Use item'], ['Remmen', 'Hamuj', 'Brake'],
-  ['Pijltjes of W A S D: gas en sturen. Spatie: je item gebruiken.', 'Strzałki albo W A S D: gaz i skręcanie. Spacja: użyj przedmiotu.', 'Arrows or W A S D: speed and steering. Space: use your item.'],
   ['🏎️ Andere coureur', '🏎️ Inny kierowca', '🏎️ Other driver'],
   ['Ronde {0}/{1}', 'Okrążenie {0}/{1}', 'Lap {0}/{1}'],
   ['Plaats {0} van 4', 'Miejsce {0} z 4', 'Place {0} of 4'],
@@ -959,6 +958,11 @@ window.LANG_TEXTS = [
   ['Plaats {0} van 4. Tijd {1}.', 'Miejsce {0} z 4. Czas {1}.', 'Place {0} of 4. Time {1}.'],
   ['🏆 Nieuwe snelste tijd!', '🏆 Nowy najlepszy czas!', '🏆 New fastest time!'],
   ['Klaar?', 'Gotowi?', 'Ready?'], ['GO!', 'START!', 'GO!'],
+  ['Muurtjes langs de weg?', 'Murki przy drodze?', 'Walls along the road?'],
+  ['🧱 Ja, ik blijf op de weg', '🧱 Tak, zostaję na drodze', '🧱 Yes, I stay on the road'],
+  ['🌿 Nee, gras', '🌿 Nie, trawa', '🌿 No, grass'],
+  ['Pijltjes of W A S D: gas en sturen. Spatie: je item gebruiken. Of sleep met de muis op de baan.', 'Strzałki albo W A S D: gaz i skręcanie. Spacja: użyj przedmiotu. Albo przeciągnij myszką po torze.', 'Arrows or W A S D: speed and steering. Space: use your item. Or drag with the mouse on the track.'],
+  ['Zet je duim op de baan en schuif hem waar je heen wilt. Hoe verder, hoe sneller.', 'Połóż kciuk na torze i przesuń go tam, dokąd chcesz jechać. Im dalej, tym szybciej.', 'Put your thumb on the track and slide it where you want to go. The further, the faster.'],
 ];
 
 // --- The translator. Dutch (the games' own language) leaves the page untouched. For Polish or English every text the

@@ -963,7 +963,6 @@ window.LANG_TEXTS = [
   ['Racen!', 'Ścigamy się!', 'Race!'],
   ['Racebaan', 'Tor wyścigowy', 'Race track'],
   ['Links', 'W lewo', 'Left'], ['Rechts', 'W prawo', 'Right'], ['Item gebruiken', 'Użyj przedmiotu', 'Use item'], ['Remmen', 'Hamuj', 'Brake'],
-  ['Pijltjes of W A S D: gas en sturen. Spatie: je item gebruiken.', 'Strzałki albo W A S D: gaz i skręcanie. Spacja: użyj przedmiotu.', 'Arrows or W A S D: speed and steering. Space: use your item.'],
   ['🏎️ Andere coureur', '🏎️ Inny kierowca', '🏎️ Other driver'],
   ['Ronde {0}/{1}', 'Okrążenie {0}/{1}', 'Lap {0}/{1}'],
   ['Plaats {0} van 4', 'Miejsce {0} z 4', 'Place {0} of 4'],
@@ -974,6 +973,11 @@ window.LANG_TEXTS = [
   ['Plaats {0} van 4. Tijd {1}.', 'Miejsce {0} z 4. Czas {1}.', 'Place {0} of 4. Time {1}.'],
   ['🏆 Nieuwe snelste tijd!', '🏆 Nowy najlepszy czas!', '🏆 New fastest time!'],
   ['Klaar?', 'Gotowi?', 'Ready?'], ['GO!', 'START!', 'GO!'],
+  ['Muurtjes langs de weg?', 'Murki przy drodze?', 'Walls along the road?'],
+  ['🧱 Ja, ik blijf op de weg', '🧱 Tak, zostaję na drodze', '🧱 Yes, I stay on the road'],
+  ['🌿 Nee, gras', '🌿 Nie, trawa', '🌿 No, grass'],
+  ['Pijltjes of W A S D: gas en sturen. Spatie: je item gebruiken. Of sleep met de muis op de baan.', 'Strzałki albo W A S D: gaz i skręcanie. Spacja: użyj przedmiotu. Albo przeciągnij myszką po torze.', 'Arrows or W A S D: speed and steering. Space: use your item. Or drag with the mouse on the track.'],
+  ['Zet je duim op de baan en schuif hem waar je heen wilt. Hoe verder, hoe sneller.', 'Połóż kciuk na torze i przesuń go tam, dokąd chcesz jechać. Im dalej, tym szybciej.', 'Put your thumb on the track and slide it where you want to go. The further, the faster.'],
 ];
 
 // --- The translator. Dutch (the games' own language) leaves the page untouched. For Polish or English every text the
@@ -1640,13 +1644,18 @@ window.LANG_TEXTS = [
   .wm-asks.locked button { pointer-events: none; opacity: .4; }
   .mr-stage { position: relative; }
   #mrCanvas { display: block; width: 100%; height: min(62vh, 520px); border-radius: 16px; background: #2f5f2c; touch-action: none; }
-  .mr-touch { position: absolute; bottom: 10px; display: none; gap: 10px; }
-  .mr-touch.l { left: 10px; } .mr-touch.r { right: 10px; }
+  .mr-touch { position: absolute; bottom: 10px; right: 10px; display: flex; gap: 10px; }
+  .mr-joy { position: absolute; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; pointer-events: none;
+            background: rgba(255,246,220,.16); border: 3px solid rgba(255,246,220,.55); }
+  .mr-joy i { position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; margin: -27px 0 0 -27px; border-radius: 50%;
+              background: rgba(255,246,220,.85); box-shadow: 0 3px 8px rgba(0,0,0,.35); }
+  .mr-joy.idle { opacity: .55; }
   .mr-touch button { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,246,220,.22); border: 2px solid rgba(255,246,220,.55);
                      font-size: 1.6rem; color: #fff6dc; user-select: none; -webkit-user-select: none; touch-action: none; }
   .mr-touch button.on { background: rgba(155,225,93,.6); }
   .mr-help { color: var(--soft); font-size: .95rem; margin: 8px 0 0; }
-  @media (hover: none) { .mr-touch { display: flex; } .mr-help { display: none; } }
+  .mr-help.touch { display: none; }
+  @media (hover: none) { .mr-help { display: none; } .mr-help.touch { display: block; } }
   .mm-grid { display: grid; gap: 8px; }
   .mm-card { aspect-ratio: 1; border: none; padding: 0; background: none; perspective: 600px; cursor: pointer; min-width: 0; touch-action: manipulation; }
   .mm-in { position: relative; width: 100%; height: 100%; transition: transform .35s; transform-style: preserve-3d; }
@@ -1804,7 +1813,7 @@ window.LANG_TEXTS = [
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 18-10 10.55</p>
+    <p class="version" id="version">versie 18-10 11.05</p>
   </section>
 
   <!-- Naam -->
@@ -2475,6 +2484,8 @@ window.LANG_TEXTS = [
       <div class="wm-board" id="mrDrivers"></div>
       <p class="who" style="margin-top:14px">Hoe snel zijn de anderen?</p>
       <div class="rk-pick" id="mrLevel"><button data-mrl="easy">🐢 Rustig</button><button data-mrl="fast">🚀 Snel</button></div>
+      <p class="who" style="margin-top:14px">Muurtjes langs de weg?</p>
+      <div class="rk-pick" id="mrWalls"><button data-walls="1">🧱 Ja, ik blijf op de weg</button><button data-walls="0">🌿 Nee, gras</button></div>
       <p class="wait" id="mrBest"></p>
       <button class="again" id="mrGo">Racen!</button>
     </div>
@@ -2482,11 +2493,12 @@ window.LANG_TEXTS = [
       <div class="bricks-top"><span id="mrLap"></span><span id="mrPlace"></span></div>
       <div class="mr-stage">
         <canvas id="mrCanvas" aria-label="Racebaan"></canvas>
-        <div class="mr-touch l"><button data-k="left" aria-label="Links">◀</button><button data-k="right" aria-label="Rechts">▶</button></div>
-        <div class="mr-touch r"><button data-k="item" aria-label="Item gebruiken">?</button><button data-k="down" aria-label="Remmen">■</button></div>
+        <div class="mr-joy idle" id="mrJoy" hidden><i></i></div>
+        <div class="mr-touch"><button data-k="item" aria-label="Item gebruiken">?</button></div>
       </div>
       <p class="ttt-status" id="mrStatus"></p>
-      <p class="mr-help">Pijltjes of W A S D: gas en sturen. Spatie: je item gebruiken.</p>
+      <p class="mr-help">Pijltjes of W A S D: gas en sturen. Spatie: je item gebruiken. Of sleep met de muis op de baan.</p>
+      <p class="mr-help touch">Zet je duim op de baan en schuif hem waar je heen wilt. Hoe verder, hoe sneller.</p>
       <div class="ttt-end" id="mrEnd" hidden>
         <button class="again" id="mrAgain">Nog een keer!</button>
         <button class="again" id="mrOther">🏎️ Andere coureur</button>
@@ -9024,8 +9036,9 @@ window.LANG_TEXTS = [
 
   let mrDriver = 0;
   try { mrDriver = Number(localStorage.getItem('raadspel-race-driver')) || 0; } catch (e) {}
-  const mr = { level: 'fast', keys: {}, state: 'off', raf: 0 };
-  const mrBestKey = () => 'raadspel-race-' + mr.level;
+  const mr = { level: 'fast', walls: true, keys: {}, state: 'off', raf: 0, joy: null };
+  try { mr.walls = localStorage.getItem('raadspel-race-walls') !== '0'; } catch (e) {}
+  const mrBestKey = () => 'raadspel-race-' + mr.level + (mr.walls ? '-walls' : '');
   function mrBest() { try { return Number(localStorage.getItem(mrBestKey())) || 0; } catch (e) { return 0; } }
   const mrTime = t => `${Math.floor(t / 60)}:${(t % 60).toFixed(1).padStart(4, '0')}`;
 
@@ -9040,6 +9053,7 @@ window.LANG_TEXTS = [
   function mrDrawMenu() {
     $('mrDrivers').querySelectorAll('.mn-card').forEach(b => b.classList.toggle('sel', Number(b.dataset.id) === mrDriver));
     document.querySelectorAll('#mrLevel button').forEach(b => b.classList.toggle('on', b.dataset.mrl === mr.level));
+    document.querySelectorAll('#mrWalls button').forEach(b => b.classList.toggle('on', (b.dataset.walls === '1') === mr.walls));
     const b = mrBest();
     $('mrBest').textContent = b ? `Snelste tijd: ${mrTime(b)}` : '';
   }
@@ -9060,7 +9074,7 @@ window.LANG_TEXTS = [
     mr.me = mr.karts[2];
     mr.boxes = MR_BOXES.flatMap(i => [-45, 0, 45].map(o => { const p = mrAt(i), d = mrDir(i); return { x: p.x - Math.sin(d) * o, y: p.y + Math.cos(d) * o, wait: 0 }; }));
     mr.goo = []; mr.count = 3.5; mr.beep = 4; mr.t = 0; mr.hudT = 1; mr.keys = {};
-    mr.touch = matchMedia('(hover: none)').matches;                    // on the iPad the kart drives by itself
+    mr.joy = null; $('mrJoy').hidden = true;
     $('mrPick').hidden = true; $('mrPlay').hidden = false; $('mrEnd').hidden = true;
     $('mrStatus').textContent = '';
     show('monsterRace');
@@ -9068,7 +9082,7 @@ window.LANG_TEXTS = [
     mr.state = 'count'; mr.last = performance.now();
     mr.raf = requestAnimationFrame(mrFrame);
   }
-  function mrStop() { cancelAnimationFrame(mr.raf); mr.state = 'off'; mr.keys = {}; document.querySelectorAll('.mr-touch button').forEach(b => b.classList.remove('on')); }
+  function mrStop() { cancelAnimationFrame(mr.raf); mr.state = 'off'; mr.keys = {}; mr.joy = null; $('mrJoy').hidden = true; document.querySelectorAll('.mr-touch button').forEach(b => b.classList.remove('on')); }
   function mrSize() {
     const c = $('mrCanvas'), dpr = Math.min(window.devicePixelRatio || 1, 2), r = c.getBoundingClientRect();
     c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
@@ -9087,9 +9101,39 @@ window.LANG_TEXTS = [
   document.addEventListener('keyup', e => { const k = MR_KEYS[e.code]; if (k) mr.keys[k] = false; });
   document.querySelectorAll('.mr-touch [data-k]').forEach(b => {
     const k = b.dataset.k;
-    b.addEventListener('pointerdown', e => { e.preventDefault(); mr.touch = true; if (k === 'item') mrUse(mr.me); mr.keys[k] = true; b.classList.add('on'); });
+    b.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); if (k === 'item') mrUse(mr.me); mr.keys[k] = true; b.classList.add('on'); });
     for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) b.addEventListener(ev, e => { e.preventDefault(); mr.keys[k] = false; b.classList.remove('on'); });
   });
+
+  // The joystick appears where the thumb (or mouse) goes down and follows it. Push it the way you want to drive:
+  // the kart turns that way by itself, and the further you push, the faster it goes (like most racing games for phones).
+  const MR_JOY_R = 60;
+  function mrJoyShow() {
+    const j = mr.joy, el = $('mrJoy');
+    el.hidden = !j; if (!j) return;
+    el.style.left = j.x0 + 'px'; el.style.top = j.y0 + 'px';
+    el.firstElementChild.style.transform = `translate(${j.dx * MR_JOY_R}px, ${j.dy * MR_JOY_R}px)`;
+    el.classList.toggle('idle', j.mag < .2);
+  }
+  function mrJoyMove(e) {
+    const j = mr.joy; if (!j || e.pointerId !== j.id) return;
+    const r = $('mrCanvas').getBoundingClientRect();
+    let dx = (e.clientX - r.left - j.x0) / MR_JOY_R, dy = (e.clientY - r.top - j.y0) / MR_JOY_R;
+    const m = Math.hypot(dx, dy);
+    if (m > 1) { j.x0 += (dx - dx / m) * MR_JOY_R; j.y0 += (dy - dy / m) * MR_JOY_R; dx /= m; dy /= m; }   // the base follows a thumb that slides too far
+    Object.assign(j, { dx, dy, mag: Math.min(1, m) });
+    mrJoyShow();
+  }
+  $('mrCanvas').addEventListener('pointerdown', e => {
+    if (mr.state === 'off' || mr.joy) return;
+    e.preventDefault();
+    const r = $('mrCanvas').getBoundingClientRect();
+    mr.joy = { id: e.pointerId, x0: e.clientX - r.left, y0: e.clientY - r.top, dx: 0, dy: 0, mag: 0 };
+    try { $('mrCanvas').setPointerCapture(e.pointerId); } catch (err) {}
+    mrJoyShow();
+  });
+  $('mrCanvas').addEventListener('pointermove', mrJoyMove);
+  for (const ev of ['pointerup', 'pointercancel']) $('mrCanvas').addEventListener(ev, e => { if (mr.joy && e.pointerId === mr.joy.id) { mr.joy = null; mrJoyShow(); } });
 
   function mrNearest(k) {
     let best = k.idx, bd = 1e12;
@@ -9126,15 +9170,20 @@ window.LANG_TEXTS = [
         let bend = mrDir(k.idx + 20) - mrDir(k.idx); bend = Math.abs(Math.atan2(Math.sin(bend), Math.cos(bend)));
         gas = k.v < 520 * k.skill * (1 - Math.min(bend, 1.2) * .3);
         if (k.item && Math.random() < dt * .35) mrUse(k);
+      } else if (!k.ai && mr.joy && mr.joy.mag > .2) {                 // joystick: turn towards where it points
+        let diff = Math.atan2(mr.joy.dy, mr.joy.dx) - k.a;
+        diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+        steer = Math.max(-1, Math.min(1, diff * 3));
+        gas = true; k.push = .55 + .45 * Math.min(1, (mr.joy.mag - .2) / .6);
       } else if (!k.ai) {
         steer = (mr.keys.right ? 1 : 0) - (mr.keys.left ? 1 : 0);
         brake = !!mr.keys.down;
-        gas = mr.keys.up || (mr.touch && !brake);
+        gas = mr.keys.up; k.push = 1;
       }
       const n = mrNearest(k);
       if (n.i - k.idx < -MR_N / 2) k.lap++; else if (n.i - k.idx > MR_N / 2) k.lap--;
       k.idx = n.i;
-      let max = (n.d > MR_HALF ? 240 : 520) * k.skill;
+      let max = (n.d > MR_HALF && !mr.walls ? 240 : 520) * k.skill * (k.ai ? 1 : k.push || 1);
       if (k.turbo > 0) { k.turbo -= dt; max *= 1.5; k.v += 600 * dt; }
       if (k.spin > 0) { k.spin -= dt; k.a += 9 * dt; k.v *= Math.pow(.25, dt); gas = false; steer = 0; }
       if (gas) k.v += 430 * dt;
@@ -9145,6 +9194,19 @@ window.LANG_TEXTS = [
       k.a += steer * 2.7 * dt * Math.max(-1, Math.min(1, k.v / 220));
       k.x = Math.max(-300, Math.min(3300, k.x + Math.cos(k.a) * k.v * dt));
       k.y = Math.max(-250, Math.min(2350, k.y + Math.sin(k.a) * k.v * dt));
+      if (mr.walls) {
+        const w = mrNearest(k), lim = MR_HALF - MR_KR * .7;
+        if (w.d > lim) {
+          const p = mrAt(w.i), ux = (k.x - p.x) / w.d, uy = (k.y - p.y) / w.d;
+          k.x = p.x + ux * lim; k.y = p.y + uy * lim;
+          let along = mrDir(w.i) - k.a; along = Math.atan2(Math.sin(along), Math.cos(along));
+          if (Math.abs(along) > Math.PI / 2) along = Math.atan2(Math.sin(along + Math.PI), Math.cos(along + Math.PI));
+          k.a += along * Math.min(1, 6 * dt);                           // turn along the wall
+          k.v *= Math.pow(.55, dt);                                     // scraping the wall slows you down a bit
+          if (!k.ai && !k.bumped) blip(160);
+          k.bumped = true;
+        } else k.bumped = false;
+      }
       for (const p of MR_PADS) { const q = mrAt(p); if (Math.hypot(q.x - k.x, q.y - k.y) < 55) k.turbo = Math.max(k.turbo, .7); }
       for (const b of mr.boxes) if (b.wait <= 0 && !k.item && Math.hypot(b.x - k.x, b.y - k.y) < 34) {
         b.wait = 3; k.item = Math.random() < .55 ? 'turbo' : 'slijm';
@@ -9202,6 +9264,8 @@ window.LANG_TEXTS = [
     x.fillStyle = '#356b31';
     for (let gx = -400; gx < 3400; gx += 260) for (let gy = -300; gy < 2400; gy += 260) { x.beginPath(); x.arc(gx + ((gy / 260) % 2) * 130, gy, 70, 0, 7); x.fill(); }
     x.lineJoin = 'round'; x.lineCap = 'round';                      // the road: kerbs, asphalt, middle line
+    if (mr.walls) { x.lineWidth = MR_HALF * 2 + 34; x.strokeStyle = '#2a2238'; x.stroke(MR_PATH);
+      x.setLineDash([14, 14]); x.strokeStyle = '#7a6e8f'; x.stroke(MR_PATH); x.setLineDash([]); }
     x.lineWidth = MR_HALF * 2 + 18; x.strokeStyle = '#d23a4a'; x.stroke(MR_PATH);
     x.setLineDash([28, 28]); x.strokeStyle = '#f5efe0'; x.stroke(MR_PATH); x.setLineDash([]);
     x.lineWidth = MR_HALF * 2; x.strokeStyle = '#4b4558'; x.stroke(MR_PATH);
@@ -9273,6 +9337,12 @@ window.LANG_TEXTS = [
     blip(600); mrDrawMenu();
   });
   $('mrLevel').addEventListener('click', e => { const b = e.target.closest('[data-mrl]'); if (b) { mr.level = b.dataset.mrl; mrDrawMenu(); } });
+  $('mrWalls').addEventListener('click', e => {
+    const b = e.target.closest('[data-walls]'); if (!b) return;
+    mr.walls = b.dataset.walls === '1';
+    try { localStorage.setItem('raadspel-race-walls', mr.walls ? '1' : '0'); } catch (e) {}
+    mrDrawMenu();
+  });
   $('mrGo').addEventListener('click', raceGo);
   $('mrAgain').addEventListener('click', raceGo);
   $('mrOther').addEventListener('click', raceMenu);
