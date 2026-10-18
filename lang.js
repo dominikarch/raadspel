@@ -413,6 +413,11 @@ window.LANG_TEXTS = [
   // --- Monsterkaart ---
   ['💌 Monsterkaart', '💌 Kartka z potworem', '💌 Monster card'],
   ['Maak een kaart voor een verjaardag of Halloween', 'Zrób kartkę na urodziny albo na Halloween', 'Make a card for a birthday or Halloween'],
+  ['🖼️ Voorkant', '🖼️ Przód', '🖼️ Front'], ['📝 Achterkant', '📝 Tył', '📝 Back'], ['🖼️ Voorkant', '🖼️ Przód', '🖼️ Front'],
+  ['Achtergrond', 'Tło', 'Background'], ['Zelfde als voorkant', 'Jak przód', 'Same as front'], ['Perkament', 'Pergamin', 'Parchment'], ['Nacht', 'Noc', 'Night'], ['Wit', 'Biały', 'White'],
+  ['Typ of plak hier je tekst', 'Wpisz albo wklej tu swój tekst', 'Type or paste your text here'],
+  ['Tik op ✏️ Tekst en typ of plak hier je tekst.', 'Stuknij ✏️ Tekst i wpisz albo wklej tu swój tekst.', 'Tap ✏️ Words and type or paste your text here.'],
+  ['Houd je vinger op een foto en kies', 'Przytrzymaj palec na zdjęciu i wybierz', 'Hold your finger on a photo and choose'],
   ['Kaart', 'Kartka', 'Card'], ['Figuren', 'Postacie', 'Characters'], ['Strip', 'Komiks', 'Comic'], ['Tekenfilm', 'Kreskówka', 'Cartoon'],
   ['Waterverf', 'Akwarela', 'Watercolour'], ['Klei', 'Plastelina', 'Clay'], ['Papier', 'Papier', 'Paper'], ['Pixels', 'Piksele', 'Pixels'], ['Oude poster', 'Stary plakat', 'Old poster'], ['3D', '3D', '3D'], ['Anime', 'Anime', 'Anime'], ['Monsters', 'Potwory', 'Monsters'], ['Tekst', 'Tekst', 'Words'], ['Mijn monster', 'Mój potwór', 'My monster'],
   ['✏️ Zelf typen', '✏️ Napisz sam', '✏️ Type it yourself'], ['Wat wil je schrijven?', 'Co chcesz napisać?', 'What do you want to write?'],
@@ -1019,6 +1024,6 @@ window.LANG_TEXTS = [
   const C = CanvasRenderingContext2D.prototype;
   for (const name of ['fillText', 'strokeText', 'measureText']) {
     const orig = C[name];
-    C[name] = function (text, ...rest) { return orig.call(this, typeof text === 'string' ? translate(text) : text, ...rest); };
+    C[name] = function (text, ...rest) { return orig.call(this, typeof text === 'string' && !this.noTranslate ? translate(text) : text, ...rest); };
   }
 })();

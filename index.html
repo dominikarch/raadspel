@@ -557,6 +557,9 @@
   /* Monsterkaart */
   #cdCanvas { width: 100%; max-width: 420px; aspect-ratio: 3 / 4; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; box-shadow: 0 6px 20px var(--shadow); }
   .cd-tabs { grid-template-columns: repeat(5, 1fr); }
+  .cd-side { margin-bottom: 10px; }
+  .cd-text { width: 100%; font: inherit; font-size: 1rem; border-radius: 14px; border: 2px solid var(--key-edge); padding: 10px; background: var(--card); color: var(--ink); resize: vertical; }
+  .palette .cd-word.on { border-color: var(--ink); }
   .cd-group { display: inline-flex; flex-direction: column; align-items: center; background: var(--card); border-radius: 14px; padding: 4px 6px 6px; }
   .cd-group small { font-weight: 700; font-size: .85rem; }
   .cd-group > div { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
@@ -1288,6 +1291,7 @@
   <!-- Monsterkaart -->
   <section id="cardMake" class="hidden">
     <div class="card">
+      <div class="rk-pick cd-side" id="cdSide"><button data-side="front">🖼️ Voorkant</button><button data-side="back">📝 Achterkant</button></div>
       <canvas id="cdCanvas" width="600" height="800" aria-label="Monsterkaart"></canvas>
       <div class="pk-sel" id="cdSel" hidden>
         <button data-do="smaller">➖</button><button data-do="bigger">➕</button>
@@ -8169,7 +8173,10 @@
   const CD_WORDS = ['Welkom in het monsterhotel!', 'Gefeliciteerd!', 'Fijne verjaardag, monster!', 'Hiep hiep hoera!', 'Happy Halloween!', 'Boe!', 'Snoep of je leven!',
                     'Je bent een lief monster', 'Ik vind jou lief', 'Groetjes van je monster'];
   const CD_INKS = ['#e8344e', '#b05cff', '#2f6fd6', '#2fb06c', '#ff9f43', '#2b2140', '#ffffff'];
-  const cd = { back: 'c-birthday', items: [], sel: -1, tab: 'back', ink: '#e8344e', drag: null, undo: [] };
+  const cd = { back: 'c-birthday', items: [], sel: -1, tab: 'back', ink: '#e8344e', drag: null, undo: [],
+              side: 'front', backText: '', backStyle: 'match', backInk: '#2b2140' };
+  // The back of the card: room for a long text (an invitation), in the same look as the front but calm
+  const CD_BACK_STYLES = [['match', 'Zelfde als voorkant'], ['paper', 'Perkament'], ['night', 'Nacht'], ['white', 'Wit']];
 
   function cardStart() {
     mode = 'solo';
@@ -8181,7 +8188,7 @@
     cdTools(); cdDraw(); setTimeout(cdDraw, 500); setTimeout(cdDraw, 1500);
   }
 
-  function cdSave() { try { localStorage.setItem('raadspel-card', JSON.stringify({ back: cd.back, items: cd.items, ink: cd.ink })); } catch (e) {} }
+  function cdSave() { try { localStorage.setItem('raadspel-card', JSON.stringify({ back: cd.back, items: cd.items, ink: cd.ink, backText: cd.backText, backStyle: cd.backStyle, backInk: cd.backInk })); } catch (e) {} }
   function cdRemember() { cd.undo.push(JSON.stringify({ back: cd.back, items: cd.items })); if (cd.undo.length > 40) cd.undo.shift(); }
 
   function cdThing(it) {                                  // the picture for a monster or sticker
@@ -8197,10 +8204,54 @@
     return [w, w0 ? w * h0 / w0 : w];
   }
 
+  // The back: the front picture made pale (or paper, night, white) with the text in the middle, as big as it fits
+  function cdDrawBack(ctx) {
+    const st = cd.backStyle, bg = pkImg(cd.back);
+    if (st === 'match') {
+      if (bg.naturalWidth) ctx.drawImage(bg, 0, 0, CD_W, CD_H); else { ctx.fillStyle = '#fff7e8'; ctx.fillRect(0, 0, CD_W, CD_H); }
+      ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fillRect(0, 0, CD_W, CD_H);
+      ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.beginPath(); ctx.roundRect(40, 50, CD_W - 80, CD_H - 100, 28); ctx.fill();
+    } else if (st === 'paper') {
+      ctx.fillStyle = '#f6ecd6'; ctx.fillRect(0, 0, CD_W, CD_H);
+      ctx.strokeStyle = '#c9a86a'; ctx.lineWidth = 6; ctx.strokeRect(24, 24, CD_W - 48, CD_H - 48); ctx.lineWidth = 2; ctx.strokeRect(38, 38, CD_W - 76, CD_H - 76);
+    } else if (st === 'night') {
+      const g = ctx.createLinearGradient(0, 0, 0, CD_H); g.addColorStop(0, '#1d1235'); g.addColorStop(1, '#3b2266'); ctx.fillStyle = g; ctx.fillRect(0, 0, CD_W, CD_H);
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 3; ctx.strokeRect(24, 24, CD_W - 48, CD_H - 48);
+    } else { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, CD_W, CD_H); ctx.strokeStyle = '#ddd'; ctx.lineWidth = 3; ctx.strokeRect(24, 24, CD_W - 48, CD_H - 48); }
+    const text = cd.backText.trim();
+    const ink = st === 'night' && cd.backInk === '#2b2140' ? '#ffffff' : cd.backInk;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = text ? ink : '#9a8fb0';
+    ctx.noTranslate = !!text;                          // your own words are never translated
+    const lines = cdWrap(ctx, text || 'Tik op ✏️ Tekst en typ of plak hier je tekst.', CD_W - 140, CD_H - 160);
+    let y = CD_H / 2 - lines.h / 2;
+    for (const l of lines.list) { ctx.font = lines.font; if (l) ctx.fillText(l, CD_W / 2, y + lines.lh / 2); y += l ? lines.lh : lines.lh * .55; }
+    ctx.noTranslate = false;
+  }
+
+  // Wraps the text into lines; makes the letters smaller until it all fits
+  function cdWrap(ctx, text, maxW, maxH) {
+    for (let size = 46; size >= 14; size -= 2) {
+      const font = `700 ${size}px "Baloo 2", system-ui, sans-serif`, lh = size * 1.28, list = [];
+      ctx.font = font;
+      for (const para of text.split('\n')) {
+        if (!para.trim()) { list.push(''); continue; }
+        let line = '';
+        for (const word of para.split(/\s+/)) {
+          const next = line ? line + ' ' + word : word;
+          if (ctx.measureText(next).width > maxW && line) { list.push(line); line = word; } else line = next;
+        }
+        list.push(line);
+      }
+      const h = list.reduce((sum, l) => sum + (l ? lh : lh * .55), 0);
+      if (h <= maxH || size === 14) return { list, font, lh, h };
+    }
+  }
+
   function cdDraw(forPhoto) {
     const c = $('cdCanvas'); if (!c) return;
     const ctx = c.getContext('2d');
     ctx.clearRect(0, 0, CD_W, CD_H);
+    if (cd.side === 'back') return cdDrawBack(ctx);
     const bg = pkImg(cd.back);
     if (bg.naturalWidth) ctx.drawImage(bg, 0, 0, CD_W, CD_H); else { ctx.fillStyle = '#fff7e8'; ctx.fillRect(0, 0, CD_W, CD_H); }
     cd.items.forEach((it, n) => {
@@ -8208,7 +8259,9 @@
       if (it.t === 'tx') {
         ctx.font = `800 ${Math.round(48 * it.s)}px "Baloo 2", system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.lineWidth = 10 * it.s; ctx.strokeStyle = it.ink === '#ffffff' ? '#2b2140' : '#ffffff'; ctx.lineJoin = 'round';
+        ctx.noTranslate = !!it.own;
         ctx.strokeText(it.text, 0, 0); ctx.fillStyle = it.ink; ctx.fillText(it.text, 0, 0);
+        ctx.noTranslate = false;
       } else if (it.e) {
         ctx.font = `${Math.round(110 * it.s)}px system-ui, "Apple Color Emoji", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#000';
         ctx.fillText(it.e, 0, 0);
@@ -8240,6 +8293,19 @@
                      ['water', 'Waterverf', ['girl', 'wolf']], ['anime', 'Anime', ['girl', 'wolf']], ['clay', 'Klei', ['girl', 'wolf']], ['paper', 'Papier', ['girl', 'wolf']],
                      ['pixel', 'Pixels', ['girl', 'wolf']], ['poster', 'Oude poster', ['girl', 'wolf']]];
   function cdTools() {
+    document.querySelectorAll('#cdSide button').forEach(b => b.classList.toggle('on', b.dataset.side === cd.side));
+    $('cdUndo').style.visibility = $('cdClear').style.visibility = cd.side === 'back' ? 'hidden' : '';
+    if (cd.side === 'back') {
+      if (!['bstyle', 'btext'].includes(cd.tab)) cd.tab = 'btext';
+      $('cdTabs').innerHTML = [['btext', '✏️', 'Tekst'], ['bstyle', '🖼️', 'Achtergrond']].map(([k, e, n]) => `<button data-tab="${k}" class="${cd.tab === k ? 'on' : ''}"><span>${e}</span>${n}</button>`).join('');
+      $('cdPalette').innerHTML = cd.tab === 'bstyle'
+        ? CD_BACK_STYLES.map(([k, n]) => `<button data-bstyle="${k}" class="cd-word${cd.backStyle === k ? ' on' : ''}">${n}</button>`).join('')
+        : CD_INKS.filter(c => c !== '#ffffff').concat(['#2b2140']).filter((c, i, a) => a.indexOf(c) === i).map(c => `<button data-bink="${c}" class="${cd.backInk === c ? 'on' : ''}"><div class="swatch" style="background:${c}"></div></button>`).join('') +
+          `<span class="row-break"></span><textarea id="cdText" class="cd-text" rows="10" placeholder="Typ of plak hier je tekst"></textarea>`;
+      if (cd.tab === 'btext') { $('cdText').value = cd.backText; $('cdText').addEventListener('input', e => { cd.backText = e.target.value; cdDraw(); cdSave(); }); }
+      return;
+    }
+    if (!CD_TABS.some(([k]) => k === cd.tab)) cd.tab = 'back';
     $('cdTabs').innerHTML = CD_TABS.map(([k, e, n]) => `<button data-tab="${k}" class="${cd.tab === k ? 'on' : ''}"><span>${e}</span>${n}</button>`).join('');
     let html = '';
     if (cd.tab === 'back') html = CD_BACKS.map(k => `<button data-back="${k}" class="${cd.back === k ? 'on' : ''}"><img src="pompoen/${k}.jpg" alt="" class="cd-thumb"></button>`).join('');
@@ -8266,7 +8332,9 @@
     }
     return -1;
   }
+  $('cdSide').addEventListener('click', e => { const b = e.target.closest('[data-side]'); if (!b) return; cd.side = b.dataset.side; cd.sel = -1; cdSel(); cdTools(); cdDraw(); });
   $('cdCanvas').addEventListener('pointerdown', e => {
+    if (cd.side === 'back') { if (cd.tab !== 'btext') { cd.tab = 'btext'; cdTools(); } return $('cdText') && $('cdText').focus(); }
     e.preventDefault(); $('cdCanvas').setPointerCapture(e.pointerId);
     const [x, y] = cdPoint(e), n = cdHit(x, y);
     cd.sel = n;
@@ -8300,34 +8368,39 @@
     const b = e.target.closest('button'); if (!b) return;
     const d = b.dataset;
     if (d.back) { cdRemember(); cd.back = d.back; cdSave(); cdTools(); return cdDraw(); }
+    if (d.bstyle) { cd.backStyle = d.bstyle; cdSave(); cdTools(); return cdDraw(); }
+    if (d.bink) { cd.backInk = d.bink; cdSave(); cdTools(); return cdDraw(); }
     if (d.mon) return cdAdd({ t: 'pic', k: d.mon, s: d.mon.startsWith('s-') ? .7 : d.mon.startsWith('ch-') ? .9 : 1 });
     if (d.emoji) return cdAdd({ t: 'pic', e: d.emoji, s: .8 });
     if (d.ink) { cd.ink = d.ink; const it = cd.items[cd.sel]; if (it && it.t === 'tx') { it.ink = d.ink; cdDraw(); } cdSave(); return cdTools(); }
     if (d.word) return cdAdd({ t: 'tx', text: d.word, ink: cd.ink, y: 140, x: CD_W / 2, s: d.word.length > 18 ? .8 : 1 });
     if (d.own !== undefined) {
       const text = prompt(window.t ? window.t('Wat wil je schrijven?') : 'Wat wil je schrijven?', '');
-      if (text && text.trim()) cdAdd({ t: 'tx', text: text.trim().slice(0, 40), ink: cd.ink, x: CD_W / 2, y: CD_H - 140, s: .9 });
+      if (text && text.trim()) cdAdd({ t: 'tx', text: text.trim().slice(0, 40), ink: cd.ink, x: CD_W / 2, y: CD_H - 140, s: .9, own: true });
     }
   });
   $('cdUndo').addEventListener('click', () => { if (!cd.undo.length) return; Object.assign(cd, JSON.parse(cd.undo.pop())); cd.sel = -1; cdSave(); cdSel(); cdTools(); cdDraw(); });
   $('cdClear').addEventListener('click', () => { if (!cd.items.length) return; cdRemember(); cd.items = []; cd.sel = -1; cdSave(); cdSel(); cdDraw(); });
-  $('cdDone').addEventListener('click', () => {
-    cd.sel = -1; cdSel(); cdDraw(true);
+  // A picture of one side of the card
+  function cdBlob(side) {
+    const was = cd.side; cd.side = side; cdDraw(true);
+    return new Promise(ok => $('cdCanvas').toBlob(b => { cd.side = was; cdDraw(); ok(b); }, 'image/png'));
+  }
+  $('cdDone').addEventListener('click', async () => {
+    cd.sel = -1; cdSel();
     confetti(); winSound();
-    $('cdCanvas').toBlob(blob => {
-      const url = URL.createObjectURL(blob), box = $('cdPhoto');
-      box.hidden = false;
-      box.innerHTML = `<p class="who">📸 Je kaart is klaar!</p><img src="${url}" alt="">
-        <p class="wait">Houd je vinger op de foto en kies <b>Bewaar in Foto's</b>.</p>
-        <button class="again" id="cdShare" hidden>Bewaren of delen</button>`;
-      const file = new File([blob], 'monsterkaart.png', { type: 'image/png' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        $('cdShare').hidden = false;
-        $('cdShare').addEventListener('click', () => navigator.share({ files: [file] }).catch(() => {}));
-      }
-      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 'image/png');
-    cdDraw();
+    const front = await cdBlob('front'), back = cd.backText.trim() ? await cdBlob('back') : null;
+    const box = $('cdPhoto'), urls = [front, back].filter(Boolean).map(b => URL.createObjectURL(b));
+    box.hidden = false;
+    box.innerHTML = `<p class="who">📸 Je kaart is klaar!</p>${urls.map((u, i) => `<p class="wait">${i ? '📝 Achterkant' : '🖼️ Voorkant'}</p><img src="${u}" alt="">`).join('')}
+      <p class="wait">Houd je vinger op een foto en kies <b>Bewaar in Foto's</b>.</p>
+      <button class="again" id="cdShare" hidden>Bewaren of delen</button>`;
+    const files = [front, back].filter(Boolean).map((b, i) => new File([b], i ? 'kaart-achterkant.png' : 'kaart-voorkant.png', { type: 'image/png' }));
+    if (navigator.canShare && navigator.canShare({ files })) {
+      $('cdShare').hidden = false;
+      $('cdShare').addEventListener('click', () => navigator.share({ files }).catch(() => {}));
+    }
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
   $('soloCard').addEventListener('click', cardStart);
   $('cdBack').addEventListener('click', () => { cdSave(); show('soloGames'); });
