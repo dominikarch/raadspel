@@ -5,6 +5,7 @@
 window.LANG_TEXTS = [
   // --- welcome, names, playing together ---
   ['🐶 Spelletjes', '🐶 Gierki', '🐶 Games'],
+  ["🐶 Lily's spelletjes", '🐶 Gierki Lily', "🐶 Lily's games"],
   ['Hoi! Wat gaan we doen?', 'Cześć! W co gramy?', 'Hi! What shall we play?'],
   ['Hoi {0}! Wat gaan we doen?', 'Cześć {0}! W co gramy?', 'Hi {0}! What shall we play?'],
   ['🐶 Alleen spelen', '🐶 Graj sam', '🐶 Play alone'],
@@ -967,6 +968,7 @@ window.LANG_TEXTS = [
 
 // Slovak (for Lily's Slovak grandmother), as a list from each Dutch text to its Slovak one; a text missing here shows in English.
 window.LANG_SK = {
+"🐶 Lily's spelletjes": "🐶 Lilyine hry",
 "🐶 Spelletjes": "🐶 Hry",
 "Hoi! Wat gaan we doen?": "Ahoj! Čo sa budeme hrať?",
 "Hoi {0}! Wat gaan we doen?": "Ahoj {0}! Čo sa budeme hrať?",

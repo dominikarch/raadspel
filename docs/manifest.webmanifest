@@ -1,6 +1,6 @@
 {
-  "name": "Raad het getal",
-  "short_name": "Raadspel",
+  "name": "Lily's spelletjes",
+  "short_name": "Lily's spelletjes",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#fff7e8",
