@@ -2936,7 +2936,7 @@ window.LANG_SK = {
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 23-10 18.48</p>
+    <p class="version" id="version">versie 01-11 19.06</p>
   </section>
 
   <!-- Naam -->
@@ -3893,12 +3893,15 @@ window.LANG_SK = {
   </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" async id="sbLib"></script>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js" async id="mqLib"></script>
 <script>
-  // Supabase only passes messages between the two devices; nothing is stored there.
+  // The message servers only pass messages between the devices; nothing is stored there.
   // The publishable key is meant to be public (it sits in every visitor's browser).
-  const SUPABASE_URL = 'https://cahkqbtfywfgivvqlzbl.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_CRCmy46ZO1Woq6KMndUtnw_aiGOxlIl';
+  // Playing together goes through two free public message servers (MQTT), no account needed. Every device connects to
+  // both and listens to the room of the 4-digit code; a message goes out over both, so one server down does no harm.
+  // (Until 2026-11 this was a free Supabase project; it was paused for lack of use and needed a login to wake up.)
+  const MQ_SERVERS = ['wss://broker.emqx.io:8084/mqtt', 'wss://broker.hivemq.com:8884/mqtt'];
+  const MQ_PREFIX = 'raadspel-lily-7c3f/';
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
@@ -4042,18 +4045,48 @@ window.LANG_SK = {
     winSound();
   }
 
-  // ----- Together: a 4-digit code joins two devices in one Supabase channel -----
+  // ----- Together: a 4-digit code joins up to four devices in one room -----
 
   const myId = Math.random().toString(36).slice(2, 10);
   let channel = null, code = '', other = null, others = [], iAmHost = false;   // other = the first friend; others = everybody else (up to 3)
   let roundHider = null, roundMax = 0, roundSecret = 0, roundTries = 0;
 
   function client() {
-    if (!SUPABASE_URL || !SUPABASE_KEY) return 'Samen spelen is nog niet klaar.';
-    if (!window.supabase) return 'Samen spelen lukt alleen met internet.';
-    // No background worker: if it fails on a device, the library cuts the whole connection (seen on iPhone/iPad).
-    // A hidden tab is covered by reconnecting and by Rummi's self-repair instead.
-    return window.__sb || (window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { realtime: { timeout: 20000 } }));
+    if (!window.mqtt) return 'Samen spelen lukt alleen met internet.';
+    return null;
+  }
+
+  // One room: looks like the old channel to the rest of the games (state 'joined', send, unsubscribe).
+  // Each message carries its own number, so the copy that arrives over the second server is dropped,
+  // and the sender's id, so a device does not hear itself.
+  function mqRoom(topic, onMsg, onStatus) {
+    const room = { state: 'joining', clients: [], heard: new Set() };
+    const update = () => {
+      const s = room.clients.some(c => c.ok) ? 'joined' : 'joining';
+      if (s !== room.state) { room.state = s; onStatus(s); }
+    };
+    for (const url of MQ_SERVERS) {
+      const c = window.mqtt.connect(url, { clientId: 'rs_' + myId + '_' + Math.random().toString(36).slice(2, 7), keepalive: 20,
+                                         reconnectPeriod: 2000, connectTimeout: 10000, clean: true });
+      c.ok = false;
+      c.on('connect', () => c.subscribe(topic, { qos: 0 }, err => { c.ok = !err; update(); }));
+      c.on('close', () => { c.ok = false; update(); });
+      c.on('offline', () => { c.ok = false; update(); });
+      c.on('error', () => {});
+      c.on('message', (t, buf) => {
+        let m; try { m = JSON.parse(buf.toString()); } catch (e) { return; }
+        if (!m || m.s === myId || room.heard.has(m.k)) return;
+        room.heard.add(m.k); if (room.heard.size > 3000) room.heard.clear();
+        onMsg(m.p);
+      });
+      room.clients.push(c);
+    }
+    room.send = payload => {
+      const m = JSON.stringify({ k: myId + Math.random().toString(36).slice(2, 9), s: myId, p: payload });
+      room.clients.forEach(c => { if (c.ok) c.publish(topic, m, { qos: 0 }); });
+    };
+    room.unsubscribe = () => room.clients.forEach(c => { try { c.end(true); } catch (e) {} });
+    return room;
   }
 
   function goTogether() {
@@ -4064,11 +4097,13 @@ window.LANG_SK = {
 
   let joinedAt = 0;
   function connect(theCode, onReady, rejoin) {
-    const sb = client();
-    if (typeof sb === 'string') return sb;
+    const problem = client();
+    if (problem) return problem;
     if (!rejoin) { code = theCode; other = null; joinedAt = Date.now(); }
-    channel = sb.channel('raadspel-' + code, { config: { broadcast: { self: false } } });
-    const mine = channel;
+    const mine = channel = mqRoom(MQ_PREFIX + code, payload => { if (channel === mine) receive(payload); }, status => {
+      if (channel !== mine) return;
+      if (status === 'joined') joined(); else trouble();
+    });
     let ready = !!rejoin, giveUp = null;
     // A hiccup is normal on WiFi, when a screen dims or when the iPhone switches apps: the connection comes back.
     // The yellow bar only shows when it takes longer than 3 seconds, so short hiccups stay out of sight.
@@ -4082,20 +4117,15 @@ window.LANG_SK = {
         leave(); $('togetherErr').textContent = 'Verbinden lukt niet. Is er internet?'; show('together');
       }, 20000);
     };
-    channel
-      .on('broadcast', { event: 'msg' }, ({ payload }) => receive(payload))
-      .subscribe(async status => {
-        if (channel !== mine) return;
-        if (status === 'SUBSCRIBED') {
-          clearTimeout(giveUp); giveUp = null; clearTimeout(barTimer); barTimer = null; $('netNote').hidden = true;
-          if (!ready) { ready = true; onReady && onReady(); }
-          sayHello('hello');                                                    // "here I am" (again, after a reconnect)
-          for (const u of Object.values(unconfirmed)) transmit(u.payload);     // whatever was not confirmed goes out again
-          if (screen === 'rummi' && rk.st) transmit({ type: 'rkv', from: myId, gid: rk.st.id, v: rk.st.v || 0 });
-          if (screen === 'wirus' && wv.st) transmit({ type: 'wv', from: myId, gid: wv.st.id, v: wv.st.v || 0 });
-        }
-        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || (status === 'CLOSED' && channel === mine)) trouble();
-      });
+    function joined() {
+      clearTimeout(giveUp); giveUp = null; clearTimeout(barTimer); barTimer = null; $('netNote').hidden = true;
+      if (!ready) { ready = true; onReady && onReady(); }
+      sayHello('hello');                                                    // "here I am" (again, after a reconnect)
+      for (const u of Object.values(unconfirmed)) transmit(u.payload);     // whatever was not confirmed goes out again
+      if (screen === 'rummi' && rk.st) transmit({ type: 'rkv', from: myId, gid: rk.st.id, v: rk.st.v || 0 });
+      if (screen === 'wirus' && wv.st) transmit({ type: 'wv', from: myId, gid: wv.st.id, v: wv.st.v || 0 });
+    }
+    trouble();                                                              // until a server answers
     return null;
   }
 
@@ -4129,7 +4159,7 @@ window.LANG_SK = {
   // confirms it, and until then it is sent again every 1.5 seconds. Repeats are ignored on arrival.
   let msgNo = 0, unconfirmed = {}, seen = new Set();
   function transmit(payload) {
-    if (channel) channel.send({ type: 'broadcast', event: 'msg', payload }).catch(() => {});
+    if (channel) channel.send(payload);
   }
   function send(type, data) {
     const id = myId + '-' + (++msgNo);
@@ -4189,7 +4219,7 @@ window.LANG_SK = {
   }
 
   // ----- Who is in the game: every device says "hello" when it comes in and "here" every 4 seconds.
-  // (Supabase's own presence list turned out to be the slow part during its outage; plain messages are not.)
+  // (A presence list turned out to be slow on the old server; plain messages are not.)
 
   const MAX_PLAYERS = 4;
   let known = {};                               // id -> { id, name, at, host, last }: everybody we heard from
