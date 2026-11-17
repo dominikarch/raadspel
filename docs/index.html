@@ -2994,7 +2994,7 @@ window.LANG_SK = {
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 17-11 20.53</p>
+    <p class="version" id="version">versie 17-11 21.06</p>
   </section>
 
   <!-- Naam -->
@@ -12367,16 +12367,21 @@ window.LANG_SK = {
     cancelAnimationFrame(dr.raf);
     dr.spinning = true; $('drSpin').hidden = true;
     const t0 = performance.now(), T = 2200, turns = 9 + Math.random() * 3;
-    const frame = now => {
-      const t = Math.min(1, (now - t0) / T), ease = 1 - Math.pow(1 - t, 3);
+    // finished exactly once: by the last frame, or by the clock when the screen is in the background (no frames then)
+    let finished = false;
+    const finish = () => { if (finished) return; finished = true; cancelAnimationFrame(dr.raf); dr.spinning = false; drDraw(k, 0, 0, k); done(); };
+    setTimeout(finish, T + 300);
+    const frame = now => { try { step(now); } catch (e) { finish(); } };   // never stuck on a drawing problem
+    const step = now => {
+      const t = Math.max(0, Math.min(1, (now - t0) / T)), ease = 1 - Math.pow(1 - t, 3);   // the first frame can be stamped a hair before t0
       const spin = ease * turns * Math.PI * 2 + (t === 1 ? 0 : 0);
       const quarter = Math.floor(spin / (Math.PI / 2));
-      const letter = t < 1 ? quarter % 4 : k;
+      const letter = t < 1 ? ((quarter % 4) + 4) % 4 : k;
       const tilt = Math.sin(now / 90) * .08 * (1 - t) + (t > .85 ? (t - .85) / .15 * .35 : 0);
       drDraw(k, t < 1 ? spin : 0, tilt, letter);
       if (quarter !== dr.lastQ) { dr.lastQ = quarter; if (t < .9) blip(300 + (1 - t) * 300); }
       if (t < 1) dr.raf = requestAnimationFrame(frame);
-      else { dr.spinning = false; blip(k === 1 ? 900 : k === 2 ? 700 : k === 3 ? 220 : 450); if (k === 1) setTimeout(() => blip(1200), 100); done(); }
+      else { blip(k === 1 ? 900 : k === 2 ? 700 : k === 3 ? 220 : 450); if (k === 1) setTimeout(() => blip(1200), 100); finish(); }
     };
     dr.raf = requestAnimationFrame(frame);
   }
