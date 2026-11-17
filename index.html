@@ -690,6 +690,17 @@
   .gw-dr > div { flex: 1; min-width: 0; line-height: 1.15; } .gw-dr small { display: block; color: var(--soft); font-size: .8rem; }
   .gw-dr button { font: inherit; font-size: 1.2rem; width: 36px; height: 36px; border: none; border-radius: 10px; background: var(--key); color: var(--ink); cursor: pointer; }
   .gw-dr span { width: 34px; text-align: center; font-size: .9rem; }
+  /* Dreidel */
+  .dr-players { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 8px; }
+  .dr-players span { background: var(--key); border-radius: 12px; padding: 4px 10px; font-size: 1rem; }
+  .dr-players span.turn { outline: 3px solid var(--ok); }
+  .dr-players span.out { opacity: .45; text-decoration: line-through; }
+  .dr-pot { font-size: 1.3rem; margin: 4px 0; }
+  .dr-pot b { font-size: 1.6rem; }
+  #drCanvas { width: 100%; max-width: 320px; display: block; margin: 0 auto; cursor: pointer; touch-action: manipulation; }
+  #drStatus .dr-last { display: block; font-size: 1.1rem; color: var(--soft); margin-bottom: 4px; }
+  .dr-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center; margin-top: 10px; font-size: .95rem; color: var(--soft); }
+  .dr-legend b { font-family: "Arial Hebrew", "Times New Roman", serif; font-size: 1.3rem; color: var(--ink); }
 </style>
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
@@ -742,6 +753,7 @@
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
+      <button class="level l2" id="soloDreidel">✡️ Dreidel<small>Het Chanoeka-tolletje: draai en win munten</small></button>
       <button class="level l2" id="soloWirus">🦠 Virussen<small>Kaartspel: maak een gezond lichaam</small></button>
       <button class="level w3" id="soloMole">🔨 Mollen meppen<small>Mep de mollen, niet het hondje!</small></button>
       <button class="level l4" id="soloGwint">🗡️ Gwint<small>Het kaartspel uit Wiedźmin, met onze eigen kaarten</small></button>
@@ -818,6 +830,7 @@
         <button class="level l2" id="lobbyChess">♞ Schaken<small>Echt schaken samen</small></button>
         <button class="level w3" id="lobbyPool">🎱 Pool<small>8-ball, om de beurt</small></button>
         <button class="level l3" id="lobbyRummi">🀄 Rummi<small>Stenen-spel, met hondjes erbij</small></button>
+        <button class="level l2" id="lobbyDreidel">✡️ Dreidel<small>Draai om de beurt, wie wint alle munten?</small></button>
         <button class="level l2" id="lobbyWirus">🦠 Virussen<small>Kaartspel, met hondjes erbij</small></button>
         <button class="level w4" id="lobbyShips">🚢 Zeeslag<small>Laat elkaars schepen zinken</small></button>
       </div>
@@ -1398,6 +1411,33 @@
     <button class="back" id="mrBack">← Ander spel</button>
   </section>
 
+  <!-- Dreidel: instellen -->
+  <section id="dreidelSetup" class="hidden">
+    <div class="card">
+      <p class="who">Hoeveel spelers?</p>
+      <div class="rk-pick" id="drCount"></div>
+      <p class="wait" id="drCountHint"></p>
+      <p class="who" style="margin-top:12px">Hoe lang spelen?</p>
+      <div class="rk-pick" id="drLen"><button data-len="5">🐣 5 rondes</button><button data-len="10">🐰 10 rondes</button><button data-len="0">🦊 Tot het eind (lang!)</button></div>
+      <button class="again" id="drGo">Spelen!</button>
+    </div>
+    <button class="back" id="drSetupBack" data-hold="together">← Terug</button>
+  </section>
+
+  <!-- Dreidel: draaien -->
+  <section id="dreidel" class="hidden">
+    <div class="card">
+      <div class="dr-players" id="drPlayers"></div>
+      <div class="dr-pot" id="drPot"></div>
+      <canvas id="drCanvas" width="320" height="300" aria-label="Dreidel"></canvas>
+      <p class="ttt-status" id="drStatus"></p>
+      <button class="again" id="drSpin">🌀 Draai!</button>
+      <div class="dr-legend"><span><b>נ</b> niets</span><span><b>ג</b> alles</span><span><b>ה</b> de helft</span><span><b>ש</b> er één in</span></div>
+      <div class="ttt-end" id="drEnd" hidden><button class="again" id="drAgain">Nog een keer!</button></div>
+    </div>
+    <button class="back" id="drBack" data-hold="always">← Ander spel</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -1673,7 +1713,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2045,7 +2085,7 @@
   }
 
   // Games for two are only for two; with three or four people, Rummi is the game
-  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus'];
+  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus', 'lobbyDreidel'];
   function drawLobby(note) {
     const names = others.map(o => o.name);
     const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0];
@@ -2151,7 +2191,7 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
     if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
@@ -2186,6 +2226,7 @@
     if (m.type === 'gwRedraw' && iAmHost && screen === 'gwint' && gw.st && gw.st.phase === 'redraw') {
       const P = gw.st.p[m.pi]; P.hand = m.hand; P.deck = m.deck; P.ready = true; gw.st.v++; gwSend(); gwShow(gw.st);
     }
+    if (m.type === 'drstate' && ['lobby', 'dreidelSetup', 'dreidel'].includes(screen)) dreidelReceive(m.st);
     if (m.type === 'wstate' && ['lobby', 'wirusSetup', 'wirus'].includes(screen)) wirusReceive(m.st);
     if (m.type === 'wv' && screen === 'wirus' && wv.st && m.gid === wv.st.id && m.v < wv.st.v) send('wstate', { st: wv.st });
     if (m.type === 'rkv' && screen === 'rummi' && rk.st && m.gid === rk.st.id && m.v < rk.st.v) send('rkstate', { st: rummiCommitted() });
@@ -9911,6 +9952,180 @@
   });
   $('gwAgain').addEventListener('click', () => { $('gwEnd').hidden = true; gwintMenu(); });
   $('gwBack').addEventListener('click', gwLeave);
+
+  // ----- Dreidel (Sevivon), the Hanukkah spinning top: everyone starts with 10 coins and puts 1 in the pot. Spin:
+  // נ Nun = nothing, ג Gimel = the whole pot, ה Hey = half the pot (rounded up), ש Shin = put one in. When the pot is
+  // (nearly) empty, everyone puts in one again. No coins left = out. The winner has everything, or the most coins after
+  // the chosen number of rounds. Alone with 1-3 dogs, or together with 2-4 people (the spinner's device sends the game).
+
+  const DR_LETTERS = [['נ', 'Nun'], ['ג', 'Gimel'], ['ה', 'Hey'], ['ש', 'Shin']];
+  const dr = { st: null, me: 0, setup: { count: 2, len: 10 }, spinning: false, shownV: '', angle: 0, raf: 0 };
+
+  function dreidelStart() {
+    dr.setup.count = mode === 'together' ? Math.max(2, others.length + 1) : 2;
+    drSetupDraw();
+    $('drSetupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('dreidelSetup');
+  }
+
+  function drSetupDraw() {
+    const people = mode === 'together' ? others.length + 1 : 1;
+    const counts = [2, 3, 4].filter(n => n >= people);
+    if (dr.setup.count < counts[0]) dr.setup.count = counts[0];
+    $('drCount').innerHTML = counts.map(n => `<button data-count="${n}" class="${dr.setup.count === n ? 'on' : ''}">👥 ${n}</button>`).join('');
+    const dogs = dr.setup.count - people;
+    $('drCountHint').textContent = dogs ? `Jij en ${dogs} ${dogs > 1 ? 'hondjes' : 'hondje'}.` : '';
+    document.querySelectorAll('#drLen button').forEach(b => b.classList.toggle('on', Number(b.dataset.len) === dr.setup.len));
+  }
+
+  function dreidelDeal() {
+    const dogNames = ['Hondje Bo', 'Hondje Fien', 'Hondje Max'];
+    const seats = [{ id: myId, name: myName || 'Jij', dog: false }];
+    if (mode === 'together') others.forEach(o => seats.push({ id: o.id, name: o.name, dog: false }));
+    const people = seats.length;
+    while (seats.length < dr.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
+    seats.forEach(x => { x.coins = 9; x.out = false; });                  // 10 coins, 1 already in the pot
+    const st = { id: Math.random().toString(36).slice(2), v: 1, seats, pot: seats.length, turn: 0, round: 1, len: dr.setup.len,
+                 runner: myId, last: null, over: null };
+    drShow(st); drSend();
+  }
+
+  const drSend = () => { if (mode === 'together') send('drstate', { st: dr.st }); };
+  function dreidelReceive(st) {
+    const old = dr.st;
+    if (old && old.id === st.id && st.v <= old.v) return;
+    drShow(st);
+  }
+
+  // One spin: the result, the coins, the next player (done on the spinner's device, then sent)
+  function drSpinResult(st) {
+    const p = st.turn, P = st.seats[p], k = Math.floor(Math.random() * 4);
+    let text;
+    if (k === 0) text = `נ Nun: niets.`;
+    else if (k === 1) { const n = st.pot; P.coins += n; st.pot = 0; text = `ג Gimel: alles! +${n} 🪙`; }
+    else if (k === 2) { const n = Math.ceil(st.pot / 2); P.coins += n; st.pot -= n; text = `ה Hey: de helft! +${n} 🪙`; }
+    else { if (P.coins > 0) { P.coins--; st.pot++; } text = `ש Shin: er één in. −1 🪙`; }
+    // the pot (nearly) empty: everyone who can puts one in
+    if (st.pot <= 1) st.seats.forEach(x => { if (!x.out && x.coins > 0) { x.coins--; st.pot++; } });
+    st.seats.forEach(x => { if (x.coins <= 0 && !x.out) x.out = true; });
+    st.last = { by: p, k, text, v: st.v + 1 };
+    const alive = st.seats.map((x, i) => i).filter(i => !st.seats[i].out);
+    if (alive.length <= 1) st.over = { winners: alive.length ? alive : [p], all: true };
+    else {
+      let n = p;
+      do { n = (n + 1) % st.seats.length; if (n === 0) st.round++; } while (st.seats[n].out);
+      st.turn = n;
+      if (st.len && st.round > st.len) {
+        const most = Math.max(...st.seats.map(x => x.coins));
+        st.over = { winners: st.seats.map((x, i) => i).filter(i => st.seats[i].coins === most), all: false };
+      }
+    }
+    st.v++;
+  }
+
+  function drShow(st) {
+    stopMusic();
+    const fresh = st.last && st.last.v === st.v && dr.shownV !== st.id + st.v;
+    dr.st = st; dr.me = st.seats.findIndex(x => x.id === myId);
+    $('drEnd').hidden = true;
+    show('dreidel');
+    if (fresh) { dr.shownV = st.id + st.v; return drAnimate(st.last.k, () => drAfter()); }
+    drDraw(st.last ? st.last.k : 0, 0); drAfter();
+  }
+
+  function drAfter() {
+    const st = dr.st;
+    drInfo();
+    if (st.over) return drOver();
+    const P = st.seats[st.turn];
+    // in pieces, so every piece can be translated on its own
+    const who = st.last ? `${st.seats[st.last.by].dog ? '🐶 ' : ''}<span>${st.last.by === dr.me ? 'Jij' : st.seats[st.last.by].name}</span>` : '';
+    $('drStatus').innerHTML = (st.last ? `<span class="dr-last">${who} → <span>${st.last.text}</span></span>` : '') +
+      `<span>${st.turn === dr.me ? 'Jij bent aan de beurt!' : `${P.dog ? '🐶 ' : ''}${P.name} is aan de beurt…`}</span>`;
+    $('drSpin').hidden = st.turn !== dr.me;
+    if (P.dog && st.runner === myId) setTimeout(() => { if (dr.st === st && !st.over && st.seats[st.turn].dog) { drSpinResult(st); drSend(); drShow(st); } }, 1400);
+  }
+
+  function drInfo() {
+    const st = dr.st;
+    $('drPlayers').innerHTML = st.seats.map((x, i) => `<span class="${i === st.turn && !st.over ? 'turn' : ''}${x.out ? ' out' : ''}">${x.dog ? '🐶' : '🙂'} <b>${i === dr.me ? 'Jij' : x.name}</b> 🪙 ${x.coins}</span>`).join('');
+    $('drPot').innerHTML = `<span>Pot</span> <b>🪙 ${st.pot}</b>${st.len ? ` · <span>Ronde ${Math.min(st.round, st.len)}/${st.len}</span>` : ''}`;
+  }
+
+  function drOver() {
+    const st = dr.st, w = st.over.winners;
+    $('drSpin').hidden = true; $('drEnd').hidden = false;
+    const names = w.map(i => i === dr.me ? 'Jij' : st.seats[i].name);
+    if (w.includes(dr.me) && w.length === 1) { $('drStatus').textContent = st.over.all ? '🏆 Jij hebt alle munten! Je wint!' : '🏆 Jij hebt de meeste munten! Je wint!'; confetti(); winSound(); }
+    else if (w.length > 1) $('drStatus').textContent = `🤝 Gelijk: ${names.join(' en ')}.`;
+    else $('drStatus').textContent = `${names[0]} wint!`;
+  }
+
+  // --- the spinning top on the canvas: turning (its width follows the turn), wobbling, then falling over on its letter ---
+  function drDraw(k, spin, tilt = 0, letterIdx) {
+    const c = $('drCanvas'), ctx = c.getContext('2d'), W = c.width, H = c.height;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(0,0,0,.15)'; ctx.beginPath(); ctx.ellipse(W / 2, H - 30, 70, 14, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.save(); ctx.translate(W / 2, H - 40); ctx.rotate(tilt);
+    const face = Math.abs(Math.cos(spin)) * .85 + .15;                     // the visible width of the face while it turns
+    const bw = 130 * face, bh = 140;
+    // stem, body and point
+    ctx.fillStyle = '#c9a227'; ctx.fillRect(-9, -bh - 60, 18, 50);
+    const g = ctx.createLinearGradient(-bw / 2, 0, bw / 2, 0); g.addColorStop(0, '#1d4fa8'); g.addColorStop(.5, '#4f8ff0'); g.addColorStop(1, '#1d4fa8');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(-bw / 2, -bh - 14, bw, bh, 18); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-bw / 2 + 6, -20); ctx.lineTo(bw / 2 - 6, -20); ctx.lineTo(0, 10); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#c9a227'; ctx.lineWidth = 4; ctx.beginPath(); ctx.roundRect(-bw / 2, -bh - 14, bw, bh, 18); ctx.stroke();
+    if (face > .35) {
+      ctx.save(); ctx.scale(face, 1);
+      ctx.fillStyle = '#ffe9a3'; ctx.font = '700 90px "Arial Hebrew", "Times New Roman", serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(DR_LETTERS[letterIdx ?? k][0], 0, -bh / 2 - 12);
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+
+  function drAnimate(k, done) {
+    cancelAnimationFrame(dr.raf);
+    dr.spinning = true; $('drSpin').hidden = true;
+    const t0 = performance.now(), T = 2200, turns = 9 + Math.random() * 3;
+    const frame = now => {
+      const t = Math.min(1, (now - t0) / T), ease = 1 - Math.pow(1 - t, 3);
+      const spin = ease * turns * Math.PI * 2 + (t === 1 ? 0 : 0);
+      const quarter = Math.floor(spin / (Math.PI / 2));
+      const letter = t < 1 ? quarter % 4 : k;
+      const tilt = Math.sin(now / 90) * .08 * (1 - t) + (t > .85 ? (t - .85) / .15 * .35 : 0);
+      drDraw(k, t < 1 ? spin : 0, tilt, letter);
+      if (quarter !== dr.lastQ) { dr.lastQ = quarter; if (t < .9) blip(300 + (1 - t) * 300); }
+      if (t < 1) dr.raf = requestAnimationFrame(frame);
+      else { dr.spinning = false; blip(k === 1 ? 900 : k === 2 ? 700 : k === 3 ? 220 : 450); if (k === 1) setTimeout(() => blip(1200), 100); done(); }
+    };
+    dr.raf = requestAnimationFrame(frame);
+  }
+
+  function drSpinMine() {
+    const st = dr.st;
+    if (!st || st.over || dr.spinning || st.turn !== dr.me) return;
+    drSpinResult(st); drSend(); drShow(st);
+  }
+
+  function dreidelLeave() {
+    cancelAnimationFrame(dr.raf); dr.st = null;
+    stopMusic();
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  $('soloDreidel').addEventListener('click', () => { mode = 'solo'; dreidelStart(); });
+  $('lobbyDreidel').addEventListener('click', dreidelStart);
+  $('drCount').addEventListener('click', e => { const b = e.target.closest('[data-count]'); if (b) { dr.setup.count = Number(b.dataset.count); drSetupDraw(); } });
+  $('drLen').addEventListener('click', e => { const b = e.target.closest('[data-len]'); if (b) { dr.setup.len = Number(b.dataset.len); drSetupDraw(); } });
+  $('drGo').addEventListener('click', dreidelDeal);
+  $('drSpin').addEventListener('click', drSpinMine);
+  $('drCanvas').addEventListener('click', drSpinMine);
+  $('drSetupBack').addEventListener('click', dreidelLeave);
+  $('drBack').addEventListener('click', dreidelLeave);
+  $('drAgain').addEventListener('click', dreidelStart);
 
   greet();
   show('welcome');
