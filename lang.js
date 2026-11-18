@@ -428,6 +428,20 @@ window.LANG_TEXTS = [
   ['Snoep of je leven!', 'Cukierek albo psikus!', 'Trick or treat!'], ['Je bent een lief monster', 'Jesteś kochanym potworem', "You're a sweet monster"],
   ['Ik vind jou lief', 'Lubię cię', 'I like you'], ['Groetjes van je monster', 'Pozdrowienia od twojego potwora', 'Love from your monster'],
 
+  // --- Spookkaarten ---
+  ["🦇 Spookkaarten", "🦇 Upiorne karty", "🦇 Spooky cards"],
+  ["Speel dezelfde kleur of hetzelfde getal", "Zagraj ten sam kolor albo tę samą liczbę", "Play the same colour or the same number"],
+  ["Wie is als eerste al zijn kaarten kwijt?", "Kto pierwszy pozbędzie się kart?", "Who gets rid of all their cards first?"],
+  ["Overslaan! ⊘", "Stop! ⊘", "Skip! ⊘"],
+  ["Andersom! ⇄", "Odwrotnie! ⇄", "Reverse! ⇄"],
+  ["+2 kaarten!", "+2 karty!", "+2 cards!"],
+  ["+4 kaarten!", "+4 karty!", "+4 cards!"],
+  ["pakt een kaart", "bierze kartę", "takes a card"],
+  ["Nieuwe kleur", "Nowy kolor", "New colour"],
+  ["Hij past! Speel hem, of druk op Verder.", "Pasuje! Zagraj ją albo naciśnij Dalej.", "It fits! Play it, or press Next."],
+  ["Verder ➡️", "Dalej ➡️", "Next ➡️"],
+  ["🏆 Jij wint! Al je kaarten zijn op!", "🏆 Wygrywasz! Nie masz już kart!", "🏆 You win! All your cards are gone!"],
+
   // --- Dominik kan alles / Lily kan alles ---
   ["👑 Lily kan alles", "👑 Lily umie wszystko", "👑 Lily can do anything"],
   ["Vijf wedstrijden tegen Dominik… en jij wint!", "Pięć zawodów z Dominikiem… i ty wygrywasz!", "Five contests against Dominik… and you win!"],
@@ -1078,6 +1092,18 @@ window.LANG_TEXTS = [
 
 // Slovak (for Lily's Slovak grandmother), as a list from each Dutch text to its Slovak one; a text missing here shows in English.
 window.LANG_SK = {
+"🦇 Spookkaarten": "🦇 Strašidelné karty",
+"Speel dezelfde kleur of hetzelfde getal": "Zahraj rovnakú farbu alebo rovnaké číslo",
+"Wie is als eerste al zijn kaarten kwijt?": "Kto sa prvý zbaví všetkých kariet?",
+"Overslaan! ⊘": "Stoj! ⊘",
+"Andersom! ⇄": "Naopak! ⇄",
+"+2 kaarten!": "+2 karty!",
+"+4 kaarten!": "+4 karty!",
+"pakt een kaart": "berie kartu",
+"Nieuwe kleur": "Nová farba",
+"Hij past! Speel hem, of druk op Verder.": "Pasuje! Zahraj ju, alebo stlač Ďalej.",
+"Verder ➡️": "Ďalej ➡️",
+"🏆 Jij wint! Al je kaarten zijn op!": "🏆 Vyhrávaš! Už nemáš žiadne karty!",
 "👑 Lily kan alles": "👑 Lily dokáže všetko",
 "Vijf wedstrijden tegen Dominik… en jij wint!": "Päť súťaží proti Dominikovi… a ty vyhráš!",
 "Vijf wedstrijden: wie is de beste?": "Päť súťaží: kto je najlepší?",

@@ -701,6 +701,32 @@
   #drStatus .dr-last { display: block; font-size: 1.1rem; color: var(--soft); margin-bottom: 4px; }
   .dr-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center; margin-top: 10px; font-size: .95rem; color: var(--soft); }
   .dr-legend b { font-family: "Arial Hebrew", "Times New Roman", serif; font-size: 1.3rem; color: var(--ink); }
+  /* Spookkaarten */
+  .kk-card { width: 62px; height: 93px; border-radius: 9px; background: #2b1640 center / cover no-repeat; border: 4px solid; position: relative;
+             box-shadow: 0 2px 6px rgba(0,0,0,.35); flex: none; transition: transform .15s; }
+  .kk-r { border-color: #e8344e; } .kk-b { border-color: #3b82f6; } .kk-g { border-color: #22a55a; } .kk-y { border-color: #f5b800; }
+  .kk-k { border-color: #2b2140; outline: 2px solid #ffd23f; outline-offset: -6px; }
+  .kk-tl { position: absolute; top: 1px; left: 4px; font-size: .95rem; font-weight: 800; color: #fff; text-shadow: 0 1px 3px #000, 0 0 2px #000; }
+  .kk-mid { position: absolute; left: 50%; top: 74%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,.9); display: grid; place-items: center; font-size: 1.15rem; font-weight: 900; line-height: 1; }
+  .kk-r .kk-mid { color: #e8344e; } .kk-b .kk-mid { color: #3b82f6; } .kk-g .kk-mid { color: #22a55a; } .kk-y .kk-mid { color: #c99400; } .kk-k .kk-mid { color: #2b2140; }
+  .kk-top { width: 112px; height: 168px; border-width: 6px; } .kk-top .kk-mid { width: 58px; height: 58px; font-size: 1.9rem; } .kk-top .kk-tl { font-size: 1.4rem; }
+  .kk-pop { animation: kkPop .35s ease-out; } @keyframes kkPop { from { transform: scale(1.25) rotate(-6deg); } to { transform: none; } }
+  .kk-mini { display: inline-block; vertical-align: middle; width: 30px; height: 45px; border-width: 2px; border-radius: 5px; }
+  .kk-mini .kk-tl { display: none; } .kk-mini .kk-mid { width: 20px; height: 20px; font-size: .7rem; }
+  .kk-table { display: flex; gap: 22px; justify-content: center; align-items: center; margin: 10px 0; }
+  .kk-deck { width: 80px; height: 120px; border-radius: 10px; border: 4px solid #ffd23f; display: grid; place-items: center; font-size: 2.2rem;
+             background: repeating-linear-gradient(45deg, #2b1640 0 10px, #3a1f57 10px 20px); color: #fff; position: relative; cursor: pointer; }
+  .kk-deck small { position: absolute; bottom: 4px; font-size: .8rem; }
+  .kk-deck.can { box-shadow: 0 0 0 4px var(--ok); animation: kkGlow 1.2s infinite alternate; } @keyframes kkGlow { to { transform: scale(1.05); } }
+  .kk-color { width: 30px; height: 30px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.4); margin: 0 auto 4px; }
+  .kk-hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; padding-top: 10px; }
+  .kk-hand.many { gap: 4px; } .kk-hand.many .kk-card { width: 52px; height: 78px; }
+  .kk-hand .kk-card.can { transform: translateY(-9px); cursor: pointer; box-shadow: 0 0 0 3px #fff, 0 4px 10px rgba(0,0,0,.4); }
+  .kk-hand .kk-card.no { filter: brightness(.5) saturate(.6); }
+  .kk-colors { display: flex; gap: 12px; justify-content: center; margin: 10px 0; }
+  .kk-colors button { width: 58px; height: 58px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.35); cursor: pointer; }
+  .kk-dir { background: none !important; font-size: 1.3rem; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .dk-score { font-size: 1.2rem; margin-bottom: 6px; } .dk-score b { font-size: 1.5rem; margin: 0 8px; }
@@ -758,6 +784,7 @@
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
+      <button class="level l4" id="soloKleur">🦇 Spookkaarten<small>Speel dezelfde kleur of hetzelfde getal</small></button>
       <button class="level l3" id="soloLily">👑 Lily kan alles<small>Vijf wedstrijden tegen Dominik… en jij wint!</small></button>
       <button class="level w1" id="soloDominik">🏆 Dominik kan alles<small>Vijf wedstrijden… en Dominik wint altijd!</small></button>
       <button class="level l2" id="soloDreidel">✡️ Dreidel<small>Het Chanoeka-tolletje: draai en win munten</small></button>
@@ -825,6 +852,7 @@
         <button class="level l3" id="lobbyC4">🔴🟡 Vier op een rij<small>Wie heeft er eerst vier?</small></button>
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
+        <button class="level l4" id="lobbyKleur">🦇 Spookkaarten<small>Wie is als eerste al zijn kaarten kwijt?</small></button>
         <button class="level l3" id="lobbyLily">👑 Lily kan alles<small>Vijf wedstrijden: wie is de beste?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
         <button class="level l4" id="lobbyGwint">🗡️ Gwint<small>Het grote kaartspel, wie wint 2 rondes?</small></button>
@@ -1461,6 +1489,34 @@
     <button class="back" id="dkBack">← Ander spel</button>
   </section>
 
+  <!-- Spookkaarten: instellen -->
+  <section id="kkSetup" class="hidden">
+    <div class="card">
+      <p class="who">Hoeveel spelers?</p>
+      <div class="rk-pick" id="kkCount"></div>
+      <p class="wait" id="kkCountHint"></p>
+      <button class="again" id="kkGo">Spelen!</button>
+    </div>
+    <button class="back" id="kkSetupBack">← Terug</button>
+  </section>
+
+  <!-- Spookkaarten: spelen -->
+  <section id="kk" class="hidden">
+    <div class="card">
+      <div class="dr-players" id="kkPlayers"></div>
+      <div class="kk-table">
+        <div id="kkPile"></div>
+        <div><div class="kk-color" id="kkColor"></div><div class="kk-deck" id="kkDeck">🦇<small id="kkDeckN"></small></div></div>
+      </div>
+      <p class="ttt-status" id="kkStatus"></p>
+      <div class="kk-colors" id="kkColors" hidden><button data-c="r" style="background:#e8344e" aria-label="rood"></button><button data-c="b" style="background:#3b82f6" aria-label="blauw"></button><button data-c="g" style="background:#22a55a" aria-label="groen"></button><button data-c="y" style="background:#f5b800" aria-label="geel"></button></div>
+      <button class="again" id="kkPass" hidden>Verder ➡️</button>
+      <div class="kk-hand" id="kkHand"></div>
+      <div class="ttt-end" id="kkEnd" hidden><button class="again" id="kkAgain">Nog een keer!</button></div>
+    </div>
+    <button class="back" id="kkBack">← Ander spel</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -1736,7 +1792,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2108,7 +2164,7 @@
   }
 
   // Games for two are only for two; with three or four people, Rummi is the game
-  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus', 'lobbyDreidel'];
+  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus', 'lobbyDreidel', 'lobbyKleur'];
   function drawLobby(note) {
     const names = others.map(o => o.name);
     const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0];
@@ -2214,7 +2270,7 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
     if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : m.game === 'lily' ? lilyBegin() : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
@@ -2250,6 +2306,7 @@
       const P = gw.st.p[m.pi]; P.hand = m.hand; P.deck = m.deck; P.ready = true; gw.st.v++; gwSend(); gwShow(gw.st);
     }
     if (['dkdone', 'dknext', 'dkagain'].includes(m.type)) dkReceive(m);
+    if (m.type === 'kkstate' && ['lobby', 'kkSetup', 'kk'].includes(screen)) kkReceive(m.st);
     if (m.type === 'drstate' && ['lobby', 'dreidelSetup', 'dreidel'].includes(screen)) dreidelReceive(m.st);
     if (m.type === 'wstate' && ['lobby', 'wirusSetup', 'wirus'].includes(screen)) wirusReceive(m.st);
     if (m.type === 'wv' && screen === 'wirus' && wv.st && m.gid === wv.st.id && m.v < wv.st.v) send('wstate', { st: wv.st });
@@ -10599,6 +10656,184 @@
   $('lobbyLily').addEventListener('click', lilyStart);
   $('soloDominik').addEventListener('click', dominikStart);
   $('dkBack').addEventListener('click', () => { cancelAnimationFrame(dk.raf); if (mode === 'together') { send('lobby', {}); return toLobby(); } show('soloGames'); });
+
+  // ----- 🦇 Spookkaarten: the colour card game with our own spooky-cute pictures (Nano Banana). Play a card with the same
+  // colour or the same number/sign. ⊘ skips the next one, ⇄ turns the direction (with two: skips), +2 / +4 make the
+  // next one draw and skip their turn, 🌈 and +4 choose the colour. Can't play? Draw one; if it fits you may play it.
+  // First with no cards wins. Alone with 1-3 dogs, or together with 2-4 people (whoever's turn it is sends the game).
+  const KK_COLORS = { r: '#e8344e', b: '#3b82f6', g: '#22a55a', y: '#f5b800' };
+  const KK_ART = { r: 'red', b: 'blue', g: 'green', y: 'yellow', S: 'skip', R: 'reverse', D: 'plus2', W: 'wild', F: 'plus4' };
+  const KK_DOT = { r: '🔴', b: '🔵', g: '🟢', y: '🟡' };
+  const kk = { st: null, me: 0, setup: { count: 2 }, shownV: '' };
+
+  function kkStart() {
+    kk.setup.count = mode === 'together' ? Math.max(2, others.length + 1) : 2;
+    kkSetupDraw();
+    $('kkSetupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('kkSetup');
+  }
+  function kkSetupDraw() {
+    const people = mode === 'together' ? others.length + 1 : 1;
+    const counts = [2, 3, 4].filter(n => n >= people);
+    if (kk.setup.count < counts[0]) kk.setup.count = counts[0];
+    $('kkCount').innerHTML = counts.map(n => `<button data-count="${n}" class="${kk.setup.count === n ? 'on' : ''}">👥 ${n}</button>`).join('');
+    const dogs = kk.setup.count - people;
+    $('kkCountHint').textContent = dogs ? `Jij en ${dogs} ${dogs > 1 ? 'hondjes' : 'hondje'}.` : '';
+  }
+
+  function kkShuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function kkDeal() {
+    const deck = [];
+    for (const c of 'rbgy') { deck.push(c + '0'); for (const v of '123456789SRD') deck.push(c + v, c + v); }
+    for (let k = 0; k < 4; k++) deck.push('W', 'F');
+    kkShuffle(deck);
+    const dogNames = ['Hondje Bo', 'Hondje Fien', 'Hondje Max'];
+    const seats = [{ id: myId, name: myName || 'Jij', dog: false }];
+    if (mode === 'together') others.forEach(o => seats.push({ id: o.id, name: o.name, dog: false }));
+    const people = seats.length;
+    while (seats.length < kk.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
+    seats.forEach(x => { x.hand = deck.splice(0, 7); });
+    let i = deck.findIndex(c => /^[rbgy]\d$/.test(c));                     // start on a number card
+    const pile = deck.splice(i, 1);
+    const st = { id: Math.random().toString(36).slice(2), v: 1, seats, deck, pile, color: pile[0][0], turn: 0, dir: 1, drawn: -1,
+                 runner: myId, last: null, over: null };
+    kkShow(st); kkSend();
+  }
+
+  const kkSend = () => { if (mode === 'together') send('kkstate', { st: kk.st }); };
+  function kkReceive(st) {
+    const old = kk.st;
+    if (old && old.id === st.id && st.v <= old.v) return;
+    kkShow(st);
+  }
+
+  // --- the rules (done on the device whose turn it is, then sent) ---
+  const kkTop = st => st.pile[st.pile.length - 1];
+  function kkFits(st, c) {
+    if (c === 'W' || c === 'F') return true;
+    const top = kkTop(st);
+    return c[0] === st.color || (top.length > 1 && c[1] === top[1]);
+  }
+  function kkTake(st) {
+    if (!st.deck.length) { const top = st.pile.pop(); st.deck = kkShuffle(st.pile); st.pile = [top]; }
+    return st.deck.pop() || null;
+  }
+  const kkStep = (st, n = 1) => { const N = st.seats.length; st.turn = ((st.turn + st.dir * n) % N + N) % N; };
+  function kkPlay(st, idx, color) {
+    const P = st.seats[st.turn], c = P.hand.splice(idx, 1)[0], N = st.seats.length;
+    st.pile.push(c); st.drawn = -1;
+    st.color = c === 'W' || c === 'F' ? (color || 'r') : c[0];
+    const by = st.turn, v = c.length > 1 ? c[1] : c;
+    let what = '';
+    if (!P.hand.length) { st.over = { winner: by }; st.last = { by, c, what }; st.v++; return; }
+    if (v === 'S') { what = 'Overslaan! ⊘'; kkStep(st, 2); }
+    else if (v === 'R') { what = 'Andersom! ⇄'; st.dir *= -1; kkStep(st, N === 2 ? 2 : 1); }
+    else if (v === 'D' || v === 'F') {
+      kkStep(st); const T = st.seats[st.turn];
+      for (let k = 0; k < (v === 'D' ? 2 : 4); k++) { const n = kkTake(st); if (n) T.hand.push(n); }
+      what = v === 'D' ? '+2 kaarten!' : '+4 kaarten!'; st.last = { by, c, what, to: st.turn }; kkStep(st); st.v++; return;
+    } else kkStep(st);
+    st.last = { by, c, what }; st.v++;
+  }
+  function kkDraw(st) {
+    const P = st.seats[st.turn], n = kkTake(st);
+    st.last = { by: st.turn, c: null, what: 'pakt een kaart' };
+    if (n) P.hand.push(n);
+    if (n && kkFits(st, n)) st.drawn = P.hand.length - 1; else { st.drawn = -1; kkStep(st); }
+    st.v++;
+  }
+  function kkPass(st) { st.drawn = -1; kkStep(st); st.v++; }
+
+  function kkDogMove(st) {
+    const P = st.seats[st.turn];
+    const most = () => { const n = { r: 0, b: 0, g: 0, y: 0 }; P.hand.forEach(c => { if (n[c[0]] !== undefined) n[c[0]]++; }); return Object.keys(n).sort((a, b) => n[b] - n[a])[0]; };
+    if (st.drawn >= 0) return kkPlay(st, st.drawn, most());
+    let i = P.hand.findIndex(c => c !== 'W' && c !== 'F' && kkFits(st, c));
+    if (i < 0) i = P.hand.findIndex(c => kkFits(st, c));
+    if (i >= 0) return kkPlay(st, i, most());
+    kkDraw(st);
+  }
+
+  // --- the screen ---
+  function kkCard(c, cls = '', attrs = '') {
+    const col = c === 'W' || c === 'F' ? 'k' : c[0], v = c.length > 1 ? c[1] : c;
+    const art = KK_ART[/\d/.test(v) ? col : v];
+    const mark = c === 'W' ? '🌈' : c === 'F' ? '+4' : v === 'S' ? '⊘' : v === 'R' ? '⇄' : v === 'D' ? '+2' : v;
+    return `<div class="kk-card kk-${col} ${cls}" ${attrs} style="background-image:url(kleur/${art}.jpg)"><b class="kk-tl">${mark}</b><b class="kk-mid">${mark}</b></div>`;
+  }
+
+  function kkShow(st) {
+    stopMusic();
+    const fresh = kk.shownV !== st.id + st.v;
+    kk.shownV = st.id + st.v;
+    kk.st = st; kk.me = st.seats.findIndex(x => x.id === myId);
+    kk.picking = -1;
+    $('kkEnd').hidden = true; $('kkColors').hidden = true;
+    show('kk');
+    if (fresh && st.last) blip(st.last.c ? 600 : 350);
+    const me = st.seats[kk.me], myTurn = st.turn === kk.me && !st.over, name = i => i === kk.me ? 'Jij' : st.seats[i].name;
+    $('kkPlayers').innerHTML = st.seats.map((x, i) => `<span class="${i === st.turn && !st.over ? 'turn' : ''}">${x.dog ? '🐶' : '🙂'} <b>${name(i)}</b> 🃏 ${x.hand.length}${x.hand.length === 1 ? ' 🦇' : ''}</span>`).join('') +
+      `<span class="kk-dir">${st.dir > 0 ? '↻' : '↺'}</span>`;
+    $('kkPile').innerHTML = kkCard(kkTop(st), 'kk-top' + (fresh ? ' kk-pop' : ''));
+    $('kkColor').style.background = KK_COLORS[st.color];
+    $('kkDeck').classList.toggle('can', myTurn && st.drawn < 0);
+    $('kkDeckN').textContent = st.deck.length;
+    $('kkHand').classList.toggle('many', me.hand.length > 8);
+    $('kkHand').innerHTML = me.hand.map((c, i) => {
+      const can = myTurn && (st.drawn >= 0 ? i === st.drawn : kkFits(st, c));
+      return kkCard(c, myTurn ? (can ? 'can' : 'no') : '', `data-i="${i}"`);
+    }).join('');
+    $('kkPass').hidden = !(myTurn && st.drawn >= 0);
+    let line = '';
+    if (st.last) {
+      const L = st.last, who = `${st.seats[L.by].dog ? '🐶 ' : ''}<span>${name(L.by)}</span>`;
+      const extra = L.to !== undefined ? ` <span>→</span> <span>${name(L.to)}</span>` : '';
+      line = `<span class="dr-last">${who}: ${L.c ? kkCard(L.c, 'kk-mini') : ''} ${L.what ? `<span>${L.what}</span>` : ''}${extra}${L.c && (L.c === 'W' || L.c === 'F') ? ` <span>Nieuwe kleur</span> ${KK_DOT[st.color]}` : ''}</span>`;
+    }
+    if (st.over) return kkOver(line);
+    const P = st.seats[st.turn];
+    $('kkStatus').innerHTML = line + `<span>${myTurn ? (st.drawn >= 0 ? 'Hij past! Speel hem, of druk op Verder.' : 'Jij bent aan de beurt!') : `${P.dog ? '🐶 ' : ''}${P.name} is aan de beurt…`}</span>`;
+    if (P.dog && st.runner === myId) setTimeout(() => { if (kk.st === st && !st.over && st.seats[st.turn].dog) { kkDogMove(st); kkSend(); kkShow(st); } }, 1300);
+  }
+
+  function kkOver(line) {
+    const st = kk.st, w = st.over.winner;
+    $('kkPass').hidden = true; $('kkEnd').hidden = false;
+    $('kkStatus').innerHTML = line + (w === kk.me ? '<span>🏆 Jij wint! Al je kaarten zijn op!</span>' : `<span>${st.seats[w].name} wint!</span>`);
+    if (w === kk.me) { confetti(); winSound(); }
+  }
+
+  function kkMine(i) {
+    const st = kk.st;
+    if (!st || st.over || st.turn !== kk.me) return;
+    const c = st.seats[kk.me].hand[i];
+    if (c === undefined || (st.drawn >= 0 && i !== st.drawn) || !kkFits(st, c)) return;
+    if (c === 'W' || c === 'F') { kk.picking = i; $('kkColors').hidden = false; return; }
+    kkPlay(st, i); kkSend(); kkShow(st);
+  }
+
+  function kkLeave() {
+    kk.st = null;
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  $('soloKleur').addEventListener('click', () => { mode = 'solo'; kkStart(); });
+  $('lobbyKleur').addEventListener('click', kkStart);
+  $('kkCount').addEventListener('click', e => { const b = e.target.closest('[data-count]'); if (b) { kk.setup.count = Number(b.dataset.count); kkSetupDraw(); } });
+  $('kkGo').addEventListener('click', kkDeal);
+  $('kkHand').addEventListener('click', e => { const c = e.target.closest('[data-i]'); if (c) kkMine(Number(c.dataset.i)); });
+  $('kkDeck').addEventListener('click', () => { const st = kk.st; if (st && !st.over && st.turn === kk.me && st.drawn < 0) { kkDraw(st); kkSend(); kkShow(st); } });
+  $('kkPass').addEventListener('click', () => { const st = kk.st; if (st && st.turn === kk.me && st.drawn >= 0) { kkPass(st); kkSend(); kkShow(st); } });
+  $('kkColors').addEventListener('click', e => {
+    const b = e.target.closest('[data-c]'), st = kk.st;
+    if (!b || !st || kk.picking < 0 || st.turn !== kk.me) return;
+    kkPlay(st, kk.picking, b.dataset.c); kkSend(); kkShow(st);
+  });
+  $('kkSetupBack').addEventListener('click', kkLeave);
+  $('kkBack').addEventListener('click', kkLeave);
+  $('kkAgain').addEventListener('click', kkStart);
 
   greet();
   show('welcome');
