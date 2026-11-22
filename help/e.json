@@ -1,0 +1,204 @@
+{
+ "tfive": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "3 spelers, 52 kaarten. Iedereen krijgt 16 kaarten, 4 gaan in de pot."
+    ],
+    [
+     "🎯",
+     "Elk heeft een doel: de deler 8 slagen, de volgende 5, de laatste 3. Het doel schuift elke ronde door."
+    ],
+    [
+     "🔁",
+     "Had je vorige ronde te veel slagen? Geef een kaart aan wie te weinig had, en krijg zijn hoogste van die kleur terug."
+    ],
+    [
+     "👑",
+     "Wie 8 moet halen kiest de troef, pakt de pot en legt 4 kaarten weg."
+    ],
+    [
+     "👆",
+     "Beken kleur als je kunt. Kan dat niet, dan mag alles: troef wint van de rest."
+    ],
+    [
+     "➕",
+     "Elke slag boven je doel is +1, elke slag te weinig is −1. Wie 12 slagen of meer haalt, wint meteen!"
+    ],
+    [
+     "🏆",
+     "Na de laatste ronde wint wie de meeste punten heeft."
+    ]
+   ],
+   "tips": [
+    [
+     "👑",
+     "Kies als troef de kleur waar je de meeste en hoogste kaarten van hebt."
+    ],
+    [
+     "🗑️",
+     "Leg korte kleuren weg: zonder die kleur mag je troef spelen."
+    ],
+    [
+     "🎯",
+     "Heb je je doel? Elke slag extra is een punt, en volgende ronde mag je ruilen!"
+    ],
+    [
+     "🧐",
+     "Let op wie nog slagen nodig heeft: die speelt zijn hoge kaarten."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "3 graczy, 52 karty. Każdy dostaje 16 kart, 4 idą do puli."
+    ],
+    [
+     "🎯",
+     "Każdy ma cel: rozdający 8 lew, następny 5, ostatni 3. Cel przesuwa się co rozdanie."
+    ],
+    [
+     "🔁",
+     "Miałaś/eś za dużo lew? Daj kartę temu, kto miał za mało, i dostaniesz jego najwyższą w tym kolorze."
+    ],
+    [
+     "👑",
+     "Kto ma wziąć 8, wybiera atu, bierze pulę i odkłada 4 karty."
+    ],
+    [
+     "👆",
+     "Dokładaj do koloru, jeśli możesz. Jeśli nie, możesz zagrać cokolwiek: atu bije resztę."
+    ],
+    [
+     "➕",
+     "Każda lewa ponad cel to +1, każda brakująca to −1. Kto weźmie 12 lew albo więcej, wygrywa od razu!"
+    ],
+    [
+     "🏆",
+     "Po ostatnim rozdaniu wygrywa ten, kto ma najwięcej punktów."
+    ]
+   ],
+   "tips": [
+    [
+     "👑",
+     "Wybierz atu w kolorze, w którym masz najwięcej i najwyższych kart."
+    ],
+    [
+     "🗑️",
+     "Odkładaj krótkie kolory: bez tego koloru możesz grać atu."
+    ],
+    [
+     "🎯",
+     "Masz już cel? Każda dodatkowa lewa to punkt, a w następnym rozdaniu wymieniasz karty!"
+    ],
+    [
+     "🧐",
+     "Uważaj, komu brakuje lew: ten gracz zagra wysokie karty."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "3 players, 52 cards. Everyone gets 16 cards, 4 go into the kitty."
+    ],
+    [
+     "🎯",
+     "Everyone has a target: the dealer 8 tricks, the next 5, the last 3. The targets move on every round."
+    ],
+    [
+     "🔁",
+     "Too many tricks last round? Give a card to whoever had too few, and get back their highest of that suit."
+    ],
+    [
+     "👑",
+     "Whoever must take 8 picks trumps, takes the kitty and puts away 4 cards."
+    ],
+    [
+     "👆",
+     "Follow suit if you can. If not, play anything: trumps beat the rest."
+    ],
+    [
+     "➕",
+     "Each trick above your target is +1, each one short is −1. Take 12 tricks or more and you win at once!"
+    ],
+    [
+     "🏆",
+     "After the last round, whoever has the most points wins."
+    ]
+   ],
+   "tips": [
+    [
+     "👑",
+     "Pick trumps in the suit where you have the most and highest cards."
+    ],
+    [
+     "🗑️",
+     "Put away short suits: without that suit you may play trumps."
+    ],
+    [
+     "🎯",
+     "Reached your target? Every extra trick is a point, and next round you get to swap!"
+    ],
+    [
+     "🧐",
+     "Watch who still needs tricks: they will play their high cards."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "3 hráči, 52 kariet. Každý dostane 16 kariet, 4 idú do kôpky."
+    ],
+    [
+     "🎯",
+     "Každý má cieľ: rozdávajúci 8 štychov, ďalší 5, posledný 3. Cieľ sa každé kolo posúva."
+    ],
+    [
+     "🔁",
+     "Mal/a si priveľa štychov? Daj kartu tomu, kto mal málo, a dostaneš jeho najvyššiu tej farby."
+    ],
+    [
+     "👑",
+     "Kto má získať 8, vyberie tromf, vezme kôpku a odloží 4 karty."
+    ],
+    [
+     "👆",
+     "Priznaj farbu, ak môžeš. Ak nie, zahraj čokoľvek: tromf bije ostatné."
+    ],
+    [
+     "➕",
+     "Každý štych nad cieľ je +1, každý chýbajúci −1. Kto získa 12 štychov alebo viac, hneď vyhráva!"
+    ],
+    [
+     "🏆",
+     "Po poslednom kole vyhráva ten, kto má najviac bodov."
+    ]
+   ],
+   "tips": [
+    [
+     "👑",
+     "Vyber tromf vo farbe, z ktorej máš najviac a najvyšších kariet."
+    ],
+    [
+     "🗑️",
+     "Odkladaj krátke farby: bez tej farby môžeš hrať tromf."
+    ],
+    [
+     "🎯",
+     "Máš cieľ? Každý štych navyše je bod a ďalšie kolo môžeš vymieňať!"
+    ],
+    [
+     "🧐",
+     "Sleduj, komu chýbajú štychy: ten zahrá vysoké karty."
+    ]
+   ]
+  }
+ }
+}
