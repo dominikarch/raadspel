@@ -1,0 +1,2026 @@
+{
+ "guess": {
+  "nl": {
+   "rules": [
+    [
+     "🐣",
+     "Kies een level: van 🐣 Makkelijk (1 tot 9) tot 🦄 Meester (1 tot 9999)."
+    ],
+    [
+     "🐶",
+     "Het hondje verstopt een geheim getal. Typ je gok en tik op ✔."
+    ],
+    [
+     "⬆️",
+     "Het hondje zegt of het getal hoger of lager is. Bovenaan zie je tussen welke getallen het zit."
+    ],
+    [
+     "⭐",
+     "Gevonden? Hoe minder gokken, hoe meer sterren. Drie sterren is het hoogst!"
+    ],
+    [
+     "👫",
+     "Samen: kies 🙈 Ik verstop of 🔍 Ik raad. De verstopper typt een geheim getal, de ander raadt."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Gok altijd het getal in het midden. Bij 1 tot 99 begin je dus met 50."
+    ],
+    [
+     "👀",
+     "Kijk naar 'Het getal zit tussen…'. Gok nooit buiten die getallen, dat is een verspilde gok."
+    ],
+    [
+     "🧠",
+     "Met de middel-truc vind je elk getal bij Makkelijk in 4 gokken en bij Gemiddeld in 7."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🐣",
+     "Wybierz poziom: od 🐣 Łatwy (1 do 9) do 🦄 Mistrz (1 do 9999)."
+    ],
+    [
+     "🐶",
+     "Piesek chowa tajną liczbę. Wpisz, co zgadujesz, i stuknij ✔."
+    ],
+    [
+     "⬆️",
+     "Piesek mówi, czy liczba jest większa, czy mniejsza. Na górze widzisz, między jakimi liczbami jest."
+    ],
+    [
+     "⭐",
+     "Udało się? Im mniej prób, tym więcej gwiazdek. Najwięcej są trzy!"
+    ],
+    [
+     "👫",
+     "Razem: wybierz 🙈 Ja chowam albo 🔍 Ja zgaduję. Jeden wpisuje tajną liczbę, drugi zgaduje."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Zawsze zgaduj liczbę ze środka. Przy 1 do 99 zacznij więc od 50."
+    ],
+    [
+     "👀",
+     "Patrz, między jakimi liczbami jest liczba. Nie zgaduj poza nimi, to stracona próba."
+    ],
+    [
+     "🧠",
+     "Ze sztuczką ze środkiem znajdziesz każdą liczbę na Łatwym w 4 próbach, a na Średnim w 7."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🐣",
+     "Pick a level: from 🐣 Easy (1 to 9) to 🦄 Master (1 to 9999)."
+    ],
+    [
+     "🐶",
+     "The dog hides a secret number. Type your guess and tap ✔."
+    ],
+    [
+     "⬆️",
+     "The dog says if the number is higher or lower. At the top you see which numbers it is between."
+    ],
+    [
+     "⭐",
+     "Found it? The fewer guesses, the more stars. Three stars is the best!"
+    ],
+    [
+     "👫",
+     "Together: pick 🙈 I hide or 🔍 I guess. The hider types a secret number, the other one guesses."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Always guess the number in the middle. For 1 to 99, start with 50."
+    ],
+    [
+     "👀",
+     "Look at which numbers it is between. Never guess outside them, that's a wasted guess."
+    ],
+    [
+     "🧠",
+     "With the middle trick you find any number on Easy in 4 guesses, and on Medium in 7."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🐣",
+     "Vyber úroveň: od 🐣 Ľahké (1 až 9) po 🦄 Majster (1 až 9999)."
+    ],
+    [
+     "🐶",
+     "Psík schová tajné číslo. Napíš svoj tip a ťukni na ✔."
+    ],
+    [
+     "⬆️",
+     "Psík povie, či je číslo väčšie, alebo menšie. Hore vidíš, medzi ktorými číslami je."
+    ],
+    [
+     "⭐",
+     "Máš ho? Čím menej tipov, tým viac hviezdičiek. Najviac sú tri!"
+    ],
+    [
+     "👫",
+     "Spolu: vyber 🙈 Ja schovávam alebo 🔍 Ja hádam. Jeden napíše tajné číslo, druhý háda."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Vždy tipni číslo v strede. Pri 1 až 99 teda začni s 50."
+    ],
+    [
+     "👀",
+     "Pozri sa, medzi ktorými číslami je. Nikdy netipuj mimo nich, to je zbytočný tip."
+    ],
+    [
+     "🧠",
+     "S trikom so stredom nájdeš každé číslo na Ľahkom za 4 tipy a na Strednom za 7."
+    ]
+   ]
+  }
+ },
+ "ttt": {
+  "nl": {
+   "rules": [
+    [
+     "🖼️",
+     "Kies je plaatje. Alleen kies je ook hoe slim het hondje is: 🐶 Puppy of 🐕 Slimme hond."
+    ],
+    [
+     "👆",
+     "Om de beurt tik je op een leeg vakje. Daar komt je plaatje."
+    ],
+    [
+     "➖",
+     "Drie van jouw plaatjes op een rij wint: liggend, staand of schuin."
+    ],
+    [
+     "🤝",
+     "Is het bord vol en heeft niemand drie op een rij? Dan is het gelijkspel."
+    ],
+    [
+     "🔁",
+     "Bij Nog een keer! begint de ander."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Begin jij? Neem het middelste vakje of een hoek."
+    ],
+    [
+     "🛑",
+     "Heeft de ander er al twee op een rij? Zet jouw plaatje er meteen tussen!"
+    ],
+    [
+     "✌️",
+     "Slim: maak twee rijtjes van twee tegelijk. Dan kan de ander er maar één tegenhouden."
+    ],
+    [
+     "🐕",
+     "De Slimme hond maakt nooit een fout. Gelijkspel tegen hem is al heel goed!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🖼️",
+     "Wybierz obrazek. Grając sam, wybierz też, jak sprytny jest piesek: 🐶 Szczeniaczek albo 🐕 Sprytny pies."
+    ],
+    [
+     "👆",
+     "Na zmianę stukacie w puste pole. Tam pojawia się twój obrazek."
+    ],
+    [
+     "➖",
+     "Wygrywają trzy twoje obrazki w rzędzie: poziomo, pionowo albo na ukos."
+    ],
+    [
+     "🤝",
+     "Plansza pełna, a nikt nie ma trzech w rzędzie? To remis."
+    ],
+    [
+     "🔁",
+     "Po Jeszcze raz! zaczyna ten drugi."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Zaczynasz? Zajmij środkowe pole albo róg."
+    ],
+    [
+     "🛑",
+     "Ktoś ma już dwa w rzędzie? Od razu postaw tam swój obrazek!"
+    ],
+    [
+     "✌️",
+     "Sprytnie: zrób naraz dwa rzędy po dwa. Przeciwnik zablokuje tylko jeden."
+    ],
+    [
+     "🐕",
+     "Sprytny pies nigdy się nie myli. Remis z nim to już świetny wynik!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🖼️",
+     "Pick your picture. Alone, also pick how clever the dog is: 🐶 Puppy or 🐕 Clever dog."
+    ],
+    [
+     "👆",
+     "Take turns tapping an empty square. Your picture goes there."
+    ],
+    [
+     "➖",
+     "Three of your pictures in a row wins: across, up and down, or slanted."
+    ],
+    [
+     "🤝",
+     "Board full and nobody has three in a row? Then it's a draw."
+    ],
+    [
+     "🔁",
+     "After Again! the other player starts."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Are you first? Take the middle square or a corner."
+    ],
+    [
+     "🛑",
+     "Does the other one have two in a row? Put your picture in the gap right away!"
+    ],
+    [
+     "✌️",
+     "Clever: make two rows of two at once. The other one can only block one."
+    ],
+    [
+     "🐕",
+     "The Clever dog never makes a mistake. A draw against it is already great!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🖼️",
+     "Vyber si obrázok. Keď hráš sám, vyber aj, aký múdry je psík: 🐶 Šteniatko alebo 🐕 Múdry pes."
+    ],
+    [
+     "👆",
+     "Striedavo ťukáte na prázdne políčko. Tam sa objaví tvoj obrázok."
+    ],
+    [
+     "➖",
+     "Tri tvoje obrázky v rade vyhrávajú: vodorovne, zvislo alebo šikmo."
+    ],
+    [
+     "🤝",
+     "Plocha je plná a nikto nemá tri v rade? Je to remíza."
+    ],
+    [
+     "🔁",
+     "Po Ešte raz! začína ten druhý."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Začínaš? Zober prostredné políčko alebo roh."
+    ],
+    [
+     "🛑",
+     "Má súper už dva v rade? Hneď daj svoj obrázok do medzery!"
+    ],
+    [
+     "✌️",
+     "Šikovne: sprav naraz dva rady po dvoch. Súper zastaví iba jeden."
+    ],
+    [
+     "🐕",
+     "Múdry pes sa nikdy nepomýli. Remíza s ním je už super!"
+    ]
+   ]
+  }
+ },
+ "c4": {
+  "nl": {
+   "rules": [
+    [
+     "🖼️",
+     "Kies je plaatje. Alleen kies je ook hoe slim het hondje is: 🐶 Puppy of 🐕 Slimme hond."
+    ],
+    [
+     "👇",
+     "Om de beurt tik je op een kolom. Je plaatje valt naar het laagste lege vakje."
+    ],
+    [
+     "4️⃣",
+     "Vier van jouw plaatjes op een rij wint: liggend, staand of schuin."
+    ],
+    [
+     "🤝",
+     "Is het bord vol zonder vier op een rij? Dan is het gelijkspel."
+    ],
+    [
+     "🔁",
+     "Bij Nog een keer! begint de ander."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Speel veel in de middelste kolom. Daar kun je de meeste rijen van vier maken."
+    ],
+    [
+     "🛑",
+     "Heeft de ander drie op een rij met een gat ernaast? Vul dat gat meteen!"
+    ],
+    [
+     "↗️",
+     "Let goed op schuine rijen. Die zie je het makkelijkst over het hoofd."
+    ],
+    [
+     "⚠️",
+     "Kijk wat er boven jouw plaatje kan komen. Leg de ander niet een vakje voor om te winnen."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🖼️",
+     "Wybierz obrazek. Grając sam, wybierz też, jak sprytny jest piesek: 🐶 Szczeniaczek albo 🐕 Sprytny pies."
+    ],
+    [
+     "👇",
+     "Na zmianę stukacie w kolumnę. Twój obrazek spada na najniższe wolne pole."
+    ],
+    [
+     "4️⃣",
+     "Wygrywają cztery twoje obrazki w rzędzie: poziomo, pionowo albo na ukos."
+    ],
+    [
+     "🤝",
+     "Plansza pełna, a nikt nie ma czterech w rzędzie? To remis."
+    ],
+    [
+     "🔁",
+     "Po Jeszcze raz! zaczyna ten drugi."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Graj dużo w środkowej kolumnie. Stamtąd ułożysz najwięcej czwórek."
+    ],
+    [
+     "🛑",
+     "Przeciwnik ma trzy w rzędzie i obok wolne pole? Od razu je zajmij!"
+    ],
+    [
+     "↗️",
+     "Uważaj na rzędy na ukos. Najłatwiej ich nie zauważyć."
+    ],
+    [
+     "⚠️",
+     "Sprawdź, co może spaść na twój obrazek. Nie podsuwaj przeciwnikowi pola do wygranej."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🖼️",
+     "Pick your picture. Alone, also pick how clever the dog is: 🐶 Puppy or 🐕 Clever dog."
+    ],
+    [
+     "👇",
+     "Take turns tapping a column. Your picture drops to the lowest empty square."
+    ],
+    [
+     "4️⃣",
+     "Four of your pictures in a row wins: across, up and down, or slanted."
+    ],
+    [
+     "🤝",
+     "Board full and nobody has four in a row? Then it's a draw."
+    ],
+    [
+     "🔁",
+     "After Again! the other player starts."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Play a lot in the middle column. From there you can make the most rows of four."
+    ],
+    [
+     "🛑",
+     "Has the other one got three in a row with a gap next to it? Fill that gap right away!"
+    ],
+    [
+     "↗️",
+     "Watch out for slanted rows. They are the easiest to miss."
+    ],
+    [
+     "⚠️",
+     "Think about what lands on top of your picture. Don't give the other one a winning square."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🖼️",
+     "Vyber si obrázok. Keď hráš sám, vyber aj, aký múdry je psík: 🐶 Šteniatko alebo 🐕 Múdry pes."
+    ],
+    [
+     "👇",
+     "Striedavo ťukáte na stĺpec. Tvoj obrázok spadne na najnižšie voľné políčko."
+    ],
+    [
+     "4️⃣",
+     "Štyri tvoje obrázky v rade vyhrávajú: vodorovne, zvislo alebo šikmo."
+    ],
+    [
+     "🤝",
+     "Plocha je plná a nikto nemá štyri v rade? Je to remíza."
+    ],
+    [
+     "🔁",
+     "Po Ešte raz! začína ten druhý."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Hraj veľa v prostrednom stĺpci. Odtiaľ urobíš najviac štvoríc."
+    ],
+    [
+     "🛑",
+     "Má súper tri v rade a vedľa voľné miesto? Hneď ho obsaď!"
+    ],
+    [
+     "↗️",
+     "Daj pozor na šikmé rady. Tie sa prehliadnu najľahšie."
+    ],
+    [
+     "⚠️",
+     "Pozri, čo môže spadnúť na tvoj obrázok. Nedaj súperovi políčko na výhru."
+    ]
+   ]
+  }
+ },
+ "ships": {
+  "nl": {
+   "rules": [
+    [
+     "🌊",
+     "Kies hoe groot de zee is: 🐣 Klein, 🐰 Middel of 🦊 Groot. Alleen kies je ook het hondje."
+    ],
+    [
+     "🚢",
+     "Tik waar je schip moet beginnen. Met 🔄 Draaien ligt of staat het, 🎲 Hussel zet ze voor je neer."
+    ],
+    [
+     "🚫",
+     "Schepen mogen elkaar niet raken, ook niet met een hoekje. Tik op een schip om het weer op te pakken."
+    ],
+    [
+     "✅",
+     "Staan alle schepen? Tik op Klaar!. Dan schiet je om de beurt op de zee van de ander."
+    ],
+    [
+     "💥",
+     "💧 is mis, 💥 is raak, 🔥 is gezonken. Na elk schot is de ander aan de beurt."
+    ],
+    [
+     "🏆",
+     "Wie als eerste alle schepen van de ander laat zinken, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Raak? Schiet daarna op de vakjes ernaast: boven, onder, links of rechts."
+    ],
+    [
+     "🔥",
+     "Rond een gezonken schip ligt altijd water. Daar hoef je niet meer te schieten."
+    ],
+    [
+     "🏁",
+     "Schiet eerst om en om, zoals een dambord. Zo vind je de schepen sneller."
+    ],
+    [
+     "🙈",
+     "Verstop je schepen goed: niet allemaal aan de rand of allemaal bij elkaar."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🌊",
+     "Wybierz, jak duże jest morze: 🐣 Małe, 🐰 Średnie albo 🦊 Duże. Grając sam, wybierz też pieska."
+    ],
+    [
+     "🚢",
+     "Stuknij, gdzie ma się zaczynać statek. 🔄 Obróć ustawia go poziomo lub pionowo, 🎲 Losuj ustawia za ciebie."
+    ],
+    [
+     "🚫",
+     "Statki nie mogą się dotykać, nawet rogami. Stuknij statek, żeby go podnieść."
+    ],
+    [
+     "✅",
+     "Wszystkie statki stoją? Stuknij Gotowe!. Potem na zmianę strzelacie w morze przeciwnika."
+    ],
+    [
+     "💥",
+     "💧 to pudło, 💥 to trafiony, 🔥 to zatopiony. Po każdym strzale strzela przeciwnik."
+    ],
+    [
+     "🏆",
+     "Kto pierwszy zatopi wszystkie statki przeciwnika, wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Trafiony? Potem strzelaj w pola obok: wyżej, niżej, w lewo albo w prawo."
+    ],
+    [
+     "🔥",
+     "Wokół zatopionego statku zawsze jest woda. Tam nie musisz już strzelać."
+    ],
+    [
+     "🏁",
+     "Najpierw strzelaj co drugie pole, jak na szachownicy. Szybciej znajdziesz statki."
+    ],
+    [
+     "🙈",
+     "Dobrze chowaj statki: nie wszystkie przy brzegu i nie wszystkie razem."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🌊",
+     "Pick how big the sea is: 🐣 Small, 🐰 Medium or 🦊 Big. Alone, also pick the dog."
+    ],
+    [
+     "🚢",
+     "Tap where your ship should start. 🔄 Turn makes it lie or stand, 🎲 Shuffle places them for you."
+    ],
+    [
+     "🚫",
+     "Ships may not touch, not even at a corner. Tap a ship to pick it up again."
+    ],
+    [
+     "✅",
+     "All ships placed? Tap Done!. Then you take turns shooting at the other one's sea."
+    ],
+    [
+     "💥",
+     "💧 is a miss, 💥 is a hit, 🔥 is sunk. After every shot it's the other one's turn."
+    ],
+    [
+     "🏆",
+     "Whoever sinks all the other one's ships first wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "A hit? Next, shoot at the squares next to it: up, down, left or right."
+    ],
+    [
+     "🔥",
+     "Around a sunk ship there is always water. You don't need to shoot there."
+    ],
+    [
+     "🏁",
+     "Shoot every other square first, like a chessboard. You'll find the ships faster."
+    ],
+    [
+     "🙈",
+     "Hide your ships well: not all at the edge and not all close together."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🌊",
+     "Vyber, aké veľké je more: 🐣 Malé, 🐰 Stredné alebo 🦊 Veľké. Keď hráš sám, vyber aj psíka."
+    ],
+    [
+     "🚢",
+     "Ťukni, kde má loď začínať. 🔄 Otočiť ju položí alebo postaví, 🎲 Zamiešať ich rozloží za teba."
+    ],
+    [
+     "🚫",
+     "Lode sa nesmú dotýkať, ani rohom. Ťukni na loď a zdvihneš ju."
+    ],
+    [
+     "✅",
+     "Stoja všetky lode? Ťukni na Hotovo!. Potom striedavo strieľate do mora súpera."
+    ],
+    [
+     "💥",
+     "💧 je vedľa, 💥 je zásah, 🔥 je potopená. Po každej strele je na rade súper."
+    ],
+    [
+     "🏆",
+     "Kto prvý potopí všetky lode súpera, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Zásah? Potom strieľaj na políčka vedľa: hore, dole, vľavo alebo vpravo."
+    ],
+    [
+     "🔥",
+     "Okolo potopenej lode je vždy voda. Tam už strieľať nemusíš."
+    ],
+    [
+     "🏁",
+     "Najprv strieľaj na každé druhé políčko, ako na šachovnici. Lode nájdeš rýchlejšie."
+    ],
+    [
+     "🙈",
+     "Dobre schovaj lode: nie všetky pri okraji a nie všetky pri sebe."
+    ]
+   ]
+  }
+ },
+ "bricks": {
+  "nl": {
+   "rules": [
+    [
+     "🐢",
+     "Kies hoe snel het balletje gaat: 🐢 Langzaam, 🐇 Gewoon of 🚀 Snel."
+    ],
+    [
+     "👆",
+     "Schuif met je vinger over het veld om het batje te bewegen. Tik om het balletje weg te schieten."
+    ],
+    [
+     "🧱",
+     "Breek de stenen met het balletje. Stenen met een donkere rand moet je twee keer raken."
+    ],
+    [
+     "💖",
+     "Valt het balletje langs je batje? Dan ben je een hartje kwijt. Je hebt er drie."
+    ],
+    [
+     "🏆",
+     "Alle stenen weg? Dan krijg je extra punten en komt het volgende veld. Er zijn 5 velden."
+    ],
+    [
+     "👫",
+     "Samen speelt ieder op zijn eigen apparaat. Wie de meeste punten heeft, wint."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Raak het balletje met de rand van je batje: dan vliegt het schuin weg."
+    ],
+    [
+     "⬆️",
+     "Lukt het om het balletje boven de stenen te krijgen? Dan breekt het er veel tegelijk!"
+    ],
+    [
+     "👀",
+     "Kijk naar het balletje, niet naar de stenen. Zo mis je het minder vaak."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🐢",
+     "Wybierz, jak szybko leci piłeczka: 🐢 Wolno, 🐇 Normalnie albo 🚀 Szybko."
+    ],
+    [
+     "👆",
+     "Przesuwaj palcem po planszy, żeby ruszać paletką. Stuknij, żeby wystrzelić piłeczkę."
+    ],
+    [
+     "🧱",
+     "Zbijaj cegiełki piłeczką. Cegiełki z ciemną ramką trzeba trafić dwa razy."
+    ],
+    [
+     "💖",
+     "Piłeczka minęła paletkę? Tracisz serduszko. Masz trzy."
+    ],
+    [
+     "🏆",
+     "Wszystkie cegiełki zbite? Dostajesz punkty ekstra i następną planszę. Jest ich 5."
+    ],
+    [
+     "👫",
+     "Razem każdy gra na swoim urządzeniu. Wygrywa ten, kto ma więcej punktów."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Odbij piłeczkę brzegiem paletki: wtedy poleci na ukos."
+    ],
+    [
+     "⬆️",
+     "Uda ci się wbić piłeczkę nad cegiełki? Zbije wtedy wiele naraz!"
+    ],
+    [
+     "👀",
+     "Patrz na piłeczkę, nie na cegiełki. Wtedy rzadziej ją przepuścisz."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🐢",
+     "Pick how fast the ball goes: 🐢 Slow, 🐇 Normal or 🚀 Fast."
+    ],
+    [
+     "👆",
+     "Slide your finger over the field to move the bat. Tap to launch the ball."
+    ],
+    [
+     "🧱",
+     "Break the bricks with the ball. Bricks with a dark edge need two hits."
+    ],
+    [
+     "💖",
+     "Ball slips past your bat? You lose a heart. You have three."
+    ],
+    [
+     "🏆",
+     "All bricks gone? You get bonus points and the next field. There are 5 fields."
+    ],
+    [
+     "👫",
+     "Together, everyone plays on their own device. Whoever has the most points wins."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Hit the ball with the edge of your bat: it flies off slanted."
+    ],
+    [
+     "⬆️",
+     "Can you get the ball above the bricks? Then it breaks lots of them at once!"
+    ],
+    [
+     "👀",
+     "Watch the ball, not the bricks. You'll miss it less often."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🐢",
+     "Vyber, ako rýchlo letí loptička: 🐢 Pomaly, 🐇 Normálne alebo 🚀 Rýchlo."
+    ],
+    [
+     "👆",
+     "Posúvaj prstom po ploche a hýb raketou. Ťukni a vystreľ loptičku."
+    ],
+    [
+     "🧱",
+     "Rozbíjaj tehly loptičkou. Tehly s tmavým okrajom musíš trafiť dvakrát."
+    ],
+    [
+     "💖",
+     "Loptička prešla popri raketke? Stratíš srdiečko. Máš tri."
+    ],
+    [
+     "🏆",
+     "Všetky tehly preč? Dostaneš body navyše a ďalšie pole. Polí je 5."
+    ],
+    [
+     "👫",
+     "Spolu hrá každý na svojom zariadení. Vyhrá ten, kto má viac bodov."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Odraz loptičku okrajom raketky: poletí šikmo."
+    ],
+    [
+     "⬆️",
+     "Dostaneš loptičku nad tehly? Rozbije ich veľa naraz!"
+    ],
+    [
+     "👀",
+     "Sleduj loptičku, nie tehly. Menej často ti ujde."
+    ]
+   ]
+  }
+ },
+ "snake": {
+  "nl": {
+   "rules": [
+    [
+     "🧱",
+     "Kies wat de muur doet: 🌀 Door de muur (je komt aan de andere kant eruit) of 🧱 Muur = af."
+    ],
+    [
+     "⬆️",
+     "Tik op een pijl of veeg over het veld. Zo begin je en zo stuur je de slang."
+    ],
+    [
+     "🍎",
+     "Eet het fruit! Bij elk stukje word je langer en een beetje sneller."
+    ],
+    [
+     "😬",
+     "Bijt je in je eigen staart? Dan ben je af. Bij 🧱 Muur = af ook als je de muur raakt."
+    ],
+    [
+     "👫",
+     "Alleen jaag je op je record. Samen wint wie het meeste fruit eet."
+    ]
+   ],
+   "tips": [
+    [
+     "🔄",
+     "Rechtsomkeert in één keer kan niet. Draai in twee stapjes: eerst opzij, dan terug."
+    ],
+    [
+     "🌀",
+     "Nog aan het oefenen? Kies 🌀 Door de muur, dan ben je minder snel af."
+    ],
+    [
+     "🐍",
+     "Word je lang? Maak grote rondjes langs de kant en houd het midden vrij."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🧱",
+     "Wybierz, co robi ściana: 🌀 Przez ścianę (wychodzisz z drugiej strony) albo 🧱 Ściana = koniec."
+    ],
+    [
+     "⬆️",
+     "Stuknij strzałkę albo przesuń palcem po planszy. Tak zaczynasz i tak kierujesz wężem."
+    ],
+    [
+     "🍎",
+     "Jedz owoce! Po każdym jesteś dłuższy i trochę szybszy."
+    ],
+    [
+     "😬",
+     "Ugryziesz się w ogon? Koniec gry. Przy 🧱 Ściana = koniec także, gdy uderzysz w ścianę."
+    ],
+    [
+     "👫",
+     "Grając sam, bijesz swój rekord. Razem wygrywa ten, kto zje więcej owoców."
+    ]
+   ],
+   "tips": [
+    [
+     "🔄",
+     "Nie zawrócisz od razu w tył. Skręć dwa razy: najpierw w bok, potem z powrotem."
+    ],
+    [
+     "🌀",
+     "Dopiero ćwiczysz? Wybierz 🌀 Przez ścianę, wtedy trudniej przegrać."
+    ],
+    [
+     "🐍",
+     "Wąż jest już długi? Rób duże kółka przy brzegu, a środek zostaw wolny."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🧱",
+     "Pick what the wall does: 🌀 Through the wall (you come out the other side) or 🧱 Wall = out."
+    ],
+    [
+     "⬆️",
+     "Tap an arrow or swipe over the field. That's how you start and how you steer the snake."
+    ],
+    [
+     "🍎",
+     "Eat the fruit! Each piece makes you longer and a little faster."
+    ],
+    [
+     "😬",
+     "Bite your own tail? You're out. With 🧱 Wall = out, also when you hit the wall."
+    ],
+    [
+     "👫",
+     "Alone you chase your record. Together, whoever eats the most fruit wins."
+    ]
+   ],
+   "tips": [
+    [
+     "🔄",
+     "You can't turn straight back. Turn in two steps: first sideways, then back."
+    ],
+    [
+     "🌀",
+     "Still practising? Pick 🌀 Through the wall, then you're out less quickly."
+    ],
+    [
+     "🐍",
+     "Getting long? Make big loops along the edge and keep the middle free."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🧱",
+     "Vyber, čo robí stena: 🌀 Cez stenu (vyjdeš na druhej strane) alebo 🧱 Stena = koniec."
+    ],
+    [
+     "⬆️",
+     "Ťukni na šípku alebo potiahni prstom po ploche. Tak začneš a tak riadiš hada."
+    ],
+    [
+     "🍎",
+     "Jedz ovocie! Po každom kúsku si dlhší a trochu rýchlejší."
+    ],
+    [
+     "😬",
+     "Hryzneš sa do chvosta? Koniec hry. Pri 🧱 Stena = koniec aj vtedy, keď narazíš do steny."
+    ],
+    [
+     "👫",
+     "Sám naháňaš svoj rekord. Spolu vyhrá ten, kto zje viac ovocia."
+    ]
+   ],
+   "tips": [
+    [
+     "🔄",
+     "Hneď naspäť sa otočiť nedá. Otoč sa v dvoch krokoch: najprv nabok, potom späť."
+    ],
+    [
+     "🌀",
+     "Ešte trénuješ? Vyber 🌀 Cez stenu, potom tak rýchlo neprehráš."
+    ],
+    [
+     "🐍",
+     "Had je už dlhý? Rob veľké kruhy pri okraji a stred nechaj voľný."
+    ]
+   ]
+  }
+ },
+ "gravity": {
+  "nl": {
+   "rules": [
+    [
+     "🐶",
+     "Het hondje rent vanzelf. Tik op het veld: dan valt het naar het plafond of terug naar de vloer."
+    ],
+    [
+     "🧱",
+     "Er komen muurtjes, van onder of van boven. Ontwijk ze door op tijd te tikken."
+    ],
+    [
+     "💎",
+     "Pak de diamantjes! Elk diamantje is 10 punten. Elke meter die je rent telt ook."
+    ],
+    [
+     "💖",
+     "Bots je tegen een muurtje? Dan ben je een hartje kwijt. Na drie is het afgelopen."
+    ],
+    [
+     "👫",
+     "Alleen jaag je op je record. Samen wint wie de meeste punten heeft."
+    ]
+   ],
+   "tips": [
+    [
+     "⏱️",
+     "Vallen kost even tijd. Tik dus al vóór het muurtje, niet pas als je er bijna bent."
+    ],
+    [
+     "💎",
+     "Het diamantje ligt meestal aan de vrije kant, net na een muurtje."
+    ],
+    [
+     "✨",
+     "Knippert het hondje na een bots? Dan kan het heel even niets gebeuren."
+    ],
+    [
+     "🏃",
+     "Hoe verder je komt, hoe sneller het gaat. Blijf goed opletten!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🐶",
+     "Piesek biegnie sam. Stuknij w planszę: spada wtedy na sufit albo z powrotem na podłogę."
+    ],
+    [
+     "🧱",
+     "Nadlatują murki, z dołu albo z góry. Omijaj je, stukając w porę."
+    ],
+    [
+     "💎",
+     "Zbieraj diamenciki! Każdy to 10 punktów. Liczy się też każdy przebiegnięty metr."
+    ],
+    [
+     "💖",
+     "Wpadniesz na murek? Tracisz serduszko. Po trzech koniec gry."
+    ],
+    [
+     "👫",
+     "Grając sam, bijesz swój rekord. Razem wygrywa ten, kto ma więcej punktów."
+    ]
+   ],
+   "tips": [
+    [
+     "⏱️",
+     "Spadanie chwilę trwa. Stukaj więc przed murkiem, a nie dopiero przy nim."
+    ],
+    [
+     "💎",
+     "Diamencik leży zwykle po wolnej stronie, tuż za murkiem."
+    ],
+    [
+     "✨",
+     "Piesek miga po zderzeniu? Przez chwilę nic mu się nie stanie."
+    ],
+    [
+     "🏃",
+     "Im dalej biegniesz, tym szybciej. Uważaj cały czas!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🐶",
+     "The dog runs by itself. Tap the field: it falls up to the ceiling or back down to the floor."
+    ],
+    [
+     "🧱",
+     "Little walls come along, from below or from above. Dodge them by tapping in time."
+    ],
+    [
+     "💎",
+     "Grab the diamonds! Each one is 10 points. Every metre you run counts too."
+    ],
+    [
+     "💖",
+     "Bump into a wall? You lose a heart. After three it's over."
+    ],
+    [
+     "👫",
+     "Alone you chase your record. Together, whoever has the most points wins."
+    ]
+   ],
+   "tips": [
+    [
+     "⏱️",
+     "Falling takes a moment. So tap before the wall, not when you're almost there."
+    ],
+    [
+     "💎",
+     "The diamond is usually on the free side, just after a wall."
+    ],
+    [
+     "✨",
+     "Is the dog blinking after a bump? Then nothing can happen to it for a moment."
+    ],
+    [
+     "🏃",
+     "The further you get, the faster it goes. Keep watching!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🐶",
+     "Psík beží sám. Ťukni na pole: spadne hore na strop alebo späť dole na zem."
+    ],
+    [
+     "🧱",
+     "Prichádzajú múriky, zdola alebo zhora. Vyhni sa im, keď ťukneš načas."
+    ],
+    [
+     "💎",
+     "Zbieraj diamanty! Každý je 10 bodov. Počíta sa aj každý prebehnutý meter."
+    ],
+    [
+     "💖",
+     "Narazíš do múrika? Stratíš srdiečko. Po troch je koniec."
+    ],
+    [
+     "👫",
+     "Sám naháňaš svoj rekord. Spolu vyhrá ten, kto má viac bodov."
+    ]
+   ],
+   "tips": [
+    [
+     "⏱️",
+     "Padanie chvíľu trvá. Ťukni teda ešte pred múrikom, nie až pri ňom."
+    ],
+    [
+     "💎",
+     "Diamant býva na voľnej strane, hneď za múrikom."
+    ],
+    [
+     "✨",
+     "Psík po náraze bliká? Chvíľu sa mu nič nemôže stať."
+    ],
+    [
+     "🏃",
+     "Čím ďalej si, tým rýchlejšie to ide. Stále dávaj pozor!"
+    ]
+   ]
+  }
+ },
+ "nails": {
+  "nl": {
+   "rules": [
+    [
+     "💅",
+     "Kies 🎨 Vrij spelen (maak wat je wilt) of 👧 Klanten (maak de nagels zoals de klant vraagt)."
+    ],
+    [
+     "🧴",
+     "Kies onderaan een knop, zoals Lak, Patroon of Stickers. Kies een kleur of plaatje en tik op een nagel."
+    ],
+    [
+     "🖐️",
+     "Met 🖐️ Alle nagels doet één tik alle vijf nagels tegelijk. ↩️ Terug maakt je laatste stap ongedaan."
+    ],
+    [
+     "🔍",
+     "Tik op 🔍 Inzoomen en dan op een nagel om hem groot te zien. Bij Tekenen teken je met je vinger."
+    ],
+    [
+     "✨",
+     "Klaar? Tik op ✨ Klaar!. Bij Vrij spelen krijg je een foto, een klant geeft je sterren."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Drie sterren? Doe precies de kleur, het patroon én de sticker die de klant vraagt, op alle nagels."
+    ],
+    [
+     "🧽",
+     "Klanten willen eerst verzorging: vijl elke nagel glad en poets met de spons tot alle vlekjes weg zijn."
+    ],
+    [
+     "🌅",
+     "Kies bij Lak 'overloop', tik een nagel met één kleur en daarna nog eens met een andere kleur."
+    ],
+    [
+     "🫧",
+     "Foutje? Met Eraf gaan lak, patroon, tekening en stickers van een nagel af."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "💅",
+     "Wybierz 🎨 Swobodna zabawa (rób, co chcesz) albo 👧 Klientki (zrób paznokcie tak, jak chce klientka)."
+    ],
+    [
+     "🧴",
+     "Wybierz na dole przycisk, np. Lakier, Wzór albo Naklejki. Wybierz kolor lub obrazek i stuknij paznokieć."
+    ],
+    [
+     "🖐️",
+     "Z 🖐️ Wszystkie paznokcie jedno stuknięcie zmienia wszystkie pięć. ↩️ Cofnij cofa ostatni krok."
+    ],
+    [
+     "🔍",
+     "Stuknij 🔍 Powiększ, a potem paznokieć, żeby go powiększyć. W Rysowaniu rysujesz palcem."
+    ],
+    [
+     "✨",
+     "Gotowe? Stuknij ✨ Gotowe!. W swobodnej zabawie dostaniesz zdjęcie, a klientka da ci gwiazdki."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Trzy gwiazdki? Zrób dokładnie ten kolor, wzór i naklejkę, o które prosi klientka, na wszystkich paznokciach."
+    ],
+    [
+     "🧽",
+     "Klientki chcą najpierw pielęgnacji: wygładź każdy paznokieć pilnikiem i myj gąbką, aż znikną plamki."
+    ],
+    [
+     "🌅",
+     "W Lakierze wybierz ombre, stuknij paznokieć jednym kolorem, a potem jeszcze raz innym."
+    ],
+    [
+     "🫧",
+     "Coś nie wyszło? Zmyj zdejmuje z paznokcia lakier, wzór, rysunek i naklejki."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "💅",
+     "Pick 🎨 Free play (make whatever you like) or 👧 Customers (do the nails the way the customer asks)."
+    ],
+    [
+     "🧴",
+     "Pick a button at the bottom, like Polish, Pattern or Stickers. Pick a colour or picture and tap a nail."
+    ],
+    [
+     "🖐️",
+     "With 🖐️ All nails, one tap does all five nails at once. ↩️ Undo takes back your last step."
+    ],
+    [
+     "🔍",
+     "Tap 🔍 Zoom in and then a nail to see it big. In Drawing you draw with your finger."
+    ],
+    [
+     "✨",
+     "Finished? Tap ✨ Done!. In free play you get a photo, a customer gives you stars."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Three stars? Use exactly the colour, pattern and sticker the customer asks for, on all the nails."
+    ],
+    [
+     "🧽",
+     "Customers want care first: file every nail smooth and use the sponge until all the spots are gone."
+    ],
+    [
+     "🌅",
+     "In Polish pick ombre, tap a nail with one colour and then again with another colour."
+    ],
+    [
+     "🫧",
+     "Oops? Remove takes polish, pattern, drawing and stickers off a nail."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "💅",
+     "Vyber 🎨 Voľná hra (rob, čo chceš) alebo 👧 Zákazníčky (sprav nechty tak, ako chce zákazníčka)."
+    ],
+    [
+     "🧴",
+     "Vyber dole tlačidlo, napr. Lak, Vzor alebo Nálepky. Vyber farbu alebo obrázok a ťukni na necht."
+    ],
+    [
+     "🖐️",
+     "S 🖐️ Všetky nechty jedno ťuknutie zmení všetkých päť. ↩️ Späť vráti posledný krok."
+    ],
+    [
+     "🔍",
+     "Ťukni na 🔍 Priblížiť a potom na necht, aby bol veľký. V Kreslení kreslíš prstom."
+    ],
+    [
+     "✨",
+     "Hotovo? Ťukni na ✨ Hotovo!. Vo voľnej hre dostaneš fotku, zákazníčka ti dá hviezdičky."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Tri hviezdičky? Sprav presne tú farbu, vzor aj nálepku, ktoré chce zákazníčka, na všetkých nechtoch."
+    ],
+    [
+     "🧽",
+     "Zákazníčky chcú najprv starostlivosť: ohlaď každý necht pilníkom a umy hubkou všetky fľaky."
+    ],
+    [
+     "🌅",
+     "Pri Laku vyber ombré, ťukni na necht jednou farbou a potom ešte raz inou."
+    ],
+    [
+     "🫧",
+     "Nepodarilo sa? Zmyť zoberie z nechta lak, vzor, kresbu aj nálepky."
+    ]
+   ]
+  }
+ },
+ "crash": {
+  "nl": {
+   "rules": [
+    [
+     "🚗",
+     "Jij rijdt in een botsautootje. Het jouwe heeft een witte ring eromheen."
+    ],
+    [
+     "👆",
+     "Tik op de vloer, of houd je vinger erop en schuif: daar rijdt je auto heen."
+    ],
+    [
+     "💥",
+     "Bots tegen de andere auto's! Wie hard tegen de ander aan rijdt, krijgt een punt."
+    ],
+    [
+     "⏱️",
+     "Na 3, 2, 1 heb je 60 seconden. Wie dan de meeste botsingen heeft, wint."
+    ],
+    [
+     "👫",
+     "Alleen rijd je tegen drie computer-auto's. Samen rijden jullie in dezelfde arena, met twee computer-auto's."
+    ]
+   ],
+   "tips": [
+    [
+     "🏁",
+     "Neem een aanloop. De auto die het hardst rijdt, krijgt het punt."
+    ],
+    [
+     "↔️",
+     "Rij er van opzij tegenaan als de ander net een andere kant op kijkt."
+    ],
+    [
+     "🚀",
+     "Jouw auto is sneller dan de computer-auto's. Blijf rijden, dan pakken ze jou minder vaak."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🚗",
+     "Jeździsz autkiem zderzakowym. Twoje ma dookoła białe kółko."
+    ],
+    [
+     "👆",
+     "Stuknij w podłogę albo trzymaj na niej palec i przesuwaj: tam pojedzie twoje autko."
+    ],
+    [
+     "💥",
+     "Zderzaj się z innymi autkami! Kto mocno wjedzie w drugie autko, dostaje punkt."
+    ],
+    [
+     "⏱️",
+     "Po 3, 2, 1 masz 60 sekund. Wygrywa ten, kto ma wtedy najwięcej zderzeń."
+    ],
+    [
+     "👫",
+     "Grając sam, jeździsz z trzema autkami komputera. Razem jeździcie po tej samej arenie, z dwoma autkami komputera."
+    ]
+   ],
+   "tips": [
+    [
+     "🏁",
+     "Weź rozpęd. Punkt dostaje autko, które jedzie szybciej."
+    ],
+    [
+     "↔️",
+     "Wjedź w autko z boku, kiedy jedzie w inną stronę."
+    ],
+    [
+     "🚀",
+     "Twoje autko jest szybsze od autek komputera. Jeździj cały czas, to rzadziej cię złapią."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🚗",
+     "You drive a bumper car. Yours has a white ring around it."
+    ],
+    [
+     "👆",
+     "Tap the floor, or keep your finger on it and slide: your car drives there."
+    ],
+    [
+     "💥",
+     "Bump into the other cars! Whoever drives hard into the other one gets a point."
+    ],
+    [
+     "⏱️",
+     "After 3, 2, 1 you have 60 seconds. Whoever has the most bumps then wins."
+    ],
+    [
+     "👫",
+     "Alone you drive against three computer cars. Together you share one arena, with two computer cars."
+    ]
+   ],
+   "tips": [
+    [
+     "🏁",
+     "Take a run-up. The car that is going fastest gets the point."
+    ],
+    [
+     "↔️",
+     "Drive into a car from the side while it's heading somewhere else."
+    ],
+    [
+     "🚀",
+     "Your car is faster than the computer cars. Keep moving and they'll catch you less often."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🚗",
+     "Jazdíš na autíčku na nárazy. To tvoje má okolo seba biely krúžok."
+    ],
+    [
+     "👆",
+     "Ťukni na podlahu alebo na nej drž prst a posúvaj: tam pôjde tvoje auto."
+    ],
+    [
+     "💥",
+     "Narážaj do ostatných autíčok! Kto silno narazí do druhého, dostane bod."
+    ],
+    [
+     "⏱️",
+     "Po 3, 2, 1 máš 60 sekúnd. Vyhrá ten, kto má potom najviac nárazov."
+    ],
+    [
+     "👫",
+     "Sám jazdíš proti trom autíčkam počítača. Spolu jazdíte v tej istej aréne, s dvomi autíčkami počítača."
+    ]
+   ],
+   "tips": [
+    [
+     "🏁",
+     "Rozbehni sa. Bod dostane autíčko, ktoré ide rýchlejšie."
+    ],
+    [
+     "↔️",
+     "Naraz do autíčka zboku, keď ide niekam inam."
+    ],
+    [
+     "🚀",
+     "Tvoje auto je rýchlejšie ako autíčka počítača. Stále jazdi, tak ťa chytia menej často."
+    ]
+   ]
+  }
+ },
+ "dam": {
+  "nl": {
+   "rules": [
+    [
+     "🖼️",
+     "Kies je plaatje voor je stenen. Alleen kies je ook hoe slim het hondje is."
+    ],
+    [
+     "👆",
+     "Tik op een steen van jou. De stipjes laten zien waar hij heen mag. Tik op een stipje."
+    ],
+    [
+     "↗️",
+     "Een steen gaat één vakje schuin vooruit. Je slaat door over een steen van de ander te springen."
+    ],
+    [
+     "⚠️",
+     "Slaan moet, ook achteruit, en je moet de meeste stenen slaan die kan. Het spel laat zien welke steen moet."
+    ],
+    [
+     "👑",
+     "Kom je aan de overkant? Dan wordt je steen een dam: die vliegt over de hele schuine lijn."
+    ],
+    [
+     "🏆",
+     "Kan de ander geen zet meer doen, of zijn al zijn stenen weg? Dan win jij!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧱",
+     "Houd je stenen dicht bij elkaar. Een steen alleen wordt makkelijk geslagen."
+    ],
+    [
+     "🏠",
+     "Laat je achterste rij zo lang mogelijk staan. Zo komt de ander moeilijk aan de overkant."
+    ],
+    [
+     "🪤",
+     "Pas op: omdat slaan moet, kan de ander je een steen 'geven' om er zelf twee terug te slaan."
+    ],
+    [
+     "👑",
+     "Een dam is heel sterk. Probeer er een te halen en pas goed op die van de ander."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🖼️",
+     "Wybierz obrazek dla swoich pionków. Grając sam, wybierz też, jak sprytny jest piesek."
+    ],
+    [
+     "👆",
+     "Stuknij swój pionek. Kropki pokazują, dokąd może iść. Stuknij kropkę."
+    ],
+    [
+     "↗️",
+     "Pionek idzie o jedno pole na ukos do przodu. Bijesz, przeskakując przez pionek przeciwnika."
+    ],
+    [
+     "⚠️",
+     "Bicie jest obowiązkowe, także do tyłu, i trzeba bić jak najwięcej. Gra pokaże, który pionek musi bić."
+    ],
+    [
+     "👑",
+     "Dojdziesz do końca planszy? Pionek zostaje damką: chodzi po całej ukośnej linii."
+    ],
+    [
+     "🏆",
+     "Przeciwnik nie może się ruszyć albo nie ma już pionków? Wygrywasz!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧱",
+     "Trzymaj pionki blisko siebie. Samotny pionek łatwo zbić."
+    ],
+    [
+     "🏠",
+     "Jak najdłużej nie ruszaj tylnego rzędu. Wtedy przeciwnik trudniej zrobi damkę."
+    ],
+    [
+     "🪤",
+     "Uwaga: bicie jest obowiązkowe, więc przeciwnik może ci dać pionek, żeby potem zbić dwa twoje."
+    ],
+    [
+     "👑",
+     "Damka jest bardzo silna. Postaraj się ją zrobić i uważaj na damkę przeciwnika."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🖼️",
+     "Pick a picture for your pieces. Alone, also pick how clever the dog is."
+    ],
+    [
+     "👆",
+     "Tap one of your pieces. The dots show where it can go. Tap a dot."
+    ],
+    [
+     "↗️",
+     "A piece moves one square slanted forward. You capture by jumping over the other one's piece."
+    ],
+    [
+     "⚠️",
+     "Capturing is a must, backwards too, and you must take the most pieces you can. The game shows which piece must."
+    ],
+    [
+     "👑",
+     "Reach the other side? Your piece becomes a king: it flies along the whole slanted line."
+    ],
+    [
+     "🏆",
+     "The other one can't move any more, or has no pieces left? You win!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧱",
+     "Keep your pieces close together. A piece on its own is easy to capture."
+    ],
+    [
+     "🏠",
+     "Leave your back row where it is for as long as you can. That makes it hard for the other one to get a king."
+    ],
+    [
+     "🪤",
+     "Watch out: capturing is a must, so the other one can 'give' you a piece and then take two of yours."
+    ],
+    [
+     "👑",
+     "A king is very strong. Try to get one and watch out for the other one's king."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🖼️",
+     "Vyber si obrázok pre svoje kamene. Keď hráš sám, vyber aj, aký múdry je psík."
+    ],
+    [
+     "👆",
+     "Ťukni na svoj kameň. Bodky ukážu, kam môže ísť. Ťukni na bodku."
+    ],
+    [
+     "↗️",
+     "Kameň ide o jedno políčko šikmo dopredu. Berieš tak, že preskočíš kameň súpera."
+    ],
+    [
+     "⚠️",
+     "Skákať sa musí, aj dozadu, a musíš zobrať čo najviac kameňov. Hra ukáže, ktorý kameň musí skákať."
+    ],
+    [
+     "👑",
+     "Dôjdeš na druhú stranu? Kameň sa zmení na dámu: tá letí po celej šikmej čiare."
+    ],
+    [
+     "🏆",
+     "Súper sa už nemôže pohnúť alebo nemá žiadne kamene? Vyhrávaš!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧱",
+     "Drž kamene blízko pri sebe. Osamelý kameň sa ľahko zoberie."
+    ],
+    [
+     "🏠",
+     "Zadný rad nechaj stáť čo najdlhšie. Súper sa tak ťažko dostane k dáme."
+    ],
+    [
+     "🪤",
+     "Pozor: skákať sa musí, takže súper ti môže 'darovať' kameň a potom zobrať dva tvoje."
+    ],
+    [
+     "👑",
+     "Dáma je veľmi silná. Skús nejakú získať a dávaj pozor na dámu súpera."
+    ]
+   ]
+  }
+ },
+ "pong": {
+  "nl": {
+   "rules": [
+    [
+     "🔢",
+     "Kies tot hoeveel punten je speelt: 5, 7 of 11. Alleen kies je ook hoe slim het hondje is."
+    ],
+    [
+     "👆",
+     "Schuif met je vinger om je batje te bewegen. Jouw batje is altijd onderaan."
+    ],
+    [
+     "🏓",
+     "Sla het balletje terug. Komt het langs het batje van de ander? Dan krijg jij een punt."
+    ],
+    [
+     "⚡",
+     "Bij elke slag gaat het balletje een beetje sneller."
+    ],
+    [
+     "🏆",
+     "Wie als eerste het aantal punten heeft, wint. Samen heeft ieder een eigen batje op zijn apparaat."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Raak het balletje met de rand van je batje: dan gaat het schuin. Dat is lastig voor de ander."
+    ],
+    [
+     "🎯",
+     "Ga na je slag weer naar het midden. Dan ben je overal snel bij."
+    ],
+    [
+     "🐶",
+     "Hoe sneller het balletje, hoe vaker het hondje mist. Blijf dus lang terugslaan!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🔢",
+     "Wybierz, do ilu punktów gracie: 5, 7 albo 11. Grając sam, wybierz też, jak sprytny jest piesek."
+    ],
+    [
+     "👆",
+     "Przesuwaj palcem, żeby ruszać paletką. Twoja paletka jest zawsze na dole."
+    ],
+    [
+     "🏓",
+     "Odbijaj piłeczkę. Minie paletkę przeciwnika? Dostajesz punkt."
+    ],
+    [
+     "⚡",
+     "Po każdym odbiciu piłeczka leci trochę szybciej."
+    ],
+    [
+     "🏆",
+     "Wygrywa ten, kto pierwszy zdobędzie tyle punktów. Razem każdy ma swoją paletkę na swoim urządzeniu."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Odbij piłeczkę brzegiem paletki: poleci na ukos. Przeciwnikowi trudniej ją złapać."
+    ],
+    [
+     "🎯",
+     "Po odbiciu wróć na środek. Wtedy wszędzie szybko zdążysz."
+    ],
+    [
+     "🐶",
+     "Im szybsza piłeczka, tym częściej piesek pudłuje. Odbijaj więc jak najdłużej!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🔢",
+     "Pick how many points you play to: 5, 7 or 11. Alone, also pick how clever the dog is."
+    ],
+    [
+     "👆",
+     "Slide your finger to move your bat. Your bat is always at the bottom."
+    ],
+    [
+     "🏓",
+     "Hit the ball back. Does it get past the other one's bat? Then you get a point."
+    ],
+    [
+     "⚡",
+     "With every hit the ball goes a little faster."
+    ],
+    [
+     "🏆",
+     "Whoever reaches the points first wins. Together, everyone has their own bat on their own device."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Hit the ball with the edge of your bat: it goes off slanted. That's tricky for the other one."
+    ],
+    [
+     "🎯",
+     "After your hit, go back to the middle. Then you can reach everywhere fast."
+    ],
+    [
+     "🐶",
+     "The faster the ball, the more often the dog misses. So keep the rally going!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🔢",
+     "Vyber, do koľko bodov hráte: 5, 7 alebo 11. Keď hráš sám, vyber aj, aký múdry je psík."
+    ],
+    [
+     "👆",
+     "Posúvaj prstom a hýb raketou. Tvoja raketa je vždy dole."
+    ],
+    [
+     "🏓",
+     "Odrážaj loptičku. Prejde popri rakete súpera? Dostaneš bod."
+    ],
+    [
+     "⚡",
+     "Pri každom odraze letí loptička trochu rýchlejšie."
+    ],
+    [
+     "🏆",
+     "Vyhrá ten, kto prvý získa toľko bodov. Spolu má každý vlastnú raketu na svojom zariadení."
+    ]
+   ],
+   "tips": [
+    [
+     "📐",
+     "Odraz loptičku okrajom rakety: poletí šikmo. Súper ju chytí ťažšie."
+    ],
+    [
+     "🎯",
+     "Po odraze sa vráť do stredu. Všade sa tak rýchlo dostaneš."
+    ],
+    [
+     "🐶",
+     "Čím rýchlejšia loptička, tým častejšie psík minie. Odrážaj teda čo najdlhšie!"
+    ]
+   ]
+  }
+ },
+ "chess": {
+  "nl": {
+   "rules": [
+    [
+     "♟️",
+     "Kies je stukken: Klassiek, Dieren of K-pop. Alleen kies je ook het hondje; jij speelt dan met wit."
+    ],
+    [
+     "👆",
+     "Tik op een stuk van jou. Stipjes tonen waar het heen kan, een ring dat je daar kunt slaan. Tik erop."
+    ],
+    [
+     "👑",
+     "Komt je pion aan de overkant? Dan kies je wat hij wordt: dame, toren, loper of paard."
+    ],
+    [
+     "🏆",
+     "Zet de koning van de ander schaakmat: hij staat schaak en kan nergens meer heen. Dan win jij!"
+    ],
+    [
+     "🤝",
+     "Pat, drie keer dezelfde stand of te weinig stukken is remise. Bij Nog een keer! wissel je van kleur."
+    ],
+    [
+     "↩️",
+     "Alleen: ↩️ Terug neemt jouw zet en die van het hondje terug. Houd 🏳️ Opgeven vast om op te geven."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Zet aan het begin je pionnen in het midden en haal je paarden en lopers naar voren."
+    ],
+    [
+     "🏰",
+     "Rokeer op tijd: tik op je koning en zet hem twee vakjes opzij. Dan staat hij veilig."
+    ],
+    [
+     "👀",
+     "Kijk voor elke zet: kan de ander iets van mij slaan? Laat je dame nooit zomaar staan."
+    ],
+    [
+     "🐶",
+     "De Puppy pakt graag alles wat hij kan. Geef hem een lokstuk en sla dan iets groters terug."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "♟️",
+     "Wybierz figury: Klasyczne, Zwierzęta albo K-pop. Grając sam, wybierz też pieska; grasz wtedy białymi."
+    ],
+    [
+     "👆",
+     "Stuknij swoją figurę. Kropki pokazują, dokąd może iść, kółko, że możesz tam bić. Stuknij tam."
+    ],
+    [
+     "👑",
+     "Twój pionek doszedł do końca? Wybierz, kim zostanie: hetmanem, wieżą, gońcem albo skoczkiem."
+    ],
+    [
+     "🏆",
+     "Daj mata królowi przeciwnika: jest szachowany i nie ma ucieczki. Wtedy wygrywasz!"
+    ],
+    [
+     "🤝",
+     "Pat, trzy razy ta sama pozycja albo za mało figur to remis. Po Jeszcze raz! zmieniacie kolory."
+    ],
+    [
+     "↩️",
+     "Grając sam: ↩️ Cofnij cofa twój ruch i ruch pieska. Przytrzymaj 🏳️ Poddaj się, żeby się poddać."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Na początku wysuń pionki na środek i wyprowadź skoczki i gońce."
+    ],
+    [
+     "🏰",
+     "Zrób roszadę w porę: stuknij króla i przesuń go o dwa pola w bok. Będzie bezpieczny."
+    ],
+    [
+     "👀",
+     "Przed każdym ruchem sprawdź: czy przeciwnik może coś zbić? Nie zostawiaj hetmana bez obrony."
+    ],
+    [
+     "🐶",
+     "Szczeniaczek bije wszystko, co może. Podsuń mu przynętę, a potem zbij coś większego."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "♟️",
+     "Pick your pieces: Classic, Animals or K-pop. Alone, also pick the dog; you then play white."
+    ],
+    [
+     "👆",
+     "Tap one of your pieces. Dots show where it can go, a ring that you can capture there. Tap it."
+    ],
+    [
+     "👑",
+     "Pawn reached the other side? Pick what it becomes: queen, rook, bishop or knight."
+    ],
+    [
+     "🏆",
+     "Checkmate the other king: it is in check and can't escape. Then you win!"
+    ],
+    [
+     "🤝",
+     "Stalemate, the same position three times, or too few pieces is a draw. After Again! you swap colours."
+    ],
+    [
+     "↩️",
+     "Alone: ↩️ Undo takes back your move and the dog's. Hold 🏳️ Give up to give up."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "At the start, move your pawns to the middle and bring out your knights and bishops."
+    ],
+    [
+     "🏰",
+     "Castle in time: tap your king and move it two squares sideways. Then it's safe."
+    ],
+    [
+     "👀",
+     "Before every move, check: can the other one capture something of mine? Never leave your queen unguarded."
+    ],
+    [
+     "🐶",
+     "The Puppy grabs whatever it can. Give it some bait, then capture something bigger back."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "♟️",
+     "Vyber figúrky: Klasické, Zvieratá alebo K-pop. Keď hráš sám, vyber aj psíka; hráš potom bielymi."
+    ],
+    [
+     "👆",
+     "Ťukni na svoju figúrku. Bodky ukážu, kam môže ísť, krúžok, že tam môžeš brať. Ťukni tam."
+    ],
+    [
+     "👑",
+     "Tvoj pešiak prišiel na druhú stranu? Vyber, čím bude: dámou, vežou, strelcom alebo jazdcom."
+    ],
+    [
+     "🏆",
+     "Daj súperovmu kráľovi mat: je v šachu a nemá kam ujsť. Vtedy vyhrávaš!"
+    ],
+    [
+     "🤝",
+     "Pat, trikrát rovnaká pozícia alebo málo figúrok je remíza. Po Ešte raz! si vymeníte farby."
+    ],
+    [
+     "↩️",
+     "Keď hráš sám: ↩️ Späť vráti tvoj ťah aj ťah psíka. Podrž 🏳️ Vzdať sa, ak sa chceš vzdať."
+    ]
+   ],
+   "tips": [
+    [
+     "🎯",
+     "Na začiatku posuň pešiakov do stredu a vyveď jazdcov a strelcov."
+    ],
+    [
+     "🏰",
+     "Urob včas rošádu: ťukni na kráľa a posuň ho o dve políčka nabok. Bude v bezpečí."
+    ],
+    [
+     "👀",
+     "Pred každým ťahom pozri: môže mi súper niečo zobrať? Nenechávaj dámu bez ochrany."
+    ],
+    [
+     "🐶",
+     "Šteniatko berie všetko, čo môže. Daj mu návnadu a potom mu zober niečo väčšie."
+    ]
+   ]
+  }
+ }
+}

@@ -744,6 +744,21 @@
   .ts-btn.pass { background: #ffd9d9; } .ts-contract { font-size: 1.2rem; margin: 4px 0; }
   #tsInfo { font-size: 1.05rem; margin-bottom: 4px; } #tsInfo .red { color: #d0213b; }
   .dr-players em { font-style: normal; font-weight: 800; } .dr-players small { font-size: .8rem; }
+  /* ❓ Help */
+  .help-btn { position: fixed; top: max(10px, env(safe-area-inset-top)); right: 10px; z-index: 50; width: 46px; height: 46px; border-radius: 50%;
+              border: 3px solid #fff; background: #ffd23f; font-size: 1.4rem; box-shadow: 0 2px 8px rgba(0,0,0,.25); cursor: pointer; }
+  .help-box { position: fixed; inset: 0; z-index: 60; background: rgba(30,20,50,.55); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .help-card { background: #fff; border-radius: 22px; max-width: 460px; width: 100%; max-height: 88vh; overflow: auto; padding: 18px 18px 14px; box-shadow: 0 8px 30px rgba(0,0,0,.3); }
+  .help-card h2 { margin: 0 0 10px; font-size: 1.45rem; text-align: center; }
+  .help-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; }
+  .help-tabs button { flex: 1; padding: 10px; border-radius: 14px; border: none; background: var(--key); font: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; }
+  .help-tabs button.on { background: #ffd23f; }
+  .help-list { list-style: none; padding: 0; margin: 0 0 12px; }
+  .help-list li { display: flex; gap: 10px; align-items: flex-start; padding: 9px 4px; border-bottom: 1px solid #f0e8f7; font-size: 1.12rem; line-height: 1.35; text-align: left; }
+  .help-list li b { font-size: 1.5rem; flex: none; width: 34px; text-align: center; }
+  .help-live { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 4px 0 10px; font-size: 1rem; }
+  .help-live input { width: 22px; height: 22px; }
+  .tip { display: block; margin-top: 6px; font-size: 1rem; color: #7a4fb0; background: #f6efff; border-radius: 12px; padding: 6px 10px; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .dk-score { font-size: 1.2rem; margin-bottom: 6px; } .dk-score b { font-size: 1.5rem; margin: 0 8px; }
@@ -753,6 +768,16 @@
 <div class="net-note" id="awayNote" hidden style="top:calc(env(safe-area-inset-top, 0px) + 48px)"></div>
 <div class="net-note" id="netNote" hidden>🔄 Verbinding even kwijt… opnieuw verbinden</div>
 <main>
+  <button class="help-btn" id="helpBtn" hidden aria-label="Uitleg">❓</button>
+  <div class="help-box" id="helpBox" hidden data-notr="1">
+    <div class="help-card" data-notr="1">
+      <h2 id="helpTitle" data-notr="1"></h2>
+      <div class="help-tabs" data-notr="1"><button data-tab="rules" data-notr="1"></button><button data-tab="tips" data-notr="1"></button></div>
+      <ul class="help-list" id="helpList" data-notr="1"></ul>
+      <label class="help-live" id="helpLiveRow" data-notr="1"><input type="checkbox" id="helpLive"><span id="helpLiveText" data-notr="1"></span></label>
+      <button class="again" id="helpClose" data-notr="1"></button>
+    </div>
+  </div>
   <h1 id="title">🐶 Lily's spelletjes</h1>
 
   <!-- Welkom -->
@@ -1855,6 +1880,7 @@
     if (slot) slot.appendChild(pad);
     pad.hidden = !slot;
     window.scrollTo(0, 0);
+    helpUpdate();
   }
 
   // What the keypad types into depends on the screen
@@ -10840,7 +10866,7 @@
     }
     if (st.over) return kkOver(line);
     const P = st.seats[st.turn];
-    $('kkStatus').innerHTML = line + `<span>${myTurn ? (st.drawn >= 0 ? 'Hij past! Speel hem, of druk op Verder.' : 'Jij bent aan de beurt!') : `${P.dog ? '🐶 ' : ''}${P.name} is aan de beurt…`}</span>`;
+    $('kkStatus').innerHTML = line + `<span>${myTurn ? (st.drawn >= 0 ? 'Hij past! Speel hem, of druk op Verder.' : 'Jij bent aan de beurt!') : `${P.dog ? '🐶 ' : ''}${P.name} is aan de beurt…`}</span>` + kkTip(st);
     if (P.dog && st.runner === myId) setTimeout(() => { if (kk.st === st && !st.over && st.seats[st.turn].dog) { kkDogMove(st); kkSend(); kkShow(st); } }, 1300);
   }
 
@@ -11063,6 +11089,11 @@
   function tsLine(log) {
     if (!log) return '';
     const st = ts.st, [t, ...a] = log;
+    if (a[0] === ts.me && t.startsWith('{0} ')) {          // "you" has its own sentence (Polish: "Grasz", not "Ty gra")
+      let s = 'Jij ' + t.slice(4).replace(/\{(\d)\}/g, (_, n) => `{${n - 1}}`);
+      a.slice(1).forEach((x, k) => { s = s.replace(`{${k}}`, x); });
+      return s;
+    }
     const vals = a.map((x, k) => k === 0 ? (x === ts.me ? 'Jij' : st.seats[x].name) : x);
     let s = t; vals.forEach((x, k) => { s = s.replace(`{${k}}`, x); });
     return s;
@@ -11115,7 +11146,7 @@
     else if (myTurn && st.phase === 'give') status += '<span>Geef elke speler een kaart, en kies je contract.</span>';
     else if (myTurn) status += `<span>Jij bent aan de beurt!</span>`;
     else status += `<span>${P.dog ? '🐶 ' : ''}${P.name} is aan de beurt…</span>`;
-    $('tsStatus').innerHTML = status;
+    $('tsStatus').innerHTML = status + tsTip(st);
     tsActions(st, myTurn);
     // my hand
     const legal = myTurn && st.phase === 'play' ? tsLegal(st, me.cards) : null;
@@ -11184,6 +11215,97 @@
   $('tsBack').addEventListener('click', tsLeave);
   $('tsAgain').addEventListener('click', tysiacStart);
 
+
+  // ----- ❓ Help: for every game "how to play" and "tips", in the four languages (the texts are in help.js: window.HELP).
+  // The ❓ button shows on every game screen; the first time a game opens, its help opens by itself. Tysiąc and
+  // Spookkaarten also give a tip during play (can be switched off in the help).
+  const HELP_SCREENS = {
+    guess: ['start', 'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win', 'roles'], ships: ['shipsLevel', 'shipsPlace', 'shipsPlay'],
+    bricks: ['bricksLevel', 'bricks'], snake: ['snakeLevel', 'snake'], gravity: ['gravity'], nails: ['nailsMenu', 'nails'], crash: ['crash'],
+    pong: ['pongLevel', 'pong'], chess: ['chessSetup', 'chess'], pool: ['poolLevel', 'pool'], rummi: ['rummiSetup', 'rummi'],
+    sudoku: ['sudokuLevel', 'sudoku'], mole: ['moleLevel', 'mole'], wirus: ['wirusSetup', 'wirus'], pumpkin: ['pumpkin'],
+    mahjong: ['mahjongLevel', 'mahjong'], gwint: ['gwintMenu', 'gwintDeck', 'gwint'], bat: ['batLevel', 'bat'], lingo: ['lingoLevel', 'lingo'],
+    memory: ['memorySetup', 'memory'], kitchen: ['kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook'], card: ['cardMake'], who: ['whoMonster'],
+    race: ['monsterRace'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
+  };
+  const HELP_BUTTON = { guess: 'Guess', ttt: 'Ttt', c4: 'C4', dam: 'Dam', ships: 'Ships', bricks: 'Bricks', snake: 'Snake', gravity: 'Gravity', nails: 'Nails',
+    crash: 'Crash', pong: 'Pong', chess: 'Chess', pool: 'Pool', rummi: 'Rummi', sudoku: 'Sudoku', mole: 'Mole', wirus: 'Wirus', pumpkin: 'Pumpkin',
+    mahjong: 'Mahjong', gwint: 'Gwint', bat: 'Bat', lingo: 'Lingo', memory: 'Memory', kitchen: 'Kitchen', card: 'Card', who: 'Who', race: 'Race',
+    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac' };
+  const help = { key: null, tab: 'rules' };
+  const helpLang = () => { try { const l = localStorage.getItem('taal'); return ['nl', 'pl', 'en', 'sk'].includes(l) ? l : 'nl'; } catch (e) { return 'nl'; } };
+  const helpTipsOn = () => { try { return localStorage.getItem('help-tips') !== 'off'; } catch (e) { return true; } };
+  function helpKeyOf(s) {
+    if (s === 'tttSetup' || s === 'ttt') return ['ttt', 'c4', 'dam'].includes(ttt.kind) ? ttt.kind : 'ttt';
+    if (s === 'dam') return 'dam';
+    if (s === 'dominik') return dk.kind === 'lily' ? 'lily' : 'dominik';
+    for (const k in HELP_SCREENS) if (HELP_SCREENS[k].includes(s)) return k;
+    return null;
+  }
+  function helpUpdate() {
+    const k = helpKeyOf(screen), has = !!(k && window.HELP && window.HELP[k]);
+    help.key = has ? k : null;
+    $('helpBtn').hidden = !has;
+    if (!has) return helpClose();
+    let seen = true; try { seen = !!localStorage.getItem('help-seen-' + k); localStorage.setItem('help-seen-' + k, '1'); } catch (e) {}
+    if (!seen) setTimeout(() => { if (help.key === k) helpOpen('rules'); }, 300);
+  }
+  function helpOpen(tab) {
+    if (!help.key) return;
+    help.tab = tab || 'rules';
+    const L = helpLang(), H = window.HELP[help.key][L] || window.HELP[help.key].nl, UI = window.HELP_UI[L];
+    const btn = $('solo' + HELP_BUTTON[help.key]);
+    $('helpTitle').textContent = btn ? btn.firstChild.textContent.trim() : '';
+    document.querySelectorAll('.help-tabs button').forEach(b => { b.textContent = UI[b.dataset.tab]; b.classList.toggle('on', b.dataset.tab === help.tab); });
+    const list = $('helpList'); list.innerHTML = '';
+    for (const [e, text] of H[help.tab]) {
+      const li = document.createElement('li'); li.dataset.notr = '1';
+      const b = document.createElement('b'); b.dataset.notr = '1'; b.textContent = e;
+      const sp = document.createElement('span'); sp.dataset.notr = '1'; sp.textContent = text;
+      li.append(b, sp); list.append(li);
+    }
+    $('helpLiveRow').hidden = !['tysiac', 'kleur'].includes(help.key);
+    $('helpLive').checked = helpTipsOn(); $('helpLiveText').textContent = UI.live;
+    $('helpClose').textContent = UI.close;
+    $('helpBox').hidden = false;
+  }
+  function helpClose() { $('helpBox').hidden = true; }
+  $('helpBtn').addEventListener('click', () => helpOpen('rules'));
+  $('helpClose').addEventListener('click', helpClose);
+  $('helpBox').addEventListener('click', e => { if (e.target === $('helpBox')) helpClose(); });
+  document.querySelector('.help-tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) helpOpen(b.dataset.tab); });
+  $('helpLive').addEventListener('change', () => {
+    try { localStorage.setItem('help-tips', $('helpLive').checked ? 'on' : 'off'); } catch (e) {}
+    if (screen === 'tysiac' && ts.st) tsShow(ts.st);
+    if (screen === 'kk' && kk.st) kkShow(kk.st);
+  });
+
+  // Tips during play
+  function tsTip(st) {
+    if (!helpTipsOn() || st.turn !== ts.me || !['bid', 'give', 'play'].includes(st.phase)) return '';
+    const hand = st.seats[ts.me].cards, melds = tsMelds(hand);
+    let t = '';
+    if (st.phase === 'bid') t = melds.length ? `💡 Je hebt een meldunek ${melds.map(m => TS_SUIT[m]).join(' ')}! Daarmee kun je hoger bieden.` : '💡 Geen koning en vrouw van dezelfde kleur? Dan is passen vaak slim.';
+    else if (st.phase === 'give') t = '💡 Geef je laagste kaarten weg (9 of boer). Houd je azen, tienen en meldunek.';
+    else if (!st.trick.length) t = melds.length ? (st.trickNo > 0 ? `💡 Speel de koning of vrouw ${TS_SUIT[melds[0]]} uit: dan meld je en krijg je ${TS_MELD[melds[0]]} punten!` : '💡 Melden mag pas vanaf de tweede slag.') : '💡 Een aas pakt bijna altijd de slag. De 10 is de tweede sterkste!';
+    else {
+      const lead = st.trick[0].c[1];
+      t = hand.some(c => c[1] === lead) ? `💡 Je moet ${TS_SUIT[lead]} bekennen, en hoger als het kan.`
+        : st.trump && hand.some(c => c[1] === st.trump) ? `💡 Je hebt geen ${TS_SUIT[lead]}: je moet troef spelen!`
+        : `💡 Je hebt geen ${TS_SUIT[lead]} en geen troef: gooi je laagste kaart weg.`;
+    }
+    return `<span class="tip">${t}</span>`;
+  }
+  function kkTip(st) {
+    if (!helpTipsOn() || st.over || st.turn !== kk.me) return '';
+    const hand = st.seats[kk.me].cards || st.seats[kk.me].hand, fits = hand.filter(c => kkFits(st, c));
+    let t = '';
+    if (st.drawn >= 0) return '';
+    if (!fits.length) t = '💡 Niets past: tik op de stapel 🦇 om een kaart te pakken.';
+    else if (st.seats.some((x, i) => i !== kk.me && x.hand.length <= 2) && fits.some(c => /[SDF]$/.test(c) || c === 'F')) t = '💡 Iemand is bijna klaar! Speel een ⊘, +2 of +4 om hem tegen te houden.';
+    else if (fits.some(c => c === 'W' || c === 'F') && fits.some(c => c !== 'W' && c !== 'F')) t = '💡 Bewaar je 🌈 en +4 voor als niets anders past.';
+    return t ? `<span class="tip">${t}</span>` : '';
+  }
   greet();
   show('welcome');
 </script>

@@ -1,0 +1,2016 @@
+{
+ "pool": {
+  "nl": {
+   "rules": [
+    [
+     "🎱",
+     "Speel tegen het hondje of een vriend. Tik eerst al je eigen ballen erin, en dan de zwarte 8. Dan win je!"
+    ],
+    [
+     "👆",
+     "Zet je vinger op de tafel en trek terug. De stippellijn laat zien waar de witte bal heen gaat. Laat los om te stoten."
+    ],
+    [
+     "💪",
+     "Hoe verder je terugtrekt, hoe harder je stoot. Kijk naar het balkje onderaan."
+    ],
+    [
+     "🔵",
+     "De eerste bal die jij erin tikt, kiest je groep: ● hele of ◐ halve ballen."
+    ],
+    [
+     "🎉",
+     "Tik je een eigen bal erin? Dan mag je nog een keer."
+    ],
+    [
+     "⚠️",
+     "Fout? (witte bal erin, niks geraakt, verkeerde bal eerst) Dan mag de ander de witte bal neerleggen waar hij wil."
+    ]
+   ],
+   "tips": [
+    [
+     "🎱",
+     "De zwarte 8 te vroeg erin is verloren! Laat hem liggen tot al jouw ballen weg zijn."
+    ],
+    [
+     "🪶",
+     "Stoot liever zacht. Dan rolt de witte bal niet zo snel zelf in een gat."
+    ],
+    [
+     "🎯",
+     "Mag jij de witte bal neerleggen? Leg hem achter een bal die mooi voor een gat ligt."
+    ],
+    [
+     "🐶",
+     "Begin tegen 🐶 Puppy: die mikt een beetje scheef. 🐕 Slimme hond mikt heel goed."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🎱",
+     "Grasz z pieskiem albo z kolegą. Wbij wszystkie swoje bile, a potem czarną ósemkę. Wtedy wygrywasz!"
+    ],
+    [
+     "👆",
+     "Połóż palec na stole i odciągnij go. Kropkowana linia pokazuje, dokąd poleci biała bila. Puść, żeby uderzyć."
+    ],
+    [
+     "💪",
+     "Im dalej odciągniesz, tym mocniej uderzysz. Patrz na pasek na dole."
+    ],
+    [
+     "🔵",
+     "Pierwsza bila, którą wbijesz, wybiera twoją grupę: ● pełne albo ◐ połówki."
+    ],
+    [
+     "🎉",
+     "Twoja bila wpadła do łuzy? To grasz jeszcze raz."
+    ],
+    [
+     "⚠️",
+     "Faul? (biała wpadła, w nic nie trafiła, najpierw zła bila) Wtedy drugi gracz kładzie białą bilę, gdzie chce."
+    ]
+   ],
+   "tips": [
+    [
+     "🎱",
+     "Czarna ósemka wbita za wcześnie to przegrana! Zostaw ją, aż wbijesz wszystkie swoje bile."
+    ],
+    [
+     "🪶",
+     "Lepiej uderzaj delikatnie. Wtedy biała bila nie wpadnie tak łatwo do łuzy."
+    ],
+    [
+     "🎯",
+     "Możesz położyć białą bilę? Połóż ją za bilą, która leży blisko łuzy."
+    ],
+    [
+     "🐶",
+     "Zacznij od 🐶 Szczeniaczka: celuje trochę krzywo. 🐕 Sprytny pies celuje bardzo dobrze."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🎱",
+     "Play against the dog or a friend. Pot all your own balls first, then the black 8. Then you win!"
+    ],
+    [
+     "👆",
+     "Put your finger on the table and pull back. The dotted line shows where the white ball goes. Let go to shoot."
+    ],
+    [
+     "💪",
+     "The further you pull back, the harder you shoot. Watch the little bar at the bottom."
+    ],
+    [
+     "🔵",
+     "The first ball you pot picks your group: ● solids or ◐ stripes."
+    ],
+    [
+     "🎉",
+     "Did you pot one of your own balls? Then you go again."
+    ],
+    [
+     "⚠️",
+     "A foul? (white ball in, hit nothing, wrong ball first) Then the other player puts the white ball wherever they like."
+    ]
+   ],
+   "tips": [
+    [
+     "🎱",
+     "Potting the black 8 too early means you lose! Leave it until all your balls are gone."
+    ],
+    [
+     "🪶",
+     "Shoot softly. Then the white ball won't roll into a pocket so easily."
+    ],
+    [
+     "🎯",
+     "May you place the white ball? Put it behind a ball that sits nicely in front of a pocket."
+    ],
+    [
+     "🐶",
+     "Start against 🐶 Puppy: it aims a bit crooked. 🐕 Clever dog aims very well."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🎱",
+     "Hráš proti psíkovi alebo s kamarátom. Najprv dostaň do jamiek všetky svoje gule, potom čiernu osmičku. Vyhráš!"
+    ],
+    [
+     "👆",
+     "Polož prst na stôl a potiahni dozadu. Bodkovaná čiara ukazuje, kam pôjde biela guľa. Pusť a udrieš."
+    ],
+    [
+     "💪",
+     "Čím ďalej potiahneš, tým silnejšie udrieš. Pozri sa na pásik dole."
+    ],
+    [
+     "🔵",
+     "Prvá guľa, ktorú dostaneš do jamky, vyberie tvoju skupinu: ● plné alebo ◐ pruhované."
+    ],
+    [
+     "🎉",
+     "Tvoja guľa je v jamke? Hráš ešte raz."
+    ],
+    [
+     "⚠️",
+     "Faul? (biela v jamke, nič netrafila, najprv zlá guľa) Potom druhý hráč položí bielu guľu, kam chce."
+    ]
+   ],
+   "tips": [
+    [
+     "🎱",
+     "Čierna osmička v jamke príliš skoro znamená prehru! Nechaj ju, kým nemáš preč všetky svoje gule."
+    ],
+    [
+     "🪶",
+     "Udieraj radšej jemne. Biela guľa potom tak ľahko nespadne do jamky."
+    ],
+    [
+     "🎯",
+     "Môžeš položiť bielu guľu? Polož ju za guľu, ktorá leží pekne pred jamkou."
+    ],
+    [
+     "🐶",
+     "Začni proti 🐶 Šteniatku: mieri trochu nakrivo. 🐕 Múdry pes mieri veľmi dobre."
+    ]
+   ]
+  }
+ },
+ "rummi": {
+  "nl": {
+   "rules": [
+    [
+     "🀄",
+     "Iedereen krijgt 14 stenen. Leg ze allemaal op tafel en je wint! Lege plekken (1 tot 4 spelers) worden hondjes."
+    ],
+    [
+     "🔢",
+     "Leg rijtjes van minstens 3: één kleur op volgorde (4-5-6), of hetzelfde getal in verschillende kleuren."
+    ],
+    [
+     "👆",
+     "Tik op een steen en dan op een rijtje, of op + nieuw rijtje. Klaar? Tik op ✅ Klaar."
+    ],
+    [
+     "🎴",
+     "Kun je niks leggen? Tik op 🎴 Pak een steen. Dan is de volgende aan de beurt."
+    ],
+    [
+     "😊",
+     "De joker 😊 mag elke steen zijn die je mist."
+    ],
+    [
+     "⭐",
+     "Bij ⭐ Echt moet je eerste keer samen 30 punten zijn. Daarna mag je ook stenen op tafel verschuiven."
+    ],
+    [
+     "🐣",
+     "Bij 🐣 Makkelijk hoeft geen 30, maar stenen op tafel blijven liggen. Je mag er wel stenen bij leggen."
+    ]
+   ],
+   "tips": [
+    [
+     "🔢",
+     "Tik op 🔢 Sorteer: je stenen gaan op kleur of op getal. Dan zie je rijtjes sneller."
+    ],
+    [
+     "↩️",
+     "Gaat het mis? ↩️ Opnieuw zet alles terug zoals aan het begin van je beurt."
+    ],
+    [
+     "🔴",
+     "Een rood rijtje klopt nog niet. Maak het af voordat je op ✅ Klaar tikt."
+    ],
+    [
+     "➕",
+     "Kijk ook naar de tafel: misschien past jouw steen achter een rijtje dat er al ligt."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🀄",
+     "Każdy dostaje 14 kamieni. Połóż wszystkie na stole i wygrywasz! Wolne miejsca (1 do 4 graczy) zajmują pieski."
+    ],
+    [
+     "🔢",
+     "Układaj rzędy z co najmniej 3: jeden kolor po kolei (4-5-6) albo ta sama liczba w różnych kolorach."
+    ],
+    [
+     "👆",
+     "Stuknij kamień, a potem rząd albo + nowy rząd. Skończone? Stuknij ✅ Gotowe."
+    ],
+    [
+     "🎴",
+     "Nie masz czego położyć? Stuknij 🎴 Weź kamień. Wtedy kolej na następnego gracza."
+    ],
+    [
+     "😊",
+     "Joker 😊 może być każdym kamieniem, którego ci brakuje."
+    ],
+    [
+     "⭐",
+     "W ⭐ Prawdziwe za pierwszym razem musisz mieć razem 30 punktów. Potem możesz też przesuwać kamienie na stole."
+    ],
+    [
+     "🐣",
+     "W 🐣 Łatwy nie trzeba 30, ale kamienie na stole zostają. Możesz za to dokładać do nich swoje."
+    ]
+   ],
+   "tips": [
+    [
+     "🔢",
+     "Stuknij 🔢 Sortuj: kamienie ułożą się według koloru albo liczby. Szybciej zobaczysz rzędy."
+    ],
+    [
+     "↩️",
+     "Coś nie wyszło? ↩️ Od nowa ustawia wszystko jak na początku twojej kolejki."
+    ],
+    [
+     "🔴",
+     "Czerwony rząd jest jeszcze zły. Popraw go, zanim stukniesz ✅ Gotowe."
+    ],
+    [
+     "➕",
+     "Patrz też na stół: może twój kamień pasuje na koniec rzędu, który już tam leży."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🀄",
+     "Everyone gets 14 tiles. Put them all on the table and you win! Empty seats (1 to 4 players) become dogs."
+    ],
+    [
+     "🔢",
+     "Lay rows of at least 3: one colour in order (4-5-6), or the same number in different colours."
+    ],
+    [
+     "👆",
+     "Tap a tile, then tap a row or + new row. Finished? Tap ✅ Done."
+    ],
+    [
+     "🎴",
+     "Can't lay anything? Tap 🎴 Take a tile. Then it's the next player's turn."
+    ],
+    [
+     "😊",
+     "The joker 😊 can be any tile you are missing."
+    ],
+    [
+     "⭐",
+     "With ⭐ Real, your first move must add up to 30 points. After that you may move tiles on the table too."
+    ],
+    [
+     "🐣",
+     "With 🐣 Easy, no 30 needed, but tiles on the table stay put. You may still add tiles to them."
+    ]
+   ],
+   "tips": [
+    [
+     "🔢",
+     "Tap 🔢 Sort: your tiles line up by colour or by number. Then you spot rows faster."
+    ],
+    [
+     "↩️",
+     "Gone wrong? ↩️ Start over puts everything back to how it was at the start of your turn."
+    ],
+    [
+     "🔴",
+     "A red row isn't right yet. Fix it before you tap ✅ Done."
+    ],
+    [
+     "➕",
+     "Look at the table too: maybe your tile fits on the end of a row that's already there."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🀄",
+     "Každý dostane 14 kameňov. Polož ich všetky na stôl a vyhráš! Voľné miesta (1 až 4 hráči) obsadia psíky."
+    ],
+    [
+     "🔢",
+     "Kladieš rady aspoň z 3: jedna farba po poradí (4-5-6) alebo rovnaké číslo v rôznych farbách."
+    ],
+    [
+     "👆",
+     "Ťukni na kameň a potom na rad alebo na + nový rad. Hotovo? Ťukni na ✅ Hotovo."
+    ],
+    [
+     "🎴",
+     "Nemáš čo položiť? Ťukni na 🎴 Vziať kameň. Potom je na rade ďalší."
+    ],
+    [
+     "😊",
+     "Žolík 😊 môže byť ktorýkoľvek kameň, ktorý ti chýba."
+    ],
+    [
+     "⭐",
+     "Pri ⭐ Skutočné musí mať tvoj prvý ťah spolu 30 bodov. Potom môžeš presúvať aj kamene na stole."
+    ],
+    [
+     "🐣",
+     "Pri 🐣 Ľahké netreba 30, ale kamene na stole zostanú ležať. Môžeš k nim však prikladať."
+    ]
+   ],
+   "tips": [
+    [
+     "🔢",
+     "Ťukni na 🔢 Zoradiť: kamene sa zoradia podľa farby alebo čísla. Rady uvidíš rýchlejšie."
+    ],
+    [
+     "↩️",
+     "Niečo sa pokazilo? ↩️ Znova vráti všetko tak, ako bolo na začiatku tvojho ťahu."
+    ],
+    [
+     "🔴",
+     "Červený rad ešte nie je správny. Oprav ho, skôr než ťukneš na ✅ Hotovo."
+    ],
+    [
+     "➕",
+     "Pozri sa aj na stôl: možno tvoj kameň pasuje na koniec radu, ktorý tam už leží."
+    ]
+   ]
+  }
+ },
+ "sudoku": {
+  "nl": {
+   "rules": [
+    [
+     "🧩",
+     "Vul alle hokjes met 1 tot 9. In elke rij, elke kolom en elk blok van 3×3 staat elk cijfer maar één keer."
+    ],
+    [
+     "👆",
+     "Tik op een leeg hokje en dan op een cijfer onderaan."
+    ],
+    [
+     "❌",
+     "Een verkeerd cijfer is een fout. Bij 3 fouten is het spel voorbij. Met Nog een kans mag je toch verder."
+    ],
+    [
+     "⏱️",
+     "Kies Makkelijk, Gemiddeld, Moeilijk of Meester. De klok loopt: hoe sneller, hoe beter je record."
+    ],
+    [
+     "💾",
+     "Stop je even? Je spel blijft bewaard. Tik later op Verder spelen."
+    ]
+   ],
+   "tips": [
+    [
+     "🔍",
+     "Zoek een rij, kolom of blok waar bijna alles al staat. Daar past vaak maar één cijfer."
+    ],
+    [
+     "✏️",
+     "Met het potloodje (Notities) zet je kleine cijfertjes neer die misschien passen."
+    ],
+    [
+     "🔢",
+     "Het kleine getal bij elk cijfer onderaan zegt hoeveel je er nog moet neerzetten."
+    ],
+    [
+     "💡",
+     "Kom je er niet uit? Het lampje (Hint) zet één goed cijfer voor je neer."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🧩",
+     "Wypełnij wszystkie kratki cyframi od 1 do 9. W każdym wierszu, kolumnie i kwadracie 3×3 każda cyfra jest raz."
+    ],
+    [
+     "👆",
+     "Stuknij pustą kratkę, a potem cyfrę na dole."
+    ],
+    [
+     "❌",
+     "Zła cyfra to błąd. Po 3 błędach gra się kończy. Jeszcze jedna szansa pozwala grać dalej."
+    ],
+    [
+     "⏱️",
+     "Wybierz Łatwy, Średni, Trudny albo Mistrz. Zegar tyka: im szybciej, tym lepszy rekord."
+    ],
+    [
+     "💾",
+     "Robisz przerwę? Gra się zapisuje. Potem stuknij Graj dalej."
+    ]
+   ],
+   "tips": [
+    [
+     "🔍",
+     "Szukaj wiersza, kolumny albo kwadratu, gdzie prawie wszystko jest już wpisane. Tam często pasuje tylko jedna cyfra."
+    ],
+    [
+     "✏️",
+     "Ołówkiem (Notatki) wpisujesz małe cyferki, które może pasują."
+    ],
+    [
+     "🔢",
+     "Mała liczba przy każdej cyfrze na dole mówi, ile jeszcze takich cyfr trzeba wpisać."
+    ],
+    [
+     "💡",
+     "Nie wiesz, co dalej? Żarówka (Podpowiedź) wpisze za ciebie jedną dobrą cyfrę."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🧩",
+     "Fill every square with 1 to 9. In each row, each column and each 3×3 block, every number appears only once."
+    ],
+    [
+     "👆",
+     "Tap an empty square, then tap a number at the bottom."
+    ],
+    [
+     "❌",
+     "A wrong number is a mistake. After 3 mistakes the game is over. One more chance lets you carry on."
+    ],
+    [
+     "⏱️",
+     "Choose Easy, Medium, Hard or Master. The clock is ticking: the faster, the better your record."
+    ],
+    [
+     "💾",
+     "Taking a break? Your game is saved. Tap Continue later."
+    ]
+   ],
+   "tips": [
+    [
+     "🔍",
+     "Look for a row, column or block that is almost full. Often only one number fits there."
+    ],
+    [
+     "✏️",
+     "With the pencil (Notes) you write small numbers that might fit."
+    ],
+    [
+     "🔢",
+     "The small number on each button at the bottom tells you how many of that number are still missing."
+    ],
+    [
+     "💡",
+     "Stuck? The light bulb (Hint) puts one right number in for you."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🧩",
+     "Vyplň všetky políčka číslami 1 až 9. V každom riadku, stĺpci a štvorci 3×3 je každé číslo len raz."
+    ],
+    [
+     "👆",
+     "Ťukni na prázdne políčko a potom na číslo dole."
+    ],
+    [
+     "❌",
+     "Zlé číslo je chyba. Po 3 chybách sa hra končí. S Ešte jedna šanca môžeš hrať ďalej."
+    ],
+    [
+     "⏱️",
+     "Vyber Ľahké, Stredné, Ťažké alebo Majster. Hodiny bežia: čím rýchlejšie, tým lepší rekord."
+    ],
+    [
+     "💾",
+     "Dávaš si prestávku? Hra sa uloží. Neskôr ťukni na Pokračovať."
+    ]
+   ],
+   "tips": [
+    [
+     "🔍",
+     "Hľadaj riadok, stĺpec alebo štvorec, kde je už takmer všetko. Tam často pasuje len jedno číslo."
+    ],
+    [
+     "✏️",
+     "Ceruzkou (Poznámky) si píšeš malé čísla, ktoré by mohli pasovať."
+    ],
+    [
+     "🔢",
+     "Malé číslo pri každom čísle dole ti povie, koľko ich ešte treba doplniť."
+    ],
+    [
+     "💡",
+     "Nevieš ďalej? Žiarovka (Rada) za teba doplní jedno správne číslo."
+    ]
+   ]
+  }
+ },
+ "mole": {
+  "nl": {
+   "rules": [
+    [
+     "🔨",
+     "Mollen springen uit 9 holen. Tik ze snel, voordat ze weer wegduiken!"
+    ],
+    [
+     "⭐",
+     "Een gewone mol is 1 punt. Een gouden mol is 3 punten!"
+    ],
+    [
+     "🐶",
+     "Mep het hondje niet: dat kost 3 punten."
+    ],
+    [
+     "⏱️",
+     "Je hebt 30 seconden. Hoe verder de tijd, hoe sneller de mollen gaan."
+    ],
+    [
+     "🚀",
+     "Kies 🐢 Langzaam, 🐇 Gewoon of 🚀 Snel. Alleen speel je voor een record, samen wint wie de meeste punten heeft."
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Kijk naar het hele veld, niet steeds naar één hol."
+    ],
+    [
+     "🟡",
+     "Gouden mollen zijn sneller weg. Pak ze meteen!"
+    ],
+    [
+     "✋",
+     "Eerst kijken, dan meppen. Een hondje raken is erger dan een mol missen."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🔨",
+     "Krety wyskakują z 9 dziur. Stukaj je szybko, zanim znowu się schowają!"
+    ],
+    [
+     "⭐",
+     "Zwykły kret to 1 punkt. Złoty kret to 3 punkty!"
+    ],
+    [
+     "🐶",
+     "Nie uderzaj pieska: to kosztuje 3 punkty."
+    ],
+    [
+     "⏱️",
+     "Masz 30 sekund. Im dłużej grasz, tym szybsze są krety."
+    ],
+    [
+     "🚀",
+     "Wybierz 🐢 Wolno, 🐇 Normalnie albo 🚀 Szybko. W pojedynkę grasz o rekord, razem wygrywa ten, kto ma więcej punktów."
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Patrz na całe pole, a nie ciągle na jedną dziurę."
+    ],
+    [
+     "🟡",
+     "Złote krety szybciej znikają. Łap je od razu!"
+    ],
+    [
+     "✋",
+     "Najpierw patrz, potem uderzaj. Trafić pieska jest gorzej niż nie trafić kreta."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🔨",
+     "Moles pop out of 9 holes. Tap them quickly before they hide again!"
+    ],
+    [
+     "⭐",
+     "A normal mole is 1 point. A golden mole is 3 points!"
+    ],
+    [
+     "🐶",
+     "Don't whack the dog: that costs 3 points."
+    ],
+    [
+     "⏱️",
+     "You have 30 seconds. The longer you play, the faster the moles get."
+    ],
+    [
+     "🚀",
+     "Choose 🐢 Slow, 🐇 Normal or 🚀 Fast. Alone you play for a record; together, whoever has the most points wins."
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Watch the whole field, not just one hole."
+    ],
+    [
+     "🟡",
+     "Golden moles hide faster. Get them straight away!"
+    ],
+    [
+     "✋",
+     "Look first, then whack. Hitting the dog is worse than missing a mole."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🔨",
+     "Krty vyskakujú z 9 dier. Ťukni na ne rýchlo, kým sa zase neschovajú!"
+    ],
+    [
+     "⭐",
+     "Obyčajný krt je 1 bod. Zlatý krt sú 3 body!"
+    ],
+    [
+     "🐶",
+     "Neudri psíka: to stojí 3 body."
+    ],
+    [
+     "⏱️",
+     "Máš 30 sekúnd. Čím dlhšie hráš, tým rýchlejšie sú krty."
+    ],
+    [
+     "🚀",
+     "Vyber 🐢 Pomaly, 🐇 Normálne alebo 🚀 Rýchlo. Osamote hráš o rekord, spolu vyhrá ten, kto má viac bodov."
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Pozeraj na celé pole, nie stále na jednu dieru."
+    ],
+    [
+     "🟡",
+     "Zlaté krty sa schovajú rýchlejšie. Chyť ich hneď!"
+    ],
+    [
+     "✋",
+     "Najprv sa pozri, potom udri. Trafiť psíka je horšie ako netrafiť krta."
+    ]
+   ]
+  }
+ },
+ "wirus": {
+  "nl": {
+   "rules": [
+    [
+     "🦠",
+     "Met 2 tot 4 spelers (lege plekken zijn hondjes). Wie het eerst 4 gezonde organen van 4 kleuren heeft, wint."
+    ],
+    [
+     "🃏",
+     "Je hebt 3 kaarten. Speel er één, of gooi er 1 tot 3 weg. Daarna pak je weer tot je 3 kaarten hebt."
+    ],
+    [
+     "👆",
+     "Tik op een kaart. Tik dan op wat oplicht, of op ▶️ Speel deze kaart. Weggooien: 🗑️ Kaarten weggooien."
+    ],
+    [
+     "❤️",
+     "Orgaan: leg het bij jezelf. Twee dezelfde organen mag niet."
+    ],
+    [
+     "🦠",
+     "Virus: op een orgaan van een ander, zelfde kleur. 1 virus = ziek, 2 virussen = het orgaan is weg."
+    ],
+    [
+     "💊",
+     "Medicijn: op je eigen orgaan. 1 = beschermd, 2 = immuun 🛡️. Op een ziek orgaan maakt het weer beter."
+    ],
+    [
+     "🧤",
+     "Speciale kaarten: Transplantatie, Orgaandief, Besmetting, Latex handschoen, Medische fout. Lees ze bij 📖 Regels."
+    ]
+   ],
+   "tips": [
+    [
+     "🛡️",
+     "Maak een orgaan immuun: daar kan dan niemand meer aan komen."
+    ],
+    [
+     "🌈",
+     "Regenboog-kaarten passen bij elke kleur. Het Regenboog-orgaan telt als elke kleur die je mist."
+    ],
+    [
+     "🦝",
+     "Mis je een kleur? Met de Orgaandief pak je er een van een ander."
+    ],
+    [
+     "🗑️",
+     "Niks goeds in je hand? Gooi kaarten weg en pak nieuwe."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🦠",
+     "Gra od 2 do 4 graczy (wolne miejsca to pieski). Wygrywa ten, kto pierwszy ma 4 zdrowe organy w 4 kolorach."
+    ],
+    [
+     "🃏",
+     "Masz 3 karty. Zagraj jedną albo wyrzuć od 1 do 3. Potem dobierasz, aż znowu masz 3 karty."
+    ],
+    [
+     "👆",
+     "Stuknij kartę. Potem stuknij to, co się świeci, albo ▶️ Zagraj tę kartę. Wyrzucanie: 🗑️ Wyrzuć karty."
+    ],
+    [
+     "❤️",
+     "Organ: połóż go u siebie. Nie możesz mieć dwóch takich samych organów."
+    ],
+    [
+     "🦠",
+     "Wirus: na organ innego gracza, ten sam kolor. 1 wirus = chory, 2 wirusy = organ znika."
+    ],
+    [
+     "💊",
+     "Lekarstwo: na swój organ. 1 = chroniony, 2 = odporny 🛡️. Chory organ lekarstwo leczy."
+    ],
+    [
+     "🧤",
+     "Karty specjalne: Przeszczep, Złodziej organów, Zarażenie, Lateksowa rękawiczka, Błąd lekarski. Zajrzyj do 📖 Zasady."
+    ]
+   ],
+   "tips": [
+    [
+     "🛡️",
+     "Uodpornij organ: wtedy nikt już nic mu nie zrobi."
+    ],
+    [
+     "🌈",
+     "Tęczowe karty pasują do każdego koloru. Tęczowy organ liczy się jako kolor, którego ci brakuje."
+    ],
+    [
+     "🦝",
+     "Brakuje ci koloru? Złodziejem organów zabierzesz go innemu graczowi."
+    ],
+    [
+     "🗑️",
+     "Nic dobrego w ręce? Wyrzuć karty i dobierz nowe."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🦠",
+     "2 to 4 players (empty seats are dogs). The first to have 4 healthy organs in 4 colours wins."
+    ],
+    [
+     "🃏",
+     "You have 3 cards. Play one, or throw 1 to 3 away. Then draw until you have 3 cards again."
+    ],
+    [
+     "👆",
+     "Tap a card. Then tap what lights up, or ▶️ Play this card. To throw away: 🗑️ Throw cards away."
+    ],
+    [
+     "❤️",
+     "Organ: put it in front of you. You may not have two of the same organ."
+    ],
+    [
+     "🦠",
+     "Virus: on another player's organ, same colour. 1 virus = sick, 2 viruses = the organ is gone."
+    ],
+    [
+     "💊",
+     "Medicine: on your own organ. 1 = protected, 2 = immune 🛡️. On a sick organ it makes it better."
+    ],
+    [
+     "🧤",
+     "Special cards: Transplant, Organ thief, Contagion, Latex glove, Medical error. Read about them in 📖 Rules."
+    ]
+   ],
+   "tips": [
+    [
+     "🛡️",
+     "Make an organ immune: then nobody can touch it any more."
+    ],
+    [
+     "🌈",
+     "Rainbow cards fit every colour. The Rainbow organ counts as whichever colour you are missing."
+    ],
+    [
+     "🦝",
+     "Missing a colour? Use the Organ thief to take one from another player."
+    ],
+    [
+     "🗑️",
+     "Nothing good in your hand? Throw cards away and draw new ones."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🦠",
+     "Hrajú 2 až 4 hráči (voľné miesta sú psíky). Vyhrá ten, kto prvý má 4 zdravé orgány v 4 farbách."
+    ],
+    [
+     "🃏",
+     "Máš 3 karty. Zahraj jednu alebo odhoď 1 až 3. Potom si doberieš, kým nemáš zase 3 karty."
+    ],
+    [
+     "👆",
+     "Ťukni na kartu. Potom ťukni na to, čo svieti, alebo na ▶️ Zahrať túto kartu. Odhodenie: 🗑️ Odhodiť karty."
+    ],
+    [
+     "❤️",
+     "Orgán: polož ho k sebe. Dva rovnaké orgány mať nesmieš."
+    ],
+    [
+     "🦠",
+     "Vírus: na orgán iného hráča, rovnaká farba. 1 vírus = chorý, 2 vírusy = orgán je preč."
+    ],
+    [
+     "💊",
+     "Liek: na svoj orgán. 1 = chránený, 2 = odolný 🛡️. Chorý orgán liek vylieči."
+    ],
+    [
+     "🧤",
+     "Špeciálne karty: Transplantácia, Zlodej orgánov, Nákaza, Latexová rukavica, Lekárska chyba. Pozri 📖 Pravidlá."
+    ]
+   ],
+   "tips": [
+    [
+     "🛡️",
+     "Sprav orgán odolným: potom mu už nikto nič neurobí."
+    ],
+    [
+     "🌈",
+     "Dúhové karty pasujú ku každej farbe. Dúhový orgán platí ako farba, ktorá ti chýba."
+    ],
+    [
+     "🦝",
+     "Chýba ti farba? So Zlodejom orgánov ju zoberieš inému hráčovi."
+    ],
+    [
+     "🗑️",
+     "Nič dobré v ruke? Odhoď karty a dober si nové."
+    ]
+   ]
+  }
+ },
+ "pumpkin": {
+  "nl": {
+   "rules": [
+    [
+     "🎃",
+     "Kies bij 🧟 Kiezen een pompoen of een griezelig figuur."
+    ],
+    [
+     "😀",
+     "Geef hem een gezicht: een heel gezicht bij Gezichten, of los bij Ogen, Neus en Mond."
+    ],
+    [
+     "✂️",
+     "Bij Snijden kies je een vorm. Of tik op 🔪 Zelf snijden en teken met je vinger een rondje: dat wordt een gat."
+    ],
+    [
+     "🖌️",
+     "Bij Verven kies je een kleur, dun of dik, en glitter. Verf met je vinger. Met de gum veeg je verf weg."
+    ],
+    [
+     "🎩",
+     "Zet Spulletjes op je pompoen. Bij Plek kies je waar hij staat."
+    ],
+    [
+     "✨",
+     "Klaar? Tik op ✨ Klaar! Dan krijg je een foto. Je vindt hem terug bij Mijn pompoenen."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Tik op iets op je pompoen om het te kiezen. Sleep het, of maak het groter, kleiner, draai of spiegel het."
+    ],
+    [
+     "✌️",
+     "Met twee vingers kun je iets tegelijk draaien en groter of kleiner maken."
+    ],
+    [
+     "🕯️",
+     "Tik op 🕯️ Licht: dan wordt het nacht en schijnt de kaars door de gaten."
+    ],
+    [
+     "↩️",
+     "Oeps? ↩️ Terug haalt het laatste weg. 🧹 Alles weg maakt je pompoen weer leeg."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🎃",
+     "W 🧟 Wybierz wybierz dynię albo straszną postać."
+    ],
+    [
+     "😀",
+     "Daj jej buzię: całą od razu w Buzie albo po kawałku w Oczy, Nos i Usta."
+    ],
+    [
+     "✂️",
+     "W Wycinanie wybierz kształt. Albo stuknij 🔪 Wytnij sam i narysuj palcem kółko: zrobi się dziura."
+    ],
+    [
+     "🖌️",
+     "W Malowanie wybierz kolor, grubość i brokat. Maluj palcem. Gumką zetrzesz farbę."
+    ],
+    [
+     "🎩",
+     "Dodaj do dyni Dodatki. W Miejsce wybierz, gdzie stoi."
+    ],
+    [
+     "✨",
+     "Gotowe? Stuknij ✨ Gotowe! i dostaniesz zdjęcie. Znajdziesz je potem w Moje dynie."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Stuknij coś na dyni, żeby to wybrać. Przesuń, powiększ, zmniejsz, obróć albo odwróć."
+    ],
+    [
+     "✌️",
+     "Dwoma palcami możesz naraz obracać i powiększać albo zmniejszać."
+    ],
+    [
+     "🕯️",
+     "Stuknij 🕯️ Światło: zrobi się noc, a świeczka zaświeci przez dziury."
+    ],
+    [
+     "↩️",
+     "Ups? ↩️ Cofnij usuwa ostatnią rzecz. 🧹 Wyczyść zaczyna od pustej dyni."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🎃",
+     "In 🧟 Choose, pick a pumpkin or a spooky figure."
+    ],
+    [
+     "😀",
+     "Give it a face: a whole face in Faces, or bit by bit in Eyes, Nose and Mouth."
+    ],
+    [
+     "✂️",
+     "In Carve, pick a shape. Or tap 🔪 Carve yourself and draw a loop with your finger: it becomes a hole."
+    ],
+    [
+     "🖌️",
+     "In Paint, pick a colour, thin or thick, and glitter. Paint with your finger. The eraser wipes paint away."
+    ],
+    [
+     "🎩",
+     "Put Extras on your pumpkin. In Place, choose where it stands."
+    ],
+    [
+     "✨",
+     "Finished? Tap ✨ Done! and you get a photo. You'll find it again in My pumpkins."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Tap something on your pumpkin to pick it. Drag it, or make it bigger, smaller, turn it or flip it."
+    ],
+    [
+     "✌️",
+     "With two fingers you can turn something and make it bigger or smaller at the same time."
+    ],
+    [
+     "🕯️",
+     "Tap 🕯️ Light: it turns night and the candle shines through the holes."
+    ],
+    [
+     "↩️",
+     "Oops? ↩️ Undo takes away the last thing. 🧹 Clear all empties your pumpkin."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🎃",
+     "V 🧟 Vybrať si vyber tekvicu alebo strašidelnú postavičku."
+    ],
+    [
+     "😀",
+     "Daj jej tvár: celú naraz v Tváre alebo po kúskoch v Oči, Nos a Ústa."
+    ],
+    [
+     "✂️",
+     "Vo Vyrezávať vyber tvar. Alebo ťukni na 🔪 Vyrež sám a nakresli prstom krúžok: bude z neho diera."
+    ],
+    [
+     "🖌️",
+     "V Maľovať vyber farbu, hrúbku a trblietky. Maľuj prstom. Gumou farbu zotrieš."
+    ],
+    [
+     "🎩",
+     "Daj na tekvicu Doplnky. V Miesto vyber, kde stojí."
+    ],
+    [
+     "✨",
+     "Hotovo? Ťukni na ✨ Hotovo! a dostaneš fotku. Nájdeš ju potom v Moje tekvice."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Ťukni na niečo na tekvici a vyberieš to. Potiahni to, zväčši, zmenši, otoč alebo prevráť."
+    ],
+    [
+     "✌️",
+     "Dvoma prstami môžeš naraz otáčať a zväčšovať alebo zmenšovať."
+    ],
+    [
+     "🕯️",
+     "Ťukni na 🕯️ Svetlo: bude noc a sviečka zasvieti cez diery."
+    ],
+    [
+     "↩️",
+     "Ups? ↩️ Späť zruší poslednú vec. 🧹 Zmazať všetko vyprázdni tekvicu."
+    ]
+   ]
+  }
+ },
+ "mahjong": {
+  "nl": {
+   "rules": [
+    [
+     "🎴",
+     "Haal steeds twee dezelfde stenen weg, tot de hele stapel op is."
+    ],
+    [
+     "👆",
+     "Tik op een steen en dan op dezelfde steen. Ze moeten allebei vrij liggen."
+    ],
+    [
+     "🔓",
+     "Vrij betekent: er ligt niks bovenop, en de linker- of de rechterkant is open."
+    ],
+    [
+     "🌸",
+     "Elke bloem past bij elke bloem, en elk seizoen bij elk seizoen."
+    ],
+    [
+     "⏱️",
+     "Kies Piramide, Vierkant of Schildpad. De klok loopt: hoe sneller, hoe beter je record."
+    ]
+   ],
+   "tips": [
+    [
+     "⬆️",
+     "Haal eerst stenen van hoge stapels en lange rijen weg. Dan komen er meer vrij."
+    ],
+    [
+     "💡",
+     "Het lampje (Hint) laat twee stenen zien die samen weg mogen. Met de pijl zet je een zet terug."
+    ],
+    [
+     "🔀",
+     "Geen zetten meer? Tik op Schudden en speel verder."
+    ],
+    [
+     "💾",
+     "Je spel blijft bewaard. Tik later op Verder spelen."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🎴",
+     "Zdejmuj po dwa takie same kamienie, aż zniknie cały stos."
+    ],
+    [
+     "👆",
+     "Stuknij kamień, a potem taki sam. Oba muszą być wolne."
+    ],
+    [
+     "🔓",
+     "Wolny znaczy: nic na nim nie leży, a lewy albo prawy bok jest odkryty."
+    ],
+    [
+     "🌸",
+     "Każdy kwiat pasuje do każdego kwiatu, a każda pora roku do każdej pory roku."
+    ],
+    [
+     "⏱️",
+     "Wybierz Piramida, Kwadrat albo Żółw. Zegar tyka: im szybciej, tym lepszy rekord."
+    ]
+   ],
+   "tips": [
+    [
+     "⬆️",
+     "Najpierw zdejmuj kamienie z wysokich stosów i długich rzędów. Wtedy uwolnisz więcej."
+    ],
+    [
+     "💡",
+     "Żarówka (Podpowiedź) pokaże dwa kamienie, które pasują. Strzałką cofniesz ruch."
+    ],
+    [
+     "🔀",
+     "Nie ma już ruchów? Stuknij Przetasuj i graj dalej."
+    ],
+    [
+     "💾",
+     "Gra się zapisuje. Potem stuknij Graj dalej."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🎴",
+     "Keep taking away two matching tiles until the whole stack is gone."
+    ],
+    [
+     "👆",
+     "Tap a tile, then tap a matching one. Both have to be free."
+    ],
+    [
+     "🔓",
+     "Free means: nothing lies on top, and the left or the right side is open."
+    ],
+    [
+     "🌸",
+     "Any flower matches any flower, and any season matches any season."
+    ],
+    [
+     "⏱️",
+     "Choose Pyramid, Square or Turtle. The clock is ticking: the faster, the better your record."
+    ]
+   ],
+   "tips": [
+    [
+     "⬆️",
+     "Take tiles from high stacks and long rows first. Then more tiles become free."
+    ],
+    [
+     "💡",
+     "The light bulb (Hint) shows two tiles that can go. The arrow takes back a move."
+    ],
+    [
+     "🔀",
+     "No moves left? Tap Shuffle and play on."
+    ],
+    [
+     "💾",
+     "Your game is saved. Tap Continue later."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🎴",
+     "Odoberaj vždy dva rovnaké kamene, kým nezmizne celá kôpka."
+    ],
+    [
+     "👆",
+     "Ťukni na kameň a potom na rovnaký kameň. Oba musia byť voľné."
+    ],
+    [
+     "🔓",
+     "Voľný znamená: nič na ňom neleží a ľavá alebo pravá strana je voľná."
+    ],
+    [
+     "🌸",
+     "Každý kvet pasuje ku každému kvetu a každé ročné obdobie ku každému ročnému obdobiu."
+    ],
+    [
+     "⏱️",
+     "Vyber Pyramída, Štvorec alebo Korytnačka. Hodiny bežia: čím rýchlejšie, tým lepší rekord."
+    ]
+   ],
+   "tips": [
+    [
+     "⬆️",
+     "Najprv odoberaj kamene z vysokých kôpok a dlhých radov. Uvoľníš tak viac."
+    ],
+    [
+     "💡",
+     "Žiarovka (Rada) ukáže dva kamene, ktoré pasujú. Šípkou vrátiš ťah."
+    ],
+    [
+     "🔀",
+     "Už niet ťahov? Ťukni na Zamiešať a hraj ďalej."
+    ],
+    [
+     "💾",
+     "Hra sa uloží. Neskôr ťukni na Pokračovať."
+    ]
+   ]
+  }
+ },
+ "gwint": {
+  "nl": {
+   "rules": [
+    [
+     "🗡️",
+     "Win 2 van de 3 rondes. Wie aan het eind van een ronde de meeste kracht op het veld heeft, wint die ronde."
+    ],
+    [
+     "❤️",
+     "Jullie hebben allebei 2 levens. Verlies je een ronde, dan ben je er een kwijt. Gelijk? Allebei een leven kwijt."
+    ],
+    [
+     "🃏",
+     "Je krijgt 10 kaarten. Tik op een kaart om hem te wisselen (hoogstens 2), dan ✅ Klaar met wisselen."
+    ],
+    [
+     "👆",
+     "Je beurt: tik op een kaart en dan op een rij die oplicht. Weer en vuurzee speel je met ▶️ Speel."
+    ],
+    [
+     "👑",
+     "Tik op je leider (het plaatje bij je naam) en kies 👑 Gebruiken. Dat mag één keer per spel."
+    ],
+    [
+     "✋",
+     "Tik op Passen als je niks meer wilt spelen. Hebben jullie allebei gepast? Dan is de ronde voorbij."
+    ],
+    [
+     "⚔️",
+     "Rijen: ⚔️ nabij, 🏹 afstand, 🏰 belegering. ❄️ 🌫️ 🌧️ zet een rij op 1, ☀️ haalt het weer weg."
+    ]
+   ],
+   "tips": [
+    [
+     "🃏",
+     "Nieuwe kaarten krijg je bijna nooit. Ben je ver voor? Pas dan op tijd en spaar je kaarten."
+    ],
+    [
+     "👁️",
+     "Een 👁️ spion geeft de ander punten, maar jij pakt 2 kaarten. Fijn in een ronde die je toch laat gaan."
+    ],
+    [
+     "🔍",
+     "Tik op een kaart op het veld (of op ℹ️) om te lezen wat hij doet. Alles staat ook bij 📖 Regels."
+    ],
+    [
+     "🏰",
+     "Elk volk heeft een eigen kracht. Bij 🃏 Deck bouwen maak je je eigen deck: minstens 22 eenheden."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🗡️",
+     "Wygraj 2 z 3 rund. Rundę wygrywa ten, kto na końcu ma więcej siły na polu."
+    ],
+    [
+     "❤️",
+     "Każdy z was ma 2 życia. Przegrana runda to jedno życie mniej. Remis? Oboje tracicie życie."
+    ],
+    [
+     "🃏",
+     "Dostajesz 10 kart. Stuknij kartę, żeby ją wymienić (najwyżej 2), potem ✅ Koniec wymiany."
+    ],
+    [
+     "👆",
+     "Twoja kolej: stuknij kartę, a potem podświetlony rząd. Pogodę i pożogę zagrywasz przyciskiem ▶️ Zagraj."
+    ],
+    [
+     "👑",
+     "Stuknij swojego dowódcę (obrazek przy imieniu) i wybierz 👑 Użyj. Można to zrobić raz na grę."
+    ],
+    [
+     "✋",
+     "Stuknij Pas, gdy nie chcesz już nic zagrywać. Jeśli oboje spasowaliście, runda się kończy."
+    ],
+    [
+     "⚔️",
+     "Rzędy: ⚔️ walka wręcz, 🏹 dystans, 🏰 oblężenie. ❄️ 🌫️ 🌧️ zmienia siłę rzędu na 1, ☀️ usuwa pogodę."
+    ]
+   ],
+   "tips": [
+    [
+     "🃏",
+     "Nowych kart prawie nie dostajesz. Masz dużą przewagę? Spasuj w porę i oszczędzaj karty."
+    ],
+    [
+     "👁️",
+     "👁️ Szpieg daje punkty przeciwnikowi, ale ty dobierasz 2 karty. Dobry w rundzie, którą i tak oddajesz."
+    ],
+    [
+     "🔍",
+     "Stuknij kartę na polu (albo ℹ️), żeby przeczytać, co robi. Wszystko jest też w 📖 Zasady."
+    ],
+    [
+     "🏰",
+     "Każda frakcja ma swoją moc. W 🃏 Zbuduj talię ułożysz własną talię: co najmniej 22 jednostki."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🗡️",
+     "Win 2 of the 3 rounds. Whoever has the most strength on the field at the end of a round wins that round."
+    ],
+    [
+     "❤️",
+     "You both have 2 lives. Lose a round and you lose a life. A draw? You both lose a life."
+    ],
+    [
+     "🃏",
+     "You get 10 cards. Tap a card to swap it (up to 2), then ✅ Done swapping."
+    ],
+    [
+     "👆",
+     "Your turn: tap a card, then a row that lights up. Weather and Scorch are played with ▶️ Play."
+    ],
+    [
+     "👑",
+     "Tap your leader (the picture by your name) and choose 👑 Use. You may do that once per game."
+    ],
+    [
+     "✋",
+     "Tap Pass when you don't want to play any more. Have you both passed? Then the round is over."
+    ],
+    [
+     "⚔️",
+     "Rows: ⚔️ close combat, 🏹 ranged, 🏰 siege. ❄️ 🌫️ 🌧️ sets a row to 1, ☀️ clears the weather."
+    ]
+   ],
+   "tips": [
+    [
+     "🃏",
+     "You hardly ever get new cards. Far ahead? Pass in time and save your cards."
+    ],
+    [
+     "👁️",
+     "A 👁️ spy gives the other player points, but you draw 2 cards. Good in a round you'll let go anyway."
+    ],
+    [
+     "🔍",
+     "Tap a card on the field (or ℹ️) to read what it does. Everything is in 📖 Rules too."
+    ],
+    [
+     "🏰",
+     "Every faction has its own power. In 🃏 Build deck you make your own deck: at least 22 units."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🗡️",
+     "Vyhraj 2 z 3 kôl. Kolo vyhrá ten, kto má na konci viac sily na poli."
+    ],
+    [
+     "❤️",
+     "Obaja máte 2 životy. Prehraté kolo je o život menej. Remíza? Obaja prídete o život."
+    ],
+    [
+     "🃏",
+     "Dostaneš 10 kariet. Ťukni na kartu a vymeníš ju (najviac 2), potom ✅ Výmena hotová."
+    ],
+    [
+     "👆",
+     "Tvoj ťah: ťukni na kartu a potom na rad, ktorý svieti. Počasie a spálenie zahráš cez ▶️ Zahrať."
+    ],
+    [
+     "👑",
+     "Ťukni na svojho vodcu (obrázok pri mene) a vyber 👑 Použiť. Môžeš to raz za hru."
+    ],
+    [
+     "✋",
+     "Ťukni na Pas, keď už nechceš nič hrať. Keď ste obaja pasovali, kolo sa končí."
+    ],
+    [
+     "⚔️",
+     "Rady: ⚔️ zblízka, 🏹 na diaľku, 🏰 obliehanie. ❄️ 🌫️ 🌧️ dá radu silu 1, ☀️ počasie odstráni."
+    ]
+   ],
+   "tips": [
+    [
+     "🃏",
+     "Nové karty skoro nedostaneš. Máš veľký náskok? Pasuj včas a šetri karty."
+    ],
+    [
+     "👁️",
+     "👁️ Špión dá súperovi body, ale ty si doberieš 2 karty. Dobrý v kole, ktoré aj tak pustíš."
+    ],
+    [
+     "🔍",
+     "Ťukni na kartu na poli (alebo na ℹ️) a prečítaš si, čo robí. Všetko je aj v 📖 Pravidlá."
+    ],
+    [
+     "🏰",
+     "Každý národ má svoju silu. V 🃏 Zostaviť balíček si spravíš vlastný: aspoň 22 jednotiek."
+    ]
+   ]
+  }
+ },
+ "bat": {
+  "nl": {
+   "rules": [
+    [
+     "🦇",
+     "Tik op het scherm: de vleermuis fladdert omhoog. Tik je niet, dan zakt hij."
+    ],
+    [
+     "🕷️",
+     "Vlieg langs spinnen, grafstenen, pompoenen en spookjes. Botsen kost een hartje."
+    ],
+    [
+     "💖",
+     "Je hebt 3 hartjes. Zijn ze op, dan is je vlucht voorbij."
+    ],
+    [
+     "🍬",
+     "Elk snoepje is 10 punten. Elke meter die je vliegt is ook een punt."
+    ],
+    [
+     "🌟",
+     "Pak ook: 🌟 = 50 punten, 💖 = een hartje terug, 🫧 = een bel die één botsing tegenhoudt."
+    ],
+    [
+     "🚀",
+     "Kies 🐢 Langzaam, 🐇 Gewoon of 🚀 Snel. Alleen vlieg je voor een record, samen wint wie de meeste punten heeft."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Tik rustig, niet te snel achter elkaar. Kleine tikjes houden je mooi in het midden."
+    ],
+    [
+     "☁️",
+     "De lucht en de grond doen geen pijn. Alleen de dingen die voorbij komen."
+    ],
+    [
+     "👻",
+     "Spookjes zweven op en neer. Wacht even en vlieg erlangs als er ruimte is."
+    ],
+    [
+     "⏩",
+     "Hoe verder je komt, hoe sneller het gaat en hoe dichter alles bij elkaar staat."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🦇",
+     "Stuknij ekran: nietoperz macha skrzydłami i leci w górę. Jak nie stukasz, opada."
+    ],
+    [
+     "🕷️",
+     "Leć obok pająków, nagrobków, dyń i duszków. Każde zderzenie kosztuje serduszko."
+    ],
+    [
+     "💖",
+     "Masz 3 serduszka. Kiedy się skończą, lot się kończy."
+    ],
+    [
+     "🍬",
+     "Każdy cukierek to 10 punktów. Każdy przeleciany metr to też punkt."
+    ],
+    [
+     "🌟",
+     "Łap też: 🌟 = 50 punktów, 💖 = serduszko wraca, 🫧 = bańka, która zatrzyma jedno zderzenie."
+    ],
+    [
+     "🚀",
+     "Wybierz 🐢 Wolno, 🐇 Normalnie albo 🚀 Szybko. W pojedynkę lecisz po rekord, razem wygrywa ten, kto ma więcej punktów."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Stukaj spokojnie, nie za szybko. Małe stuknięcia trzymają cię ładnie na środku."
+    ],
+    [
+     "☁️",
+     "Niebo i ziemia nie robią krzywdy. Tylko to, co leci w twoją stronę."
+    ],
+    [
+     "👻",
+     "Duszki unoszą się w górę i w dół. Poczekaj chwilę i przeleć, gdy jest miejsce."
+    ],
+    [
+     "⏩",
+     "Im dalej lecisz, tym szybciej jest i tym bliżej siebie stoją przeszkody."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🦇",
+     "Tap the screen: the bat flaps up. If you don't tap, it sinks."
+    ],
+    [
+     "🕷️",
+     "Fly past spiders, gravestones, pumpkins and ghosts. Bumping into one costs a heart."
+    ],
+    [
+     "💖",
+     "You have 3 hearts. When they're gone, your flight is over."
+    ],
+    [
+     "🍬",
+     "Every candy is 10 points. Every metre you fly is a point too."
+    ],
+    [
+     "🌟",
+     "Grab these too: 🌟 = 50 points, 💖 = a heart back, 🫧 = a bubble that stops one bump."
+    ],
+    [
+     "🚀",
+     "Choose 🐢 Slow, 🐇 Normal or 🚀 Fast. Alone you fly for a record; together, whoever has the most points wins."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Tap calmly, not too fast. Small taps keep you nicely in the middle."
+    ],
+    [
+     "☁️",
+     "The sky and the ground don't hurt. Only the things flying past do."
+    ],
+    [
+     "👻",
+     "Ghosts float up and down. Wait a moment and fly past when there's room."
+    ],
+    [
+     "⏩",
+     "The further you get, the faster it goes and the closer together everything is."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🦇",
+     "Ťukni na obrazovku: netopier zamáva krídlami a letí hore. Keď neťukáš, klesá."
+    ],
+    [
+     "🕷️",
+     "Leť popri pavúkoch, náhrobkoch, tekviciach a duchoch. Každý náraz stojí srdiečko."
+    ],
+    [
+     "💖",
+     "Máš 3 srdiečka. Keď sa minú, let sa končí."
+    ],
+    [
+     "🍬",
+     "Každý cukrík je 10 bodov. Každý preletený meter je tiež bod."
+    ],
+    [
+     "🌟",
+     "Chytaj aj: 🌟 = 50 bodov, 💖 = srdiečko späť, 🫧 = bublina, ktorá zastaví jeden náraz."
+    ],
+    [
+     "🚀",
+     "Vyber 🐢 Pomaly, 🐇 Normálne alebo 🚀 Rýchlo. Osamote letíš o rekord, spolu vyhrá ten, kto má viac bodov."
+    ]
+   ],
+   "tips": [
+    [
+     "👆",
+     "Ťukaj pokojne, nie príliš rýchlo. Malé ťuknutia ťa udržia pekne v strede."
+    ],
+    [
+     "☁️",
+     "Obloha a zem ti neublížia. Iba veci, ktoré letia oproti."
+    ],
+    [
+     "👻",
+     "Duchovia sa vznášajú hore a dole. Chvíľu počkaj a preleť, keď je miesto."
+    ],
+    [
+     "⏩",
+     "Čím ďalej letíš, tým je to rýchlejšie a prekážky sú bližšie pri sebe."
+    ]
+   ]
+  }
+ },
+ "lingo": {
+  "nl": {
+   "rules": [
+    [
+     "🔤",
+     "Raad het woord. De eerste letter krijg je cadeau."
+    ],
+    [
+     "⌨️",
+     "Typ een woord met de letters onderaan en tik op ⏎."
+    ],
+    [
+     "🟥",
+     "Rood vierkantje: goede letter op de goede plek."
+    ],
+    [
+     "🟡",
+     "Geel rondje: de letter zit in het woord, maar ergens anders. Blauw: de letter zit er niet in."
+    ],
+    [
+     "🔢",
+     "Alleen heb je 5 kansen per woord, en een spel is 5 woorden. Hoe sneller je raadt, hoe meer punten."
+    ],
+    [
+     "👫",
+     "Samen raden jullie om de beurt hetzelfde woord (6 kansen). Wie het vindt, krijgt de punten."
+    ]
+   ],
+   "tips": [
+    [
+     "🐣",
+     "Begin met 🐣 4 letters. Woorden van 5 en 6 letters zijn moeilijker."
+    ],
+    [
+     "🟥",
+     "Goede letters staan in de volgende rij al klaar. Bouw daarop verder."
+    ],
+    [
+     "🎹",
+     "De toetsen onderaan krijgen ook een kleur. Gebruik geen blauwe letters meer."
+    ],
+    [
+     "🔤",
+     "Probeer eerst een woord met veel verschillende letters. Dan weet je snel welke erin zitten."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🔤",
+     "Zgadnij słowo. Pierwszą literę dostajesz w prezencie."
+    ],
+    [
+     "⌨️",
+     "Wpisz słowo literami na dole i stuknij ⏎."
+    ],
+    [
+     "🟥",
+     "Czerwony kwadracik: dobra litera na dobrym miejscu."
+    ],
+    [
+     "🟡",
+     "Żółte kółko: litera jest w słowie, ale gdzie indziej. Niebieski: tej litery nie ma w słowie."
+    ],
+    [
+     "🔢",
+     "W pojedynkę masz 5 prób na słowo, a gra to 5 słów. Im szybciej zgadniesz, tym więcej punktów."
+    ],
+    [
+     "👫",
+     "Razem zgadujecie na zmianę to samo słowo (6 prób). Kto je odgadnie, dostaje punkty."
+    ]
+   ],
+   "tips": [
+    [
+     "🐣",
+     "Zacznij od 🐣 4 litery. Słowa z 5 i 6 liter są trudniejsze."
+    ],
+    [
+     "🟥",
+     "Dobre litery czekają już w następnym rzędzie. Buduj na nich dalej."
+    ],
+    [
+     "🎹",
+     "Klawisze na dole też dostają kolor. Nie używaj już niebieskich liter."
+    ],
+    [
+     "🔤",
+     "Najpierw spróbuj słowa z wieloma różnymi literami. Szybko się dowiesz, które są w słowie."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🔤",
+     "Guess the word. You get the first letter for free."
+    ],
+    [
+     "⌨️",
+     "Type a word with the letters at the bottom and tap ⏎."
+    ],
+    [
+     "🟥",
+     "Red square: right letter in the right place."
+    ],
+    [
+     "🟡",
+     "Yellow circle: the letter is in the word, but somewhere else. Blue: the letter isn't in the word."
+    ],
+    [
+     "🔢",
+     "Alone you get 5 tries per word, and a game is 5 words. The faster you guess, the more points."
+    ],
+    [
+     "👫",
+     "Together you take turns guessing the same word (6 tries). Whoever finds it gets the points."
+    ]
+   ],
+   "tips": [
+    [
+     "🐣",
+     "Start with 🐣 4 letters. Words with 5 and 6 letters are harder."
+    ],
+    [
+     "🟥",
+     "Right letters are already waiting in the next row. Build on them."
+    ],
+    [
+     "🎹",
+     "The keys at the bottom get a colour too. Don't use blue letters again."
+    ],
+    [
+     "🔤",
+     "Try a word with lots of different letters first. Then you soon know which ones are in it."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🔤",
+     "Uhádni slovo. Prvé písmeno dostaneš zadarmo."
+    ],
+    [
+     "⌨️",
+     "Napíš slovo písmenami dole a ťukni na ⏎."
+    ],
+    [
+     "🟥",
+     "Červený štvorček: správne písmeno na správnom mieste."
+    ],
+    [
+     "🟡",
+     "Žltý krúžok: písmeno v slove je, ale inde. Modrá: to písmeno v slove nie je."
+    ],
+    [
+     "🔢",
+     "Osamote máš 5 pokusov na slovo a hra má 5 slov. Čím skôr uhádneš, tým viac bodov."
+    ],
+    [
+     "👫",
+     "Spolu hádate striedavo to isté slovo (6 pokusov). Kto ho uhádne, dostane body."
+    ]
+   ],
+   "tips": [
+    [
+     "🐣",
+     "Začni so 🐣 4 písmená. Slová s 5 a 6 písmenami sú ťažšie."
+    ],
+    [
+     "🟥",
+     "Správne písmená už čakajú v ďalšom rade. Stavaj na nich."
+    ],
+    [
+     "🎹",
+     "Klávesy dole tiež dostanú farbu. Modré písmená už nepoužívaj."
+    ],
+    [
+     "🔤",
+     "Najprv skús slovo s veľa rôznymi písmenami. Rýchlo zistíš, ktoré v slove sú."
+    ]
+   ]
+  }
+ },
+ "memory": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Alle kaartjes liggen omgekeerd. Tik er twee aan om ze om te draaien."
+    ],
+    [
+     "✅",
+     "Zijn ze hetzelfde? Dan heb je een paar en mag je nog een keer."
+    ],
+    [
+     "🔄",
+     "Niet hetzelfde? Dan draaien ze terug en is de ander aan de beurt."
+    ],
+    [
+     "🎃",
+     "Kies de plaatjes (🎃 Halloween, 🦠 Virussen, 🐶 Dieren, 👾 Monsters) en 6, 10 of 15 paren."
+    ],
+    [
+     "🐕",
+     "Speel tegen 🐶 Puppy of 🐕 Slimme hond, met een vriend, of 🙋 Alleen: dan in zo weinig mogelijk beurten."
+    ],
+    [
+     "🏆",
+     "Wie aan het eind de meeste paren heeft, wint."
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Onthoud waar elk plaatje lag, ook als de ander aan de beurt is."
+    ],
+    [
+     "🎯",
+     "Draai eerst een kaartje om dat je nog niet kent. Weet je waar het andere ligt? Pak het!"
+    ],
+    [
+     "🐶",
+     "De Slimme hond onthoudt veel. De Puppy vergeet vaak wat hij zag."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Wszystkie karty leżą obrazkiem w dół. Stuknij dwie, żeby je odkryć."
+    ],
+    [
+     "✅",
+     "Takie same? Masz parę i grasz jeszcze raz."
+    ],
+    [
+     "🔄",
+     "Różne? Odwracają się z powrotem i kolej na drugiego gracza."
+    ],
+    [
+     "🎃",
+     "Wybierz obrazki (🎃 Halloween, 🦠 Wirusy, 🐶 Zwierzęta, 👾 Potwory) i 6, 10 albo 15 par."
+    ],
+    [
+     "🐕",
+     "Graj z 🐶 Szczeniaczkiem, 🐕 Sprytnym psem, z kolegą albo 🙋 Sam: wtedy w jak najmniej ruchach."
+    ],
+    [
+     "🏆",
+     "Wygrywa ten, kto na końcu ma najwięcej par."
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Zapamiętuj, gdzie leżał każdy obrazek, także w kolejce drugiego gracza."
+    ],
+    [
+     "🎯",
+     "Najpierw odkryj kartę, której jeszcze nie znasz. Wiesz, gdzie leży druga? Bierz ją!"
+    ],
+    [
+     "🐶",
+     "Sprytny pies dużo pamięta. Szczeniaczek często zapomina, co widział."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "All the cards lie face down. Tap two to turn them over."
+    ],
+    [
+     "✅",
+     "Are they the same? Then you have a pair and you go again."
+    ],
+    [
+     "🔄",
+     "Not the same? They turn back and it's the other player's turn."
+    ],
+    [
+     "🎃",
+     "Choose the pictures (🎃 Halloween, 🦠 Viruses, 🐶 Animals, 👾 Monsters) and 6, 10 or 15 pairs."
+    ],
+    [
+     "🐕",
+     "Play against 🐶 Puppy or 🐕 Clever dog, with a friend, or 🙋 Alone: then in as few turns as you can."
+    ],
+    [
+     "🏆",
+     "Whoever has the most pairs at the end wins."
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Remember where each picture was, also when it's the other player's turn."
+    ],
+    [
+     "🎯",
+     "Turn over a card you don't know yet first. Know where its twin is? Grab it!"
+    ],
+    [
+     "🐶",
+     "The Clever dog remembers a lot. The Puppy often forgets what it saw."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Všetky kartičky ležia obrázkom dole. Ťukni na dve a otočia sa."
+    ],
+    [
+     "✅",
+     "Sú rovnaké? Máš dvojicu a hráš ešte raz."
+    ],
+    [
+     "🔄",
+     "Nie sú rovnaké? Otočia sa späť a na rade je druhý hráč."
+    ],
+    [
+     "🎃",
+     "Vyber obrázky (🎃 Halloween, 🦠 Vírusy, 🐶 Zvieratá, 👾 Príšery) a 6, 10 alebo 15 dvojíc."
+    ],
+    [
+     "🐕",
+     "Hraj proti 🐶 Šteniatku alebo 🐕 Múdremu psovi, s kamarátom, alebo 🙋 Sám: na čo najmenej ťahov."
+    ],
+    [
+     "🏆",
+     "Vyhrá ten, kto má na konci najviac dvojíc."
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Pamätaj si, kde ležal každý obrázok, aj keď je na rade druhý hráč."
+    ],
+    [
+     "🎯",
+     "Najprv otoč kartičku, ktorú ešte nepoznáš. Vieš, kde je druhá? Chyť ju!"
+    ],
+    [
+     "🐶",
+     "Múdry pes si veľa pamätá. Šteniatko často zabudne, čo videlo."
+    ]
+   ]
+  }
+ }
+}

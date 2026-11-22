@@ -21,6 +21,9 @@ head = '''<!doctype html>
 <script>
 ''' + (here / 'lang.js').read_text() + '''
 </script>
+<script>
+''' + (here / 'help.js').read_text() + '''
+</script>
 '''
 tail = '''
 <script>

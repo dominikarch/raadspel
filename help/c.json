@@ -1,0 +1,1580 @@
+{
+ "kitchen": {
+  "nl": {
+   "rules": [
+    [
+     "✨",
+     "Tik op ✨ Maak je monster: kies lijf, kleur, ogen, mond en iets extra's. Jouw monster komt ook eten!"
+    ],
+    [
+     "🍳",
+     "Tik op 🍳 Koken voor monsters. Een monster zegt in het wolkje wat het wil eten."
+    ],
+    [
+     "🍕",
+     "Kies eerst de basis, zoals pizza of soep. Tik dan op alles wat erop moet en tik op Klaar ➡️."
+    ],
+    [
+     "🔥",
+     "Koken: tik op ▶️ Start. De balk loopt vol. Tik op ⏹️ STOP! als hij in het groen is."
+    ],
+    [
+     "⭐",
+     "Tik op 🍽️ Opdienen. Alles goed? Dan krijg je 3 sterren!"
+    ],
+    [
+     "🎨",
+     "Bij 🎨 Vrij koken bestelt niemand iets: maak iets heel geks!"
+    ]
+   ],
+   "tips": [
+    [
+     "📖",
+     "Kijk in het 📖 Receptenboek: daar staan alle monstergerechten."
+    ],
+    [
+     "🔢",
+     "Tel goed! Te veel, te weinig of iets anders erop kost een ster. ↩️ Terug haalt het laatste eraf."
+    ],
+    [
+     "🟢",
+     "Het groen zit net na het midden van de balk. Niet te vroeg stoppen, dan is het nog rauw!"
+    ],
+    [
+     "🎲",
+     "Geen zin om te kiezen? 🎲 Verrassing maakt in één tik een nieuw monster."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "✨",
+     "Dotknij ✨ Zrób potwora: wybierz ciało, kolor, oczy, buzię i dodatek. Twój potwór też przyjdzie coś zjeść!"
+    ],
+    [
+     "🍳",
+     "Dotknij 🍳 Gotowanie dla potworów. Potwór mówi w dymku, co chce zjeść."
+    ],
+    [
+     "🍕",
+     "Najpierw wybierz bazę, np. pizzę albo zupę. Potem dotykaj wszystkiego, co ma się znaleźć na górze, i Gotowe ➡️."
+    ],
+    [
+     "🔥",
+     "Gotowanie: dotknij ▶️ Start. Pasek się zapełnia. Dotknij ⏹️ STOP!, gdy jest na zielonym."
+    ],
+    [
+     "⭐",
+     "Dotknij 🍽️ Podaj. Wszystko dobrze? Dostajesz 3 gwiazdki!"
+    ],
+    [
+     "🎨",
+     "W 🎨 Swobodne gotowanie nikt nic nie zamawia: zrób coś naprawdę zwariowanego!"
+    ]
+   ],
+   "tips": [
+    [
+     "📖",
+     "Zajrzyj do 📖 Książka kucharska: są tam wszystkie potworne przepisy."
+    ],
+    [
+     "🔢",
+     "Licz dokładnie! Za dużo, za mało albo coś innego zabiera gwiazdkę. ↩️ Cofnij zdejmuje ostatnią rzecz."
+    ],
+    [
+     "🟢",
+     "Zielone pole jest tuż za środkiem paska. Nie zatrzymuj za wcześnie, bo danie będzie surowe!"
+    ],
+    [
+     "🎲",
+     "Nie chcesz wybierać? 🎲 Niespodzianka robi nowego potwora jednym dotknięciem."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "✨",
+     "Tap ✨ Make your monster: pick a body, colour, eyes, mouth and an extra. Your monster comes to eat too!"
+    ],
+    [
+     "🍳",
+     "Tap 🍳 Cook for monsters. A monster says in its bubble what it wants to eat."
+    ],
+    [
+     "🍕",
+     "First pick the base, like pizza or soup. Then tap everything that goes on it and tap Done ➡️."
+    ],
+    [
+     "🔥",
+     "Cooking: tap ▶️ Start. The bar fills up. Tap ⏹️ STOP! when it is in the green."
+    ],
+    [
+     "⭐",
+     "Tap 🍽️ Serve. All right? You get 3 stars!"
+    ],
+    [
+     "🎨",
+     "In 🎨 Free cooking nobody orders anything: make something really silly!"
+    ]
+   ],
+   "tips": [
+    [
+     "📖",
+     "Look in the 📖 Recipe book: all the monster dishes are in there."
+    ],
+    [
+     "🔢",
+     "Count carefully! Too many, too few or something else on it costs a star. ↩️ Undo takes the last one off."
+    ],
+    [
+     "🟢",
+     "The green part is just past the middle of the bar. Don't stop too early, or it's still raw!"
+    ],
+    [
+     "🎲",
+     "Can't decide? 🎲 Surprise makes a new monster in one tap."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "✨",
+     "Ťukni na ✨ Sprav si príšeru: vyber telo, farbu, oči, ústa a niečo navrch. Tvoja príšera príde tiež jesť!"
+    ],
+    [
+     "🍳",
+     "Ťukni na 🍳 Varenie pre príšery. Príšera v bubline povie, čo chce jesť."
+    ],
+    [
+     "🍕",
+     "Najprv vyber základ, napríklad pizzu alebo polievku. Potom ťukaj na všetko, čo patrí navrch, a na Hotovo ➡️."
+    ],
+    [
+     "🔥",
+     "Varenie: ťukni na ▶️ Štart. Pásik sa plní. Ťukni na ⏹️ STOP!, keď je v zelenom."
+    ],
+    [
+     "⭐",
+     "Ťukni na 🍽️ Podávať. Všetko dobre? Dostaneš 3 hviezdičky!"
+    ],
+    [
+     "🎨",
+     "Pri 🎨 Voľné varenie si nikto nič neobjednáva: sprav niečo poriadne šialené!"
+    ]
+   ],
+   "tips": [
+    [
+     "📖",
+     "Pozri sa do 📖 Kuchárska kniha: sú tam všetky príšerné recepty."
+    ],
+    [
+     "🔢",
+     "Počítaj presne! Priveľa, primálo alebo niečo iné stojí hviezdičku. ↩️ Späť zoberie poslednú vec."
+    ],
+    [
+     "🟢",
+     "Zelená časť je hneď za stredom pásika. Nezastav príliš skoro, inak to bude surové!"
+    ],
+    [
+     "🎲",
+     "Nechce sa ti vyberať? 🎲 Prekvapenie spraví novú príšeru jedným ťuknutím."
+    ]
+   ]
+  }
+ },
+ "card": {
+  "nl": {
+   "rules": [
+    [
+     "🖼️",
+     "Kies bij Kaart een achtergrond: verjaardag, Halloween, feest, liefde en meer."
+    ],
+    [
+     "👾",
+     "Zet er monsters, figuren, stickers en tekst op. Bij ✏️ Zelf typen schrijf je zelf iets."
+    ],
+    [
+     "👆",
+     "Tik op iets om het te pakken en sleep het. Met ➕ ➖ maak je het groter of kleiner, ↺ ↻ draait, 🗑️ gooit weg."
+    ],
+    [
+     "📝",
+     "Tik op 📝 Achterkant en typ je uitnodiging of brief. Kies er een mooie achtergrond bij."
+    ],
+    [
+     "✨",
+     "Tik op ✨ Klaar! Houd je vinger op de foto en kies Bewaar in Foto's."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Eerst je eigen monster maken in de Monsterkeuken? Dan staat ⭐ Mijn monster bij Monsters."
+    ],
+    [
+     "↩️",
+     "Foutje? ↩️ Terug maakt het ongedaan. 🧹 Alles weg begint opnieuw."
+    ],
+    [
+     "⬆️",
+     "Ligt iets eronder? Pak het en tik op ⬆️, dan komt het bovenop. ⇋ spiegelt het."
+    ],
+    [
+     "💾",
+     "Je kaart blijft bewaard op dit apparaat, ook als je even iets anders speelt."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🖼️",
+     "W zakładce Kartka wybierz tło: urodziny, Halloween, impreza, miłość i więcej."
+    ],
+    [
+     "👾",
+     "Dodaj potwory, postacie, naklejki i tekst. W ✏️ Napisz sam piszesz coś od siebie."
+    ],
+    [
+     "👆",
+     "Dotknij czegoś, żeby to złapać, i przesuń. ➕ ➖ powiększa i zmniejsza, ↺ ↻ obraca, 🗑️ wyrzuca."
+    ],
+    [
+     "📝",
+     "Dotknij 📝 Tył i napisz zaproszenie albo list. Wybierz do tego ładne tło."
+    ],
+    [
+     "✨",
+     "Dotknij ✨ Gotowe! Przytrzymaj palec na zdjęciu i wybierz Zachowaj w Zdjęciach."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Zrób najpierw swojego potwora w Kuchni potworów. Wtedy w Potworach pojawi się ⭐ Mój potwór."
+    ],
+    [
+     "↩️",
+     "Pomyłka? ↩️ Cofnij ją naprawia. 🧹 Wyczyść zaczyna od nowa."
+    ],
+    [
+     "⬆️",
+     "Coś się schowało pod spodem? Złap to i dotknij ⬆️, wtedy będzie na wierzchu. ⇋ robi lustrzane odbicie."
+    ],
+    [
+     "💾",
+     "Twoja kartka zostaje zapisana na tym urządzeniu, nawet gdy zagrasz w coś innego."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🖼️",
+     "In Card, pick a background: birthday, Halloween, party, love and more."
+    ],
+    [
+     "👾",
+     "Add monsters, characters, stickers and words. With ✏️ Type it yourself you write your own."
+    ],
+    [
+     "👆",
+     "Tap a thing to pick it up and drag it. ➕ ➖ make it bigger or smaller, ↺ ↻ turn it, 🗑️ throws it away."
+    ],
+    [
+     "📝",
+     "Tap 📝 Back and type your invitation or letter. Pick a nice background for it."
+    ],
+    [
+     "✨",
+     "Tap ✨ Done! Hold your finger on the photo and choose Save to Photos."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Make your own monster in the Monster kitchen first. Then ⭐ My monster appears in Monsters."
+    ],
+    [
+     "↩️",
+     "Oops? ↩️ Undo takes it back. 🧹 Clear all starts again."
+    ],
+    [
+     "⬆️",
+     "Something hiding underneath? Pick it up and tap ⬆️ to bring it to the top. ⇋ flips it."
+    ],
+    [
+     "💾",
+     "Your card stays saved on this device, even when you play something else for a while."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🖼️",
+     "V časti Pohľadnica vyber pozadie: narodeniny, Halloween, párty, láska a ďalšie."
+    ],
+    [
+     "👾",
+     "Pridaj príšery, postavičky, nálepky a text. Pri ✏️ Napíš sám napíšeš niečo vlastné."
+    ],
+    [
+     "👆",
+     "Ťukni na niečo, chyť to a posuň. ➕ ➖ zväčšuje a zmenšuje, ↺ ↻ otáča, 🗑️ vyhodí."
+    ],
+    [
+     "📝",
+     "Ťukni na 📝 Zadná strana a napíš pozvánku alebo list. Vyber k tomu pekné pozadie."
+    ],
+    [
+     "✨",
+     "Ťukni na ✨ Hotovo! Podrž prst na fotke a vyber Uložiť do Fotiek."
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Sprav si najprv vlastnú príšeru v Kuchyni príšer. Potom sa v Príšerách objaví ⭐ Moja príšera."
+    ],
+    [
+     "↩️",
+     "Chybička? ↩️ Späť ju vráti. 🧹 Zmazať všetko začne odznova."
+    ],
+    [
+     "⬆️",
+     "Schovalo sa niečo pod iným? Chyť to a ťukni na ⬆️, potom bude navrchu. ⇋ to otočí zrkadlovo."
+    ],
+    [
+     "💾",
+     "Tvoja pohľadnica zostane uložená na tomto zariadení, aj keď sa chvíľu hráš niečo iné."
+    ]
+   ]
+  }
+ },
+ "who": {
+  "nl": {
+   "rules": [
+    [
+     "👾",
+     "Jij en het hondje hebben allebei een geheim monster. Bovenaan zie je jouw monster."
+    ],
+    [
+     "❓",
+     "Jij begint: tik op een vraag, bijvoorbeeld over kleur, ogen of hoorns. Het spel geeft antwoord."
+    ],
+    [
+     "🙈",
+     "De monsters die niet meer passen, verdwijnen vanzelf. Dan stelt het hondje een vraag over jouw monster."
+    ],
+    [
+     "🎯",
+     "Weet je het? Tik op Ik weet het! Raad een monster en tik op het monster. Fout? Dan is het hondje."
+    ],
+    [
+     "🏆",
+     "Wie als eerste het geheime monster van de ander raadt, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "✂️",
+     "Vragen over hoorns, tanden, vlekken of rond passen bij ongeveer de helft. Daarmee valt er het meest weg."
+    ],
+    [
+     "🎨",
+     "Een kleur past maar bij 6 van de 24 monsters. Vraag dus liever eerst iets anders."
+    ],
+    [
+     "⏳",
+     "Raad pas als er nog maar één of twee over zijn. Fout raden geeft het hondje een extra beurt."
+    ],
+    [
+     "🐕",
+     "Te makkelijk? Kies 🐕 Slimme hond. Die stelt steeds de slimste vraag."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "👾",
+     "Ty i piesek macie po jednym tajnym potworze. Na górze widzisz swojego potwora."
+    ],
+    [
+     "❓",
+     "Ty zaczynasz: dotknij pytania, np. o kolor, oczy albo rogi. Gra sama odpowiada."
+    ],
+    [
+     "🙈",
+     "Potwory, które już nie pasują, znikają same. Potem piesek pyta o twojego potwora."
+    ],
+    [
+     "🎯",
+     "Wiesz już? Dotknij Wiem! Zgaduję potwora i wskaż potwora. Pomyłka? Teraz kolej pieska."
+    ],
+    [
+     "🏆",
+     "Kto pierwszy zgadnie tajnego potwora drugiego gracza, ten wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "✂️",
+     "Pytania o rogi, zęby, plamki albo okrągły kształt pasują do mniej więcej połowy. Wtedy odpada najwięcej."
+    ],
+    [
+     "🎨",
+     "Jeden kolor ma tylko 6 z 24 potworów. Lepiej najpierw zapytaj o coś innego."
+    ],
+    [
+     "⏳",
+     "Zgaduj dopiero, gdy zostanie jeden albo dwa. Zła odpowiedź daje pieskowi dodatkowy ruch."
+    ],
+    [
+     "🐕",
+     "Za łatwo? Wybierz 🐕 Sprytny pies. On zawsze zadaje najmądrzejsze pytanie."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "👾",
+     "You and the dog each have a secret monster. Yours is shown at the top."
+    ],
+    [
+     "❓",
+     "You start: tap a question, for example about colour, eyes or horns. The game answers."
+    ],
+    [
+     "🙈",
+     "Monsters that don't fit any more disappear by themselves. Then the dog asks about your monster."
+    ],
+    [
+     "🎯",
+     "Know it? Tap I know! Guess a monster and tap the monster. Wrong? Then it's the dog's turn."
+    ],
+    [
+     "🏆",
+     "Whoever guesses the other's secret monster first wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "✂️",
+     "Questions about horns, teeth, spots or round fit about half. They take away the most monsters."
+    ],
+    [
+     "🎨",
+     "A colour fits only 6 of the 24 monsters. So ask something else first."
+    ],
+    [
+     "⏳",
+     "Only guess when one or two are left. A wrong guess gives the dog an extra turn."
+    ],
+    [
+     "🐕",
+     "Too easy? Choose 🐕 Clever dog. It always asks the smartest question."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "👾",
+     "Ty aj psík máte každý jednu tajnú príšeru. Hore vidíš svoju príšeru."
+    ],
+    [
+     "❓",
+     "Začínaš ty: ťukni na otázku, napríklad o farbe, očiach alebo rohoch. Hra odpovie sama."
+    ],
+    [
+     "🙈",
+     "Príšery, ktoré už nesedia, zmiznú samy. Potom sa psík spýta na tvoju príšeru."
+    ],
+    [
+     "🎯",
+     "Vieš to? Ťukni na Viem to! Hádam príšeru a ťukni na príšeru. Zle? Potom je na rade psík."
+    ],
+    [
+     "🏆",
+     "Kto prvý uhádne tajnú príšeru toho druhého, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "✂️",
+     "Otázky na rohy, zuby, škvrny alebo okrúhly tvar sedia asi na polovicu. Tak ich zmizne najviac."
+    ],
+    [
+     "🎨",
+     "Jedna farba má len 6 z 24 príšer. Radšej sa najprv spýtaj na niečo iné."
+    ],
+    [
+     "⏳",
+     "Hádaj až vtedy, keď ostane jedna alebo dve. Zlý tip dá psíkovi ťah navyše."
+    ],
+    [
+     "🐕",
+     "Príliš ľahké? Vyber 🐕 Múdry pes. Ten sa vždy pýta najmúdrejšiu otázku."
+    ]
+   ]
+  }
+ },
+ "race": {
+  "nl": {
+   "rules": [
+    [
+     "👾",
+     "Kies je coureur: een van de monsters. Kies hoe snel de anderen zijn en of er muurtjes langs de weg staan."
+    ],
+    [
+     "🏁",
+     "Tik op Racen! Na het aftellen race je 3 rondes door het spookbos tegen 3 andere monsters."
+    ],
+    [
+     "👍",
+     "Zet je duim op de baan en schuif hem waar je heen wilt. Hoe verder je schuift, hoe sneller je gaat."
+    ],
+    [
+     "❓",
+     "Rij door een ?-doos: je krijgt turbo of slijm. Tik op de ?-knop om hem te gebruiken."
+    ],
+    [
+     "🏆",
+     "Wie na 3 rondes als eerste over de finish komt, wint. Je snelste tijd wordt bewaard."
+    ]
+   ],
+   "tips": [
+    [
+     "➡️",
+     "Rij over de gele pijlen: die geven je een duw vooruit!"
+    ],
+    [
+     "🟢",
+     "Slijm leg je achter je neer. Zit er iemand vlak achter je? Dan glijdt die erin en tolt rond."
+    ],
+    [
+     "🐢",
+     "Neem bochten rustig: schuif je duim minder ver, dan blijf je beter op de weg."
+    ],
+    [
+     "🌿",
+     "Zonder muurtjes maakt gras je heel langzaam. Begin dus liever met 🧱 Ja, ik blijf op de weg."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "👾",
+     "Wybierz kierowcę: jednego z potworów. Wybierz, jak szybcy są inni i czy przy drodze stoją murki."
+    ],
+    [
+     "🏁",
+     "Dotknij Ścigamy się! Po odliczaniu jedziesz 3 okrążenia przez straszny las z 3 innymi potworami."
+    ],
+    [
+     "👍",
+     "Połóż kciuk na torze i przesuń go tam, gdzie chcesz jechać. Im dalej przesuniesz, tym szybciej jedziesz."
+    ],
+    [
+     "❓",
+     "Wjedź w pudełko ze znakiem ?: dostaniesz turbo albo glut. Dotknij przycisku ?, żeby go użyć."
+    ],
+    [
+     "🏆",
+     "Kto po 3 okrążeniach pierwszy minie metę, wygrywa. Twój najlepszy czas zostaje zapisany."
+    ]
+   ],
+   "tips": [
+    [
+     "➡️",
+     "Jedź po żółtych strzałkach: dają ci kopa do przodu!"
+    ],
+    [
+     "🟢",
+     "Glut zostawiasz za sobą. Ktoś jedzie tuż za tobą? Wjedzie w niego i się zakręci."
+    ],
+    [
+     "🐢",
+     "Zakręty bierz spokojnie: przesuń kciuk mniej daleko, to lepiej utrzymasz się na drodze."
+    ],
+    [
+     "🌿",
+     "Bez murków trawa bardzo cię spowalnia. Na początek lepiej wybierz 🧱 Tak, zostaję na drodze."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "👾",
+     "Choose your driver: one of the monsters. Choose how fast the others are and if there are walls along the road."
+    ],
+    [
+     "🏁",
+     "Tap Race! After the countdown you race 3 laps through the spooky forest against 3 other monsters."
+    ],
+    [
+     "👍",
+     "Put your thumb on the track and slide it where you want to go. The further you slide, the faster you go."
+    ],
+    [
+     "❓",
+     "Drive through a ? box: you get turbo or slime. Tap the ? button to use it."
+    ],
+    [
+     "🏆",
+     "Whoever crosses the finish first after 3 laps wins. Your fastest time is saved."
+    ]
+   ],
+   "tips": [
+    [
+     "➡️",
+     "Drive over the yellow arrows: they give you a push forward!"
+    ],
+    [
+     "🟢",
+     "Slime is dropped behind you. Is someone right behind you? They drive into it and spin around."
+    ],
+    [
+     "🐢",
+     "Take bends slowly: slide your thumb less far and you stay on the road better."
+    ],
+    [
+     "🌿",
+     "Without walls, grass makes you very slow. So start with 🧱 Yes, I stay on the road."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "👾",
+     "Vyber si jazdca: jednu z príšer. Vyber, akí rýchli sú ostatní a či sú pri ceste steny."
+    ],
+    [
+     "🏁",
+     "Ťukni na Pretekať! Po odpočítaní ideš 3 kolá strašidelným lesom proti 3 iným príšerám."
+    ],
+    [
+     "👍",
+     "Polož palec na trať a posuň ho tam, kam chceš ísť. Čím ďalej ho posunieš, tým rýchlejšie ideš."
+    ],
+    [
+     "❓",
+     "Prejdi cez krabicu s ?: dostaneš turbo alebo sliz. Ťukni na tlačidlo ? a použiješ ho."
+    ],
+    [
+     "🏆",
+     "Kto po 3 kolách prvý prejde cieľom, vyhráva. Tvoj najrýchlejší čas sa uloží."
+    ]
+   ],
+   "tips": [
+    [
+     "➡️",
+     "Prechádzaj cez žlté šípky: postrčia ťa dopredu!"
+    ],
+    [
+     "🟢",
+     "Sliz necháš za sebou. Ide niekto tesne za tebou? Vojde doň a roztočí sa."
+    ],
+    [
+     "🐢",
+     "Zákruty ber pomaly: posuň palec menej ďaleko a lepšie zostaneš na ceste."
+    ],
+    [
+     "🌿",
+     "Bez stien ťa tráva veľmi spomalí. Na začiatok radšej vyber 🧱 Áno, zostanem na ceste."
+    ]
+   ]
+  }
+ },
+ "dreidel": {
+  "nl": {
+   "rules": [
+    [
+     "🪙",
+     "Iedereen krijgt 10 munten en legt er 1 in de pot. Speel met 2 tot 4: alleen met hondjes, of samen."
+    ],
+    [
+     "🌀",
+     "Ben jij aan de beurt? Tik op 🌀 Draai! of op de tol. Hij valt om op een letter."
+    ],
+    [
+     "🔤",
+     "נ Nun: niets. ג Gimel: de hele pot! ה Hey: de helft van de pot. ש Shin: leg er één in."
+    ],
+    [
+     "🫙",
+     "Is de pot (bijna) leeg? Dan legt iedereen er weer één munt in. Geen munten meer? Dan ben je af."
+    ],
+    [
+     "🏆",
+     "Wie alle munten heeft, wint. Of wie na 5 of 10 rondes de meeste munten heeft."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "Dreidel is een geluksspel: niemand kan de tol sturen. Juich dus voor elkaar!"
+    ],
+    [
+     "⏱️",
+     "Weinig tijd? Kies 🐣 5 rondes. 🦊 Tot het eind duurt echt lang."
+    ],
+    [
+     "📜",
+     "Vergeten wat een letter doet? Kijk onder de tol, daar staan ze alle vier."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🪙",
+     "Każdy dostaje 10 monet i wkłada 1 do puli. Grają 2 do 4 osób: z pieskami albo razem."
+    ],
+    [
+     "🌀",
+     "Twoja kolej? Dotknij 🌀 Kręć! albo bączka. Bączek przewróci się na jakąś literę."
+    ],
+    [
+     "🔤",
+     "נ Nun: nic. ג Gimel: cała pula! ה Hej: połowa puli. ש Szin: dołóż jedną monetę."
+    ],
+    [
+     "🫙",
+     "Pula (prawie) pusta? Wtedy każdy znowu dokłada jedną monetę. Nie masz już monet? Odpadasz."
+    ],
+    [
+     "🏆",
+     "Wygrywa ten, kto ma wszystkie monety. Albo ten, kto po 5 lub 10 rundach ma ich najwięcej."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "Bączek to gra na szczęście: nikt nie steruje bączkiem. Kibicujcie sobie nawzajem!"
+    ],
+    [
+     "⏱️",
+     "Mało czasu? Wybierz 🐣 5 rund. 🦊 Do końca (długo!) trwa naprawdę długo."
+    ],
+    [
+     "📜",
+     "Nie pamiętasz, co znaczy litera? Spójrz pod bączka, tam są wszystkie cztery."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🪙",
+     "Everyone gets 10 coins and puts 1 in the pot. Play with 2 to 4: alone with dogs, or together."
+    ],
+    [
+     "🌀",
+     "Your turn? Tap 🌀 Spin! or the dreidel. It falls over onto a letter."
+    ],
+    [
+     "🔤",
+     "נ Nun: nothing. ג Gimel: the whole pot! ה Hey: half the pot. ש Shin: put one in."
+    ],
+    [
+     "🫙",
+     "Is the pot (nearly) empty? Then everyone puts one coin in again. No coins left? Then you're out."
+    ],
+    [
+     "🏆",
+     "Whoever has all the coins wins. Or whoever has the most coins after 5 or 10 rounds."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "Dreidel is a game of luck: nobody can steer the top. So cheer for each other!"
+    ],
+    [
+     "⏱️",
+     "Not much time? Choose 🐣 5 rounds. 🦊 To the end (long!) really takes a long time."
+    ],
+    [
+     "📜",
+     "Forgot what a letter does? Look under the dreidel, all four are there."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🪙",
+     "Každý dostane 10 mincí a 1 vloží do banku. Hrajú 2 až 4: so psíkmi alebo spolu."
+    ],
+    [
+     "🌀",
+     "Si na rade? Ťukni na 🌀 Roztoč! alebo na vĺčik. Spadne na jedno písmeno."
+    ],
+    [
+     "🔤",
+     "נ Nun: nič. ג Gimel: celý bank! ה Hej: polovica banku. ש Šin: vlož jednu mincu."
+    ],
+    [
+     "🫙",
+     "Je bank (skoro) prázdny? Potom každý zase vloží jednu mincu. Nemáš už mince? Vypadávaš."
+    ],
+    [
+     "🏆",
+     "Vyhráva ten, kto má všetky mince. Alebo ten, kto má po 5 alebo 10 kolách najviac mincí."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "Dreidel je hra na šťastie: vĺčik nikto neovládne. Tak si navzájom fandite!"
+    ],
+    [
+     "⏱️",
+     "Málo času? Vyber 🐣 5 kôl. 🦊 Do konca (dlho!) trvá naozaj dlho."
+    ],
+    [
+     "📜",
+     "Nevieš, čo znamená písmeno? Pozri sa pod vĺčik, sú tam všetky štyri."
+    ]
+   ]
+  }
+ },
+ "dominik": {
+  "nl": {
+   "rules": [
+    [
+     "🏆",
+     "Vijf wedstrijden tegen Dominik: gooien, rennen, springen, een kat tekenen en een toren bouwen."
+    ],
+    [
+     "⚾",
+     "Gooien: houd ✊ Houd vast ingedrukt en laat los als de balk vol en groen is."
+    ],
+    [
+     "🏃",
+     "Rennen: tik zo snel je kunt op 👟 Tik tik tik! Springen: tik 5 seconden lang op ⬆️ Spring!"
+    ],
+    [
+     "🎨",
+     "Tekenen: teken een kat met je vinger in het lijstje. Toren: tik op ⬇️ Laat vallen als het blok boven de toren is."
+    ],
+    [
+     "😎",
+     "Dominik wint altijd, steeds op een gekkere manier. Tik op Volgende wedstrijd ➡️."
+    ],
+    [
+     "🥧",
+     "Aan het eind tik je op 🥧 Taart voor de winnaar! Splat, in zijn gezicht!"
+    ]
+   ],
+   "tips": [
+    [
+     "😂",
+     "Je kunt Dominik niet verslaan, en dat is juist het grappige. Kijk wat hij nu weer verzint!"
+    ],
+    [
+     "🧱",
+     "Bij de toren valt wat over de rand eraf. Hoe preciezer je mikt, hoe hoger je toren."
+    ],
+    [
+     "🐱",
+     "Teken je kat groot, met oren, snorharen en een staart. Dat is jouw kunstwerk!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🏆",
+     "Pięć zawodów z Dominikiem: rzut, bieg, skok, rysowanie kota i budowanie wieży."
+    ],
+    [
+     "⚾",
+     "Rzut: przytrzymaj ✊ Trzymaj i puść, kiedy pasek jest pełny i zielony."
+    ],
+    [
+     "🏃",
+     "Bieg: stukaj jak najszybciej w 👟 Stuk stuk stuk! Skok: przez 5 sekund stukaj w ⬆️ Skacz!"
+    ],
+    [
+     "🎨",
+     "Rysunek: narysuj palcem kota w ramce. Wieża: dotknij ⬇️ Puść, gdy klocek jest nad wieżą."
+    ],
+    [
+     "😎",
+     "Dominik zawsze wygrywa, za każdym razem coraz śmieszniej. Dotknij Następne zawody ➡️."
+    ],
+    [
+     "🥧",
+     "Na końcu dotknij 🥧 Tort dla zwycięzcy! Plask, prosto w twarz!"
+    ]
+   ],
+   "tips": [
+    [
+     "😂",
+     "Dominika nie da się pokonać i właśnie to jest śmieszne. Zobacz, co tym razem wymyśli!"
+    ],
+    [
+     "🧱",
+     "Przy wieży to, co wystaje poza brzeg, odpada. Im dokładniej celujesz, tym wyższa wieża."
+    ],
+    [
+     "🐱",
+     "Narysuj dużego kota, z uszami, wąsami i ogonem. To twoje dzieło sztuki!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🏆",
+     "Five contests against Dominik: throwing, running, jumping, drawing a cat and building a tower."
+    ],
+    [
+     "⚾",
+     "Throw: hold down ✊ Hold and let go when the bar is full and green."
+    ],
+    [
+     "🏃",
+     "Run: tap 👟 Tap tap tap! as fast as you can. Jump: tap ⬆️ Jump! for 5 seconds."
+    ],
+    [
+     "🎨",
+     "Draw: draw a cat with your finger in the frame. Tower: tap ⬇️ Drop when the block is above the tower."
+    ],
+    [
+     "😎",
+     "Dominik always wins, in a sillier way every time. Tap Next contest ➡️."
+    ],
+    [
+     "🥧",
+     "At the end, tap 🥧 A pie for the winner! Splat, right in his face!"
+    ]
+   ],
+   "tips": [
+    [
+     "😂",
+     "You can't beat Dominik, and that's what makes it funny. See what he thinks of next!"
+    ],
+    [
+     "🧱",
+     "In the tower, whatever hangs over the edge falls off. The better you aim, the taller your tower."
+    ],
+    [
+     "🐱",
+     "Draw your cat big, with ears, whiskers and a tail. It's your masterpiece!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🏆",
+     "Päť súťaží proti Dominikovi: hod, beh, skok, kreslenie mačky a stavanie veže."
+    ],
+    [
+     "⚾",
+     "Hod: drž ✊ Drž a pusť, keď je pásik plný a zelený."
+    ],
+    [
+     "🏃",
+     "Beh: ťukaj čo najrýchlejšie na 👟 Ťuk ťuk ťuk! Skok: ťukaj 5 sekúnd na ⬆️ Skoč!"
+    ],
+    [
+     "🎨",
+     "Kreslenie: nakresli prstom mačku do rámika. Veža: ťukni na ⬇️ Pusť, keď je kocka nad vežou."
+    ],
+    [
+     "😎",
+     "Dominik vždy vyhrá, zakaždým ešte bláznivejšie. Ťukni na Ďalšia súťaž ➡️."
+    ],
+    [
+     "🥧",
+     "Na konci ťukni na 🥧 Torta pre víťaza! Plesk, rovno do tváre!"
+    ]
+   ],
+   "tips": [
+    [
+     "😂",
+     "Dominika sa poraziť nedá, a práve to je na tom smiešne. Pozri, čo zase vymyslí!"
+    ],
+    [
+     "🧱",
+     "Pri veži odpadne všetko, čo prečnieva cez okraj. Čím presnejšie mieriš, tým vyššia veža."
+    ],
+    [
+     "🐱",
+     "Nakresli veľkú mačku, s ušami, fúzikmi a chvostom. To je tvoje umelecké dielo!"
+    ]
+   ]
+  }
+ },
+ "lily": {
+  "nl": {
+   "rules": [
+    [
+     "👑",
+     "Vijf wedstrijden: gooien, rennen, springen, een kat tekenen en een toren bouwen. Wie is de beste?"
+    ],
+    [
+     "👫",
+     "Speel alleen tegen Dominik, of samen op twee apparaten. Dan speelt ieder op zijn eigen scherm."
+    ],
+    [
+     "⚾",
+     "Gooien: houd ✊ Houd vast ingedrukt en laat los als de balk vol en groen is."
+    ],
+    [
+     "🏃",
+     "Rennen: tik zo snel je kunt op 👟 Tik tik tik! Springen: tik 5 seconden lang op ⬆️ Spring!"
+    ],
+    [
+     "🎨",
+     "Teken een kat met je vinger. Toren: tik op ⬇️ Laat vallen als het blok precies boven de toren is."
+    ],
+    [
+     "🏆",
+     "Na elke wedstrijd zie je wie er wint. Na vijf wedstrijden komt de prijsuitreiking!"
+    ]
+   ],
+   "tips": [
+    [
+     "💪",
+     "Geef nooit op! Ook als je achter staat, kan er nog van alles gebeuren."
+    ],
+    [
+     "🧱",
+     "Bij de toren valt wat over de rand eraf. Hoe preciezer je mikt, hoe hoger je toren."
+    ],
+    [
+     "🟢",
+     "Bij gooien gaat de balk op en neer. Laat los als hij helemaal vol en groen is."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "👑",
+     "Pięć zawodów: rzut, bieg, skok, rysowanie kota i budowanie wieży. Kto jest najlepszy?"
+    ],
+    [
+     "👫",
+     "Graj z Dominikiem albo razem na dwóch urządzeniach. Wtedy każdy gra na swoim ekranie."
+    ],
+    [
+     "⚾",
+     "Rzut: przytrzymaj ✊ Trzymaj i puść, kiedy pasek jest pełny i zielony."
+    ],
+    [
+     "🏃",
+     "Bieg: stukaj jak najszybciej w 👟 Stuk stuk stuk! Skok: przez 5 sekund stukaj w ⬆️ Skacz!"
+    ],
+    [
+     "🎨",
+     "Narysuj palcem kota. Wieża: dotknij ⬇️ Puść, gdy klocek jest dokładnie nad wieżą."
+    ],
+    [
+     "🏆",
+     "Po każdych zawodach widać, kto wygrał. Po pięciu zawodach jest wręczenie nagród!"
+    ]
+   ],
+   "tips": [
+    [
+     "💪",
+     "Nigdy się nie poddawaj! Nawet gdy przegrywasz, jeszcze wszystko może się zdarzyć."
+    ],
+    [
+     "🧱",
+     "Przy wieży to, co wystaje poza brzeg, odpada. Im dokładniej celujesz, tym wyższa wieża."
+    ],
+    [
+     "🟢",
+     "Przy rzucie pasek rośnie i maleje. Puść, kiedy jest cały pełny i zielony."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "👑",
+     "Five contests: throwing, running, jumping, drawing a cat and building a tower. Who is the best?"
+    ],
+    [
+     "👫",
+     "Play alone against Dominik, or together on two devices. Then everyone plays on their own screen."
+    ],
+    [
+     "⚾",
+     "Throw: hold down ✊ Hold and let go when the bar is full and green."
+    ],
+    [
+     "🏃",
+     "Run: tap 👟 Tap tap tap! as fast as you can. Jump: tap ⬆️ Jump! for 5 seconds."
+    ],
+    [
+     "🎨",
+     "Draw a cat with your finger. Tower: tap ⬇️ Drop when the block is right above the tower."
+    ],
+    [
+     "🏆",
+     "After each contest you see who wins. After five contests comes the prize-giving!"
+    ]
+   ],
+   "tips": [
+    [
+     "💪",
+     "Never give up! Even when you're behind, anything can still happen."
+    ],
+    [
+     "🧱",
+     "In the tower, whatever hangs over the edge falls off. The better you aim, the taller your tower."
+    ],
+    [
+     "🟢",
+     "When throwing, the bar goes up and down. Let go when it's completely full and green."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "👑",
+     "Päť súťaží: hod, beh, skok, kreslenie mačky a stavanie veže. Kto je najlepší?"
+    ],
+    [
+     "👫",
+     "Hraj proti Dominikovi alebo spolu na dvoch zariadeniach. Vtedy hrá každý na svojej obrazovke."
+    ],
+    [
+     "⚾",
+     "Hod: drž ✊ Drž a pusť, keď je pásik plný a zelený."
+    ],
+    [
+     "🏃",
+     "Beh: ťukaj čo najrýchlejšie na 👟 Ťuk ťuk ťuk! Skok: ťukaj 5 sekúnd na ⬆️ Skoč!"
+    ],
+    [
+     "🎨",
+     "Nakresli prstom mačku. Veža: ťukni na ⬇️ Pusť, keď je kocka presne nad vežou."
+    ],
+    [
+     "🏆",
+     "Po každej súťaži vidíš, kto vyhral. Po piatich súťažiach príde odovzdávanie cien!"
+    ]
+   ],
+   "tips": [
+    [
+     "💪",
+     "Nikdy sa nevzdávaj! Aj keď prehrávaš, ešte sa môže stať hocičo."
+    ],
+    [
+     "🧱",
+     "Pri veži odpadne všetko, čo prečnieva cez okraj. Čím presnejšie mieriš, tým vyššia veža."
+    ],
+    [
+     "🟢",
+     "Pri hode pásik stúpa a klesá. Pusť, keď je celý plný a zelený."
+    ]
+   ]
+  }
+ },
+ "kleur": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Speel met 2 tot 4: alleen met hondjes, of samen. Iedereen krijgt 7 kaarten."
+    ],
+    [
+     "🎨",
+     "Tik op een kaart met dezelfde kleur of hetzelfde getal of teken als de bovenste kaart."
+    ],
+    [
+     "🦇",
+     "Kun je niets? Tik op de stapel 🦇 en pak een kaart. Past hij? Speel hem, of tik op Verder ➡️."
+    ],
+    [
+     "⊘",
+     "⊘ = de volgende slaat over. ⇄ = andersom spelen. +2 = de volgende pakt 2 kaarten en slaat over."
+    ],
+    [
+     "🌈",
+     "🌈 en +4 passen altijd. Je kiest dan een nieuwe kleur. Bij +4 pakt de volgende 4 kaarten en slaat over."
+    ],
+    [
+     "🏆",
+     "Wie als eerste geen kaarten meer heeft, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "🌈",
+     "Bewaar 🌈 en +4 voor als je niets anders kunt spelen."
+    ],
+    [
+     "🎯",
+     "Kies als nieuwe kleur de kleur waarvan jij de meeste kaarten hebt."
+    ],
+    [
+     "👀",
+     "Staat er een 🦇 bij iemands naam? Die heeft nog maar 1 kaart. Speel dan +2, +4 of ⊘!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Grają 2 do 4 osób: z pieskami albo razem. Każdy dostaje 7 kart."
+    ],
+    [
+     "🎨",
+     "Dotknij karty w tym samym kolorze albo z tą samą liczbą lub znakiem co karta na wierzchu."
+    ],
+    [
+     "🦇",
+     "Nie masz czym zagrać? Dotknij stosu 🦇 i weź kartę. Pasuje? Zagraj ją albo dotknij Dalej ➡️."
+    ],
+    [
+     "⊘",
+     "⊘ = następny traci kolejkę. ⇄ = gramy w drugą stronę. +2 = następny bierze 2 karty i traci kolejkę."
+    ],
+    [
+     "🌈",
+     "🌈 i +4 pasują zawsze. Wtedy wybierasz nowy kolor. Przy +4 następny bierze 4 karty i traci kolejkę."
+    ],
+    [
+     "🏆",
+     "Kto pierwszy pozbędzie się wszystkich kart, ten wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "🌈",
+     "Zachowaj 🌈 i +4 na chwilę, gdy nie masz czym innym zagrać."
+    ],
+    [
+     "🎯",
+     "Jako nowy kolor wybierz ten, w którym masz najwięcej kart."
+    ],
+    [
+     "👀",
+     "Przy czyimś imieniu jest 🦇? Ta osoba ma już tylko 1 kartę. Zagraj wtedy +2, +4 albo ⊘!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "Play with 2 to 4: alone with dogs, or together. Everyone gets 7 cards."
+    ],
+    [
+     "🎨",
+     "Tap a card with the same colour, or the same number or sign, as the top card."
+    ],
+    [
+     "🦇",
+     "Can't play? Tap the 🦇 pile and take a card. Does it fit? Play it, or tap Next ➡️."
+    ],
+    [
+     "⊘",
+     "⊘ = the next player misses a turn. ⇄ = play the other way. +2 = the next one takes 2 cards and misses a turn."
+    ],
+    [
+     "🌈",
+     "🌈 and +4 always fit. Then you choose a new colour. With +4 the next one takes 4 cards and misses a turn."
+    ],
+    [
+     "🏆",
+     "Whoever has no cards left first wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "🌈",
+     "Keep 🌈 and +4 for when you can't play anything else."
+    ],
+    [
+     "🎯",
+     "For the new colour, choose the colour you have the most cards of."
+    ],
+    [
+     "👀",
+     "Is there a 🦇 next to someone's name? They have only 1 card left. Play +2, +4 or ⊘ then!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Hrajú 2 až 4: so psíkmi alebo spolu. Každý dostane 7 kariet."
+    ],
+    [
+     "🎨",
+     "Ťukni na kartu s rovnakou farbou alebo s rovnakým číslom či znakom ako vrchná karta."
+    ],
+    [
+     "🦇",
+     "Nemáš čo zahrať? Ťukni na kôpku 🦇 a vezmi si kartu. Hodí sa? Zahraj ju alebo ťukni na Ďalej ➡️."
+    ],
+    [
+     "⊘",
+     "⊘ = ďalší vynechá. ⇄ = hrá sa opačne. +2 = ďalší si berie 2 karty a vynechá."
+    ],
+    [
+     "🌈",
+     "🌈 a +4 sa hodia vždy. Potom vyberieš novú farbu. Pri +4 si ďalší berie 4 karty a vynechá."
+    ],
+    [
+     "🏆",
+     "Kto sa prvý zbaví všetkých kariet, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "🌈",
+     "Nechaj si 🌈 a +4 na chvíľu, keď nemáš čo iné zahrať."
+    ],
+    [
+     "🎯",
+     "Ako novú farbu vyber tú, z ktorej máš najviac kariet."
+    ],
+    [
+     "👀",
+     "Je pri niečím mene 🦇? Ten má už len 1 kartu. Zahraj vtedy +2, +4 alebo ⊘!"
+    ]
+   ]
+  }
+ },
+ "tysiac": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Met 3 spelers (met 4 rust de deler). Iedereen krijgt 7 kaarten, 3 kaarten gaan in de musik."
+    ],
+    [
+     "🗣️",
+     "Bieden: de eerste moet 100. Bied hoger of tik op Pas. Je kunt tot 120 bieden, plus je H+V-paren."
+    ],
+    [
+     "🎁",
+     "De hoogste bieder pakt de musik, geeft elke ander 1 kaart en mag het contract met + verhogen. Dan Start!"
+    ],
+    [
+     "👆",
+     "Beken kleur en sla hoger als je kunt. Geen kleur? Speel troef als je die hebt. Hoogste kaart pakt de slag."
+    ],
+    [
+     "💑",
+     "Heb je H+V van één kleur? Kom ermee uit (niet in de 1e slag): die kleur wordt troef. ♥100 ♦80 ♣60 ♠40."
+    ],
+    [
+     "🔢",
+     "Punten: A 11, 10 is 10, H 4, V 3, B 2, 9 is 0. Alle kaarten samen zijn 120."
+    ],
+    [
+     "🎯",
+     "Haalt de bieder zijn contract? Dan krijgt hij het erbij, anders eraf. De anderen krijgen hun punten, afgerond op 10."
+    ],
+    [
+     "🏆",
+     "Wie als eerste 500 of 1000 punten heeft, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤔",
+     "Alle kaarten zijn samen 120. Bied dus pas boven 100 als je een H+V-paar hebt, of veel azen en tienen."
+    ],
+    [
+     "💑",
+     "Houd je H+V-paren bij elkaar. Geef weg wat weinig waard is: een 9 of een B, nooit een aas of 10."
+    ],
+    [
+     "🥇",
+     "Melden kan alleen als jij uitkomt. Pak dus eerst een slag, bijvoorbeeld met een aas."
+    ],
+    [
+     "🧮",
+     "Tel de troeven: elke kleur heeft 6 kaarten. Zijn de troeven op? Dan zijn je azen veilig."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Gra 3 graczy (przy 4 rozdający pauzuje). Każdy dostaje 7 kart, 3 karty idą do musiku."
+    ],
+    [
+     "🗣️",
+     "Licytacja: pierwszy musi dać 100. Podbij albo dotknij Pas. Możesz licytować do 120 plus twoje meldunki."
+    ],
+    [
+     "🎁",
+     "Kto wygra licytację, bierze musik, daje każdemu po 1 karcie i może podbić kontrakt przyciskiem +. Potem Start!"
+    ],
+    [
+     "👆",
+     "Dokładaj do koloru i przebijaj, jeśli możesz. Nie masz koloru? Daj atu, jeśli masz. Najwyższa karta bierze lewę."
+    ],
+    [
+     "💑",
+     "Masz K+D w jednym kolorze? Wyjdź jedną z nich (nie w 1. lewie): to meldunek i atu. ♥100 ♦80 ♣60 ♠40."
+    ],
+    [
+     "🔢",
+     "Punkty: A 11, 10 to 10, K 4, D 3, W 2, 9 to 0. Wszystkie karty razem to 120."
+    ],
+    [
+     "🎯",
+     "Grający ugrał kontrakt? Dopisuje go sobie, a jak nie, odpisuje. Inni dostają swoje punkty zaokrąglone do 10."
+    ],
+    [
+     "🏆",
+     "Kto pierwszy zdobędzie 500 albo 1000 punktów, wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤔",
+     "Wszystkie karty to razem 120. Licytuj powyżej 100 tylko z meldunkiem albo z wieloma asami i dziesiątkami."
+    ],
+    [
+     "💑",
+     "Trzymaj pary K+D razem. Oddawaj karty mało warte: 9 albo walety, nigdy asa ani dziesiątki."
+    ],
+    [
+     "🥇",
+     "Meldować możesz tylko, gdy wychodzisz. Najpierw weź lewę, na przykład asem."
+    ],
+    [
+     "🧮",
+     "Licz atu: każdy kolor ma 6 kart. Gdy atu już zeszły, twoje asy są bezpieczne."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "For 3 players (with 4, the dealer sits out). Everyone gets 7 cards, 3 cards go in the musik."
+    ],
+    [
+     "🗣️",
+     "Bidding: the first player must say 100. Bid higher or tap Pass. You can bid up to 120 plus your K+Q pairs."
+    ],
+    [
+     "🎁",
+     "The top bidder takes the musik, gives each other player 1 card and may raise the contract with +. Then Start!"
+    ],
+    [
+     "👆",
+     "Follow suit and beat if you can. No suit? Play a trump if you have one. The highest card takes the trick."
+    ],
+    [
+     "💑",
+     "Got K+Q of one suit? Lead one (not in the 1st trick): a marriage! That suit becomes trumps. ♥100 ♦80 ♣60 ♠40."
+    ],
+    [
+     "🔢",
+     "Points: A 11, 10 is 10, K 4, Q 3, J 2, 9 is 0. All cards together are 120."
+    ],
+    [
+     "🎯",
+     "Bidder makes the contract? It's added to their score, if not it's taken off. The others get their points, rounded to 10."
+    ],
+    [
+     "🏆",
+     "Whoever reaches 500 or 1000 points first wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤔",
+     "All cards together are worth 120. Only bid over 100 with a marriage, or lots of aces and tens."
+    ],
+    [
+     "💑",
+     "Keep your K+Q pairs together. Give away cards worth little: a 9 or a J, never an ace or a 10."
+    ],
+    [
+     "🥇",
+     "You can only meld when you lead. So win a trick first, for example with an ace."
+    ],
+    [
+     "🧮",
+     "Count the trumps: each suit has 6 cards. Are the trumps gone? Then your aces are safe."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Hrajú 3 hráči (pri 4 rozdávajúci vynechá). Každý dostane 7 kariet, 3 karty idú do musiku."
+    ],
+    [
+     "🗣️",
+     "Licitácia: prvý musí dať 100. Prihoď alebo ťukni na Pas. Môžeš ísť do 120 plus tvoje hlášky K+Q."
+    ],
+    [
+     "🎁",
+     "Kto vyhrá licitáciu, vezme si musik, dá každému 1 kartu a môže zvýšiť kontrakt cez +. Potom Štart!"
+    ],
+    [
+     "👆",
+     "Priznaj farbu a prebi, ak môžeš. Nemáš farbu? Daj tromf, ak ho máš. Najvyššia karta berie štych."
+    ],
+    [
+     "💑",
+     "Máš K+Q jednej farby? Vynes jednu z nich (nie v 1. štychu): to je hláška a farba je tromf. ♥100 ♦80 ♣60 ♠40."
+    ],
+    [
+     "🔢",
+     "Body: A 11, 10 je 10, K 4, Q 3, J 2, 9 je 0. Všetky karty spolu sú 120."
+    ],
+    [
+     "🎯",
+     "Splnil hráč kontrakt? Pripočíta si ho, inak sa mu odpočíta. Ostatní dostanú svoje body zaokrúhlené na 10."
+    ],
+    [
+     "🏆",
+     "Kto prvý dosiahne 500 alebo 1000 bodov, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤔",
+     "Všetky karty spolu majú 120. Nad 100 licituj len s hláškou alebo s veľa esami a desiatkami."
+    ],
+    [
+     "💑",
+     "Drž si páry K+Q spolu. Daj preč karty, ktoré veľa nemajú: 9 alebo J, nikdy eso ani desiatku."
+    ],
+    [
+     "🥇",
+     "Hlásiť môžeš len vtedy, keď vynášaš. Najprv teda zober štych, napríklad esom."
+    ],
+    [
+     "🧮",
+     "Počítaj tromfy: každá farba má 6 kariet. Keď sú tromfy preč, tvoje esá sú v bezpečí."
+    ]
+   ]
+  }
+ }
+}
