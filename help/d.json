@@ -1,0 +1,220 @@
+{
+ "spookbom": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Iedereen krijgt 5 kaarten en 1 🧙 heks. In de stapel zitten 💥 pompoenbommen."
+    ],
+    [
+     "👆",
+     "Jouw beurt: speel zoveel kaarten als je wilt. Tik op een kaart en dan op de knop."
+    ],
+    [
+     "🎃",
+     "Klaar? Tik op de stapel en pak 1 kaart. Dan is je beurt om."
+    ],
+    [
+     "💥",
+     "Pak je een pompoenbom? Dan ben je af… tenzij je een heks hebt! Leg de bom dan terug waar je wilt."
+    ],
+    [
+     "⏭️",
+     "⏭️ Overslaan en ⚔️ Aanval: je hoeft geen kaart te pakken. Na een aanval moet de volgende 2 beurten."
+    ],
+    [
+     "🔮",
+     "🔮 Glazen bol: kijk naar de bovenste 3 kaarten. 🔀 Schudden: schud de stapel. 🎁 Cadeautje: iemand geeft je een kaart."
+    ],
+    [
+     "🦇",
+     "Twee dezelfde monsters? Speel ze samen en steel een kaart van iemand."
+    ],
+    [
+     "🏆",
+     "Wie als laatste over is, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧙",
+     "Je heks is je beste kaart: zuinig op zijn!"
+    ],
+    [
+     "🔮",
+     "Kijk eerst in de glazen bol. Ligt er een bom bovenop? Speel dan ⏭️, ⚔️ of 🔀."
+    ],
+    [
+     "🤫",
+     "Heb je de bom teruggelegd? Leg hem bovenop: dan pakt de volgende hem!"
+    ],
+    [
+     "🔢",
+     "Tel de bommen 💥 naast de stapel. Hoe kleiner de stapel, hoe gevaarlijker."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Każdy dostaje 5 kart i 1 🧙 czarownicę. W stosie są 💥 dyniowe bomby."
+    ],
+    [
+     "👆",
+     "Twoja kolejka: zagraj tyle kart, ile chcesz. Stuknij kartę, a potem przycisk."
+    ],
+    [
+     "🎃",
+     "Gotowe? Stuknij stos i weź 1 kartę. Wtedy kolejka się kończy."
+    ],
+    [
+     "💥",
+     "Weźmiesz dyniową bombę? Odpadasz… chyba że masz czarownicę! Wtedy odłóż bombę, gdzie chcesz."
+    ],
+    [
+     "⏭️",
+     "⏭️ Pomiń i ⚔️ Atak: nie musisz brać karty. Po ataku następny gracz ma 2 kolejki."
+    ],
+    [
+     "🔮",
+     "🔮 Szklana kula: zobacz 3 górne karty. 🔀 Tasowanie: potasuj stos. 🎁 Prezent: ktoś da ci kartę."
+    ],
+    [
+     "🦇",
+     "Dwa takie same potwory? Zagraj je razem i ukradnij komuś kartę."
+    ],
+    [
+     "🏆",
+     "Kto zostanie ostatni, wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧙",
+     "Czarownica to twoja najlepsza karta: dbaj o nią!"
+    ],
+    [
+     "🔮",
+     "Najpierw zajrzyj w szklaną kulę. Bomba na górze? Zagraj ⏭️, ⚔️ albo 🔀."
+    ],
+    [
+     "🤫",
+     "Odkładasz bombę? Połóż ją na górze: weźmie ją następny gracz!"
+    ],
+    [
+     "🔢",
+     "Licz bomby 💥 obok stosu. Im mniejszy stos, tym groźniej."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "Everyone gets 5 cards and 1 🧙 witch. The pile has 💥 pumpkin bombs in it."
+    ],
+    [
+     "👆",
+     "Your turn: play as many cards as you like. Tap a card, then the button."
+    ],
+    [
+     "🎃",
+     "Done? Tap the pile and take 1 card. Then your turn is over."
+    ],
+    [
+     "💥",
+     "Take a pumpkin bomb? You're out… unless you have a witch! Then put the bomb back wherever you like."
+    ],
+    [
+     "⏭️",
+     "⏭️ Skip and ⚔️ Attack: you don't take a card. After an attack the next player takes 2 turns."
+    ],
+    [
+     "🔮",
+     "🔮 Crystal ball: see the top 3 cards. 🔀 Shuffle: shuffle the pile. 🎁 Present: someone gives you a card."
+    ],
+    [
+     "🦇",
+     "Two of the same monster? Play them together and steal a card from someone."
+    ],
+    [
+     "🏆",
+     "The last one left wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧙",
+     "Your witch is your best card: look after it!"
+    ],
+    [
+     "🔮",
+     "Look into the crystal ball first. A bomb on top? Play ⏭️, ⚔️ or 🔀."
+    ],
+    [
+     "🤫",
+     "Putting the bomb back? Put it on top: the next player takes it!"
+    ],
+    [
+     "🔢",
+     "Count the bombs 💥 next to the pile. The smaller the pile, the more dangerous."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Každý dostane 5 kariet a 1 🧙 čarodejnicu. V kôpke sú 💥 tekvicové bomby."
+    ],
+    [
+     "👆",
+     "Tvoj ťah: zahraj koľko kariet chceš. Ťukni na kartu a potom na tlačidlo."
+    ],
+    [
+     "🎃",
+     "Hotovo? Ťukni na kôpku a vezmi si 1 kartu. Tým tvoj ťah končí."
+    ],
+    [
+     "💥",
+     "Vezmeš tekvicovú bombu? Vypadávaš… iba ak máš čarodejnicu! Potom bombu vráť, kam chceš."
+    ],
+    [
+     "⏭️",
+     "⏭️ Preskoč a ⚔️ Útok: nemusíš brať kartu. Po útoku má ďalší hráč 2 ťahy."
+    ],
+    [
+     "🔮",
+     "🔮 Krištáľová guľa: pozri 3 vrchné karty. 🔀 Miešanie: zamiešaj kôpku. 🎁 Darček: niekto ti dá kartu."
+    ],
+    [
+     "🦇",
+     "Dve rovnaké príšery? Zahraj ich spolu a ukradni niekomu kartu."
+    ],
+    [
+     "🏆",
+     "Kto zostane posledný, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧙",
+     "Čarodejnica je tvoja najlepšia karta: opatruj ju!"
+    ],
+    [
+     "🔮",
+     "Najprv sa pozri do krištáľovej gule. Bomba navrchu? Zahraj ⏭️, ⚔️ alebo 🔀."
+    ],
+    [
+     "🤫",
+     "Vraciaš bombu? Polož ju navrch: vezme ju ďalší hráč!"
+    ],
+    [
+     "🔢",
+     "Počítaj bomby 💥 vedľa kôpky. Čím menšia kôpka, tým väčšie nebezpečenstvo."
+    ]
+   ]
+  }
+ }
+}

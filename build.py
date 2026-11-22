@@ -71,6 +71,12 @@ kleur = sorted(p.name for p in (here / 'kleur').glob('*.jpg'))
 for name in kleur:
     shutil.copy(here / 'kleur' / name, here / 'docs' / 'kleur' / name)
 
+# The Spookbom pictures
+(here / 'docs' / 'bom').mkdir(exist_ok=True)
+bom = sorted(p.name for p in (here / 'bom').glob('*.jpg'))
+for name in bom:
+    shutil.copy(here / 'bom' / name, here / 'docs' / 'bom' / name)
+
 # The chess piece pictures
 (here / 'docs' / 'pieces').mkdir(exist_ok=True)
 pieces = sorted(p.name for p in (here / 'pieces').glob('*.png'))
@@ -93,7 +99,7 @@ for name in pieces:
 
 # Offline: keep a copy of the game on the iPad. A new version number makes the iPad fetch the update.
 (here / 'docs' / 'sw.js').write_text(f'''const CACHE = 'raadspel-{version}';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}, {', '.join(repr('cards/' + x) for x in cards)}, {', '.join(repr('pompoen/' + x) for x in pompoen)}, {', '.join(repr('kleur/' + x) for x in kleur)}];
+const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}, {', '.join(repr('cards/' + x) for x in cards)}, {', '.join(repr('pompoen/' + x) for x in pompoen)}, {', '.join(repr('kleur/' + x) for x in kleur)}, {', '.join(repr('bom/' + x) for x in bom)}];
 self.addEventListener('install', e => {{
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 }});
