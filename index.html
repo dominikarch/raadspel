@@ -698,7 +698,7 @@
   .dr-pot { font-size: 1.3rem; margin: 4px 0; }
   .dr-pot b { font-size: 1.6rem; }
   #drCanvas { width: 100%; max-width: 320px; display: block; margin: 0 auto; cursor: pointer; touch-action: manipulation; }
-  #drStatus .dr-last { display: block; font-size: 1.1rem; color: var(--soft); margin-bottom: 4px; }
+  #drStatus .dr-last, #kkStatus .dr-last, #tsStatus .dr-last { display: block; font-size: 1.1rem; color: var(--soft); margin-bottom: 4px; }
   .dr-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center; margin-top: 10px; font-size: .95rem; color: var(--soft); }
   .dr-legend b { font-family: "Arial Hebrew", "Times New Roman", serif; font-size: 1.3rem; color: var(--ink); }
   /* Spookkaarten */
@@ -727,6 +727,23 @@
   .kk-colors { display: flex; gap: 12px; justify-content: center; margin: 10px 0; }
   .kk-colors button { width: 58px; height: 58px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.35); cursor: pointer; }
   .kk-dir { background: none !important; font-size: 1.3rem; }
+  /* Tysiąc */
+  .ts-card { width: 44px; height: 64px; background: #fff; border: 1px solid #c9c2d6; border-radius: 7px; display: flex; flex-direction: column;
+             align-items: center; justify-content: center; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,.25); color: #222; flex: none;
+             position: relative; transition: transform .15s; }
+  .ts-card b { font-size: 1.15rem; } .ts-card i { font-style: normal; font-size: 1.5rem; } .ts-card.red { color: #d0213b; }
+  .ts-hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 5px; padding: 12px 0 14px; }
+  .ts-hand .can { transform: translateY(-7px); cursor: pointer; box-shadow: 0 0 0 3px var(--ok); }
+  .ts-hand .no { opacity: .45; } .ts-hand .given { opacity: .65; transform: translateY(4px); }
+  .ts-to { position: absolute; bottom: -15px; font-size: .62rem; white-space: nowrap; color: #2b2140; }
+  .ts-row { display: flex; gap: 10px; justify-content: center; min-height: 86px; align-items: flex-start; margin: 6px 0; }
+  .ts-old { opacity: .55; } .ts-slot { display: flex; flex-direction: column; align-items: center; gap: 2px; } .ts-slot small { font-size: .75rem; }
+  .ts-card.win { box-shadow: 0 0 0 3px #ffd23f; }
+  .ts-sum { margin: 6px auto; border-collapse: collapse; font-size: 1rem; } .ts-sum td, .ts-sum th { padding: 3px 8px; } .ts-sum .neg { color: #d0213b; }
+  .ts-btn { min-width: 56px; padding: 10px 12px; margin: 3px; border-radius: 12px; border: none; background: var(--key); font: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; }
+  .ts-btn.pass { background: #ffd9d9; } .ts-contract { font-size: 1.2rem; margin: 4px 0; }
+  #tsInfo { font-size: 1.05rem; margin-bottom: 4px; } #tsInfo .red { color: #d0213b; }
+  .dr-players em { font-style: normal; font-weight: 800; } .dr-players small { font-size: .8rem; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .dk-score { font-size: 1.2rem; margin-bottom: 6px; } .dk-score b { font-size: 1.5rem; margin: 0 8px; }
@@ -784,6 +801,7 @@
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
+      <button class="level w2" id="soloTysiac">🃏 Tysiąc<small>Het Poolse kaartspel tot 1000, tegen de hondjes</small></button>
       <button class="level l4" id="soloKleur">🦇 Spookkaarten<small>Speel dezelfde kleur of hetzelfde getal</small></button>
       <button class="level l3" id="soloLily">👑 Lily kan alles<small>Vijf wedstrijden tegen Dominik… en jij wint!</small></button>
       <button class="level w1" id="soloDominik">🏆 Dominik kan alles<small>Vijf wedstrijden… en Dominik wint altijd!</small></button>
@@ -852,6 +870,7 @@
         <button class="level l3" id="lobbyC4">🔴🟡 Vier op een rij<small>Wie heeft er eerst vier?</small></button>
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
+        <button class="level w2" id="lobbyTysiac">🃏 Tysiąc<small>Het Poolse kaartspel, met 3 of 4</small></button>
         <button class="level l4" id="lobbyKleur">🦇 Spookkaarten<small>Wie is als eerste al zijn kaarten kwijt?</small></button>
         <button class="level l3" id="lobbyLily">👑 Lily kan alles<small>Vijf wedstrijden: wie is de beste?</small></button>
         <button class="level w1" id="lobbyGravity">🐶 Gravity Run<small>Wie komt het verst?</small></button>
@@ -1517,6 +1536,34 @@
     <button class="back" id="kkBack">← Ander spel</button>
   </section>
 
+  <!-- Tysiąc: instellen -->
+  <section id="tysiacSetup" class="hidden">
+    <div class="card">
+      <p class="who">Hoeveel spelers?</p>
+      <div class="rk-pick" id="tsCount"></div>
+      <p class="wait" id="tsCountHint"></p>
+      <p class="wait" id="tsFour" hidden>Met 4 spelers rust de deler elke ronde.</p>
+      <p class="who" style="margin-top:12px">Tot hoeveel punten?</p>
+      <div class="rk-pick" id="tsGoal"><button data-goal="500">🐣 500</button><button data-goal="1000">🦊 1000</button></div>
+      <button class="again" id="tsGo">Spelen!</button>
+    </div>
+    <button class="back" id="tsSetupBack">← Terug</button>
+  </section>
+
+  <!-- Tysiąc: spelen -->
+  <section id="tysiac" class="hidden">
+    <div class="card">
+      <div class="dr-players" id="tsPlayers"></div>
+      <div id="tsInfo"></div>
+      <div id="tsTable"></div>
+      <p class="ttt-status" id="tsStatus"></p>
+      <div id="tsActions"></div>
+      <div class="ts-hand" id="tsHand"></div>
+      <div class="ttt-end" id="tsEnd" hidden><button class="again" id="tsAgain">Nog een keer!</button></div>
+    </div>
+    <button class="back" id="tsBack">← Ander spel</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -1792,7 +1839,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2164,7 +2211,7 @@
   }
 
   // Games for two are only for two; with three or four people, Rummi is the game
-  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus', 'lobbyDreidel', 'lobbyKleur'];
+  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus', 'lobbyDreidel', 'lobbyKleur', 'lobbyTysiac'];
   function drawLobby(note) {
     const names = others.map(o => o.name);
     const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0];
@@ -2270,7 +2317,7 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
     if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : m.game === 'lily' ? lilyBegin() : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
@@ -2306,6 +2353,7 @@
       const P = gw.st.p[m.pi]; P.hand = m.hand; P.deck = m.deck; P.ready = true; gw.st.v++; gwSend(); gwShow(gw.st);
     }
     if (['dkdone', 'dknext', 'dkagain'].includes(m.type)) dkReceive(m);
+    if (m.type === 'tsstate' && ['lobby', 'tysiacSetup', 'tysiac'].includes(screen)) tysiacReceive(m.st);
     if (m.type === 'kkstate' && ['lobby', 'kkSetup', 'kk'].includes(screen)) kkReceive(m.st);
     if (m.type === 'drstate' && ['lobby', 'dreidelSetup', 'dreidel'].includes(screen)) dreidelReceive(m.st);
     if (m.type === 'wstate' && ['lobby', 'wirusSetup', 'wirus'].includes(screen)) wirusReceive(m.st);
@@ -10834,6 +10882,307 @@
   $('kkSetupBack').addEventListener('click', kkLeave);
   $('kkBack').addEventListener('click', kkLeave);
   $('kkAgain').addEventListener('click', kkStart);
+
+  // ----- 🃏 Tysiąc (the Polish card game to 1000): 24 cards (9 10 J Q K A). Three play; with four, the dealer sits out.
+  // Bidding from 100 (the first one must), up to 120 + the marriages in your hand. The winner takes the musik (3 cards),
+  // gives one card to each other player, may raise the contract, and leads. Follow suit and beat if you can; no suit:
+  // trump if you can. Leading with K or Q of a marriage (not on the first trick) makes that suit trump: ♥100 ♦80 ♣60 ♠40.
+  // The bidder gets + or − the contract; the others their points, rounded to 10. Dogs fill empty seats.
+  const TS_PTS = { 9: 0, J: 2, Q: 3, K: 4, T: 10, A: 11 }, TS_ORDER = '9JQKTA', TS_MELD = { h: 100, d: 80, c: 60, s: 40 };
+  const TS_SUIT = { h: '♥', d: '♦', c: '♣', s: '♠' };
+  const ts = { st: null, me: 0, setup: { count: 3, goal: 1000 }, give: {}, contract: 0, shownV: '' };
+
+  function tysiacStart() {
+    const people = mode === 'together' ? others.length + 1 : 1;
+    ts.setup.count = Math.max(3, people);
+    tsSetupDraw();
+    $('tsSetupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('tysiacSetup');
+  }
+  function tsSetupDraw() {
+    const people = mode === 'together' ? others.length + 1 : 1;
+    const counts = [3, 4].filter(n => n >= people);
+    if (ts.setup.count < counts[0]) ts.setup.count = counts[0];
+    $('tsCount').innerHTML = counts.map(n => `<button data-count="${n}" class="${ts.setup.count === n ? 'on' : ''}">👥 ${n}</button>`).join('');
+    const dogs = ts.setup.count - people;
+    $('tsCountHint').textContent = dogs ? `Jij en ${dogs} ${dogs > 1 ? 'hondjes' : 'hondje'}.` : '';
+    $('tsFour').hidden = ts.setup.count !== 4;
+    document.querySelectorAll('#tsGoal button').forEach(b => b.classList.toggle('on', Number(b.dataset.goal) === ts.setup.goal));
+  }
+
+  const tsPts = c => TS_PTS[c[0]], tsRank = c => TS_ORDER.indexOf(c[0]);
+  const tsMelds = hand => Object.keys(TS_MELD).filter(s => hand.includes('K' + s) && hand.includes('Q' + s));
+  const tsMax = hand => 120 + tsMelds(hand).reduce((a, s) => a + TS_MELD[s], 0);
+  const tsNext = (st, s) => st.active[(st.active.indexOf(s) + 1) % st.active.length];
+  const tsSort = hand => hand.sort((a, b) => 'hcds'.indexOf(a[1]) - 'hcds'.indexOf(b[1]) || tsRank(b) - tsRank(a));
+
+  function tysiacGo() {
+    const dogNames = ['Hondje Bo', 'Hondje Fien', 'Hondje Max'];
+    const seats = [{ id: myId, name: myName || 'Jij', dog: false }];
+    if (mode === 'together') others.forEach(o => seats.push({ id: o.id, name: o.name, dog: false }));
+    const people = seats.length;
+    while (seats.length < ts.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
+    seats.forEach(x => { x.score = 0; });
+    const st = { id: Math.random().toString(36).slice(2), v: 0, seats, goal: ts.setup.goal, dealer: seats.length - 2, runner: myId, hand: 0 };
+    tsDeal(st); ts.st = st; tsSend(); tsShow(st);
+  }
+
+  function tsDeal(st) {
+    const deck = [];
+    for (const s of 'hdcs') for (const r of TS_ORDER) deck.push(r + s);
+    for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+    const N = st.seats.length;
+    st.dealer = (st.dealer + 1) % N; st.hand++;
+    st.active = []; for (let k = 1; k <= N; k++) { const s = (st.dealer + k) % N; if (N === 3 || s !== st.dealer) st.active.push(s); }
+    st.seats.forEach(x => { x.cards = []; x.won = []; x.melds = 0; x.passed = false; x.bid = 0; });
+    st.active.forEach(s => { st.seats[s].cards = tsSort(deck.splice(0, 7)); });
+    st.musik = deck.splice(0, 3);
+    const first = st.active[0];
+    st.bid = { who: first, val: 100 }; st.seats[first].bid = 100;
+    st.turn = tsNext(st, first); st.phase = 'bid';
+    st.trick = []; st.lastTrick = null; st.trump = null; st.trickNo = 0; st.contract = 0; st.result = null; st.over = null;
+    st.log = ['{0}: 100 (verplicht)', first];
+    st.v++;
+  }
+
+  const tsSend = () => { if (mode === 'together') send('tsstate', { st: ts.st }); };
+  function tysiacReceive(st) {
+    if (!st || !st.seats) return;
+    const old = ts.st;
+    if (old && old.id === st.id && st.v <= old.v) return;
+    tsShow(st);
+  }
+
+  // --- the rules ---
+  function tsBid(st, val) {                       // val 0 = pass
+    const P = st.seats[st.turn];
+    if (val) { st.bid = { who: st.turn, val }; P.bid = val; st.log = ['{0} biedt {1}', st.turn, val]; }
+    else { P.passed = true; st.log = ['{0} past', st.turn]; }
+    const left = st.active.filter(s => !st.seats[s].passed);
+    if (left.length === 1) return tsBidDone(st);
+    let n = st.turn; do n = tsNext(st, n); while (st.seats[n].passed);
+    st.turn = n; st.v++;
+  }
+  function tsBidDone(st) {
+    const b = st.bid.who;
+    st.contract = st.bid.val; st.bidder = b; st.turn = b; st.phase = 'give';
+    st.seats[b].cards = tsSort(st.seats[b].cards.concat(st.musik));
+    st.log = ['{0} speelt voor {1}! Musik:', b, st.contract];
+    st.v++;
+  }
+  function tsGive(st, gifts, contract) {          // gifts: { seat: card }
+    const B = st.seats[st.bidder];
+    for (const s in gifts) { B.cards.splice(B.cards.indexOf(gifts[s]), 1); st.seats[s].cards = tsSort(st.seats[s].cards.concat([gifts[s]])); }
+    st.contract = Math.max(st.contract, Math.min(contract, tsMax(B.cards)));
+    st.phase = 'play'; st.turn = st.bidder; st.trick = []; st.trickNo = 0;
+    st.log = ['{0} speelt voor {1}!', st.bidder, st.contract];
+    st.v++;
+  }
+  function tsWinner(st, trick) {
+    const lead = trick[0].c[1];
+    let best = trick[0];
+    for (const t of trick.slice(1)) {
+      const bt = best.c[1] === st.trump, tt = t.c[1] === st.trump;
+      if ((tt && !bt) || (t.c[1] === best.c[1] && tsRank(t.c) > tsRank(best.c))) best = t;
+      else if (!tt && !bt && t.c[1] === lead && best.c[1] !== lead) best = t;
+    }
+    return best;
+  }
+  function tsLegal(st, hand) {
+    if (!st.trick.length) return hand.slice();
+    const lead = st.trick[0].c[1], win = tsWinner(st, st.trick).c;
+    const same = hand.filter(c => c[1] === lead);
+    if (same.length) { if (win[1] !== lead) return same; const up = same.filter(c => tsRank(c) > tsRank(win)); return up.length ? up : same; }
+    const tr = st.trump ? hand.filter(c => c[1] === st.trump) : [];
+    if (tr.length) { if (win[1] !== st.trump) return tr; const up = tr.filter(c => tsRank(c) > tsRank(win)); return up.length ? up : tr; }
+    return hand.slice();
+  }
+  function tsPlay(st, c) {
+    const P = st.seats[st.turn];
+    P.cards.splice(P.cards.indexOf(c), 1);
+    st.log = null;
+    if (!st.trick.length && st.trickNo > 0 && (c[0] === 'K' || c[0] === 'Q') && P.cards.includes((c[0] === 'K' ? 'Q' : 'K') + c[1])) {
+      st.trump = c[1]; P.melds += TS_MELD[c[1]]; st.log = ['{0} meldt {1}! +{2}', st.turn, TS_SUIT[c[1]], TS_MELD[c[1]]];
+    }
+    st.trick.push({ s: st.turn, c });
+    if (st.trick.length < st.active.length) { st.turn = tsNext(st, st.turn); st.v++; return; }
+    const w = tsWinner(st, st.trick).s;
+    st.seats[w].won.push(...st.trick.map(t => t.c));
+    st.lastTrick = { cards: st.trick, w }; st.trick = []; st.trickNo++; st.turn = w;
+    if (!st.log) st.log = ['{0} pakt de slag', w];
+    if (st.trickNo === 8) tsScore(st);
+    st.v++;
+  }
+  function tsScore(st) {
+    st.result = st.active.map(s => {
+      const P = st.seats[s], pts = P.won.reduce((a, c) => a + tsPts(c), 0) + P.melds;
+      const delta = s === st.bidder ? (pts >= st.contract ? st.contract : -st.contract) : Math.round(pts / 10) * 10;
+      P.score += delta;
+      return { s, pts, delta };
+    });
+    const top = Math.max(...st.seats.map(x => x.score));
+    st.phase = top >= st.goal ? 'over' : 'done';
+    if (st.phase === 'over') st.over = { winners: st.seats.map((x, i) => i).filter(i => st.seats[i].score === top) };
+  }
+
+  // --- the dogs ---
+  function tsDogMove(st) {
+    const P = st.seats[st.turn], hand = P.cards;
+    if (st.phase === 'bid') {
+      const est = Math.floor((hand.reduce((a, c) => a + tsPts(c), 0) * 1.1 + tsMelds(hand).reduce((a, s) => a + TS_MELD[s], 0) + hand.filter(c => c[0] === 'A').length * 10) / 10) * 10;
+      const next = st.bid.val + 10;
+      return tsBid(st, next <= est && next <= tsMax(hand) ? next : 0);
+    }
+    if (st.phase === 'give') {
+      const keep = new Set(tsMelds(hand).flatMap(s => ['K' + s, 'Q' + s]));
+      const away = hand.filter(c => !keep.has(c) && c[0] !== 'A').sort((a, b) => tsPts(a) - tsPts(b));
+      const pool = away.length >= 2 ? away : hand.slice().sort((a, b) => tsPts(a) - tsPts(b));
+      const gifts = {}; st.active.filter(s => s !== st.bidder).forEach((s, k) => { gifts[s] = pool[k]; });
+      return tsGive(st, gifts, st.contract);
+    }
+    const legal = tsLegal(st, hand), cheap = arr => arr.slice().sort((a, b) => tsPts(a) - tsPts(b) || tsRank(a) - tsRank(b))[0];
+    if (!st.trick.length) {
+      if (st.trickNo > 0) { const m = tsMelds(hand).sort((a, b) => TS_MELD[b] - TS_MELD[a])[0]; if (m) return tsPlay(st, 'Q' + m); }
+      const ace = legal.find(c => c[0] === 'A' && c[1] !== st.trump);
+      return tsPlay(st, ace || cheap(legal));
+    }
+    const wins = legal.filter(c => tsWinner(st, st.trick.concat([{ s: st.turn, c }])).c === c);
+    tsPlay(st, wins.length ? cheap(wins) : cheap(legal));
+  }
+
+  // --- the screen ---
+  function tsCardName(c) {
+    const pl = (localStorage.getItem('taal') || 'nl') === 'pl', nl = (localStorage.getItem('taal') || 'nl') === 'nl';
+    const r = { 9: '9', T: '10', J: pl ? 'W' : nl ? 'B' : 'J', Q: pl ? 'D' : nl ? 'V' : 'Q', K: pl ? 'K' : nl ? 'H' : 'K', A: 'A' }[c[0]];
+    return r;
+  }
+  function tsCard(c, cls = '', attrs = '') {
+    const red = c[1] === 'h' || c[1] === 'd';
+    return `<div class="ts-card ${red ? 'red' : ''} ${cls}" ${attrs} translate="no"><b>${tsCardName(c)}</b><i>${TS_SUIT[c[1]]}</i></div>`;
+  }
+  function tsLine(log) {
+    if (!log) return '';
+    const st = ts.st, [t, ...a] = log;
+    const vals = a.map((x, k) => k === 0 ? (x === ts.me ? 'Jij' : st.seats[x].name) : x);
+    let s = t; vals.forEach((x, k) => { s = s.replace(`{${k}}`, x); });
+    return s;
+  }
+
+  function tsShow(st) {
+    stopMusic();
+    const fresh = ts.shownV !== st.id + st.v;
+    if (fresh && ts.st && ts.st.id === st.id && ts.st.phase !== st.phase) { ts.give = {}; ts.contract = 0; }
+    ts.shownV = st.id + st.v;
+    ts.st = st; ts.me = st.seats.findIndex(x => x.id === myId);
+    if (fresh) blip(st.phase === 'play' ? 520 : 440);
+    show('tysiac');
+    $('tsEnd').hidden = true;
+    const me = st.seats[ts.me], myTurn = st.turn === ts.me && ['bid', 'give', 'play'].includes(st.phase);
+    const nm = i => i === ts.me ? 'Jij' : st.seats[i].name;
+    $('tsPlayers').innerHTML = st.seats.map((x, i) => {
+      const out = !st.active.includes(i), tag = out ? '💤' : st.phase === 'bid' ? (x.passed ? '✋' : x.bid ? x.bid : '') : i === st.bidder ? `🎯 ${st.contract}` : '';
+      return `<span class="${i === st.turn && myTurnPhase(st) ? 'turn' : ''}${out ? ' out' : ''}">${x.dog ? '🐶' : '🙂'} <b>${nm(i)}</b> <em>${x.score}</em>${tag !== '' ? ` <small>${tag}</small>` : ''}</span>`;
+    }).join('');
+    $('tsInfo').innerHTML = st.phase === 'play' || st.phase === 'done' || st.phase === 'over'
+      ? `<span>Troef</span>: <b class="${st.trump === 'h' || st.trump === 'd' ? 'red' : ''}">${st.trump ? TS_SUIT[st.trump] : '—'}</b> · <span>Doel</span>: ${st.goal}`
+      : `<span>Doel</span>: ${st.goal}`;
+    // the table: the musik, the trick, or the score of the hand
+    let table = '';
+    if (st.phase === 'give') table = `<div class="ts-row">${st.musik.map(c => tsCard(c)).join('')}</div>`;
+    else if (st.phase === 'play') {
+      const shown = st.trick.length ? st.trick : st.lastTrick ? st.lastTrick.cards : [];
+      table = `<div class="ts-row${st.trick.length ? '' : ' ts-old'}">${shown.map(t => `<div class="ts-slot">${tsCard(t.c, st.lastTrick && !st.trick.length && t.s === st.lastTrick.w ? 'win' : '')}<small><span>${nm(t.s)}</span></small></div>`).join('')}</div>`;
+    } else if (st.phase === 'done' || st.phase === 'over') {
+      table = `<table class="ts-sum"><tr><th></th><th><span>Punten</span></th><th><span>Erbij</span></th><th><span>Totaal</span></th></tr>` +
+        st.result.map(r => `<tr><td>${r.s === st.bidder ? '🎯 ' : ''}<span>${nm(r.s)}</span></td><td>${r.pts}</td><td class="${r.delta < 0 ? 'neg' : ''}">${r.delta > 0 ? '+' : ''}${r.delta}</td><td><b>${st.seats[r.s].score}</b></td></tr>`).join('') + '</table>';
+    }
+    $('tsTable').innerHTML = table;
+    // the status
+    const P = st.seats[st.turn];
+    let status = st.log ? `<span class="dr-last"><span>${tsLine(st.log)}</span></span>` : '';
+    if (st.phase === 'done' || st.phase === 'over') {
+      const B = st.result.find(r => r.s === st.bidder);
+      status = `<span class="dr-last"><span>${tsLine([B.delta > 0 ? '{0} haalt het contract! 🎉' : '{0} haalt het contract niet 😬', st.bidder])}</span></span>`;
+    }
+    if (st.phase === 'over') {
+      const w = st.over.winners;
+      status += w.includes(ts.me) ? '<span>🏆 Jij wint!</span>' : `<span>${st.seats[w[0]].name} wint!</span>`;
+      if (w.includes(ts.me) && fresh) { confetti(); winSound(); }
+      $('tsEnd').hidden = false;
+    } else if (st.phase === 'done') status += st.runner === myId ? '' : `<span>Wachten op ${st.seats[st.seats.findIndex(x => x.id === st.runner)]?.name || ''}…</span>`;
+    else if (!st.active.includes(ts.me) && st.phase !== 'done') status += `<span>Jij speelt deze ronde niet mee 💤</span>`;
+    else if (myTurn && st.phase === 'bid') status += `<span>Bieden: hoeveel punten haal jij?</span>`;
+    else if (myTurn && st.phase === 'give') status += '<span>Geef elke speler een kaart, en kies je contract.</span>';
+    else if (myTurn) status += `<span>Jij bent aan de beurt!</span>`;
+    else status += `<span>${P.dog ? '🐶 ' : ''}${P.name} is aan de beurt…</span>`;
+    $('tsStatus').innerHTML = status;
+    tsActions(st, myTurn);
+    // my hand
+    const legal = myTurn && st.phase === 'play' ? tsLegal(st, me.cards) : null;
+    const giving = myTurn && st.phase === 'give';
+    $('tsHand').innerHTML = me.cards.map(c => {
+      const to = giving ? Object.keys(ts.give).find(s => ts.give[s] === c) : null;
+      const cls = legal ? (legal.includes(c) ? 'can' : 'no') : giving ? (to !== undefined ? 'given' : 'can') : '';
+      return tsCard(c, cls, `data-c="${c}"`) .replace('</div>', to !== undefined && to !== null ? `<small class="ts-to">→ ${nm(Number(to))}</small></div>` : '</div>');
+    }).join('');
+    // the dogs
+    if (st.runner === myId && ['bid', 'give', 'play'].includes(st.phase) && P.dog)
+      setTimeout(() => { if (ts.st === st && st.seats[st.turn].dog && ['bid', 'give', 'play'].includes(st.phase)) { tsDogMove(st); tsSend(); tsShow(st); } }, st.phase === 'play' && !st.trick.length && st.lastTrick ? 1500 : 1000);
+  }
+  const myTurnPhase = st => ['bid', 'give', 'play'].includes(st.phase);
+
+  function tsActions(st, myTurn) {
+    let h = '';
+    if (myTurn && st.phase === 'bid') {
+      const max = tsMax(st.seats[ts.me].cards), v = st.bid.val;
+      h = [10, 20, 30].map(d => v + d).filter(x => x <= max).map(x => `<button class="ts-btn" data-bid="${x}">${x}</button>`).join('') + `<button class="ts-btn pass" data-bid="0">Pas</button>`;
+    } else if (myTurn && st.phase === 'give') {
+      if (!ts.contract) ts.contract = st.contract;
+      const max = tsMax(st.seats[ts.me].cards.filter(c => !Object.values(ts.give).includes(c)));
+      ts.contract = Math.min(Math.max(ts.contract, st.contract), Math.max(st.contract, max));
+      const ready = Object.keys(ts.give).length === st.active.length - 1;
+      h = `<div class="ts-contract"><span>Contract</span>: <button class="ts-btn" data-k="-10">−</button> <b>${ts.contract}</b> <button class="ts-btn" data-k="10">+</button></div>` +
+          `<button class="again" id="tsStart" ${ready ? '' : 'disabled'}>Start!</button>`;
+    } else if (st.phase === 'done' && st.runner === myId) h = `<button class="again" id="tsNextHand">Volgende ronde ➡️</button>`;
+    $('tsActions').innerHTML = h;
+  }
+
+  function tsLeave() {
+    ts.st = null;
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+
+  $('soloTysiac').addEventListener('click', () => { mode = 'solo'; tysiacStart(); });
+  $('lobbyTysiac').addEventListener('click', tysiacStart);
+  $('tsCount').addEventListener('click', e => { const b = e.target.closest('[data-count]'); if (b) { ts.setup.count = Number(b.dataset.count); tsSetupDraw(); } });
+  $('tsGoal').addEventListener('click', e => { const b = e.target.closest('[data-goal]'); if (b) { ts.setup.goal = Number(b.dataset.goal); tsSetupDraw(); } });
+  $('tsGo').addEventListener('click', tysiacGo);
+  $('tsActions').addEventListener('click', e => {
+    const st = ts.st; if (!st) return;
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.bid !== undefined && st.phase === 'bid' && st.turn === ts.me) { tsBid(st, Number(b.dataset.bid)); tsSend(); return tsShow(st); }
+    if (b.dataset.k && st.phase === 'give') { ts.contract += Number(b.dataset.k); return tsShow(st); }
+    if (b.id === 'tsStart' && st.phase === 'give' && st.turn === ts.me && Object.keys(ts.give).length === st.active.length - 1) {
+      tsGive(st, ts.give, ts.contract); ts.give = {}; ts.contract = 0; tsSend(); return tsShow(st);
+    }
+    if (b.id === 'tsNextHand' && st.phase === 'done') { tsDeal(st); tsSend(); tsShow(st); }
+  });
+  $('tsHand').addEventListener('click', e => {
+    const el = e.target.closest('[data-c]'), st = ts.st; if (!el || !st || st.turn !== ts.me) return;
+    const c = el.dataset.c;
+    if (st.phase === 'give') {
+      const had = Object.keys(ts.give).find(s => ts.give[s] === c);
+      if (had !== undefined) delete ts.give[had];
+      else { const to = st.active.find(s => s !== ts.me && !(s in ts.give)); if (to !== undefined) ts.give[to] = c; }
+      return tsShow(st);
+    }
+    if (st.phase === 'play' && tsLegal(st, st.seats[ts.me].cards).includes(c)) { tsPlay(st, c); tsSend(); tsShow(st); }
+  });
+  $('tsSetupBack').addEventListener('click', tsLeave);
+  $('tsBack').addEventListener('click', tsLeave);
+  $('tsAgain').addEventListener('click', tysiacStart);
 
   greet();
   show('welcome');
