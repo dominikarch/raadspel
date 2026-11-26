@@ -81,6 +81,12 @@ bom2 = sorted(p.name for p in (here / 'bom2').glob('*.jpg'))
 for name in bom2:
     shutil.copy(here / 'bom2' / name, here / 'docs' / 'bom2' / name)
 
+# The Vrolijke kaarten pictures
+(here / 'docs' / 'fun').mkdir(exist_ok=True)
+funimg = sorted(p.name for p in (here / 'fun').glob('*.jpg'))
+for name in funimg:
+    shutil.copy(here / 'fun' / name, here / 'docs' / 'fun' / name)
+
 # The chess piece pictures
 (here / 'docs' / 'pieces').mkdir(exist_ok=True)
 pieces = sorted(p.name for p in (here / 'pieces').glob('*.png'))
@@ -103,7 +109,7 @@ for name in pieces:
 
 # Offline: keep a copy of the game on the iPad. A new version number makes the iPad fetch the update.
 (here / 'docs' / 'sw.js').write_text(f'''const CACHE = 'raadspel-{version}';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}, {', '.join(repr('cards/' + x) for x in cards)}, {', '.join(repr('pompoen/' + x) for x in pompoen)}, {', '.join(repr('kleur/' + x) for x in kleur)}, {', '.join(repr('bom/' + x) for x in bom)}, {', '.join(repr('bom2/' + x) for x in bom2)}];
+const FILES = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', {', '.join(repr('hands/' + h) for h in hands)}, {', '.join(repr('pieces/' + x) for x in pieces)}, {', '.join(repr('cards/' + x) for x in cards)}, {', '.join(repr('pompoen/' + x) for x in pompoen)}, {', '.join(repr('kleur/' + x) for x in kleur)}, {', '.join(repr('bom/' + x) for x in bom)}, {', '.join(repr('bom2/' + x) for x in bom2)}, {', '.join(repr('fun/' + x) for x in funimg)}];
 self.addEventListener('install', e => {{
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
 }});

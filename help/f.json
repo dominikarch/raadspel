@@ -1,0 +1,676 @@
+{
+ "piotrus": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Alle kaarten worden verdeeld. Er is van elk dier een paar, plus één 🧦 Stinksok."
+    ],
+    [
+     "👯",
+     "Twee dezelfde dieren? Die gaan meteen weg."
+    ],
+    [
+     "👆",
+     "Om de beurt pak je een kaart van de volgende speler. Je ziet niet welke!"
+    ],
+    [
+     "✅",
+     "Kaarten op? Dan ben je veilig."
+    ],
+    [
+     "🧦",
+     "Wie op het eind de Stinksok heeft, verliest!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤫",
+     "Heb je de Stinksok? Doe heel gewoon, niemand mag het merken!"
+    ],
+    [
+     "🔀",
+     "Je kaarten worden steeds geschud, dus niemand weet waar de Stinksok zit."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Rozdajemy wszystkie karty. Każde zwierzę jest w parze, plus jedna 🧦 śmierdząca skarpeta."
+    ],
+    [
+     "👯",
+     "Dwa takie same zwierzaki? Od razu odpadają."
+    ],
+    [
+     "👆",
+     "Po kolei bierzesz kartę od następnego gracza. Nie widzisz, którą!"
+    ],
+    [
+     "✅",
+     "Nie masz już kart? Jesteś bezpieczna/y."
+    ],
+    [
+     "🧦",
+     "Kto na końcu ma skarpetę, przegrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤫",
+     "Masz skarpetę? Zachowuj się normalnie, nikt nie może się domyślić!"
+    ],
+    [
+     "🔀",
+     "Karty są ciągle tasowane, więc nikt nie wie, gdzie jest skarpeta."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "All cards are dealt. Every animal comes in a pair, plus one 🧦 Stinky Sock."
+    ],
+    [
+     "👯",
+     "Two of the same animal? They go away at once."
+    ],
+    [
+     "👆",
+     "In turn you take a card from the next player. You can't see which!"
+    ],
+    [
+     "✅",
+     "No cards left? Then you're safe."
+    ],
+    [
+     "🧦",
+     "Whoever has the Stinky Sock at the end loses!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤫",
+     "Got the Stinky Sock? Act normal, nobody may notice!"
+    ],
+    [
+     "🔀",
+     "Your cards keep getting shuffled, so nobody knows where the Stinky Sock is."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Rozdajú sa všetky karty. Každé zvieratko je v páre, plus jedna 🧦 smradľavá ponožka."
+    ],
+    [
+     "👯",
+     "Dve rovnaké zvieratká? Hneď odchádzajú."
+    ],
+    [
+     "👆",
+     "Po rade si berieš kartu od ďalšieho hráča. Nevidíš ktorú!"
+    ],
+    [
+     "✅",
+     "Nemáš karty? Si v bezpečí."
+    ],
+    [
+     "🧦",
+     "Kto má na konci ponožku, prehráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "🤫",
+     "Máš ponožku? Správaj sa normálne, nikto to nesmie zbadať!"
+    ],
+    [
+     "🔀",
+     "Karty sa stále miešajú, takže nikto nevie, kde je ponožka."
+    ]
+   ]
+  }
+ },
+ "kwartet": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "8 dieren, elk in 4 kleuren. Vier kleuren van één dier is een kwartet."
+    ],
+    [
+     "👆",
+     "Tik op een kaart die je mist (van een dier dat je al hebt)."
+    ],
+    [
+     "🙋",
+     "Kies aan wie je hem vraagt. Heeft die hem? Dan krijg je hem en mag je nog eens!"
+    ],
+    [
+     "🎣",
+     "Heeft die hem niet? Dan pak je een kaart van de stapel en is de volgende."
+    ],
+    [
+     "🏆",
+     "Wie de meeste kwartetten heeft, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Onthoud wat de anderen vragen: dan weet je wie welk dier heeft!"
+    ],
+    [
+     "🎯",
+     "Vraag om het dier waar je er al 3 van hebt."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "8 zwierzaków, każdy w 4 kolorach. Cztery kolory jednego zwierzaka to kwartet."
+    ],
+    [
+     "👆",
+     "Stuknij kartę, której ci brakuje (zwierzaka, którego już masz)."
+    ],
+    [
+     "🙋",
+     "Wybierz, kogo poprosisz. Ma ją? Dostajesz ją i grasz dalej!"
+    ],
+    [
+     "🎣",
+     "Nie ma? Bierzesz kartę ze stosu i gra następny."
+    ],
+    [
+     "🏆",
+     "Kto zbierze najwięcej kwartetów, wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Zapamiętuj, o co proszą inni: będziesz wiedzieć, kto ma jakie zwierzaki!"
+    ],
+    [
+     "🎯",
+     "Proś o zwierzaka, którego masz już 3."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "8 animals, each in 4 colours. All four colours of one animal make a family."
+    ],
+    [
+     "👆",
+     "Tap a card you're missing (of an animal you already have)."
+    ],
+    [
+     "🙋",
+     "Choose who to ask. Have they got it? You get it and go again!"
+    ],
+    [
+     "🎣",
+     "Not? Take a card from the pile and it's the next player's turn."
+    ],
+    [
+     "🏆",
+     "Whoever has the most families wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Remember what the others ask for: then you know who has which animal!"
+    ],
+    [
+     "🎯",
+     "Ask for the animal you already have 3 of."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "8 zvieratiek, každé v 4 farbách. Štyri farby jedného zvieratka sú kvarteto."
+    ],
+    [
+     "👆",
+     "Ťukni na kartu, ktorá ti chýba (zvieratka, ktoré už máš)."
+    ],
+    [
+     "🙋",
+     "Vyber, od koho si ju vypýtaš. Má ju? Dostaneš ju a hráš znova!"
+    ],
+    [
+     "🎣",
+     "Nemá? Vezmeš kartu z kôpky a hrá ďalší."
+    ],
+    [
+     "🏆",
+     "Kto má najviac kvartet, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Pamätaj si, čo si pýtajú ostatní: budeš vedieť, kto má aké zvieratká!"
+    ],
+    [
+     "🎯",
+     "Pýtaj si zvieratko, ktoré už máš trikrát."
+    ]
+   ]
+  }
+ },
+ "vissen": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Iedereen krijgt 5 kaarten. Van elk dier zijn er twee: dat is een paar."
+    ],
+    [
+     "👆",
+     "Tik op een kaart in je hand en kies wie je hem vraagt."
+    ],
+    [
+     "👯",
+     "Heeft die hetzelfde dier? Dan heb je een paar en mag je nog eens!"
+    ],
+    [
+     "🎣",
+     "Niet? Ga vissen: pak een kaart. Vis je wat je vroeg? Nog een keer!"
+    ],
+    [
+     "🏆",
+     "Wie de meeste paren heeft, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Onthoud wat de anderen vragen: die hebben dat dier!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Każdy dostaje 5 kart. Każdego zwierzaka są dwie karty: to para."
+    ],
+    [
+     "👆",
+     "Stuknij kartę w ręce i wybierz, kogo zapytasz."
+    ],
+    [
+     "👯",
+     "Ma tego samego zwierzaka? Masz parę i grasz dalej!"
+    ],
+    [
+     "🎣",
+     "Nie? Łów rybkę: weź kartę. Złowisz to, o co prosiłaś/eś? Jeszcze raz!"
+    ],
+    [
+     "🏆",
+     "Kto ma najwięcej par, wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Zapamiętuj, o co proszą inni: oni mają tego zwierzaka!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "Everyone gets 5 cards. There are two of each animal: that's a pair."
+    ],
+    [
+     "👆",
+     "Tap a card in your hand and choose who to ask."
+    ],
+    [
+     "👯",
+     "Have they got the same animal? You have a pair and go again!"
+    ],
+    [
+     "🎣",
+     "Not? Go fish: take a card. Fished what you asked for? Again!"
+    ],
+    [
+     "🏆",
+     "Whoever has the most pairs wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Remember what the others ask for: they have that animal!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Každý dostane 5 kariet. Každé zvieratko je dvakrát: to je pár."
+    ],
+    [
+     "👆",
+     "Ťukni na kartu v ruke a vyber, koho sa opýtaš."
+    ],
+    [
+     "👯",
+     "Má rovnaké zvieratko? Máš pár a hráš znova!"
+    ],
+    [
+     "🎣",
+     "Nie? Choď na ryby: vezmi kartu. Ulovíš, čo si chcel/a? Ešte raz!"
+    ],
+    [
+     "🏆",
+     "Kto má najviac párov, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "🧠",
+     "Pamätaj si, čo si pýtajú ostatní: oni majú to zvieratko!"
+    ]
+   ]
+  }
+ },
+ "oorlog": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Alle kaarten worden verdeeld. Elk dier heeft een getal van 1 tot 12."
+    ],
+    [
+     "👆",
+     "Tik op 🃏 Omdraaien: iedereen draait zijn bovenste kaart om."
+    ],
+    [
+     "🏆",
+     "Het hoogste getal wint alle omgedraaide kaarten."
+    ],
+    [
+     "⚔️",
+     "Hetzelfde getal? Oorlog! Een kaart dicht en een open, tot er een winnaar is."
+    ],
+    [
+     "🎉",
+     "Na 25 rondes (of als iemand alles heeft) wint wie de meeste kaarten heeft."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "Dit spel is puur geluk: duimen maar!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Rozdajemy wszystkie karty. Każde zwierzę ma liczbę od 1 do 12."
+    ],
+    [
+     "👆",
+     "Stuknij 🃏 Odwróć: każdy odwraca swoją górną kartę."
+    ],
+    [
+     "🏆",
+     "Najwyższa liczba wygrywa wszystkie odwrócone karty."
+    ],
+    [
+     "⚔️",
+     "Ta sama liczba? Wojna! Jedna karta zakryta i jedna odkryta, aż ktoś wygra."
+    ],
+    [
+     "🎉",
+     "Po 25 rundach (albo gdy ktoś ma wszystko) wygrywa ten, kto ma najwięcej kart."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "Tu liczy się tylko szczęście: trzymaj kciuki!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "All cards are dealt. Every animal has a number from 1 to 12."
+    ],
+    [
+     "👆",
+     "Tap 🃏 Turn over: everyone turns over their top card."
+    ],
+    [
+     "🏆",
+     "The highest number wins all the turned cards."
+    ],
+    [
+     "⚔️",
+     "The same number? War! One card face down and one face up, until there's a winner."
+    ],
+    [
+     "🎉",
+     "After 25 rounds (or when someone has everything) the one with the most cards wins."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "This game is pure luck: cross your fingers!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Rozdajú sa všetky karty. Každé zvieratko má číslo od 1 do 12."
+    ],
+    [
+     "👆",
+     "Ťukni na 🃏 Otoč: každý otočí svoju vrchnú kartu."
+    ],
+    [
+     "🏆",
+     "Najvyššie číslo vyhrá všetky otočené karty."
+    ],
+    [
+     "⚔️",
+     "Rovnaké číslo? Vojna! Jedna karta zakrytá a jedna odkrytá, kým niekto nevyhrá."
+    ],
+    [
+     "🎉",
+     "Po 25 kolách (alebo keď má niekto všetko) vyhrá ten, kto má najviac kariet."
+    ]
+   ],
+   "tips": [
+    [
+     "🍀",
+     "Táto hra je len o šťastí: drž palce!"
+    ]
+   ]
+  }
+ },
+ "snap": {
+  "nl": {
+   "rules": [
+    [
+     "🃏",
+     "Alle kaarten worden verdeeld in stapels."
+    ],
+    [
+     "👆",
+     "Om de beurt leg je je bovenste kaart in het midden: 🃏 Leg neer."
+    ],
+    [
+     "👏",
+     "Liggen er twee dezelfde dieren bovenop? Tik zo snel je kan op SNAP!"
+    ],
+    [
+     "🎉",
+     "Wie het eerst tikt, krijgt de hele stapel uit het midden."
+    ],
+    [
+     "😅",
+     "Tik je SNAP! terwijl het niet klopt? Dan ben je een kaart kwijt."
+    ],
+    [
+     "🏆",
+     "Wie de meeste kaarten heeft, wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Kijk goed naar het dier, niet naar de kleur!"
+    ],
+    [
+     "🐶",
+     "De hondjes zijn snel: wees sneller!"
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "🃏",
+     "Wszystkie karty są rozdane na stosy."
+    ],
+    [
+     "👆",
+     "Po kolei kładziesz górną kartę na środek: 🃏 Połóż."
+    ],
+    [
+     "👏",
+     "Na górze leżą dwa takie same zwierzaki? Stuknij jak najszybciej SNAP!"
+    ],
+    [
+     "🎉",
+     "Kto pierwszy stuknie, dostaje cały stos ze środka."
+    ],
+    [
+     "😅",
+     "Stukniesz SNAP!, gdy się nie zgadza? Tracisz kartę."
+    ],
+    [
+     "🏆",
+     "Kto ma najwięcej kart, wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Patrz na zwierzaka, nie na kolor!"
+    ],
+    [
+     "🐶",
+     "Pieski są szybkie: bądź szybsza/y!"
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "🃏",
+     "All cards are dealt into piles."
+    ],
+    [
+     "👆",
+     "In turn you put your top card in the middle: 🃏 Put down."
+    ],
+    [
+     "👏",
+     "Two of the same animal on top? Tap SNAP! as fast as you can!"
+    ],
+    [
+     "🎉",
+     "Whoever taps first gets the whole middle pile."
+    ],
+    [
+     "😅",
+     "Tap SNAP! when it's wrong? You lose a card."
+    ],
+    [
+     "🏆",
+     "Whoever has the most cards wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Look at the animal, not the colour!"
+    ],
+    [
+     "🐶",
+     "The dogs are fast: be faster!"
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "🃏",
+     "Všetky karty sa rozdajú na kôpky."
+    ],
+    [
+     "👆",
+     "Po rade položíš vrchnú kartu doprostred: 🃏 Polož."
+    ],
+    [
+     "👏",
+     "Navrchu sú dve rovnaké zvieratká? Ťukni čo najrýchlejšie na SNAP!"
+    ],
+    [
+     "🎉",
+     "Kto ťukne prvý, dostane celú kôpku zo stredu."
+    ],
+    [
+     "😅",
+     "Ťukneš SNAP!, keď to nesedí? Prídeš o kartu."
+    ],
+    [
+     "🏆",
+     "Kto má najviac kariet, vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "👀",
+     "Pozeraj na zvieratko, nie na farbu!"
+    ],
+    [
+     "🐶",
+     "Psíky sú rýchle: buď rýchlejší/ia!"
+    ]
+   ]
+  }
+ }
+}
