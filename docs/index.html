@@ -9542,6 +9542,44 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   .sb-hand .can { cursor: pointer; } .sb-hand .sel { transform: translateY(-12px); box-shadow: 0 0 0 3px var(--ok), 0 4px 10px rgba(0,0,0,.4); }
   .sb-what { margin: 6px 0; font-size: 1.05rem; } .sb-bombs { text-align: center; font-size: .95rem; margin-top: 4px; }
   .sb-peek { background: #f6efff; border-radius: 16px; padding: 10px; margin: 8px 0; } .sb-peek .ts-row { min-height: 0; }
+  /* The card games, calm: like Sudoku and Rummi's calm look (white, thin lines, the system font, blue = your turn) */
+  body.cd-plain { background: #fff; color: #222; padding-left: 0; padding-right: 0; }
+  body.cd-plain main { max-width: 640px; }
+  body.cd-plain h1 { display: none; }
+  body.cd-plain .cd-game { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #222; color-scheme: light; }
+  body.cd-plain .cd-game button { font-family: inherit; }
+  body.cd-plain .cd-game .card { background: none; box-shadow: none; padding: 0 0 8px; border-radius: 0; }
+  body.cd-plain .cd-game .who { font-size: 1.1rem; font-weight: 600; color: #333; }
+  body.cd-plain .cd-game .wait { color: #888; }
+  body.cd-plain .cd-look { background: #f2f4f7; color: #444; margin: 8px auto 8px 10px; }
+  body.cd-plain .help-btn, body.sd-mode .help-btn, body.rk-plain .help-btn { width: 36px; height: 36px; font-size: 1.05rem; background: #f2f4f7; border: 1px solid #ddd; box-shadow: none; }
+  body.cd-plain .cd-game .dr-players { gap: 4px 14px; margin: 0 10px 6px; }
+  body.cd-plain .cd-game .dr-players span { background: none; padding: 2px 0; border-radius: 0; color: #666; font-size: .95rem; }
+  body.cd-plain .cd-game .dr-players span.turn { outline: none; color: #222; font-weight: 600; border-bottom: 2px solid #2f7fe0; }
+  body.cd-plain .cd-game .dr-players em { font-weight: 600; color: #222; }
+  body.cd-plain .cd-game #tsInfo, body.cd-plain .cd-game #tfInfo { font-size: .95rem; color: #666; padding: 6px 0; border-top: 1px solid #e2e2e2; }
+  body.cd-plain .cd-game .ttt-status { font-size: 1rem; font-weight: 500; color: #444; margin: 8px 12px; }
+  body.cd-plain .cd-game .dr-last { font-size: .9rem !important; color: #888 !important; }
+  body.cd-plain .cd-game .tip { background: none; color: #2f7fe0; font-size: .9rem; padding: 2px 0; }
+  body.cd-plain .cd-game .ts-card { border: 1px solid #d4d4d4; box-shadow: none; border-radius: 5px; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  body.cd-plain .cd-game .ts-card b { font-weight: 600; } body.cd-plain .cd-game .ts-card.red { color: #d0213b; }
+  body.cd-plain .cd-game .ts-hand, body.cd-plain .cd-game .kk-hand, body.cd-plain .cd-game .sb-hand { background: #f2f4f7; border-top: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2; padding: 14px 6px 12px; }
+  body.cd-plain .cd-game .ts-hand .can, body.cd-plain .cd-game .kk-hand .kk-card.can { transform: translateY(-4px); box-shadow: 0 0 0 2px #2f7fe0; }
+  body.cd-plain .cd-game .ts-hand .no, body.cd-plain .cd-game .kk-hand .kk-card.no { opacity: .35; filter: none; }
+  body.cd-plain .cd-game .ts-card.win { box-shadow: 0 0 0 2px #2f7fe0; }
+  body.cd-plain .cd-game .kk-card, body.cd-plain .cd-game .sb-card { box-shadow: none; }
+  body.cd-plain .cd-game .sb-hand .sel { transform: translateY(-6px); box-shadow: 0 0 0 2px #2f7fe0; }
+  body.cd-plain .cd-game .kk-deck { background: #f2f4f7; border: 1px solid #d4d4d4; color: #555; }
+  body.cd-plain .cd-game .kk-deck.can { box-shadow: 0 0 0 2px #2f7fe0; animation: none; }
+  body.cd-plain .cd-game .ts-sum td, body.cd-plain .cd-game .ts-sum th { border-bottom: 1px solid #eee; font-weight: 400; } body.cd-plain .cd-game .ts-sum b { font-weight: 600; }
+  body.cd-plain .cd-game .again { background: #2f7fe0; color: #fff; box-shadow: none; border-radius: 10px; font-size: 1.05rem; font-weight: 600; padding: 12px; }
+  body.cd-plain .cd-game .again:disabled { opacity: .45; }
+  body.cd-plain .cd-game .ts-btn { background: #f2f4f7; color: #333; border-radius: 10px; font-weight: 600; }
+  body.cd-plain .cd-game .ts-btn.red { color: #d0213b; } body.cd-plain .cd-game .ts-btn.pass { background: #fdecec; }
+  body.cd-plain .cd-game .rk-pick button { background: #f2f4f7; border: 2px solid transparent; border-radius: 10px; font-size: 1.05rem; }
+  body.cd-plain .cd-game .rk-pick button.on { background: #2f7fe0; color: #fff; }
+  body.cd-plain .cd-game .sb-peek { background: #f2f4f7; border-radius: 0; }
+  body.cd-plain .cd-game .back { border: none; color: #888; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .dk-score { font-size: 1.2rem; margin-bottom: 6px; } .dk-score b { font-size: 1.5rem; margin: 0 8px; }
@@ -9574,7 +9612,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 22-11 16.41</p>
+    <p class="version" id="version">versie 26-11 20.05</p>
   </section>
 
   <!-- Naam -->
@@ -10324,7 +10362,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- Spookkaarten: instellen -->
-  <section id="kkSetup" class="hidden">
+  <section id="kkSetup" class="hidden cd-game">
     <div class="card">
       <p class="who">Hoeveel spelers?</p>
       <div class="rk-pick" id="kkCount"></div>
@@ -10335,8 +10373,9 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- Spookkaarten: spelen -->
-  <section id="kk" class="hidden">
+  <section id="kk" class="hidden cd-game">
     <div class="card">
+      <button class="rk-look cd-look"></button>
       <div class="dr-players" id="kkPlayers"></div>
       <div class="kk-table">
         <div id="kkPile"></div>
@@ -10352,7 +10391,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- Tysiąc: instellen -->
-  <section id="tysiacSetup" class="hidden">
+  <section id="tysiacSetup" class="hidden cd-game">
     <div class="card">
       <p class="who">Hoeveel spelers?</p>
       <div class="rk-pick" id="tsCount"></div>
@@ -10366,8 +10405,9 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- Tysiąc: spelen -->
-  <section id="tysiac" class="hidden">
+  <section id="tysiac" class="hidden cd-game">
     <div class="card">
+      <button class="rk-look cd-look"></button>
       <div class="dr-players" id="tsPlayers"></div>
       <div id="tsInfo"></div>
       <div id="tsTable"></div>
@@ -10380,7 +10420,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- Spookbom: instellen -->
-  <section id="sbSetup" class="hidden">
+  <section id="sbSetup" class="hidden cd-game">
     <div class="card">
       <p class="who">Hoeveel spelers?</p>
       <div class="rk-pick" id="sbCount"></div>
@@ -10391,8 +10431,9 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- Spookbom: spelen -->
-  <section id="spookbom" class="hidden">
+  <section id="spookbom" class="hidden cd-game">
     <div class="card">
+      <button class="rk-look cd-look"></button>
       <div class="dr-players" id="sbPlayers"></div>
       <div class="kk-table">
         <div id="sbPile"></div>
@@ -10409,7 +10450,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- 3-5-8: instellen -->
-  <section id="tfSetup" class="hidden">
+  <section id="tfSetup" class="hidden cd-game">
     <div class="card">
       <p class="who">🎯 3-5-8</p>
       <p class="wait" id="tfHint"></p>
@@ -10421,8 +10462,9 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   </section>
 
   <!-- 3-5-8: spelen -->
-  <section id="tfive" class="hidden">
+  <section id="tfive" class="hidden cd-game">
     <div class="card">
+      <button class="rk-look cd-look"></button>
       <div class="dr-players" id="tfPlayers"></div>
       <div id="tfInfo"></div>
       <div id="tfTable"></div>
@@ -10719,6 +10761,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
     screen = name;
     document.body.classList.toggle('sd-mode', ['sudoku', 'sudokuLevel', 'mahjong', 'mahjongLevel'].includes(name));
     document.body.classList.toggle('rk-plain', name === 'rummi' && rkPlain());
+    document.body.classList.toggle('cd-plain', CD_SCREENS.includes(name) && cdPlain());
     for (const s of SCREENS) $(s).classList.toggle('hidden', s !== name);
     const slot = document.querySelector('#' + name + ' .pad-slot');
     const pad = $('pad');
@@ -20524,6 +20567,19 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   $('tfBack').addEventListener('click', tfLeave);
   $('tfAgain').addEventListener('click', tfStart);
 
+
+
+  // ----- The calm look for the card games (Tysiąc, 3-5-8, Spookkaarten, Spookbom): calm by default, the button switches
+  const CD_SCREENS = ['tysiacSetup', 'tysiac', 'tfSetup', 'tfive', 'kkSetup', 'kk', 'sbSetup', 'spookbom'];
+  function cdPlain() { try { return localStorage.getItem('raadspel-cards-look') !== 'color'; } catch (e) { return true; } }
+  function cdLookButtons() { document.querySelectorAll('.cd-look').forEach(b => { b.textContent = cdPlain() ? '🎨 Kleurig' : '◻️ Rustig'; }); }
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.cd-look')) return;
+    try { localStorage.setItem('raadspel-cards-look', cdPlain() ? 'color' : 'plain'); } catch (err) {}
+    document.body.classList.toggle('cd-plain', CD_SCREENS.includes(screen) && cdPlain());
+    cdLookButtons();
+  });
+  cdLookButtons();
 
   // ----- ❓ Help: for every game "how to play" and "tips", in the four languages (the texts are in help.js: window.HELP).
   // The ❓ button shows on every game screen; the first time a game opens, its help opens by itself. Tysiąc and
