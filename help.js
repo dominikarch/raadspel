@@ -5648,6 +5648,14 @@ window.HELP = {
 "Twee dezelfde monsters? Speel ze samen en steel een kaart van iemand."
 ],
 [
+"🙅",
+"🙅 Nee!: speelt iemand een kaart? Tik snel op Nee! en die kaart telt niet. Ook als het niet jouw beurt is!"
+],
+[
+"🌈",
+"Kies 🌈 Vrolijk (🎂 taartbom, 🧯 brandweerkoe) of 🎃 Spook (💥 pompoenbom, 🧙 heks). De regels zijn hetzelfde."
+],
+[
 "🏆",
 "Wie als laatste over is, wint!"
 ]
@@ -5700,6 +5708,14 @@ window.HELP = {
 [
 "🦇",
 "Dwa takie same potwory? Zagraj je razem i ukradnij komuś kartę."
+],
+[
+"🙅",
+"🙅 Nie!: ktoś zagrywa kartę? Szybko stuknij Nie! i ta karta się nie liczy. Nawet gdy to nie twoja kolejka!"
+],
+[
+"🌈",
+"Wybierz 🌈 Wesołe (🎂 tortowa bomba, 🧯 krowa strażak) albo 🎃 Upiorne (💥 dyniowa bomba, 🧙 czarownica). Zasady są te same."
 ],
 [
 "🏆",
@@ -5756,6 +5772,14 @@ window.HELP = {
 "Two of the same monster? Play them together and steal a card from someone."
 ],
 [
+"🙅",
+"🙅 Nope!: someone plays a card? Quickly tap Nope! and that card doesn't count. Even when it's not your turn!"
+],
+[
+"🌈",
+"Choose 🌈 Happy (🎂 cake bomb, 🧯 firefighter cow) or 🎃 Spooky (💥 pumpkin bomb, 🧙 witch). The rules are the same."
+],
+[
 "🏆",
 "The last one left wins!"
 ]
@@ -5808,6 +5832,14 @@ window.HELP = {
 [
 "🦇",
 "Dve rovnaké príšery? Zahraj ich spolu a ukradni niekomu kartu."
+],
+[
+"🙅",
+"🙅 Nie!: niekto hrá kartu? Rýchlo ťukni na Nie! a tá karta neplatí. Aj keď nie si na ťahu!"
+],
+[
+"🌈",
+"Vyber 🌈 Veselé (🎂 tortová bomba, 🧯 kravička hasička) alebo 🎃 Strašidelné (💥 tekvicová bomba, 🧙 čarodejnica). Pravidlá sú rovnaké."
 ],
 [
 "🏆",
