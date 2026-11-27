@@ -6928,8 +6928,12 @@ window.HELP = {
 "Pak de pepernoten in de lucht (+1)."
 ],
 [
+"💨",
+"Tegen een schoorsteen? Je gaat er gewoon doorheen… pfrrt! Maar dan valt er geen pakje in."
+],
+[
 "🕳️",
-"Val niet tussen de daken en bots niet tegen een schoorsteen: dan ben je een hartje kwijt."
+"Val niet tussen de daken: dan ben je een hartje kwijt."
 ],
 [
 "❤️",
@@ -6962,8 +6966,12 @@ window.HELP = {
 "Łap pierniczki w powietrzu (+1)."
 ],
 [
+"💨",
+"Wpadasz na komin? Po prostu przez niego przejeżdżasz… pfrrt! Ale wtedy nie wpada prezent."
+],
+[
 "🕳️",
-"Nie spadnij między dachy i nie wpadnij na komin: wtedy tracisz serduszko."
+"Nie spadnij między dachy: wtedy tracisz serduszko."
 ],
 [
 "❤️",
@@ -6996,8 +7004,12 @@ window.HELP = {
 "Catch the pepernoten in the air (+1)."
 ],
 [
+"💨",
+"Hit a chimney? You just go right through it… pfrrt! But then no present drops in."
+],
+[
 "🕳️",
-"Don't fall between the roofs or bump into a chimney: then you lose a heart."
+"Don't fall between the roofs: then you lose a heart."
 ],
 [
 "❤️",
@@ -7030,8 +7042,12 @@ window.HELP = {
 "Chytaj medovníčky vo vzduchu (+1)."
 ],
 [
+"💨",
+"Narazíš do komína? Jednoducho ním prejdeš… pfrrt! Ale darček doň nespadne."
+],
+[
 "🕳️",
-"Nespadni medzi strechy a nenaraz do komína: inak prídeš o srdiečko."
+"Nespadni medzi strechy: inak prídeš o srdiečko."
 ],
 [
 "❤️",

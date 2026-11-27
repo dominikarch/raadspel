@@ -1836,7 +1836,8 @@
         <li>👆 <span>Tik op het scherm = springen. Nog een keer tikken in de lucht = hoger.</span></li>
         <li>⭐ <span>Spring over een schoorsteen: er valt een pakje in (+1).</span></li>
         <li>🍪 <span>Pak de pepernoten in de lucht (+1).</span></li>
-        <li>🕳️ <span>Val niet tussen de daken en bots niet tegen een schoorsteen: dan ben je een hartje kwijt.</span></li>
+        <li>💨 <span>Tegen een schoorsteen? Je gaat er gewoon doorheen… pfrrt! Maar dan valt er geen pakje in.</span></li>
+        <li>🕳️ <span>Val niet tussen de daken: dan ben je een hartje kwijt.</span></li>
         <li>❤️ <span>3 hartjes, 60 seconden. De meeste pakjes wint!</span></li>
       </ul>
       <button class="again" id="srGo">🐴 Start!</button>
@@ -12570,7 +12571,7 @@
     srReset(); srDraw();
   }
   function srReset() {
-    Object.assign(sr, { dist: 0, speed: 170, y: 330, vy: 0, jumps: 0, hearts: 3, score: 0, time: SR_TIME, inv: 0, roofs: [], chims: [], cookies: [], gifts: [] });
+    Object.assign(sr, { dist: 0, speed: 170, y: 330, vy: 0, jumps: 0, hearts: 3, score: 0, time: SR_TIME, inv: 0, roofs: [], chims: [], cookies: [], gifts: [], farts: [] });
     let x = -40;
     sr.roofs.push({ x, w: 520, top: 330 }); x += 520;
     sr.genX = x; srGen();
@@ -12618,14 +12619,25 @@
     }
     for (const c of sr.chims) {                   // chimneys: bump = a heart, jumped over = a present
       if (c.done || c.hit) continue;
-      if (hx + 22 > c.x && hx - 22 < c.x + 24 && sr.y > c.top - 36) { c.hit = true; srHit(); continue; }
+      if (hx + 22 > c.x && hx - 22 < c.x + 24 && sr.y > c.top - 36) { c.hit = true; srFart(c); continue; }   // straight through it: pfrrt!
       if (hx - 22 > c.x + 24) { c.done = true; sr.score++; sr.gifts.push({ x: c.x + 12, y: sr.y - 60, t: 0 }); blip(880); srScore(); }
     }
     for (const k of sr.cookies) if (!k.got && Math.abs(k.x - hx) < 28 && k.y > sr.y - 80 && k.y < sr.y + 6) { k.got = true; sr.score++; blip(1040); srScore(); }
     sr.gifts.forEach(g => { g.t += dt; g.y += 260 * dt; }); sr.gifts = sr.gifts.filter(g => g.t < .5);
+    (sr.farts || []).forEach(f => { f.t += dt; f.y -= 40 * dt; }); sr.farts = (sr.farts || []).filter(f => f.t < 1.1);
     if (sr.time <= 0) return srOver();
     srDraw();
     sr.raf = requestAnimationFrame(srFrame);
+  }
+  function srFart(c) {
+    sr.farts = (sr.farts || []).concat([{ x: c.x + 12, y: c.top - 30, t: 0 }]);
+    const a = audio; if (!a) return;                // a low, wobbly brrrt
+    const o = a.createOscillator(), w = a.createOscillator(), wg = a.createGain(), g = a.createGain(), f = a.createBiquadFilter(), t = a.currentTime;
+    o.type = 'sawtooth'; o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(55, t + .45);
+    w.frequency.value = 28; wg.gain.value = 35; w.connect(wg); wg.connect(o.frequency);
+    f.type = 'lowpass'; f.frequency.value = 500;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.35, t + .03); g.gain.exponentialRampToValueAtTime(.0001, t + .5);
+    o.connect(f); f.connect(g); g.connect(a.destination); o.start(t); w.start(t); o.stop(t + .55); w.stop(t + .55);
   }
   function srScore() { if (mode === 'together') raceScore(sr.score); }
   function srOver() {
@@ -12658,6 +12670,7 @@
     x.font = '22px system-ui'; x.textAlign = 'center'; x.textBaseline = 'middle';
     for (const k of sr.cookies) if (!k.got) x.fillText('🍪', k.x - cam, k.y);
     for (const g of sr.gifts) x.fillText('🎁', g.x - cam, g.y);
+    for (const f of sr.farts || []) { x.globalAlpha = Math.max(0, 1 - f.t); x.font = `${26 + f.t * 30}px system-ui`; x.fillText('💨', f.x - cam - 10, f.y); x.font = '700 16px system-ui'; x.fillStyle = '#fff'; x.fillText('Pfrrt!', f.x - cam + 18, f.y - 26); x.globalAlpha = 1; x.font = '22px system-ui'; }
     // Sinterklaas on his horse (blinks after a bump)
     if (!(sr.inv > 0 && Math.floor(sr.inv * 10) % 2)) {
       if (sr.sprite) x.drawImage(sr.sprite, SR_X - 48, sr.y - 92, 96, 96);

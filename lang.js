@@ -429,6 +429,8 @@ window.LANG_TEXTS = [
   ['Ik vind jou lief', 'Lubię cię', 'I like you'], ['Groetjes van je monster', 'Pozdrowienia od twojego potwora', 'Love from your monster'],
 
   // --- Pakjesdobbelspel ---
+  ["Tegen een schoorsteen? Je gaat er gewoon doorheen… pfrrt! Maar dan valt er geen pakje in.", "Wpadasz na komin? Po prostu przez niego przejeżdżasz… pfrrt! Ale wtedy nie wpada prezent.", "Hit a chimney? You just go right through it… pfrrt! But then no present drops in."],
+  ["Val niet tussen de daken: dan ben je een hartje kwijt.", "Nie spadnij między dachy: wtedy tracisz serduszko.", "Don't fall between the roofs: then you lose a heart."],
   ["🐴 Daken-race", "🐴 Wyścig po dachach", "🐴 Rooftop race"],
   ["Spring over de daken en gooi pakjes in de schoorsteen", "Skacz po dachach i wrzucaj prezenty do kominów", "Jump over the roofs and drop presents down the chimneys"],
   ["Wie bezorgt de meeste pakjes?", "Kto dostarczy najwięcej prezentów?", "Who delivers the most presents?"],
@@ -1353,6 +1355,8 @@ window.LANG_TEXTS = [
 
 // Slovak (for Lily's Slovak grandmother), as a list from each Dutch text to its Slovak one; a text missing here shows in English.
 window.LANG_SK = {
+"Tegen een schoorsteen? Je gaat er gewoon doorheen… pfrrt! Maar dan valt er geen pakje in.": "Narazíš do komína? Jednoducho ním prejdeš… pfrrt! Ale darček doň nespadne.",
+"Val niet tussen de daken: dan ben je een hartje kwijt.": "Nespadni medzi strechy: inak prídeš o srdiečko.",
 "🐴 Daken-race": "🐴 Preteky po strechách",
 "Spring over de daken en gooi pakjes in de schoorsteen": "Skáč po strechách a hádž darčeky do komínov",
 "Wie bezorgt de meeste pakjes?": "Kto doručí najviac darčekov?",
