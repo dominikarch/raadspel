@@ -845,6 +845,20 @@
   .fun-snap { background: #ff6b6b !important; font-size: 1.5rem !important; }
   #funStatus .dr-last { display: block; font-size: 1.05rem; color: var(--soft); margin-bottom: 4px; }
   .fun-hand { padding-top: 8px; }
+  /* Pakjesdobbelspel */
+  .pj-banner { width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; background: #2b2140 url(sint/sint.jpg) center / cover; margin-bottom: 8px; }
+  .pj-small { aspect-ratio: auto; height: 110px; background-position: center 35%; }
+  .pj-top { display: flex; justify-content: space-between; align-items: center; font-size: 1.15rem; margin: 4px 0; }
+  .pj-hurry { color: #e8344e; animation: kkGlow .5s infinite alternate; }
+  .pj-mid { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 6px 0; }
+  #pjDie { font-size: 4.2rem; line-height: 1; } .pj-roll { animation: pjRoll .6s ease-out; }
+  @keyframes pjRoll { 0% { transform: rotate(-200deg) scale(.4); } 70% { transform: rotate(20deg) scale(1.2); } 100% { transform: none; } }
+  #pjPile { font-size: 1.6rem; }
+  .pj-rules { list-style: none; padding: 8px 10px; margin: 6px 0; background: var(--key); border-radius: 14px; text-align: left; font-size: .98rem; }
+  .pj-rules li { padding: 3px 4px; border-radius: 8px; } .pj-rules li b { font-size: 1.3rem; vertical-align: middle; }
+  .pj-rules li.on { background: #ffd23f; font-weight: 700; }
+  .pj-open { text-align: left; font-size: 1.15rem; margin: 4px 0; } .pj-open span { font-size: 1.5rem; }
+  #pjStatus .dr-last { display: block; font-size: 1.05rem; color: var(--soft); margin-bottom: 4px; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .dk-score { font-size: 1.2rem; margin-bottom: 6px; } .dk-score b { font-size: 1.5rem; margin: 0 8px; }
@@ -912,6 +926,7 @@
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
+      <button class="level l4" id="soloPakjes">🎁 Pakjesdobbelspel<small>Sinterklaas! Gooi de dobbelsteen en verzamel cadeautjes</small></button>
       <button class="level l1" id="soloPiotrus">🧦 Piotruś<small>Gooi paren weg… en houd de Stinksok niet over!</small></button>
       <button class="level l2" id="soloKwartet">🏆 Kwartetten<small>Vraag de kaarten die je mist</small></button>
       <button class="level w1" id="soloVissen">🎣 Vissen<small>Vraag om paren, of ga vissen</small></button>
@@ -988,6 +1003,7 @@
         <button class="level l3" id="lobbyC4">🔴🟡 Vier op een rij<small>Wie heeft er eerst vier?</small></button>
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
+        <button class="level l4" id="lobbyPakjes">🎁 Pakjesdobbelspel<small>Sinterklaas: wie heeft de meeste cadeautjes?</small></button>
         <button class="level l1" id="lobbyPiotrus">🧦 Piotruś<small>Wie houdt de Stinksok over?</small></button>
         <button class="level l2" id="lobbyKwartet">🏆 Kwartetten<small>Wie heeft de meeste kwartetten?</small></button>
         <button class="level w1" id="lobbyVissen">🎣 Vissen<small>Wie vist de meeste paren?</small></button>
@@ -1777,6 +1793,36 @@
     <button class="back" id="funBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Pakjesdobbelspel: instellen -->
+  <section id="pjSetup" class="hidden">
+    <div class="card">
+      <div class="pj-banner"></div>
+      <p class="who">🎁 Pakjesdobbelspel</p>
+      <p class="who">Hoeveel spelers?</p>
+      <div class="rk-pick" id="pjCount"></div>
+      <p class="wait" id="pjCountHint"></p>
+      <p class="who" style="margin-top:12px">Hoe lang spelen?</p>
+      <div class="rk-pick" id="pjMins"><button data-mins="2">⏰ 2 min</button><button data-mins="3">⏰ 3 min</button><button data-mins="5">⏰ 5 min</button></div>
+      <button class="again" id="pjGo">Spelen!</button>
+    </div>
+    <button class="back" id="pjSetupBack" data-hold="together">← Terug</button>
+  </section>
+
+  <!-- Pakjesdobbelspel: spelen -->
+  <section id="pakjes" class="hidden">
+    <div class="card">
+      <div class="pj-banner pj-small"></div>
+      <div class="dr-players" id="pjPlayers"></div>
+      <div class="pj-top"><span id="pjClock"></span><span id="pjPile"></span></div>
+      <div class="pj-mid"><div id="pjDie">🎲</div></div>
+      <p class="ttt-status" id="pjStatus"></p>
+      <div id="pjActions"></div>
+      <ul class="pj-rules" id="pjRules"></ul>
+      <div class="ttt-end" id="pjEnd" hidden><p class="who">🎁 Uitpakken!</p><div id="pjUnwrap"></div><button class="again" id="pjAgain">Nog een keer!</button></div>
+    </div>
+    <button class="back" id="pjBack" data-hold="always">← Ander spel</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -2052,7 +2098,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2426,7 +2472,7 @@
   }
 
   // Games for two are only for two; with three or four people, Rummi is the game
-  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus', 'lobbyDreidel', 'lobbyKleur', 'lobbyTysiac', 'lobbySpookbom', 'lobbyTfive', 'lobbyPiotrus', 'lobbyKwartet', 'lobbyVissen', 'lobbyOorlog', 'lobbySnap'];
+  const GROUP_GAMES = ['lobbyRummi', 'lobbyWirus', 'lobbyDreidel', 'lobbyKleur', 'lobbyTysiac', 'lobbySpookbom', 'lobbyTfive', 'lobbyPiotrus', 'lobbyKwartet', 'lobbyVissen', 'lobbyOorlog', 'lobbySnap', 'lobbyPakjes'];
   function drawLobby(note) {
     const names = others.map(o => o.name);
     const list = names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0];
@@ -2532,7 +2578,7 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
     if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : m.game === 'lily' ? lilyBegin() : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
@@ -2568,6 +2614,7 @@
       const P = gw.st.p[m.pi]; P.hand = m.hand; P.deck = m.deck; P.ready = true; gw.st.v++; gwSend(); gwShow(gw.st);
     }
     if (['dkdone', 'dknext', 'dkagain'].includes(m.type)) dkReceive(m);
+    if (m.type === 'pjstate' && ['lobby', 'pjSetup', 'pakjes'].includes(screen)) pakjesReceive(m.st);
     if (m.type === 'funstate' && ['lobby', 'funSetup', 'fun'].includes(screen)) funReceive(m.st);
     if (m.type === 'funsnap' && screen === 'fun') funSnapRequest(m);
     if (m.type === 'tfstate' && ['lobby', 'tfSetup', 'tfive'].includes(screen)) tfReceive(m.st);
@@ -12310,6 +12357,170 @@
   $('funAgain').addEventListener('click', () => funStart(fun.game));
 
 
+  // ----- 🎁 Pakjesdobbelspel (Sinterklaas): in turn roll the die. 6 = take a present from the pile, 1 = steal one,
+  // 2 = give one away, 3 = everybody's presents move on to the next player, 4 = pepernoot (nothing), 5 = roll again.
+  // When the time is up, everyone unwraps; the most presents wins. Alone with dogs, or together (2-4).
+  const PJ_GIFTS = [['🧸', 'Knuffelbeer'], ['🍫', 'Chocoladeletter'], ['🚗', 'Raceauto'], ['🎨', 'Verfdoos'], ['🪀', 'Jojo'], ['⚽', 'Voetbal'],
+                    ['🦄', 'Eenhoorn'], ['📚', 'Boek'], ['🧩', 'Puzzel'], ['🎧', 'Koptelefoon'], ['🪁', 'Vlieger'], ['🛼', 'Rolschaatsen'],
+                    ['🧦', 'Gekke sokken'], ['🥕', 'Wortel voor het paard'], ['🍬', 'Snoep'], ['🎮', 'Spelletje']];
+  const PJ_RULES = [['1', '🦹', 'Steel een cadeautje van iemand.'], ['2', '🤝', 'Geef een cadeautje aan iemand.'], ['3', '🔁', 'Alle cadeautjes schuiven door naar de volgende speler.'],
+                    ['4', '🍪', 'Pepernoot! Er gebeurt niets.'], ['5', '🎲', 'Gooi nog een keer.'], ['6', '🎁', 'Pak een cadeautje van de stapel.']];
+  const PJ_DIE = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+  const pj = { st: null, me: 0, setup: { count: 3, mins: 3 }, shownV: '', tick: 0, rolling: false };
+  const pjNm = i => i === pj.me ? 'Jij' : pj.st.seats[i].name;
+
+  function pakjesStart() {
+    const people = mode === 'together' ? others.length + 1 : 1;
+    pj.setup.count = Math.max(2, people, pj.setup.count);
+    pjSetupDraw();
+    $('pjSetupBack').textContent = mode === 'solo' ? '← Terug' : '← Ander spel';
+    show('pjSetup');
+  }
+  function pjSetupDraw() {
+    const people = mode === 'together' ? others.length + 1 : 1, counts = [2, 3, 4].filter(n => n >= Math.max(2, people));
+    if (!counts.includes(pj.setup.count)) pj.setup.count = counts[0];
+    $('pjCount').innerHTML = counts.map(n => `<button data-count="${n}" class="${pj.setup.count === n ? 'on' : ''}">👥 ${n}</button>`).join('');
+    const dogs = pj.setup.count - people;
+    $('pjCountHint').textContent = dogs > 0 ? `Jij en ${dogs} ${dogs > 1 ? 'hondjes' : 'hondje'}.` : '';
+    document.querySelectorAll('#pjMins button').forEach(b => b.classList.toggle('on', Number(b.dataset.mins) === pj.setup.mins));
+  }
+  function pjGo() {
+    const dogNames = ['Hondje Bo', 'Hondje Fien', 'Hondje Max'];
+    const seats = [{ id: myId, name: myName || 'Jij', dog: false }];
+    if (mode === 'together') others.forEach(o => seats.push({ id: o.id, name: o.name, dog: false }));
+    const people = seats.length;
+    while (seats.length < pj.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
+    seats.forEach(x => { x.gifts = []; });
+    const pile = []; while (pile.length < seats.length * 5) pile.push(...PJ_GIFTS.map((g, i) => i));
+    for (let i = pile.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pile[i], pile[j]] = [pile[j], pile[i]]; }
+    const st = { id: Math.random().toString(36).slice(2), v: 1, seats, pile: pile.slice(0, seats.length * 5), turn: 0, die: 0, phase: 'roll',
+                 endAt: Date.now() + pj.setup.mins * 60000, runner: myId, last: null, over: null };
+    pj.st = st; pjSend(); pjShow(st);
+  }
+  const pjSend = () => { if (mode === 'together') send('pjstate', { st: pj.st }); };
+  function pakjesReceive(st) {
+    if (!st || !st.seats) return;
+    const old = pj.st;
+    if (old && old.id === st.id && st.v <= old.v) return;
+    pjShow(st);
+  }
+
+  // --- the rules (done by whoever's turn it is) ---
+  const pjNext = st => (st.turn + 1) % st.seats.length;
+  const pjOthersWith = st => st.seats.map((x, i) => i).filter(i => i !== st.turn && st.seats[i].gifts.length);
+  const pjOthers = st => st.seats.map((x, i) => i).filter(i => i !== st.turn);
+  function pjMove(st, from, to) { const G = st.seats[from].gifts; if (!G.length) return false; st.seats[to].gifts.push(G.splice(Math.floor(Math.random() * G.length), 1)[0]); return true; }
+  function pjRoll(st) {
+    const d = 1 + Math.floor(Math.random() * 6), me = st.turn, P = st.seats[me];
+    st.die = d; st.last = { by: me, die: d, text: '' };
+    if (d === 6) {
+      if (st.pile.length) { P.gifts.push(st.pile.pop()); st.last.text = 'Pakt een cadeautje van de stapel! 🎁'; st.turn = pjNext(st); }
+      else if (pjOthersWith(st).length) { st.phase = 'steal'; st.last.text = 'De stapel is op: steel er een! 🦹'; }
+      else { st.last.text = 'De stapel is leeg…'; st.turn = pjNext(st); }
+    } else if (d === 1) {
+      if (pjOthersWith(st).length) { st.phase = 'steal'; st.last.text = 'Mag een cadeautje stelen! 🦹'; }
+      else { st.last.text = 'Wil stelen, maar niemand heeft iets 😅'; st.turn = pjNext(st); }
+    } else if (d === 2) {
+      if (P.gifts.length) { st.phase = 'give'; st.last.text = 'Moet een cadeautje weggeven 🤝'; }
+      else { st.last.text = 'Moet iets weggeven, maar heeft niets 😅'; st.turn = pjNext(st); }
+    } else if (d === 3) {
+      const all = st.seats.map(x => x.gifts); st.seats.forEach((x, i) => { x.gifts = all[(i - 1 + st.seats.length) % st.seats.length]; });
+      st.last.text = 'Alles schuift door! 🔁'; st.turn = pjNext(st);
+    } else if (d === 4) { st.last.text = 'Pepernoot! 🍪'; st.turn = pjNext(st); }
+    else { st.last.text = 'Mag nog een keer! 🎲'; }
+    st.v++;
+  }
+  function pjChoose(st, target) {
+    const me = st.turn;
+    if (st.phase === 'steal') { pjMove(st, target, me); st.last = { by: me, to: target, text: 'Steelt een cadeautje van' }; }
+    else { pjMove(st, me, target); st.last = { by: me, to: target, text: 'Geeft een cadeautje aan' }; }
+    st.phase = 'roll'; st.turn = pjNext(st); st.v++;
+  }
+  function pjEnd(st) {
+    const top = Math.max(...st.seats.map(x => x.gifts.length));
+    st.over = { winners: st.seats.map((x, i) => i).filter(i => st.seats[i].gifts.length === top) }; st.phase = 'over'; st.v++;
+  }
+  function pjDog(st) {
+    if (st.phase === 'roll') return pjRoll(st);
+    const opts = st.phase === 'steal' ? pjOthersWith(st) : pjOthers(st);
+    const pick = st.phase === 'steal' ? opts.sort((a, b) => st.seats[b].gifts.length - st.seats[a].gifts.length)[0] : opts[Math.floor(Math.random() * opts.length)];
+    pjChoose(st, pick);
+  }
+
+  // --- the screen ---
+  function pjShow(st) {
+    stopMusic();
+    const fresh = pj.shownV !== st.id + st.v;
+    pj.shownV = st.id + st.v; pj.st = st; pj.me = st.seats.findIndex(x => x.id === myId);
+    if (fresh && st.last && st.last.die) blip(300 + st.last.die * 90);
+    show('pakjes');
+    $('pjEnd').hidden = true;
+    const myTurn = st.turn === pj.me && !st.over;
+    $('pjPlayers').innerHTML = st.seats.map((x, i) => `<span class="${i === st.turn && !st.over ? 'turn' : ''}">${x.dog ? '🐶' : '🙂'} <b>${pjNm(i)}</b> 🎁 ${x.gifts.length}</span>`).join('');
+    $('pjPile').innerHTML = `<b>🎁 × ${st.pile.length}</b>`;
+    $('pjDie').textContent = st.die ? PJ_DIE[st.die - 1] : '🎲';
+    $('pjDie').classList.toggle('pj-roll', fresh && !!st.last && !!st.last.die);
+    $('pjRules').innerHTML = PJ_RULES.map(([n, e, t]) => `<li class="${st.die === Number(n) && st.last && st.last.die ? 'on' : ''}"><b>${PJ_DIE[n - 1]}</b> ${e} <span>${t}</span></li>`).join('');
+    const L = st.last;
+    let line = L ? `<span class="dr-last">${st.seats[L.by].dog ? '🐶 ' : ''}<b>${pjNm(L.by)}</b>${L.die ? ` ${PJ_DIE[L.die - 1]}` : ''}: <span>${L.text}</span>${L.to !== undefined ? ` <b>${pjNm(L.to)}</b>` : ''}</span>` : '';
+    let msg;
+    if (st.over) msg = st.over.winners.includes(pj.me) ? '<span>🏆 Jij hebt de meeste cadeautjes! Jij wint!</span>' : `<span>${st.over.winners.map(pjNm).join(' & ')} wint!</span>`;
+    else if (myTurn && st.phase === 'steal') msg = '<span>Van wie steel je een cadeautje?</span>';
+    else if (myTurn && st.phase === 'give') msg = '<span>Aan wie geef je een cadeautje?</span>';
+    else if (myTurn) msg = '<span>Jij bent aan de beurt! Gooi de dobbelsteen.</span>';
+    else msg = `<span>${st.seats[st.turn].dog ? '🐶 ' : ''}${st.seats[st.turn].name} is aan de beurt…</span>`;
+    $('pjStatus').innerHTML = line + msg;
+    let h = '';
+    if (myTurn && st.phase === 'roll') h = '<button class="again" data-roll="1">🎲 Gooien!</button>';
+    else if (myTurn) h = (st.phase === 'steal' ? pjOthersWith(st) : pjOthers(st)).map(i => `<button class="ts-btn" data-who="${i}">${st.phase === 'steal' ? '🦹' : '🤝'} ${pjNm(i)} (🎁 ${st.seats[i].gifts.length})</button>`).join('');
+    $('pjActions').innerHTML = h;
+    // the end: everyone unwraps
+    if (st.over) {
+      $('pjEnd').hidden = false;
+      $('pjUnwrap').innerHTML = st.seats.map((x, i) => `<div class="pj-open"><b>${pjNm(i)}</b> <span>${x.gifts.map(g => PJ_GIFTS[g][0]).join(' ') || '—'}</span></div>`).join('');
+      if (fresh && st.over.winners.includes(pj.me)) { confetti(); winSound(); }
+    }
+    pjTimer();
+    if (!st.over && st.runner === myId && st.seats[st.turn].dog) {
+      const v = st.v;
+      setTimeout(() => { if (pj.st === st && st.v === v && !st.over) { pjDog(st); pjSend(); pjShow(st); } }, 1300);
+    }
+  }
+  // the clock: everyone sees it; the device that started the game ends it
+  function pjTimer() {
+    clearInterval(pj.tick);
+    const draw = () => {
+      const st = pj.st; if (!st || screen !== 'pakjes') return clearInterval(pj.tick);
+      const left = Math.max(0, Math.ceil((st.endAt - Date.now()) / 1000));
+      $('pjClock').textContent = st.over ? '⏰ 0:00' : `⏰ ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`;
+      $('pjClock').classList.toggle('pj-hurry', !st.over && left <= 20);
+      if (!st.over && left <= 0 && st.runner === myId) { pjEnd(st); pjSend(); pjShow(st); }
+    };
+    draw(); pj.tick = setInterval(draw, 500);
+  }
+  function pjLeave() {
+    clearInterval(pj.tick); pj.st = null;
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+  $('soloPakjes').addEventListener('click', () => { mode = 'solo'; pakjesStart(); });
+  $('lobbyPakjes').addEventListener('click', pakjesStart);
+  $('pjCount').addEventListener('click', e => { const b = e.target.closest('[data-count]'); if (b) { pj.setup.count = Number(b.dataset.count); pjSetupDraw(); } });
+  $('pjMins').addEventListener('click', e => { const b = e.target.closest('[data-mins]'); if (b) { pj.setup.mins = Number(b.dataset.mins); pjSetupDraw(); } });
+  $('pjGo').addEventListener('click', pjGo);
+  $('pjActions').addEventListener('click', e => {
+    const st = pj.st, b = e.target.closest('button'); if (!st || !b || st.over || st.turn !== pj.me) return;
+    if (b.dataset.roll && st.phase === 'roll') pjRoll(st);
+    else if (b.dataset.who !== undefined && st.phase !== 'roll') pjChoose(st, Number(b.dataset.who));
+    else return;
+    pjSend(); pjShow(st);
+  });
+  $('pjSetupBack').addEventListener('click', pjLeave);
+  $('pjBack').addEventListener('click', pjLeave);
+  $('pjAgain').addEventListener('click', pakjesStart);
+
+
   // ----- ❓ Help: for every game "how to play" and "tips", in the four languages (the texts are in help.js: window.HELP).
   // The ❓ button shows on every game screen; the first time a game opens, its help opens by itself. Tysiąc and
   // Spookkaarten also give a tip during play (can be switched off in the help).
@@ -12320,12 +12531,12 @@
     sudoku: ['sudokuLevel', 'sudoku'], mole: ['moleLevel', 'mole'], wirus: ['wirusSetup', 'wirus'], pumpkin: ['pumpkin'],
     mahjong: ['mahjongLevel', 'mahjong'], gwint: ['gwintMenu', 'gwintDeck', 'gwint'], bat: ['batLevel', 'bat'], lingo: ['lingoLevel', 'lingo'],
     memory: ['memorySetup', 'memory'], kitchen: ['kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook'], card: ['cardMake'], who: ['whoMonster'],
-    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
+    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], pakjes: ['pjSetup', 'pakjes'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
   };
   const HELP_BUTTON = { guess: 'Guess', ttt: 'Ttt', c4: 'C4', dam: 'Dam', ships: 'Ships', bricks: 'Bricks', snake: 'Snake', gravity: 'Gravity', nails: 'Nails',
     crash: 'Crash', pong: 'Pong', chess: 'Chess', pool: 'Pool', rummi: 'Rummi', sudoku: 'Sudoku', mole: 'Mole', wirus: 'Wirus', pumpkin: 'Pumpkin',
     mahjong: 'Mahjong', gwint: 'Gwint', bat: 'Bat', lingo: 'Lingo', memory: 'Memory', kitchen: 'Kitchen', card: 'Card', who: 'Who', race: 'Race',
-    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap' };
+    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap', pakjes: 'Pakjes' };
   const help = { key: null, tab: 'rules' };
   const helpLang = () => { try { const l = localStorage.getItem('taal'); return ['nl', 'pl', 'en', 'sk'].includes(l) ? l : 'nl'; } catch (e) { return 'nl'; } };
   const helpTipsOn = () => { try { return localStorage.getItem('help-tips') !== 'off'; } catch (e) { return true; } };

@@ -6741,6 +6741,176 @@ window.HELP = {
 ]
 ]
 }
+},
+"pakjes": {
+"nl": {
+"rules": [
+[
+"🎁",
+"Midden op tafel ligt een stapel cadeautjes. Om de beurt gooi je de dobbelsteen."
+],
+[
+"⚅",
+"6: pak een cadeautje van de stapel. Is de stapel op? Dan steel je er een."
+],
+[
+"⚀",
+"1: steel een cadeautje van iemand. 2: geef een cadeautje aan iemand."
+],
+[
+"⚂",
+"3: alle cadeautjes schuiven door naar de volgende speler!"
+],
+[
+"⚃",
+"4: pepernoot, er gebeurt niets. 5: gooi nog een keer."
+],
+[
+"⏰",
+"Is de tijd om? Dan pakt iedereen uit. Wie de meeste cadeautjes heeft, wint!"
+]
+],
+"tips": [
+[
+"🦹",
+"Steel van wie de meeste cadeautjes heeft."
+],
+[
+"🤝",
+"Moet je iets weggeven? Geef het aan wie de minste heeft."
+],
+[
+"🔁",
+"Bij een 3 schuift alles door: tel goed wie straks de meeste heeft!"
+]
+]
+},
+"pl": {
+"rules": [
+[
+"🎁",
+"Na środku leży stos prezentów. Po kolei rzucasz kostką."
+],
+[
+"⚅",
+"6: weź prezent ze stosu. Stos się skończył? Wtedy kradniesz."
+],
+[
+"⚀",
+"1: ukradnij komuś prezent. 2: daj komuś prezent."
+],
+[
+"⚂",
+"3: wszystkie prezenty idą do następnego gracza!"
+],
+[
+"⚃",
+"4: pierniczek, nic się nie dzieje. 5: rzuć jeszcze raz."
+],
+[
+"⏰",
+"Czas minął? Wszyscy rozpakowują. Kto ma najwięcej prezentów, wygrywa!"
+]
+],
+"tips": [
+[
+"🦹",
+"Kradnij temu, kto ma najwięcej prezentów."
+],
+[
+"🤝",
+"Musisz coś oddać? Daj temu, kto ma najmniej."
+],
+[
+"🔁",
+"Przy 3 wszystko przechodzi dalej: policz, kto będzie miał najwięcej!"
+]
+]
+},
+"en": {
+"rules": [
+[
+"🎁",
+"A pile of presents lies in the middle. In turn you roll the die."
+],
+[
+"⚅",
+"6: take a present from the pile. Pile empty? Then you steal one."
+],
+[
+"⚀",
+"1: steal a present from someone. 2: give a present to someone."
+],
+[
+"⚂",
+"3: all presents move on to the next player!"
+],
+[
+"⚃",
+"4: pepernoot, nothing happens. 5: roll again."
+],
+[
+"⏰",
+"Time's up? Everyone unwraps. Whoever has the most presents wins!"
+]
+],
+"tips": [
+[
+"🦹",
+"Steal from whoever has the most presents."
+],
+[
+"🤝",
+"Must give something away? Give it to whoever has the fewest."
+],
+[
+"🔁",
+"On a 3 everything moves on: count who will have the most!"
+]
+]
+},
+"sk": {
+"rules": [
+[
+"🎁",
+"V strede leží kôpka darčekov. Po rade hádžeš kockou."
+],
+[
+"⚅",
+"6: vezmi darček z kôpky. Je kôpka prázdna? Potom kradneš."
+],
+[
+"⚀",
+"1: ukradni niekomu darček. 2: daj niekomu darček."
+],
+[
+"⚂",
+"3: všetky darčeky idú ďalšiemu hráčovi!"
+],
+[
+"⚃",
+"4: medovníček, nič sa nedeje. 5: hoď ešte raz."
+],
+[
+"⏰",
+"Čas vypršal? Všetci rozbaľujú. Kto má najviac darčekov, vyhráva!"
+]
+],
+"tips": [
+[
+"🦹",
+"Kradni tomu, kto má najviac darčekov."
+],
+[
+"🤝",
+"Musíš niečo darovať? Daj to tomu, kto má najmenej."
+],
+[
+"🔁",
+"Pri 3 ide všetko ďalej: spočítaj, kto bude mať najviac!"
+]
+]
+}
 }
 };
 window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "close": "Begrepen! 👍", "live": "💡 Tips tijdens het spel"}, "pl": {"rules": "📖 Jak grać", "tips": "💡 Porady", "close": "Rozumiem! 👍", "live": "💡 Porady podczas gry"}, "en": {"rules": "📖 How to play", "tips": "💡 Tips", "close": "Got it! 👍", "live": "💡 Tips while playing"}, "sk": {"rules": "📖 Ako hrať", "tips": "💡 Tipy", "close": "Rozumiem! 👍", "live": "💡 Tipy počas hry"}};
