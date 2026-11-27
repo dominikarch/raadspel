@@ -858,6 +858,8 @@
   .pj-rules li { padding: 3px 4px; border-radius: 8px; } .pj-rules li b { font-size: 1.3rem; vertical-align: middle; }
   .pj-rules li.on { background: #ffd23f; font-weight: 700; }
   .pj-open { text-align: left; font-size: 1.15rem; margin: 4px 0; } .pj-open span { font-size: 1.5rem; }
+  #srCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
+  .sr-rules { text-align: left; font-size: 1rem; margin: 8px 4px; padding: 0; list-style: none; } .sr-rules li { margin: 3px 0; }
   #pjStatus .dr-last { display: block; font-size: 1.05rem; color: var(--soft); margin-bottom: 4px; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
@@ -926,6 +928,7 @@
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
+      <button class="level w1" id="soloDakrace">🐴 Daken-race<small>Spring over de daken en gooi pakjes in de schoorsteen</small></button>
       <button class="level l4" id="soloPakjes">🎁 Pakjesdobbelspel<small>Sinterklaas! Gooi de dobbelsteen en verzamel cadeautjes</small></button>
       <button class="level l1" id="soloPiotrus">🧦 Piotruś<small>Gooi paren weg… en houd de Stinksok niet over!</small></button>
       <button class="level l2" id="soloKwartet">🏆 Kwartetten<small>Vraag de kaarten die je mist</small></button>
@@ -1003,6 +1006,7 @@
         <button class="level l3" id="lobbyC4">🔴🟡 Vier op een rij<small>Wie heeft er eerst vier?</small></button>
         <button class="level l2" id="lobbyBricks">🏓 Stenen-breker<small>Wie haalt de meeste punten?</small></button>
         <button class="level l1" id="lobbySnake">🐍 Snake<small>Wie wordt het langst?</small></button>
+        <button class="level w1" id="lobbyDakrace">🐴 Daken-race<small>Wie bezorgt de meeste pakjes?</small></button>
         <button class="level l4" id="lobbyPakjes">🎁 Pakjesdobbelspel<small>Sinterklaas: wie heeft de meeste cadeautjes?</small></button>
         <button class="level l1" id="lobbyPiotrus">🧦 Piotruś<small>Wie houdt de Stinksok over?</small></button>
         <button class="level l2" id="lobbyKwartet">🏆 Kwartetten<small>Wie heeft de meeste kwartetten?</small></button>
@@ -1823,6 +1827,24 @@
     <button class="back" id="pjBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Daken-race -->
+  <section id="dakrace" class="hidden">
+    <div class="card">
+      <canvas id="srCanvas" width="360" height="440" aria-label="Daken-race"></canvas>
+      <p class="ttt-status" id="srStatus"></p>
+      <ul class="sr-rules" id="srRules">
+        <li>👆 <span>Tik op het scherm = springen. Nog een keer tikken in de lucht = hoger.</span></li>
+        <li>⭐ <span>Spring over een schoorsteen: er valt een pakje in (+1).</span></li>
+        <li>🍪 <span>Pak de pepernoten in de lucht (+1).</span></li>
+        <li>🕳️ <span>Val niet tussen de daken en bots niet tegen een schoorsteen: dan ben je een hartje kwijt.</span></li>
+        <li>❤️ <span>3 hartjes, 60 seconden. De meeste pakjes wint!</span></li>
+      </ul>
+      <button class="again" id="srGo">🐴 Start!</button>
+      <div class="ttt-end" id="srEnd" hidden><button class="again" id="srAgain">Nog een keer!</button></div>
+    </div>
+    <button class="back" id="srBack" data-hold="always">← Ander spel</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -2098,7 +2120,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes', 'dakrace',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -2578,14 +2600,14 @@
     if (m.type === 'start' && roundHider !== myId) startGuessing(m.max);
     if (m.type === 'guess') onGuess(m.n);
     if (m.type === 'answer' && screen === 'game') answer(m.n, m.result, m.secret);
-    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes'].includes(screen)) toLobby();
+    if (m.type === 'lobby' && ['win', 'roles', 'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'gwintMenu', 'gwintDeck', 'gwint', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes', 'dakrace'].includes(screen)) toLobby();
     if (m.type === 'pick' && m.game === 'ships' && screen === 'shipsLevel') shipsLevelPicked(m.size);
-    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : m.game === 'lily' ? lilyBegin() : tttSetup(m.game);
+    if (m.type === 'pick' && screen === 'lobby') m.game === 'guess' ? toRoles() : m.game === 'ships' ? shipsLevelPicked(m.size) : m.game === 'bricks' ? bricksBegin(m.speed) : m.game === 'snake' ? snakeBegin(m.walls) : m.game === 'gravity' ? gravityBegin() : m.game === 'mole' ? moleBegin(m.speed) : m.game === 'bat' ? batBegin(m.speed) : m.game === 'lingo' ? lingoBegin(m) : m.game === 'memory' ? memoryBegin(m) : m.game === 'crash' ? crashBegin() : m.game === 'pong' ? pongBegin(m.to) : m.game === 'chess' ? chessBegin(!iAmHost ? 'b' : 'w') : m.game === 'pool' ? poolBegin(iAmHost) : m.game === 'lily' ? lilyBegin() : m.game === 'dakrace' ? srStart() : tttSetup(m.game);
     if (m.type === 'pic') tttOtherPic(m.pic);
     if (m.type === 'move') tttMove(m.i, false);
     if (m.type === 'tttAgain' && (screen === 'ttt' || screen === 'dam') && ttt.over) tttNewRound();
     if (m.type === 'dmove' && screen === 'dam') damApply(m.p, false);
-    if (m.type === 'rscore' && ['bricks', 'snake', 'gravity', 'mole', 'bat'].includes(screen)) raceOther(m.score, m.done);
+    if (m.type === 'rscore' && ['bricks', 'snake', 'gravity', 'mole', 'bat', 'dakrace'].includes(screen)) raceOther(m.score, m.done);
     if (m.type === 'pick' && m.game === 'bat' && screen === 'batLevel') batBegin(m.speed);
     if (m.type === 'pick' && m.game === 'lingo' && (screen === 'lingoLevel' || screen === 'lingo')) lingoBegin(m);
     if (m.type === 'pick' && m.game === 'memory' && (screen === 'memorySetup' || screen === 'memory')) memoryBegin(m);
@@ -12521,6 +12543,147 @@
   $('pjAgain').addEventListener('click', pakjesStart);
 
 
+  // ----- 🐴 Daken-race (Sinterklaas): Sinterklaas rides over the roofs. Tap = jump (tap again in the air = higher).
+  // Every chimney you jump over gets a present (+1), a pepernoot in the air is +1 too. Falling between the roofs or
+  // bumping into a chimney costs a heart. 3 hearts, 60 seconds. Alone with a record, or together as a points race.
+  const SR_W = 360, SR_H = 440, SR_X = 90, SR_TIME = 60;
+  const sr = { on: false, raf: 0, last: 0 };
+  // the sprite: a picture on magenta; the magenta is made see-through once
+  (() => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      const x = c.getContext('2d'); x.translate(c.width, 0); x.scale(-1, 1); x.drawImage(img, 0, 0); x.setTransform(1, 0, 0, 1, 0, 0);   // mirrored: he rides to the right
+      const d = x.getImageData(0, 0, c.width, c.height), p = d.data;
+      for (let i = 0; i < p.length; i += 4) if (p[i] > 170 && p[i + 2] > 170 && p[i + 1] < 120) p[i + 3] = 0;
+      x.putImageData(d, 0, 0); sr.sprite = c;
+    };
+    img.src = 'sint/run.jpg';
+  })();
+
+  function srStart() {
+    $('srEnd').hidden = true;
+    $('srGo').hidden = false;
+    $('srStatus').textContent = mode === 'together' ? `Samen met ${other ? other.name : ''}: wie bezorgt de meeste pakjes?` : `Record: ${recordOf('sintrace')} 🎁`;
+    Object.assign(sr, { on: false });
+    show('dakrace');
+    srReset(); srDraw();
+  }
+  function srReset() {
+    Object.assign(sr, { dist: 0, speed: 170, y: 330, vy: 0, jumps: 0, hearts: 3, score: 0, time: SR_TIME, inv: 0, roofs: [], chims: [], cookies: [], gifts: [] });
+    let x = -40;
+    sr.roofs.push({ x, w: 520, top: 330 }); x += 520;
+    sr.genX = x; srGen();
+  }
+  function srGen() {
+    while (sr.genX < sr.dist + SR_W + 400) {
+      const gap = 55 + Math.random() * (40 + sr.speed / 6), w = 170 + Math.random() * 170, top = 290 + Math.random() * 70;
+      const x = sr.genX + gap;
+      sr.roofs.push({ x, w, top });
+      const n = Math.random() < .35 ? 2 : 1;
+      for (let k = 0; k < n; k++) sr.chims.push({ x: x + 40 + (k + .2 + Math.random() * .5) * (w - 90) / n, top, done: false, hit: false });
+      if (Math.random() < .7) sr.cookies.push({ x: x + Math.random() * w, y: top - 120 - Math.random() * 60, got: false });
+      sr.genX = x + w;
+    }
+    const cut = sr.dist - 100;
+    sr.roofs = sr.roofs.filter(r => r.x + r.w > cut); sr.chims = sr.chims.filter(c => c.x + 30 > cut); sr.cookies = sr.cookies.filter(c => c.x > cut);
+  }
+  function srGo() {
+    srReset();
+    $('srGo').hidden = true; $('srEnd').hidden = true;
+    raceStart('srStatus', 'srEnd', srHud);       // also alone: the record text goes in the same place
+    sr.on = true; sr.last = performance.now();
+    cancelAnimationFrame(sr.raf); sr.raf = requestAnimationFrame(srFrame);
+  }
+  function srHud() { if (mode === 'together') $('srStatus').textContent = race.done ? $('srStatus').textContent : `🎁 ${sr.score} · ${raceLabel()}`; }
+  function srJump() {
+    if (!sr.on) return;
+    if (sr.jumps < 2) { sr.vy = sr.jumps ? -520 : -600; sr.jumps++; blip(sr.jumps === 1 ? 520 : 700); }
+  }
+  const srRoofAt = x => sr.roofs.find(r => x >= r.x && x <= r.x + r.w);
+  function srHit() { if (sr.inv > 0) return; sr.hearts--; sr.inv = 1.4; blip(160); blip(110); if (sr.hearts <= 0) srOver(); }
+  function srFrame(now) {
+    if (!sr.on || screen !== 'dakrace') return;
+    const dt = Math.min(.05, (now - sr.last) / 1000); sr.last = now;
+    sr.time -= dt; sr.speed = 170 + (SR_TIME - sr.time) * 1.6; sr.inv = Math.max(0, sr.inv - dt);
+    sr.dist += sr.speed * dt; srGen();
+    const hx = sr.dist + SR_X, prevY = sr.y;
+    sr.vy += 1500 * dt; sr.y += sr.vy * dt;
+    const roof = srRoofAt(hx);
+    if (roof && sr.vy >= 0 && prevY <= roof.top + 2 && sr.y >= roof.top) { sr.y = roof.top; sr.vy = 0; sr.jumps = 0; }
+    if (sr.y > SR_H + 60) {                       // fell between the roofs: a heart, and back up on the next roof
+      srHit();
+      const next = sr.roofs.find(r => r.x + r.w > hx + 20) || sr.roofs[sr.roofs.length - 1];
+      sr.dist = Math.max(sr.dist, next.x + 20 - SR_X); sr.y = next.top; sr.vy = 0; sr.jumps = 0;
+    }
+    for (const c of sr.chims) {                   // chimneys: bump = a heart, jumped over = a present
+      if (c.done || c.hit) continue;
+      if (hx + 22 > c.x && hx - 22 < c.x + 24 && sr.y > c.top - 36) { c.hit = true; srHit(); continue; }
+      if (hx - 22 > c.x + 24) { c.done = true; sr.score++; sr.gifts.push({ x: c.x + 12, y: sr.y - 60, t: 0 }); blip(880); srScore(); }
+    }
+    for (const k of sr.cookies) if (!k.got && Math.abs(k.x - hx) < 28 && k.y > sr.y - 80 && k.y < sr.y + 6) { k.got = true; sr.score++; blip(1040); srScore(); }
+    sr.gifts.forEach(g => { g.t += dt; g.y += 260 * dt; }); sr.gifts = sr.gifts.filter(g => g.t < .5);
+    if (sr.time <= 0) return srOver();
+    srDraw();
+    sr.raf = requestAnimationFrame(srFrame);
+  }
+  function srScore() { if (mode === 'together') raceScore(sr.score); }
+  function srOver() {
+    if (!sr.on) return;
+    sr.on = false; cancelAnimationFrame(sr.raf); srDraw();
+    $('srGo').hidden = true;
+    if (mode === 'together') { race.score = sr.score; raceDone(); }
+    else soloRecord('sintrace', sr.score, 'pakjes', '🎁 ', sr.score >= 10);
+  }
+  function srDraw() {
+    const c = $('srCanvas'), x = c.getContext('2d'), cam = sr.dist;
+    const sky = x.createLinearGradient(0, 0, 0, SR_H); sky.addColorStop(0, '#1b2a5c'); sky.addColorStop(1, '#4a5fa8');
+    x.fillStyle = sky; x.fillRect(0, 0, SR_W, SR_H);
+    x.fillStyle = '#fff'; for (let i = 0; i < 40; i++) { const sx = ((i * 97 - cam * .05) % SR_W + SR_W) % SR_W, sy = (i * 53) % 220; x.fillRect(sx, sy, 2, 2); }
+    x.fillStyle = '#fff6c8'; x.beginPath(); x.arc(300, 60, 26, 0, Math.PI * 2); x.fill();
+    x.fillStyle = '#2b3770'; for (let i = 0; i < 9; i++) { const bx = ((i * 70 - cam * .3) % (SR_W + 70) + SR_W + 70) % (SR_W + 70) - 70; x.fillRect(bx, 250 + (i % 3) * 14, 56, 200); }
+    for (const r of sr.roofs) {
+      const rx = r.x - cam;
+      x.fillStyle = '#8c2f39'; x.fillRect(rx, r.top, r.w, SR_H - r.top);
+      x.fillStyle = '#b8434f'; for (let yy = r.top + 14; yy < SR_H; yy += 16) x.fillRect(rx, yy, r.w, 3);
+      x.fillStyle = '#fff'; x.beginPath(); x.roundRect(rx - 3, r.top - 6, r.w + 6, 10, 5); x.fill();
+      x.fillStyle = '#ffd36b'; for (let wx = rx + 30; wx < rx + r.w - 30; wx += 70) x.fillRect(wx, r.top + 40, 18, 22);
+    }
+    for (const ch of sr.chims) {
+      const cx = ch.x - cam;
+      x.fillStyle = ch.hit ? '#555' : '#a8443a'; x.fillRect(cx, ch.top - 36, 24, 36);
+      x.fillStyle = '#fff'; x.fillRect(cx - 3, ch.top - 40, 30, 6);
+      if (!ch.done && !ch.hit) { x.font = '16px system-ui'; x.textAlign = 'center'; x.fillText('⭐', cx + 12, ch.top - 46); }
+    }
+    x.font = '22px system-ui'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    for (const k of sr.cookies) if (!k.got) x.fillText('🍪', k.x - cam, k.y);
+    for (const g of sr.gifts) x.fillText('🎁', g.x - cam, g.y);
+    // Sinterklaas on his horse (blinks after a bump)
+    if (!(sr.inv > 0 && Math.floor(sr.inv * 10) % 2)) {
+      if (sr.sprite) x.drawImage(sr.sprite, SR_X - 48, sr.y - 92, 96, 96);
+      else { x.font = '56px system-ui'; x.fillText('🐴', SR_X, sr.y - 30); }
+    }
+    // top bar
+    x.fillStyle = 'rgba(0,0,0,.35)'; x.fillRect(0, 0, SR_W, 34);
+    x.fillStyle = '#fff'; x.font = '700 18px system-ui'; x.textAlign = 'left'; x.textBaseline = 'middle';
+    x.fillText('❤️'.repeat(Math.max(0, sr.hearts)) + '🤍'.repeat(Math.max(0, 3 - sr.hearts)), 8, 17);
+    x.textAlign = 'center'; x.fillText(`🎁 ${sr.score}`, SR_W / 2, 17);
+    x.textAlign = 'right'; x.fillText(`⏱ ${Math.max(0, Math.ceil(sr.time))}`, SR_W - 8, 17);
+  }
+  function srLeave() {
+    sr.on = false; cancelAnimationFrame(sr.raf);
+    if (mode === 'solo') return show('soloGames');
+    send('lobby', {});
+    toLobby();
+  }
+  $('soloDakrace').addEventListener('click', () => { mode = 'solo'; srStart(); });
+  $('lobbyDakrace').addEventListener('click', () => { send('pick', { game: 'dakrace' }); srStart(); });
+  $('srGo').addEventListener('click', srGo);
+  $('srCanvas').addEventListener('pointerdown', e => { e.preventDefault(); srJump(); });
+  $('srBack').addEventListener('click', srLeave);
+  $('srAgain').addEventListener('click', () => { if (mode === 'together') send('pick', { game: 'dakrace' }); srStart(); });
+
+
   // ----- ❓ Help: for every game "how to play" and "tips", in the four languages (the texts are in help.js: window.HELP).
   // The ❓ button shows on every game screen; the first time a game opens, its help opens by itself. Tysiąc and
   // Spookkaarten also give a tip during play (can be switched off in the help).
@@ -12531,12 +12694,12 @@
     sudoku: ['sudokuLevel', 'sudoku'], mole: ['moleLevel', 'mole'], wirus: ['wirusSetup', 'wirus'], pumpkin: ['pumpkin'],
     mahjong: ['mahjongLevel', 'mahjong'], gwint: ['gwintMenu', 'gwintDeck', 'gwint'], bat: ['batLevel', 'bat'], lingo: ['lingoLevel', 'lingo'],
     memory: ['memorySetup', 'memory'], kitchen: ['kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook'], card: ['cardMake'], who: ['whoMonster'],
-    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], pakjes: ['pjSetup', 'pakjes'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
+    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], pakjes: ['pjSetup', 'pakjes'], dakrace: ['dakrace'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
   };
   const HELP_BUTTON = { guess: 'Guess', ttt: 'Ttt', c4: 'C4', dam: 'Dam', ships: 'Ships', bricks: 'Bricks', snake: 'Snake', gravity: 'Gravity', nails: 'Nails',
     crash: 'Crash', pong: 'Pong', chess: 'Chess', pool: 'Pool', rummi: 'Rummi', sudoku: 'Sudoku', mole: 'Mole', wirus: 'Wirus', pumpkin: 'Pumpkin',
     mahjong: 'Mahjong', gwint: 'Gwint', bat: 'Bat', lingo: 'Lingo', memory: 'Memory', kitchen: 'Kitchen', card: 'Card', who: 'Who', race: 'Race',
-    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap', pakjes: 'Pakjes' };
+    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap', pakjes: 'Pakjes', dakrace: 'Dakrace' };
   const help = { key: null, tab: 'rules' };
   const helpLang = () => { try { const l = localStorage.getItem('taal'); return ['nl', 'pl', 'en', 'sk'].includes(l) ? l : 'nl'; } catch (e) { return 'nl'; } };
   const helpTipsOn = () => { try { return localStorage.getItem('help-tips') !== 'off'; } catch (e) { return true; } };

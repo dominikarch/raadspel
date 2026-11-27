@@ -168,5 +168,143 @@
     ]
    ]
   }
+ },
+ "dakrace": {
+  "nl": {
+   "rules": [
+    [
+     "👆",
+     "Tik op het scherm = springen. Nog een keer tikken in de lucht = hoger."
+    ],
+    [
+     "⭐",
+     "Spring over een schoorsteen: er valt een pakje in (+1)."
+    ],
+    [
+     "🍪",
+     "Pak de pepernoten in de lucht (+1)."
+    ],
+    [
+     "🕳️",
+     "Val niet tussen de daken en bots niet tegen een schoorsteen: dan ben je een hartje kwijt."
+    ],
+    [
+     "❤️",
+     "3 hartjes, 60 seconden. De meeste pakjes wint!"
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Spring op tijd: vlak voor de schoorsteen."
+    ],
+    [
+     "🕳️",
+     "Zie je een gat? Spring wat eerder, en tik in de lucht nog een keer."
+    ]
+   ]
+  },
+  "pl": {
+   "rules": [
+    [
+     "👆",
+     "Stuknij ekran = skok. Stuknij jeszcze raz w powietrzu = wyżej."
+    ],
+    [
+     "⭐",
+     "Przeskocz komin: wpada do niego prezent (+1)."
+    ],
+    [
+     "🍪",
+     "Łap pierniczki w powietrzu (+1)."
+    ],
+    [
+     "🕳️",
+     "Nie spadnij między dachy i nie wpadnij na komin: wtedy tracisz serduszko."
+    ],
+    [
+     "❤️",
+     "3 serduszka, 60 sekund. Najwięcej prezentów wygrywa!"
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Skacz w porę: tuż przed kominem."
+    ],
+    [
+     "🕳️",
+     "Widzisz dziurę? Skocz wcześniej i stuknij jeszcze raz w powietrzu."
+    ]
+   ]
+  },
+  "en": {
+   "rules": [
+    [
+     "👆",
+     "Tap the screen = jump. Tap again in the air = higher."
+    ],
+    [
+     "⭐",
+     "Jump over a chimney: a present drops in (+1)."
+    ],
+    [
+     "🍪",
+     "Catch the pepernoten in the air (+1)."
+    ],
+    [
+     "🕳️",
+     "Don't fall between the roofs or bump into a chimney: then you lose a heart."
+    ],
+    [
+     "❤️",
+     "3 hearts, 60 seconds. The most presents wins!"
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Jump in time: just before the chimney."
+    ],
+    [
+     "🕳️",
+     "See a gap? Jump a bit earlier, and tap again in the air."
+    ]
+   ]
+  },
+  "sk": {
+   "rules": [
+    [
+     "👆",
+     "Ťukni na obrazovku = skok. Ešte raz vo vzduchu = vyššie."
+    ],
+    [
+     "⭐",
+     "Preskoč komín: spadne doň darček (+1)."
+    ],
+    [
+     "🍪",
+     "Chytaj medovníčky vo vzduchu (+1)."
+    ],
+    [
+     "🕳️",
+     "Nespadni medzi strechy a nenaraz do komína: inak prídeš o srdiečko."
+    ],
+    [
+     "❤️",
+     "3 srdiečka, 60 sekúnd. Najviac darčekov vyhráva!"
+    ]
+   ],
+   "tips": [
+    [
+     "⭐",
+     "Skoč včas: tesne pred komínom."
+    ],
+    [
+     "🕳️",
+     "Vidíš dieru? Skoč skôr a vo vzduchu ťukni ešte raz."
+    ]
+   ]
+  }
  }
 }

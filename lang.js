@@ -429,6 +429,17 @@ window.LANG_TEXTS = [
   ['Ik vind jou lief', 'Lubię cię', 'I like you'], ['Groetjes van je monster', 'Pozdrowienia od twojego potwora', 'Love from your monster'],
 
   // --- Pakjesdobbelspel ---
+  ["🐴 Daken-race", "🐴 Wyścig po dachach", "🐴 Rooftop race"],
+  ["Spring over de daken en gooi pakjes in de schoorsteen", "Skacz po dachach i wrzucaj prezenty do kominów", "Jump over the roofs and drop presents down the chimneys"],
+  ["Wie bezorgt de meeste pakjes?", "Kto dostarczy najwięcej prezentów?", "Who delivers the most presents?"],
+  ["Tik op het scherm = springen. Nog een keer tikken in de lucht = hoger.", "Stuknij ekran = skok. Stuknij jeszcze raz w powietrzu = wyżej.", "Tap the screen = jump. Tap again in the air = higher."],
+  ["Spring over een schoorsteen: er valt een pakje in (+1).", "Przeskocz komin: wpada do niego prezent (+1).", "Jump over a chimney: a present drops in (+1)."],
+  ["Pak de pepernoten in de lucht (+1).", "Łap pierniczki w powietrzu (+1).", "Catch the pepernoten in the air (+1)."],
+  ["Val niet tussen de daken en bots niet tegen een schoorsteen: dan ben je een hartje kwijt.", "Nie spadnij między dachy i nie wpadnij na komin: wtedy tracisz serduszko.", "Don't fall between the roofs or bump into a chimney: then you lose a heart."],
+  ["3 hartjes, 60 seconden. De meeste pakjes wint!", "3 serduszka, 60 sekund. Najwięcej prezentów wygrywa!", "3 hearts, 60 seconds. The most presents wins!"],
+  ["🐴 Start!", "🐴 Start!", "🐴 Start!"],
+  ["Samen met {0}: wie bezorgt de meeste pakjes?", "Razem z: {0}: kto dostarczy najwięcej prezentów?", "Together with {0}: who delivers the most presents?"],
+  ["Record: {0} 🎁", "Rekord: {0} 🎁", "Record: {0} 🎁"],
   ["🎁 Pakjesdobbelspel", "🎁 Prezentowe kości", "🎁 Present dice game"],
   ["Sinterklaas! Gooi de dobbelsteen en verzamel cadeautjes", "Mikołaj! Rzucaj kostką i zbieraj prezenty", "Sinterklaas! Roll the die and collect presents"],
   ["Sinterklaas: wie heeft de meeste cadeautjes?", "Mikołaj: kto ma najwięcej prezentów?", "Sinterklaas: who has the most presents?"],
@@ -1342,6 +1353,17 @@ window.LANG_TEXTS = [
 
 // Slovak (for Lily's Slovak grandmother), as a list from each Dutch text to its Slovak one; a text missing here shows in English.
 window.LANG_SK = {
+"🐴 Daken-race": "🐴 Preteky po strechách",
+"Spring over de daken en gooi pakjes in de schoorsteen": "Skáč po strechách a hádž darčeky do komínov",
+"Wie bezorgt de meeste pakjes?": "Kto doručí najviac darčekov?",
+"Tik op het scherm = springen. Nog een keer tikken in de lucht = hoger.": "Ťukni na obrazovku = skok. Ešte raz vo vzduchu = vyššie.",
+"Spring over een schoorsteen: er valt een pakje in (+1).": "Preskoč komín: spadne doň darček (+1).",
+"Pak de pepernoten in de lucht (+1).": "Chytaj medovníčky vo vzduchu (+1).",
+"Val niet tussen de daken en bots niet tegen een schoorsteen: dan ben je een hartje kwijt.": "Nespadni medzi strechy a nenaraz do komína: inak prídeš o srdiečko.",
+"3 hartjes, 60 seconden. De meeste pakjes wint!": "3 srdiečka, 60 sekúnd. Najviac darčekov vyhráva!",
+"🐴 Start!": "🐴 Štart!",
+"Samen met {0}: wie bezorgt de meeste pakjes?": "Spolu s: {0}: kto doručí najviac darčekov?",
+"Record: {0} 🎁": "Rekord: {0} 🎁",
 "🎁 Pakjesdobbelspel": "🎁 Darčeková kocka",
 "Sinterklaas! Gooi de dobbelsteen en verzamel cadeautjes": "Mikuláš! Hádž kockou a zbieraj darčeky",
 "Sinterklaas: wie heeft de meeste cadeautjes?": "Mikuláš: kto má najviac darčekov?",
