@@ -443,6 +443,26 @@ window.LANG_TEXTS = [
   ['Snoep of je leven!', 'Cukierek albo psikus!', 'Trick or treat!'], ['Je bent een lief monster', 'Jesteś kochanym potworem', "You're a sweet monster"],
   ['Ik vind jou lief', 'Lubię cię', 'I like you'], ['Groetjes van je monster', 'Pozdrowienia od twojego potwora', 'Love from your monster'],
 
+  // --- Uitparkeren ---
+  ["🚗 Uitparkeren", "🚗 Wyjazd z parkingu", "🚗 Car park escape"],
+  ["Help Chica en Lucy de parkeerplaats uit. Van makkelijk tot heel moeilijk!", "Pomóż Chice i Lucy wyjechać z parkingu. Od łatwych do bardzo trudnych!", "Help Chica and Lucy out of the car park. From easy to very hard!"],
+  ["🚗 Wie moet eruit?", "🚗 Kto ma wyjechać?", "🚗 Who needs to get out?"],
+  ["Kies een level", "Wybierz poziom", "Choose a level"],
+  ["🐶🐶 Samen eruit: Chica én Lucy", "🐶🐶 Razem: Chica i Lucy", "🐶🐶 Together: Chica and Lucy"],
+  ["🔒 Eerst level 10 halen!", "🔒 Najpierw przejdź poziom 10!", "🔒 Finish level 10 first!"],
+  ["🐶🐶 Samen eruit", "🐶🐶 Razem", "🐶🐶 Together"],
+  ["{0} zetten", "{0} ruchów", "{0} moves"],
+  ["Zetten", "Ruchy", "Moves"],
+  ["↩️ Terug", "↩️ Cofnij", "↩️ Undo"],
+  ["🔄 Opnieuw", "🔄 Od nowa", "🔄 Restart"],
+  ["💡 Hint", "💡 Podpowiedź", "💡 Hint"],
+  ["Volgende level ➡️", "Następny poziom ➡️", "Next level ➡️"],
+  ["📋 Levels", "📋 Poziomy", "📋 Levels"],
+  ["← Levels", "← Poziomy", "← Levels"],
+  ["Chica en Lucy zijn eruit!", "Chica i Lucy wyjechały!", "Chica and Lucy are out!"],
+  ["Chica is eruit!", "Chica wyjechała!", "Chica is out!"],
+  ["Lucy is eruit!", "Lucy wyjechała!", "Lucy is out!"],
+
   // --- Pakjesdobbelspel ---
   ["Tegen een schoorsteen? Je gaat er gewoon doorheen… pfrrt! Maar dan valt er geen pakje in.", "Wpadasz na komin? Po prostu przez niego przejeżdżasz… pfrrt! Ale wtedy nie wpada prezent.", "Hit a chimney? You just go right through it… pfrrt! But then no present drops in."],
   ["Val niet tussen de daken: dan ben je een hartje kwijt.", "Nie spadnij między dachy: wtedy tracisz serduszko.", "Don't fall between the roofs: then you lose a heart."],
@@ -1370,6 +1390,24 @@ window.LANG_TEXTS = [
 
 // Slovak (for Lily's Slovak grandmother), as a list from each Dutch text to its Slovak one; a text missing here shows in English.
 window.LANG_SK = {
+"🚗 Uitparkeren": "🚗 Únik z parkoviska",
+"Help Chica en Lucy de parkeerplaats uit. Van makkelijk tot heel moeilijk!": "Pomôž Chice a Lucy dostať sa z parkoviska. Od ľahkých po veľmi ťažké!",
+"🚗 Wie moet eruit?": "🚗 Kto má vyjsť von?",
+"Kies een level": "Vyber úroveň",
+"🐶🐶 Samen eruit: Chica én Lucy": "🐶🐶 Spolu: Chica aj Lucy",
+"🔒 Eerst level 10 halen!": "🔒 Najprv prejdi úroveň 10!",
+"🐶🐶 Samen eruit": "🐶🐶 Spolu",
+"{0} zetten": "{0} ťahov",
+"Zetten": "Ťahy",
+"↩️ Terug": "↩️ Späť",
+"🔄 Opnieuw": "🔄 Znova",
+"💡 Hint": "💡 Rada",
+"Volgende level ➡️": "Ďalšia úroveň ➡️",
+"📋 Levels": "📋 Úrovne",
+"← Levels": "← Úrovne",
+"Chica en Lucy zijn eruit!": "Chica a Lucy sú vonku!",
+"Chica is eruit!": "Chica je vonku!",
+"Lucy is eruit!": "Lucy je vonku!",
 "Tegen een schoorsteen? Je gaat er gewoon doorheen… pfrrt! Maar dan valt er geen pakje in.": "Narazíš do komína? Jednoducho ním prejdeš… pfrrt! Ale darček doň nespadne.",
 "Val niet tussen de daken: dan ben je een hartje kwijt.": "Nespadni medzi strechy: inak prídeš o srdiečko.",
 "🐴 Daken-race": "🐴 Preteky po strechách",
@@ -10055,6 +10093,160 @@ window.HELP = {
 ]
 ]
 }
+},
+"park": {
+"nl": {
+"rules": [
+[
+"🚗",
+"Chica of Lucy staat vast op de parkeerplaats. Help haar naar de uitgang rechts ➡️."
+],
+[
+"👆",
+"Sleep een auto met je vinger. Auto's rijden alleen vooruit of achteruit, nooit opzij."
+],
+[
+"🎯",
+"Elk level heeft een doel: zo weinig mogelijk zetten. Haal je het doel? 3 sterren!"
+],
+[
+"💡",
+"Kom je er niet uit? 💡 Hint laat de beste zet zien. ↩️ zet een stap terug."
+],
+[
+"🐶🐶",
+"Na level 10: Samen eruit! Dan moeten Chica én Lucy allebei naar buiten."
+]
+],
+"tips": [
+[
+"👀",
+"Kijk eerst welke auto's in de weg staan, en wat die auto's weer tegenhoudt."
+],
+[
+"🔙",
+"Soms moet je een auto eerst de andere kant op schuiven."
+],
+[
+"🧠",
+"Denk een paar zetten vooruit voordat je begint."
+]
+]
+},
+"pl": {
+"rules": [
+[
+"🚗",
+"Chica albo Lucy utknęła na parkingu. Pomóż jej dojechać do wyjazdu po prawej ➡️."
+],
+[
+"👆",
+"Przesuwaj auta palcem. Auta jeżdżą tylko do przodu albo do tyłu, nigdy w bok."
+],
+[
+"🎯",
+"Każdy poziom ma cel: jak najmniej ruchów. Osiągniesz cel? 3 gwiazdki!"
+],
+[
+"💡",
+"Nie wiesz, co dalej? 💡 Podpowiedź pokaże najlepszy ruch. ↩️ cofa ruch."
+],
+[
+"🐶🐶",
+"Po poziomie 10: Razem! Wtedy Chica i Lucy muszą wyjechać obie."
+]
+],
+"tips": [
+[
+"👀",
+"Najpierw zobacz, które auta stoją na drodze i co blokuje te auta."
+],
+[
+"🔙",
+"Czasem trzeba najpierw przesunąć auto w drugą stronę."
+],
+[
+"🧠",
+"Pomyśl kilka ruchów do przodu, zanim zaczniesz."
+]
+]
+},
+"en": {
+"rules": [
+[
+"🚗",
+"Chica or Lucy is stuck in the car park. Help her to the exit on the right ➡️."
+],
+[
+"👆",
+"Drag a car with your finger. Cars only go forwards or backwards, never sideways."
+],
+[
+"🎯",
+"Every level has a target: as few moves as possible. Reach it? 3 stars!"
+],
+[
+"💡",
+"Stuck? 💡 Hint shows the best move. ↩️ takes a move back."
+],
+[
+"🐶🐶",
+"After level 10: Together! Then Chica and Lucy both have to get out."
+]
+],
+"tips": [
+[
+"👀",
+"First look which cars are in the way, and what blocks those cars."
+],
+[
+"🔙",
+"Sometimes you have to move a car the other way first."
+],
+[
+"🧠",
+"Think a few moves ahead before you start."
+]
+]
+},
+"sk": {
+"rules": [
+[
+"🚗",
+"Chica alebo Lucy uviazla na parkovisku. Pomôž jej k výjazdu vpravo ➡️."
+],
+[
+"👆",
+"Posúvaj autá prstom. Autá idú len dopredu alebo dozadu, nikdy nabok."
+],
+[
+"🎯",
+"Každá úroveň má cieľ: čo najmenej ťahov. Splníš cieľ? 3 hviezdy!"
+],
+[
+"💡",
+"Nevieš ďalej? 💡 Rada ukáže najlepší ťah. ↩️ vráti ťah späť."
+],
+[
+"🐶🐶",
+"Po úrovni 10: Spolu! Vtedy musia von Chica aj Lucy."
+]
+],
+"tips": [
+[
+"👀",
+"Najprv sa pozri, ktoré autá zavadzajú a čo blokuje tie autá."
+],
+[
+"🔙",
+"Niekedy musíš auto najprv posunúť na druhú stranu."
+],
+[
+"🧠",
+"Mysli pár ťahov dopredu, kým začneš."
+]
+]
+}
 }
 };
 window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "close": "Begrepen! 👍", "live": "💡 Tips tijdens het spel"}, "pl": {"rules": "📖 Jak grać", "tips": "💡 Porady", "close": "Rozumiem! 👍", "live": "💡 Porady podczas gry"}, "en": {"rules": "📖 How to play", "tips": "💡 Tips", "close": "Got it! 👍", "live": "💡 Tips while playing"}, "sk": {"rules": "📖 Ako hrať", "tips": "💡 Tipy", "close": "Rozumiem! 👍", "live": "💡 Tipy počas hry"}};
@@ -10923,6 +11115,29 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   #srCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .sr-rules { text-align: left; font-size: 1rem; margin: 8px 4px; padding: 0; list-style: none; } .sr-rules li { margin: 3px 0; }
   #pjStatus .dr-last { display: block; font-size: 1.05rem; color: var(--soft); margin-bottom: 4px; }
+  /* Uitparkeren */
+  .up-dogs { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
+  .up-dogs button { flex: 1; max-width: 170px; border: 4px solid transparent; border-radius: 16px; background: #fff; padding: 4px; cursor: pointer; font: inherit; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+  .up-dogs button.on { border-color: var(--ok); } .up-dogs img { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; display: block; }
+  .up-levels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 6px 0 12px; }
+  .up-lv { aspect-ratio: 1; border: none; border-radius: 12px; background: var(--key); font: inherit; font-size: 1.15rem; font-weight: 700; color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; }
+  .up-lv small { font-size: .55rem; font-weight: 600; } .up-lv.done { background: #d8f5d0; } .up-lv:disabled { opacity: .45; cursor: default; }
+  .up-top { display: flex; justify-content: space-between; align-items: center; font-size: 1.05rem; margin-bottom: 6px; }
+  .up-board { position: relative; width: calc(100% - 30px); max-width: 360px; box-sizing: border-box; aspect-ratio: 1; margin: 0 auto; background: #d9d4cc; border: 8px solid #6d6a75; border-radius: 14px;
+              background-image: linear-gradient(#cfc9c0 2px, transparent 2px), linear-gradient(90deg, #cfc9c0 2px, transparent 2px); background-size: calc(100% / 6) calc(100% / 6); touch-action: none; }
+  .up-exit { position: absolute; right: -14px; top: calc(100% / 6 * 2); height: calc(100% / 6); width: 14px; background: #ffd23f; border-radius: 0 6px 6px 0; }
+  .up-exit::after { content: '➡️'; position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; }
+  .up-car { position: absolute; padding: 3px; box-sizing: border-box; transition: left .15s, top .15s; cursor: grab; touch-action: none; }
+  .up-car.drag { transition: none; z-index: 3; cursor: grabbing; }
+  .up-car i { display: block; width: 100%; height: 100%; border-radius: 10px; background: var(--car); box-shadow: inset 0 -4px 0 rgba(0,0,0,.18), 0 2px 4px rgba(0,0,0,.25); position: relative; }
+  .up-car.h:not(.up-dog) i::before, .up-car.v:not(.up-dog) i::before { content: ''; position: absolute; background: rgba(255,255,255,.55); border-radius: 5px; }
+  .up-car.h:not(.up-dog) i::before { left: 22%; right: 22%; top: 18%; bottom: 18%; } .up-car.v:not(.up-dog) i::before { top: 22%; bottom: 22%; left: 18%; right: 18%; }
+  .up-dog i { background: #fff center / contain no-repeat; } .up-chica i { background-image: url(park/chica.jpg); box-shadow: 0 0 0 3px #ff8fb8, 0 2px 6px rgba(0,0,0,.3); }
+  .up-lucy i { background-image: url(park/lucy.jpg); box-shadow: 0 0 0 3px #6fa8ff, 0 2px 6px rgba(0,0,0,.3); }
+  .up-car.gone { left: 110% !important; opacity: 0; transition: left .5s ease-in, opacity .5s .3s; }
+  .up-car.hint i { animation: kkGlow .3s infinite alternate; box-shadow: 0 0 0 4px #ffd23f; }
+  .up-tools { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .up-win { background: #fff6d6; border-radius: 16px; padding: 10px; margin-top: 10px; } .up-win b { font-size: 2rem; display: block; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .dk-score { font-size: 1.2rem; margin-bottom: 6px; } .dk-score b { font-size: 1.5rem; margin: 0 8px; }
@@ -10955,7 +11170,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
       <button class="level w2" id="goTogether">👫 Samen spelen<small>Met een vriend op een ander apparaat</small></button>
     </div>
     <button class="back" id="changeName" hidden>Ik ben iemand anders</button>
-    <p class="version" id="version">versie 27-11 20.21</p>
+    <p class="version" id="version">versie 27-11 20.45</p>
   </section>
 
   <!-- Naam -->
@@ -10993,6 +11208,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
+      <button class="level l2" id="soloPark">🚗 Uitparkeren<small>Help Chica en Lucy de parkeerplaats uit. Van makkelijk tot heel moeilijk!</small></button>
       <button class="level w1" id="soloDakrace">🐴 Daken-race<small>Spring over de daken en gooi pakjes in de schoorsteen</small></button>
       <button class="level l4" id="soloPakjes">🎁 Pakjesdobbelspel<small>Sinterklaas! Gooi de dobbelsteen en verzamel cadeautjes</small></button>
       <button class="level l1" id="soloPiotrus">🧦 Piotruś<small>Gooi paren weg… en houd de Stinksok niet over!</small></button>
@@ -11911,6 +12127,31 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
     <button class="back" id="srBack" data-hold="always">← Ander spel</button>
   </section>
 
+  <!-- Uitparkeren: kies een level -->
+  <section id="parkMenu" class="hidden">
+    <div class="card">
+      <p class="who">🚗 Wie moet eruit?</p>
+      <div class="up-dogs" id="upDogs"><button data-dog="chica"><img src="park/chica.jpg" alt="">Chica</button><button data-dog="lucy"><img src="park/lucy.jpg" alt="">Lucy</button></div>
+      <p class="who">Kies een level</p>
+      <div class="up-levels" id="upSingle"></div>
+      <p class="who">🐶🐶 Samen eruit: Chica én Lucy</p>
+      <p class="wait" id="upDuoLock">🔒 Eerst level 10 halen!</p>
+      <div class="up-levels" id="upDuo"></div>
+    </div>
+    <button class="back" id="upMenuBack">← Terug</button>
+  </section>
+
+  <!-- Uitparkeren: spelen -->
+  <section id="park" class="hidden">
+    <div class="card">
+      <div class="up-top"><span id="upTitle"></span><span id="upMoves"></span></div>
+      <div class="up-board" id="upBoard"><div class="up-exit"></div></div>
+      <div class="up-tools"><button class="ts-btn" id="upUndo">↩️ Terug</button><button class="ts-btn" id="upRestart">🔄 Opnieuw</button><button class="ts-btn" id="upHint">💡 Hint</button></div>
+      <div class="up-win" id="upWin" hidden><b id="upWinStars"></b><p id="upWinText"></p><button class="again" id="upNext">Volgende level ➡️</button><button class="ts-btn" id="upToMenu">📋 Levels</button></div>
+    </div>
+    <button class="back" id="upBack">← Levels</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -12186,7 +12427,7 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes', 'dakrace',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes', 'dakrace', 'parkMenu', 'park',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -22762,6 +23003,170 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
   $('srAgain').addEventListener('click', () => { if (mode === 'together') send('pick', { game: 'dakrace' }); srStart(); });
 
 
+  // ----- 🚗 Uitparkeren with Chica and Lucy: a 6×6 car park; cars only slide along their own direction. Slide them out of
+  // the way so the dog's car can drive out at the exit on the right. 30 levels (2 to 30 moves) and 10 levels where both
+  // dogs must get out; every level was solved by the computer, so its least number of moves is known (stars), and the
+  // 💡 hint solves the car park from where it stands now. A level = [row, col, length, horizontal] per car, the dogs first.
+  const UP_LEVELS = {"single":[{"cars":[[2,1,2,1],[3,1,2,1],[1,4,2,1],[3,4,2,1],[4,1,2,0],[1,0,2,0],[3,0,2,0],[1,3,2,0]],"min":2},{"cars":[[2,1,2,1],[2,5,2,0],[3,3,2,1],[4,2,3,1],[1,3,2,0],[0,1,2,0]],"min":3},{"cars":[[2,3,2,1],[3,3,2,1],[0,3,3,1],[2,0,3,0],[5,1,2,1],[4,3,3,1],[1,5,2,0],[1,0,3,1]],"min":3},{"cars":[[2,1,2,1],[4,1,3,1],[2,3,2,0],[0,2,3,1],[3,4,2,1],[1,5,2,0]],"min":4},{"cars":[[2,0,2,1],[1,4,2,1],[3,0,2,0],[3,3,2,1],[5,2,2,1],[1,0,2,1],[1,2,2,0],[4,4,2,1],[5,4,2,1],[2,5,2,0],[3,1,2,1]],"min":4},{"cars":[[2,1,2,1],[5,2,2,1],[1,2,2,1],[2,3,3,0],[4,1,2,0],[1,4,2,1],[0,0,2,1],[2,0,2,0],[0,2,2,1],[4,5,2,0],[2,4,2,0]],"min":5},{"cars":[[2,3,2,1],[5,3,3,1],[1,1,2,1],[0,1,2,1],[0,5,3,0],[3,0,3,0],[4,4,2,1],[3,4,2,1]],"min":5},{"cars":[[2,2,2,1],[0,3,2,0],[4,1,2,0],[3,3,3,0],[3,1,2,1],[1,4,2,0],[4,4,2,0],[0,0,3,0],[3,4,2,1],[4,2,2,0],[0,4,2,1],[1,1,2,1],[3,0,2,0]],"min":6},{"cars":[[2,2,2,1],[3,4,2,1],[0,3,2,1],[3,2,2,1],[1,0,2,1],[0,2,2,0],[4,2,2,0],[1,4,2,0],[3,1,2,0],[1,5,2,0]],"min":6},{"cars":[[2,1,2,1],[2,4,2,0],[2,3,2,0],[3,0,3,0],[5,1,2,1],[2,5,2,0],[1,3,3,1],[0,2,2,1],[0,4,2,1],[4,5,2,0]],"min":7},{"cars":[[2,2,2,1],[1,5,2,0],[4,3,2,0],[3,0,2,0],[0,3,2,1],[2,4,2,0],[0,0,3,1],[4,4,2,1],[1,1,2,1],[3,2,2,1],[1,0,2,0],[1,3,2,1]],"min":8},{"cars":[[2,0,2,1],[0,2,3,0],[3,0,2,0],[0,3,2,0],[4,1,3,1],[3,4,2,0],[0,4,2,1]],"min":8},{"cars":[[2,2,2,1],[3,2,2,0],[1,5,3,0],[4,3,3,1],[4,0,2,0],[3,0,2,1],[5,1,2,1],[5,3,3,1]],"min":9},{"cars":[[2,3,2,1],[2,2,3,0],[4,0,2,0],[5,1,2,1],[1,5,3,0],[1,1,2,0],[4,4,2,1],[4,3,2,0],[0,3,2,1]],"min":10},{"cars":[[2,2,2,1],[0,1,2,1],[4,2,2,0],[2,4,3,0],[4,0,2,0],[0,5,3,0],[2,0,2,0],[5,3,3,1],[3,1,3,0],[3,3,2,0],[0,3,2,1],[0,0,2,0],[1,1,2,0]],"min":10},{"cars":[[2,1,2,1],[3,4,2,1],[0,0,2,0],[0,5,2,0],[1,3,3,0],[5,0,2,1],[2,0,2,0],[4,5,2,0],[0,1,2,1],[4,2,2,1],[5,3,2,1],[0,3,2,1]],"min":11},{"cars":[[2,1,2,1],[1,4,3,0],[5,0,2,1],[2,3,3,0],[2,0,3,0],[2,5,2,0],[0,1,2,1],[4,4,2,1],[4,2,2,0]],"min":12},{"cars":[[2,0,2,1],[0,3,2,1],[3,3,3,1],[4,4,2,1],[1,1,3,1],[3,0,3,0],[0,1,2,1],[5,1,2,1],[1,4,2,0],[2,2,2,0],[0,5,3,0],[5,4,2,1]],"min":13},{"cars":[[2,1,2,1],[4,3,3,1],[4,0,2,0],[2,4,2,0],[1,2,3,1],[3,2,2,0],[3,0,2,1],[0,1,2,0],[2,5,2,0],[0,0,3,0],[0,3,2,1],[5,2,3,1],[0,5,2,0]],"min":14},{"cars":[[2,2,2,1],[1,0,2,0],[1,4,2,0],[3,3,2,1],[2,1,2,0],[5,0,3,1],[0,0,2,1],[0,3,3,1],[2,5,2,0],[1,1,3,1],[4,3,2,0],[3,2,2,0]],"min":15},{"cars":[[2,1,2,1],[1,3,2,0],[2,4,3,0],[2,5,2,0],[3,2,3,0],[0,3,2,1],[0,5,2,0],[2,0,3,0],[0,1,2,0],[0,2,2,0],[3,3,3,0]],"min":16},{"cars":[[2,0,2,1],[3,0,2,1],[2,2,2,0],[4,2,2,1],[2,4,3,0],[1,3,2,0],[1,5,2,0],[4,1,2,0],[5,2,2,1],[0,2,2,0]],"min":17},{"cars":[[2,2,2,1],[5,1,3,1],[3,0,2,1],[1,5,3,0],[0,4,2,1],[0,1,3,0],[1,2,3,1],[4,4,2,1],[3,3,2,0],[4,0,2,0]],"min":18},{"cars":[[2,0,2,1],[4,2,3,1],[3,5,2,0],[2,4,2,0],[1,2,2,0],[1,3,2,0],[3,1,2,0],[3,2,2,1],[0,1,2,1],[0,0,2,0],[0,3,2,1]],"min":19},{"cars":[[2,1,2,1],[4,3,2,1],[0,2,2,0],[0,0,2,1],[1,3,3,0],[2,0,2,0],[0,4,3,0],[1,5,2,0],[3,2,2,0],[3,1,2,0]],"min":20},{"cars":[[2,1,2,1],[4,2,2,0],[1,1,3,1],[4,3,2,1],[3,5,2,0],[5,0,2,1],[1,4,3,0],[5,4,2,1],[1,5,2,0],[2,0,3,0]],"min":22},{"cars":[[2,0,2,1],[2,5,2,0],[0,0,2,1],[3,0,2,1],[0,2,3,1],[2,4,2,0],[3,2,2,1],[4,4,2,1],[1,0,3,1],[4,0,2,0],[5,3,2,1],[4,2,2,0],[0,5,2,0]],"min":24},{"cars":[[2,0,2,1],[2,4,2,0],[5,1,3,1],[0,0,2,0],[3,1,2,0],[1,3,2,0],[3,5,3,0],[3,2,2,1],[0,3,2,1],[1,2,2,0],[1,4,2,1],[0,1,2,1],[4,2,3,1]],"min":27},{"cars":[[2,1,2,1],[2,5,2,0],[4,3,2,1],[1,2,2,1],[5,0,2,1],[3,0,2,0],[0,2,3,1],[3,2,2,1],[1,4,3,0],[0,5,2,0],[4,2,2,0],[0,1,2,0],[1,0,2,0]],"min":27},{"cars":[[2,0,2,1],[0,5,2,0],[2,3,2,0],[2,2,2,0],[0,2,2,1],[4,4,2,1],[1,1,3,1],[1,4,3,0],[4,3,2,0],[2,5,2,0],[0,0,2,0]],"min":30}],"duo":[{"cars":[[2,2,2,1],[2,0,2,1],[3,3,2,0],[3,5,2,0],[3,1,2,0],[1,5,2,0],[2,4,2,0],[0,4,2,1]],"min":5},{"cars":[[2,2,2,1],[2,0,2,1],[1,4,2,0],[5,4,2,1],[4,2,3,1],[0,0,3,1],[0,3,2,1],[2,5,3,0],[1,0,2,1],[3,3,2,1]],"min":7},{"cars":[[2,3,2,1],[2,1,2,1],[4,5,2,0],[4,1,2,0],[0,2,2,0],[0,3,3,1],[1,4,2,1],[4,2,2,1],[5,2,2,1],[2,5,2,0],[1,0,2,0]],"min":9},{"cars":[[2,2,2,1],[2,0,2,1],[2,4,2,0],[4,3,2,1],[0,2,2,0],[1,5,2,0],[4,5,2,0],[3,0,2,0],[0,3,3,1]],"min":11},{"cars":[[2,2,2,1],[2,0,2,1],[3,0,3,1],[4,4,2,0],[0,0,2,1],[3,4,2,1],[4,5,2,0],[1,5,2,0],[5,1,2,1],[0,2,2,0],[0,3,3,1]],"min":13},{"cars":[[2,2,2,1],[2,0,2,1],[4,3,3,1],[5,4,2,1],[4,0,2,1],[0,5,2,0],[0,2,2,0],[5,0,3,1],[3,2,2,0],[1,4,2,0],[2,5,2,0],[0,0,2,0]],"min":14},{"cars":[[2,2,2,1],[2,0,2,1],[0,3,2,1],[3,1,2,0],[1,1,2,1],[3,2,3,0],[5,4,2,1],[4,3,3,1],[1,5,3,0],[1,3,2,1]],"min":15},{"cars":[[2,3,2,1],[2,1,2,1],[3,2,2,1],[0,3,3,1],[0,1,2,0],[4,3,2,0],[3,0,2,1],[1,3,2,1],[1,5,3,0],[5,4,2,1],[3,4,2,0],[4,0,3,1]],"min":15},{"cars":[[2,3,2,1],[2,1,2,1],[0,5,3,0],[1,0,2,0],[5,0,2,1],[3,4,2,1],[3,3,2,0],[3,2,3,0],[1,2,3,1],[0,2,3,1],[5,3,2,1]],"min":16},{"cars":[[2,2,2,1],[2,0,2,1],[5,3,3,1],[3,2,3,0],[1,5,3,0],[0,2,3,1],[1,4,2,0],[4,4,2,1]],"min":16}]};
+  const UP_N = 6, UP_ROW = 2;
+  const UP_COLORS = ['#ffb84d', '#7bd389', '#8fb8ff', '#c79bff', '#ff8fa3', '#ffd84d', '#6fd6d0', '#b5b5b5', '#f7a072', '#9be36b', '#ff9de2', '#a0c4ff'];
+  const up = { dog: (() => { try { return localStorage.getItem('raadspel-park-dog') || 'chica'; } catch (e) { return 'chica'; } })(),
+               set: 'single', n: 0, cars: [], pos: [], out: [], moves: 0, undo: [], hint: false, drag: null, won: false };
+  const upStars = () => { try { return JSON.parse(localStorage.getItem('raadspel-park') || '{}'); } catch (e) { return {}; } };
+  const upKey = (set, n) => set + n;
+
+  function upMenu() {
+    const S = upStars();
+    document.querySelectorAll('#upDogs [data-dog]').forEach(b => b.classList.toggle('on', b.dataset.dog === up.dog));
+    const grid = (set, list) => list.map((L, n) => {
+      const s = S[upKey(set, n)] || 0, open = n === 0 || S[upKey(set, n - 1)] || (set === 'duo' && n === 0);
+      return `<button class="up-lv${s ? ' done' : ''}" data-set="${set}" data-n="${n}" ${open ? '' : 'disabled'}>${open ? n + 1 : '🔒'}<small>${s ? '⭐'.repeat(s) : open ? '🎯 ' + L.min : ''}</small></button>`;
+    }).join('');
+    $('upSingle').innerHTML = grid('single', UP_LEVELS.single);
+    const duoOpen = (S[upKey('single', 9)] || 0) > 0;
+    $('upDuoLock').hidden = duoOpen;
+    $('upDuo').innerHTML = duoOpen ? grid('duo', UP_LEVELS.duo) : '';
+    show('parkMenu');
+  }
+  function upStart(set, n) {
+    const L = UP_LEVELS[set][n];
+    Object.assign(up, { set, n, cars: L.cars.map(c => ({ r: c[0], c: c[1], len: c[2], h: !!c[3] })), out: [], moves: 0, undo: [], hint: false, won: false });
+    up.pos = up.cars.map(v => v.h ? v.c : v.r);
+    up.heroes = set === 'duo' ? 2 : 1;
+    show('park');
+    $('upWin').hidden = true;
+    upDraw();
+  }
+  // which cells are taken (cars that drove out don't count)
+  function upGrid(pos, out) {
+    const g = {};
+    up.cars.forEach((v, i) => { if (out.includes(i)) return; for (let k = 0; k < v.len; k++) g[v.h ? `${v.r},${pos[i] + k}` : `${pos[i] + k},${v.c}`] = i; });
+    return g;
+  }
+  function upRange(i, pos = up.pos, out = up.out) {
+    const v = up.cars[i], g = upGrid(pos, out), cell = q => v.h ? `${v.r},${q}` : `${q},${v.c}`;
+    let lo = pos[i], hi = pos[i];
+    while (lo - 1 >= 0 && !(cell(lo - 1) in g)) lo--;
+    while (hi + v.len < UP_N && !(cell(hi + v.len) in g)) hi++;
+    return [lo, hi];
+  }
+  // a dog at the right edge drives out (in a duo the front dog first)
+  function upExit(pos, out) {
+    out = out.slice();
+    for (let k = 0; k < up.heroes; k++) {
+      const ahead = up.heroes === 2 && k === 1 && !out.includes(0);
+      if (!out.includes(k) && !ahead && pos[k] === UP_N - 2) out.push(k);
+    }
+    if (up.heroes === 2 && out.includes(1) && !out.includes(0)) out.splice(out.indexOf(1), 1);
+    return out;
+  }
+  // the computer solves it from here: the first move of a shortest way out
+  function upSolve() {
+    const key = (p, o) => p.join(',') + '|' + o.slice().sort().join(',');
+    const start = { pos: up.pos.slice(), out: up.out.slice(), first: null };
+    const seen = new Set([key(start.pos, start.out)]), q = [start];
+    for (let qi = 0; qi < q.length && qi < 300000; qi++) {
+      const s = q[qi];
+      if (s.out.length === up.heroes) return s.first;
+      for (let i = 0; i < up.cars.length; i++) {
+        if (s.out.includes(i)) continue;
+        const [lo, hi] = upRange(i, s.pos, s.out);
+        for (let p = lo; p <= hi; p++) {
+          if (p === s.pos[i]) continue;
+          const pos = s.pos.slice(); pos[i] = p;
+          const out = upExit(pos, s.out), k = key(pos, out);
+          if (seen.has(k)) continue;
+          seen.add(k); q.push({ pos, out, first: s.first || { i, p } });
+        }
+      }
+    }
+    return null;
+  }
+
+  function upDraw() {
+    const L = UP_LEVELS[up.set][up.n];
+    $('upTitle').innerHTML = `<span>${up.set === 'duo' ? '🐶🐶 Samen eruit' : 'Level'}</span> ${up.n + 1} · 🎯 <span>${L.min} zetten</span>`;
+    $('upMoves').innerHTML = `<span>Zetten</span>: <b>${up.moves}</b>`;
+    const b = $('upBoard');
+    b.querySelectorAll('.up-car').forEach(e => e.remove());
+    up.cars.forEach((v, i) => {
+      const e = document.createElement('div');
+      const dog = i < up.heroes ? (up.heroes === 2 ? (i === 0 ? 'chica' : 'lucy') : up.dog) : null;
+      e.className = 'up-car' + (dog ? ' up-dog up-' + dog : '') + (v.h ? ' h' : ' v') + (up.out.includes(i) ? ' gone' : '');
+      e.dataset.i = i;
+      const p = up.pos[i], r = v.h ? v.r : p, c = v.h ? p : v.c;
+      Object.assign(e.style, { left: c * 100 / UP_N + '%', top: r * 100 / UP_N + '%', width: (v.h ? v.len : 1) * 100 / UP_N + '%', height: (v.h ? 1 : v.len) * 100 / UP_N + '%' });
+      if (!dog) e.style.setProperty('--car', UP_COLORS[(i * 5) % UP_COLORS.length]);
+      e.innerHTML = '<i></i>';
+      b.appendChild(e);
+    });
+  }
+  function upMove(i, p) {
+    if (p === up.pos[i]) return;
+    up.undo.push({ pos: up.pos.slice(), out: up.out.slice(), moves: up.moves });
+    up.pos[i] = p; up.moves++;
+    const before = up.out.length;
+    up.out = upExit(up.pos, up.out);
+    blip(up.out.length > before ? 900 : 420);
+    upDraw();
+    if (up.out.length === up.heroes) upWon();
+  }
+  function upWon() {
+    up.won = true;
+    const L = UP_LEVELS[up.set][up.n], m = up.moves;
+    let stars = m <= L.min ? 3 : m <= L.min + Math.ceil(L.min / 2) + 1 ? 2 : 1;
+    if (up.hint) stars = Math.min(stars, 2);
+    const S = upStars(), k = upKey(up.set, up.n);
+    if ((S[k] || 0) < stars) { S[k] = stars; try { localStorage.setItem('raadspel-park', JSON.stringify(S)); } catch (e) {} }
+    $('upWinStars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
+    $('upWinText').innerHTML = `<span>${up.heroes === 2 ? 'Chica en Lucy zijn eruit!' : (up.dog === 'lucy' ? 'Lucy' : 'Chica') + ' is eruit!'}</span> <span>${m} zetten</span> (🎯 ${L.min})`;
+    $('upNext').hidden = !UP_LEVELS[up.set][up.n + 1];
+    setTimeout(() => { $('upWin').hidden = false; confetti(); winSound(); }, 500);
+  }
+
+  // dragging a car along its own direction
+  $('upBoard').addEventListener('pointerdown', e => {
+    const el = e.target.closest('.up-car'); if (!el || up.won) return;
+    const i = Number(el.dataset.i); if (up.out.includes(i)) return;
+    e.preventDefault(); try { el.setPointerCapture(e.pointerId); } catch (_) {}
+    const rect = $('upBoard').getBoundingClientRect();
+    up.drag = { i, el, x0: e.clientX, y0: e.clientY, p0: up.pos[i], cell: rect.width / UP_N, range: upRange(i) };
+    el.classList.add('drag');
+  });
+  $('upBoard').addEventListener('pointermove', e => {
+    const d = up.drag; if (!d) return;
+    const v = up.cars[d.i], delta = (v.h ? e.clientX - d.x0 : e.clientY - d.y0) / d.cell;
+    const p = Math.max(d.range[0], Math.min(d.range[1], d.p0 + delta));
+    d.el.style[v.h ? 'left' : 'top'] = p * 100 / UP_N + '%';
+    d.p = p;
+  });
+  const upDrop = () => {
+    const d = up.drag; if (!d) return;
+    up.drag = null; d.el.classList.remove('drag');
+    const p = Math.round(d.p ?? d.p0);
+    if (p !== up.pos[d.i]) upMove(d.i, p); else upDraw();
+  };
+  $('upBoard').addEventListener('pointerup', upDrop);
+  $('upBoard').addEventListener('pointercancel', upDrop);
+  $('upUndo').addEventListener('click', () => { const u = up.undo.pop(); if (!u || up.won) return; Object.assign(up, { pos: u.pos, out: u.out, moves: u.moves }); upDraw(); });
+  $('upRestart').addEventListener('click', () => upStart(up.set, up.n));
+  $('upHint').addEventListener('click', () => {
+    if (up.won) return;
+    const m = upSolve(); if (!m) return;
+    up.hint = true;
+    const el = $('upBoard').querySelector(`.up-car[data-i="${m.i}"]`); if (!el) return;
+    el.classList.add('hint');
+    setTimeout(() => { el.classList.remove('hint'); upMove(m.i, m.p); }, 700);
+  });
+  $('upNext').addEventListener('click', () => upStart(up.set, up.n + 1));
+  $('upToMenu').addEventListener('click', upMenu);
+  $('upDogs').addEventListener('click', e => { const b = e.target.closest('[data-dog]'); if (!b) return; up.dog = b.dataset.dog; try { localStorage.setItem('raadspel-park-dog', up.dog); } catch (err) {} upMenu(); });
+  $('parkMenu').addEventListener('click', e => { const b = e.target.closest('.up-lv'); if (b && !b.disabled) upStart(b.dataset.set, Number(b.dataset.n)); });
+  $('soloPark').addEventListener('click', () => { mode = 'solo'; upMenu(); });
+  $('upMenuBack').addEventListener('click', () => show('soloGames'));
+  $('upBack').addEventListener('click', upMenu);
+
+
   // ----- ❓ Help: for every game "how to play" and "tips", in the four languages (the texts are in help.js: window.HELP).
   // The ❓ button shows on every game screen; the first time a game opens, its help opens by itself. Tysiąc and
   // Spookkaarten also give a tip during play (can be switched off in the help).
@@ -22772,12 +23177,12 @@ window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "clos
     sudoku: ['sudokuLevel', 'sudoku'], mole: ['moleLevel', 'mole'], wirus: ['wirusSetup', 'wirus'], pumpkin: ['pumpkin'],
     mahjong: ['mahjongLevel', 'mahjong'], gwint: ['gwintMenu', 'gwintDeck', 'gwint'], bat: ['batLevel', 'bat'], lingo: ['lingoLevel', 'lingo'],
     memory: ['memorySetup', 'memory'], kitchen: ['kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook'], card: ['cardMake'], who: ['whoMonster'],
-    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], pakjes: ['pjSetup', 'pakjes'], dakrace: ['dakrace'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
+    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], pakjes: ['pjSetup', 'pakjes'], dakrace: ['dakrace'], park: ['parkMenu', 'park'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
   };
   const HELP_BUTTON = { guess: 'Guess', ttt: 'Ttt', c4: 'C4', dam: 'Dam', ships: 'Ships', bricks: 'Bricks', snake: 'Snake', gravity: 'Gravity', nails: 'Nails',
     crash: 'Crash', pong: 'Pong', chess: 'Chess', pool: 'Pool', rummi: 'Rummi', sudoku: 'Sudoku', mole: 'Mole', wirus: 'Wirus', pumpkin: 'Pumpkin',
     mahjong: 'Mahjong', gwint: 'Gwint', bat: 'Bat', lingo: 'Lingo', memory: 'Memory', kitchen: 'Kitchen', card: 'Card', who: 'Who', race: 'Race',
-    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap', pakjes: 'Pakjes', dakrace: 'Dakrace' };
+    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap', pakjes: 'Pakjes', dakrace: 'Dakrace', park: 'Park' };
   const help = { key: null, tab: 'rules' };
   const helpLang = () => { try { const l = localStorage.getItem('taal'); return ['nl', 'pl', 'en', 'sk'].includes(l) ? l : 'nl'; } catch (e) { return 'nl'; } };
   const helpTipsOn = () => { try { return localStorage.getItem('help-tips') !== 'off'; } catch (e) { return true; } };

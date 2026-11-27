@@ -7065,6 +7065,160 @@ window.HELP = {
 ]
 ]
 }
+},
+"park": {
+"nl": {
+"rules": [
+[
+"🚗",
+"Chica of Lucy staat vast op de parkeerplaats. Help haar naar de uitgang rechts ➡️."
+],
+[
+"👆",
+"Sleep een auto met je vinger. Auto's rijden alleen vooruit of achteruit, nooit opzij."
+],
+[
+"🎯",
+"Elk level heeft een doel: zo weinig mogelijk zetten. Haal je het doel? 3 sterren!"
+],
+[
+"💡",
+"Kom je er niet uit? 💡 Hint laat de beste zet zien. ↩️ zet een stap terug."
+],
+[
+"🐶🐶",
+"Na level 10: Samen eruit! Dan moeten Chica én Lucy allebei naar buiten."
+]
+],
+"tips": [
+[
+"👀",
+"Kijk eerst welke auto's in de weg staan, en wat die auto's weer tegenhoudt."
+],
+[
+"🔙",
+"Soms moet je een auto eerst de andere kant op schuiven."
+],
+[
+"🧠",
+"Denk een paar zetten vooruit voordat je begint."
+]
+]
+},
+"pl": {
+"rules": [
+[
+"🚗",
+"Chica albo Lucy utknęła na parkingu. Pomóż jej dojechać do wyjazdu po prawej ➡️."
+],
+[
+"👆",
+"Przesuwaj auta palcem. Auta jeżdżą tylko do przodu albo do tyłu, nigdy w bok."
+],
+[
+"🎯",
+"Każdy poziom ma cel: jak najmniej ruchów. Osiągniesz cel? 3 gwiazdki!"
+],
+[
+"💡",
+"Nie wiesz, co dalej? 💡 Podpowiedź pokaże najlepszy ruch. ↩️ cofa ruch."
+],
+[
+"🐶🐶",
+"Po poziomie 10: Razem! Wtedy Chica i Lucy muszą wyjechać obie."
+]
+],
+"tips": [
+[
+"👀",
+"Najpierw zobacz, które auta stoją na drodze i co blokuje te auta."
+],
+[
+"🔙",
+"Czasem trzeba najpierw przesunąć auto w drugą stronę."
+],
+[
+"🧠",
+"Pomyśl kilka ruchów do przodu, zanim zaczniesz."
+]
+]
+},
+"en": {
+"rules": [
+[
+"🚗",
+"Chica or Lucy is stuck in the car park. Help her to the exit on the right ➡️."
+],
+[
+"👆",
+"Drag a car with your finger. Cars only go forwards or backwards, never sideways."
+],
+[
+"🎯",
+"Every level has a target: as few moves as possible. Reach it? 3 stars!"
+],
+[
+"💡",
+"Stuck? 💡 Hint shows the best move. ↩️ takes a move back."
+],
+[
+"🐶🐶",
+"After level 10: Together! Then Chica and Lucy both have to get out."
+]
+],
+"tips": [
+[
+"👀",
+"First look which cars are in the way, and what blocks those cars."
+],
+[
+"🔙",
+"Sometimes you have to move a car the other way first."
+],
+[
+"🧠",
+"Think a few moves ahead before you start."
+]
+]
+},
+"sk": {
+"rules": [
+[
+"🚗",
+"Chica alebo Lucy uviazla na parkovisku. Pomôž jej k výjazdu vpravo ➡️."
+],
+[
+"👆",
+"Posúvaj autá prstom. Autá idú len dopredu alebo dozadu, nikdy nabok."
+],
+[
+"🎯",
+"Každá úroveň má cieľ: čo najmenej ťahov. Splníš cieľ? 3 hviezdy!"
+],
+[
+"💡",
+"Nevieš ďalej? 💡 Rada ukáže najlepší ťah. ↩️ vráti ťah späť."
+],
+[
+"🐶🐶",
+"Po úrovni 10: Spolu! Vtedy musia von Chica aj Lucy."
+]
+],
+"tips": [
+[
+"👀",
+"Najprv sa pozri, ktoré autá zavadzajú a čo blokuje tie autá."
+],
+[
+"🔙",
+"Niekedy musíš auto najprv posunúť na druhú stranu."
+],
+[
+"🧠",
+"Mysli pár ťahov dopredu, kým začneš."
+]
+]
+}
 }
 };
 window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "close": "Begrepen! 👍", "live": "💡 Tips tijdens het spel"}, "pl": {"rules": "📖 Jak grać", "tips": "💡 Porady", "close": "Rozumiem! 👍", "live": "💡 Porady podczas gry"}, "en": {"rules": "📖 How to play", "tips": "💡 Tips", "close": "Got it! 👍", "live": "💡 Tips while playing"}, "sk": {"rules": "📖 Ako hrať", "tips": "💡 Tipy", "close": "Rozumiem! 👍", "live": "💡 Tipy počas hry"}};
