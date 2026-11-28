@@ -2766,6 +2766,10 @@ window.HELP = {
 [
 "🧤",
 "Speciale kaarten: Transplantatie, Orgaandief, Besmetting, Latex handschoen, Medische fout. Lees ze bij 📖 Regels."
+],
+[
+"🦸",
+"Kies 🦸 Superhelden voor helden, schurken, helpers en 5 nieuwe kaarten: Werven, Wisselwereld, Knip!, Spion en Tegen! (zie 📖 Regels)."
 ]
 ],
 "tips": [
@@ -2816,6 +2820,10 @@ window.HELP = {
 [
 "🧤",
 "Karty specjalne: Przeszczep, Złodziej organów, Zarażenie, Lateksowa rękawiczka, Błąd lekarski. Zajrzyj do 📖 Zasady."
+],
+[
+"🦸",
+"Wybierz 🦸 Superbohaterowie: bohaterowie, łotry, pomocnicy i 5 nowych kart: Werbunek, Zamiana światów, Pstryk!, Szpieg i Kontra! (zobacz 📖 Zasady)."
 ]
 ],
 "tips": [
@@ -2866,6 +2874,10 @@ window.HELP = {
 [
 "🧤",
 "Special cards: Transplant, Organ thief, Contagion, Latex glove, Medical error. Read about them in 📖 Rules."
+],
+[
+"🦸",
+"Choose 🦸 Superheroes for heroes, villains, helpers and 5 new cards: Recruit, Swap World, Snap!, Spy and Block! (see 📖 Rules)."
 ]
 ],
 "tips": [
@@ -2916,6 +2928,10 @@ window.HELP = {
 [
 "🧤",
 "Špeciálne karty: Transplantácia, Zlodej orgánov, Nákaza, Latexová rukavica, Lekárska chyba. Pozri 📖 Pravidlá."
+],
+[
+"🦸",
+"Vyber 🦸 Superhrdinovia: hrdinovia, zloduchovia, pomocníci a 5 nových kariet: Nábor, Výmena svetov, Lusk!, Špión a Proti! (pozri 📖 Pravidlá)."
 ]
 ],
 "tips": [

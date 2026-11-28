@@ -411,7 +411,8 @@
   @keyframes wvpulse { 50% { outline-color: transparent; } }
   @keyframes wvsick { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-4deg); } 75% { transform: rotate(4deg); } }
   .c-red { border-color: #e8344e !important; } .c-green { border-color: #2fb06c !important; } .c-blue { border-color: #2f8de0 !important; }
-  .c-yellow { border-color: #f5b800 !important; } .c-treat { border-color: #b05cff !important; }
+  .c-yellow { border-color: #f5b800 !important; } .c-treat { border-color: #b05cff !important; } .c-grey { border-color: #9aa0a6 !important; }
+  .c-ally { border-color: #ff9f43 !important; border-style: double !important; } .wv-spyttl { margin: 0 0 4px; grid-column: 1 / -1; }
   .c-multi { border-color: transparent !important; background: linear-gradient(#fff, #fff) padding-box, conic-gradient(#e8344e, #f5b800, #2fb06c, #2f8de0, #e8344e) border-box !important; }
   .wv-mid { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 4px 0; font-weight: 700; color: var(--soft); }
   .wv-mid img { width: 34px; height: 34px; border-radius: 8px; border: 2px solid var(--soft); background: #fff; object-fit: contain; }
@@ -1115,7 +1116,9 @@
   <!-- Virussen: instellen -->
   <section id="wirusSetup" class="hidden cd-game">
     <div class="card">
-      <p class="who">Hoeveel spelers?</p>
+      <p class="who">Welke kaarten?</p>
+      <div class="rk-pick" id="wvVer"><button data-ver="classic">🦠 Klassiek</button><button data-ver="hero">🦸 Superhelden</button></div>
+      <p class="who" style="margin-top:12px">Hoeveel spelers?</p>
       <div class="rk-pick" id="wvCount"></div>
       <p class="wait" id="wvCountHint"></p>
       <div id="wvDogBox">
@@ -1152,6 +1155,16 @@
       <p><b>Medicijn:</b> op je eigen orgaan, zelfde kleur. Eén medicijn = beschermd. Twee = immuun 🛡️: daar kan niets meer aan. Op een ziek orgaan maakt het medicijn het weer beter.</p>
       <p><b>Regenboog-kaarten</b> passen bij elke kleur.</p>
       <p><b>Transplantatie:</b> ruil een orgaan tussen twee spelers. <b>Orgaandief:</b> pak een orgaan van een ander. <b>Besmetting:</b> je virussen springen naar vrije organen van anderen. <b>Latex handschoen:</b> alle anderen gooien hun kaarten weg en slaan een beurt over. <b>Medische fout:</b> ruil je hele lichaam met een ander. Immuun 🛡️ kan niet geruild of gestolen worden (behalve bij medische fout), en je mag nooit twee dezelfde organen krijgen.</p>
+    </div>
+    <div class="card wv-rules" id="wvRulesHero" hidden>
+      <p><b>Doel:</b> wie het eerst 4 helden van 4 verschillende kleuren heeft die niet vastgehouden worden, wint.</p>
+      <p><b>Je beurt:</b> speel één kaart, óf gooi 1 tot 3 kaarten weg. Daarna pak je weer tot je 3 kaarten hebt.</p>
+      <p><b>Held:</b> zet hem in je team. Twee dezelfde helden mag niet. 👻 De Spookheld is een extra kleur: geen schurk kan hem vasthouden (en er kan ook geen superkracht op).</p>
+      <p><b>Schurk:</b> op een held van een ander, zelfde kleur: hij wordt vastgehouden. Een tweede schurk = de held is verslagen. Op een held met superkracht breekt hij de superkracht.</p>
+      <p><b>Superkracht:</b> op je eigen held, zelfde kleur: beschermd. Twee = onverslaanbaar 🛡️. Op een vastgehouden held jaagt hij de schurk weg.</p>
+      <p><b>Helpers 🤝:</b> 2 kleuren. Op je eigen held: meteen onverslaanbaar, of de schurk gaat weg.</p>
+      <p><b>Regenboog:</b> de Regenboogheld en de Superschurk passen bij elke kleur, en daarna mag je nog een keer!</p>
+      <p><b>Werven:</b> haal een held van een ander in je team. <b>Wisselwereld:</b> ruil je hele team met een ander. <b>Knip!:</b> iedereen (jij ook) verliest de helft van de helden. <b>Spion:</b> kijk in de kaarten van een ander en speel er een van. <b>Tegen!:</b> speelt iemand een kaart tegen jou? Tik op Tegen! en die kaart telt niet.</p>
     </div>
     <button class="back" id="wvBack" data-hold="always">← Ander spel</button>
   </section>
@@ -6848,17 +6861,42 @@
   wvAdd(1, { kind: 'organ', color: 'multi' }); wvAdd(1, { kind: 'virus', color: 'multi' }); wvAdd(4, { kind: 'med', color: 'multi' });
   wvAdd(3, { kind: 'treat', t: 'transplant' }); wvAdd(3, { kind: 'treat', t: 'thief' }); wvAdd(2, { kind: 'treat', t: 'spread' });
   wvAdd(1, { kind: 'treat', t: 'glove' }); wvAdd(1, { kind: 'treat', t: 'error' });
-  const wvImg = id => { const c = WV[id]; return 'cards/' + (c.kind === 'treat' ? 't-' + c.t : (c.kind === 'med' ? 'med' : c.kind) + '-' + c.color) + '.jpg'; };
-  const wvLabel = id => { const c = WV[id]; return c.kind === 'organ' ? WV_ORGAN[c.color] : c.kind === 'virus' ? 'Virus' : c.kind === 'med' ? 'Medicijn' : WV_TREAT[c.t]; };
-  const wvCls = id => 'c-' + (WV[id].kind === 'treat' ? 'treat' : WV[id].color);
+  // 🦸 Superhelden (after "Virus! Marvel", with our own heroes): heroes = organs, villains = viruses, powers = medicines.
+  // New: a grey hero no villain or power can touch (an extra colour), helpers (2 colours: protect for good, or chase a
+  // villain away), the rainbow hero and villain give another turn, and five actions: Werven (take a hero), Wisselwereld
+  // (swap teams), Knip! (everyone loses half their heroes), Spion (play one of somebody's cards) and Tegen! (stop a card
+  // played against you, also when it is not your turn). Ids 0 … 67 are the classic game, the rest the superhero game.
+  const wvAddH = (n, card) => wvAdd(n, { ...card, hero: true });
+  for (const c of WV_COLORS) { wvAddH(5, { kind: 'organ', color: c }); wvAddH(4, { kind: 'virus', color: c }); wvAddH(5, { kind: 'med', color: c }); }
+  wvAddH(1, { kind: 'organ', color: 'multi' }); wvAddH(1, { kind: 'organ', color: 'grey' }); wvAddH(1, { kind: 'virus', color: 'multi' });
+  for (const pair of [['red', 'green'], ['red', 'blue'], ['red', 'yellow'], ['green', 'blue'], ['green', 'yellow'], ['blue', 'yellow']]) wvAddH(1, { kind: 'ally', colors: pair });
+  wvAddH(3, { kind: 'treat', t: 'recruit' }); wvAddH(1, { kind: 'treat', t: 'warp' }); wvAddH(2, { kind: 'treat', t: 'snap' });
+  wvAddH(3, { kind: 'treat', t: 'spy' }); wvAddH(4, { kind: 'treat', t: 'counter' });
+  const WV_IDS = { classic: [...WV.keys()].filter(i => !WV[i].hero), hero: [...WV.keys()].filter(i => WV[i].hero) };
+  const WV_HERO = { red: 'Vuurmeisje', blue: 'Waterjongen', green: 'Plantenheld', yellow: 'Bliksemkind', multi: 'Regenboogheld', grey: 'Spookheld' };
+  const WV_VILLAIN = { red: 'Lavaschurk', blue: 'IJskoning', green: 'Gifslang', yellow: 'Donderrobot', multi: 'Superschurk' };
+  const WV_ACT = { recruit: 'Werven', warp: 'Wisselwereld', snap: 'Knip!', spy: 'Spion', counter: 'Tegen!' };
+  const wvImg = id => {
+    const c = WV[id];
+    if (c.hero) return 'cards/h-' + (c.kind === 'treat' ? 't-' + c.t : c.kind === 'ally' ? 'ally' : (c.kind === 'organ' ? 'hero' : c.kind) + '-' + c.color) + '.jpg';
+    return 'cards/' + (c.kind === 'treat' ? 't-' + c.t : (c.kind === 'med' ? 'med' : c.kind) + '-' + c.color) + '.jpg';
+  };
+  const wvLabel = id => {
+    const c = WV[id];
+    if (c.hero) return c.kind === 'organ' ? WV_HERO[c.color] : c.kind === 'virus' ? WV_VILLAIN[c.color] : c.kind === 'med' ? 'Superkracht' : c.kind === 'ally' ? 'Helpers' : WV_ACT[c.t];
+    return c.kind === 'organ' ? WV_ORGAN[c.color] : c.kind === 'virus' ? 'Virus' : c.kind === 'med' ? 'Medicijn' : WV_TREAT[c.t];
+  };
+  const wvCls = id => { const c = WV[id]; return c.kind === 'ally' ? 'c-ally c-' + c.colors.join(' c2-') : 'c-' + (c.kind === 'treat' ? 'treat' : c.color); };
+  const wvH = () => wv.st && wv.st.hero;              // playing the superhero game?
 
-  const wv = { st: null, me: 0, sel: null, pick: null, del: null, spread: null, setup: { count: 2, smart: 1 }, dogBusy: false };
+  const wv = { st: null, me: 0, sel: null, pick: null, del: null, spread: null, spy: null, setup: { count: 2, smart: 1, hero: (() => { try { return localStorage.getItem('raadspel-wv-hero') === '1'; } catch (e) { return false; } })() }, dogBusy: false };
 
   // --- the rules ---
-  const wvMatch = (a, b) => a === 'multi' || b === 'multi' || a === b;   // a rainbow card fits every colour
+  const wvMatch = (a, b) => a !== 'grey' && b !== 'grey' && (a === 'multi' || b === 'multi' || a === b);   // a rainbow card fits every colour; the grey hero nothing
   const wvCol = id => WV[id].color;
   function wvState(slot) {                                // free · sick (1 virus) · safe (1 medicine) · immune (2 medicines)
     if (!slot.on.length) return 'free';
+    if (slot.on.some(id => WV[id].kind === 'ally')) return 'immune';      // helpers protect a hero for good
     return WV[slot.on[0]].kind === 'virus' ? 'sick' : slot.on.length === 2 ? 'immune' : 'safe';
   }
   const wvHas = (body, color, skip) => body.some(s => s !== skip && wvCol(s.organ) === color);
@@ -6880,7 +6918,13 @@
         const state = wvState(s);
         if ((state === 'free' || state === 'safe') ? wvMatch(c.color, wvCol(s.organ)) : state === 'sick' && wvMatch(c.color, wvCol(s.on[0]))) out.push({ card, q: p, k });
       });
-    } else if (c.t === 'thief') {
+    } else if (c.kind === 'ally') {                       // helpers: chase a villain away, or protect a hero for good
+      const fits = x => x !== 'grey' && (x === 'multi' || c.colors.includes(x));
+      me.body.forEach((s, k) => {
+        const state = wvState(s);
+        if (state === 'sick' ? fits(wvCol(s.on[0])) || fits(wvCol(s.organ)) : (state === 'free' || state === 'safe') && fits(wvCol(s.organ))) out.push({ card, q: p, k });
+      });
+    } else if (c.t === 'thief' || c.t === 'recruit') {
       for (const q of rest) st.seats[q].body.forEach((s, k) => { if (wvState(s) !== 'immune' && !wvHas(me.body, wvCol(s.organ))) out.push({ card, q, k }); });
     } else if (c.t === 'transplant') {
       st.seats.forEach((a, qa) => a.body.forEach((sa, ka) => st.seats.forEach((b, qb) => {
@@ -6893,8 +6937,10 @@
       })));
     } else if (c.t === 'spread') { if (wvSpreadPairs(st, p).length) out.push({ card }); }
     else if (c.t === 'glove') out.push({ card });
-    else if (c.t === 'error') for (const q of rest) out.push({ card, q });
-    return out;
+    else if (c.t === 'error' || c.t === 'warp') for (const q of rest) out.push({ card, q });
+    else if (c.t === 'snap') { if (st.seats.some(x => x.body.length > 1)) out.push({ card }); }
+    else if (c.t === 'spy') { for (const q of rest) if (st.seats[q].hand.some(id => !['spy', 'counter'].includes(WV[id].t))) out.push({ card, q }); }
+    return out;                                           // Tegen! is never played on your own turn
   }
 
   // Contagion: a virus on one of my organs may jump to a free organ (no virus, no medicine) of another player, same colour
@@ -6914,29 +6960,50 @@
 
   // Plays a card for seat p and says what happened. (Contagion: the moves are made one by one before this, see wvSpreadOne.)
   function wvApply(st, p, m) {
-    const me = st.seats[p], c = WV[m.card], who = wvName(st, p);
-    me.hand.splice(me.hand.indexOf(m.card), 1);
-    if (c.kind === 'organ') { me.body.push({ organ: m.card, on: [] }); return `${who} legt neer: ${wvLabel(m.card)}.`; }
+    const me = st.seats[p], c = WV[m.card], who = wvName(st, p), H = !!c.hero;
+    let spied = '';
+    if (m.spy !== undefined) { me.hand.splice(me.hand.indexOf(m.spy), 1); st.discard.push(m.spy); spied = `🕵️ ${who} speelt een kaart van ${wvName(st, m.from)}! `; }
+    const owner = m.from !== undefined ? st.seats[m.from] : me;
+    owner.hand.splice(owner.hand.indexOf(m.card), 1);
+    return spied + wvEffect(st, p, m, c, who, H);
+  }
+  function wvEffect(st, p, m, c, who, H) {
+    const me = st.seats[p];
+    if (c.kind === 'organ') { me.body.push({ organ: m.card, on: [] }); return H ? `🦸 ${who} roept een held: ${wvLabel(m.card)}!` : `${who} legt neer: ${wvLabel(m.card)}.`; }
     if (c.kind === 'virus') {
       const body = st.seats[m.q].body, s = body[m.k], state = wvState(s), them = wvName(st, m.q);
-      if (state === 'free') { s.on.push(m.card); return `🦠 ${who} besmet een orgaan van ${them}.`; }
-      if (state === 'sick') { st.discard.push(s.organ, ...s.on, m.card); body.splice(m.k, 1); return `💥 ${who} vernietigt een orgaan van ${them}!`; }
-      st.discard.push(s.on.pop(), m.card); return `🦠 ${who} breekt een medicijn van ${them}.`;
+      if (state === 'free') { s.on.push(m.card); return H ? `🦹 ${who} houdt een held van ${them} vast.` : `🦠 ${who} besmet een orgaan van ${them}.`; }
+      if (state === 'sick') { st.discard.push(s.organ, ...s.on, m.card); body.splice(m.k, 1); return H ? `💥 ${who} verslaat een held van ${them}!` : `💥 ${who} vernietigt een orgaan van ${them}!`; }
+      st.discard.push(s.on.pop(), m.card); return H ? `🦹 ${who} breekt een superkracht van ${them}.` : `🦠 ${who} breekt een medicijn van ${them}.`;
     }
     if (c.kind === 'med') {
       const s = me.body[m.k], state = wvState(s);
-      if (state === 'sick') { st.discard.push(s.on.pop(), m.card); return `💊 ${who} geneest een orgaan.`; }
+      if (state === 'sick') { st.discard.push(s.on.pop(), m.card); return H ? `⚡ ${who} bevrijdt een held.` : `💊 ${who} geneest een orgaan.`; }
       s.on.push(m.card);
-      return state === 'safe' ? `🛡️ ${who} maakt een orgaan immuun!` : `💊 ${who} beschermt een orgaan.`;
+      return state === 'safe' ? (H ? `🛡️ ${who} maakt een held onverslaanbaar!` : `🛡️ ${who} maakt een orgaan immuun!`) : (H ? `⚡ ${who} geeft een held superkracht.` : `💊 ${who} beschermt een orgaan.`);
+    }
+    if (c.kind === 'ally') {
+      const s = me.body[m.k];
+      if (wvState(s) === 'sick') { st.discard.push(s.on.pop(), m.card); return `🤝 ${who}: de helpers verjagen een schurk!`; }
+      s.on.push(m.card); return `🤝 ${who}: de helpers beschermen een held voor altijd!`;
     }
     st.discard.push(m.card);
-    if (c.t === 'thief') { me.body.push(st.seats[m.q].body.splice(m.k, 1)[0]); return `🦝 ${who} steelt een orgaan van ${wvName(st, m.q)}!`; }
+    if (c.t === 'snap') {                                 // everyone loses half their heroes: the weakest go first
+      st.seats.forEach(x => {
+        const order = x.body.map((sl, k) => k).sort((a, b) => wvWorth([x.body[a]]) - wvWorth([x.body[b]]));
+        const gone = new Set(order.slice(0, Math.floor(x.body.length / 2)));
+        x.body.forEach((sl, k) => { if (gone.has(k)) st.discard.push(sl.organ, ...sl.on); });
+        x.body = x.body.filter((sl, k) => !gone.has(k));
+      });
+      return `🫰 ${who} knipt met de vingers: iedereen verliest de helft van de helden!`;
+    }
+    if (c.t === 'thief' || c.t === 'recruit') { me.body.push(st.seats[m.q].body.splice(m.k, 1)[0]); return H ? `🫳 ${who} werft een held van ${wvName(st, m.q)}!` : `🦝 ${who} steelt een orgaan van ${wvName(st, m.q)}!`; }
     if (c.t === 'transplant') {
       const a = st.seats[m.q].body, b = st.seats[m.q2].body;
       [a[m.k], b[m.k2]] = [b[m.k2], a[m.k]];
       return `🔄 ${who} ruilt organen van ${wvName(st, m.q)} en ${wvName(st, m.q2)}.`;
     }
-    if (c.t === 'error') { [me.body, st.seats[m.q].body] = [st.seats[m.q].body, me.body]; return `🔁 ${who} ruilt het hele lichaam met ${wvName(st, m.q)}!`; }
+    if (c.t === 'error' || c.t === 'warp') { [me.body, st.seats[m.q].body] = [st.seats[m.q].body, me.body]; return H ? `🌀 ${who} ruilt het hele team met ${wvName(st, m.q)}!` : `🔁 ${who} ruilt het hele lichaam met ${wvName(st, m.q)}!`; }
     if (c.t === 'glove') {
       st.seats.forEach((o, q) => { if (q !== p) { st.discard.push(...o.hand); o.hand = []; } });
       return `🧤 ${who} speelt de latex handschoen: alle anderen gooien hun kaarten weg!`;
@@ -6962,12 +7029,41 @@
     const marks = Object.keys(after).filter(id => after[id] !== before[id]).map(Number);
     for (let k = 0; k < st.seats.length && !st.over; k++) { const q = (p + k) % st.seats.length; if (wvWins(st.seats[q].body)) st.over = { winner: q }; }
     wvFill(st, p);
-    if (!st.over) st.turn = (p + 1) % st.seats.length;
+    if (!st.over && !info.again) st.turn = (p + 1) % st.seats.length;
     st.v++; st.say = say;
     st.last = { by: p, v: st.v, marks, card: info.card ?? null, thrown: info.thrown || 0, refill: !!info.refill };
-    wv.sel = null; wv.pick = null; wv.del = null; wv.spread = null;
+    st.pending = null;
+    wv.sel = null; wv.pick = null; wv.del = null; wv.spread = null; wv.spy = null;
     wvSend();
     wvNext();
+  }
+
+  // Play a move. In the superhero game a card aimed at somebody who holds Tegen! waits: they may stop it.
+  const wvAgain = m => { const c = WV[m.card]; return !!c.hero && c.color === 'multi' && (c.kind === 'organ' || c.kind === 'virus'); };
+  function wvAimed(st, p, m) {
+    const c = WV[m.card];
+    if (m.spy !== undefined) return m.from;
+    if ((c.kind === 'virus' || c.t === 'recruit' || c.t === 'warp' || c.t === 'spy') && m.q !== undefined && m.q !== p) return m.q;
+    return -1;
+  }
+  function wvDo(st, p, m) {
+    const q = wvAimed(st, p, m);
+    if (st.hero && q >= 0 && st.seats[q].hand.some(id => WV[id].t === 'counter')) {
+      st.pending = { p, q, m }; st.v++;
+      wv.sel = null; wv.pick = null; wv.spy = null;
+      wvSend(); return wvNext();
+    }
+    wvEnd(wvApply(st, p, m), { card: m.card, again: wvAgain(m) });
+  }
+  function wvResolve(stopped) {                         // the one who was aimed at answered (or waited too long)
+    const st = wv.st, pd = st.pending; if (!pd) return;
+    const { p, q, m } = pd;
+    if (!stopped) return wvEnd(wvApply(st, p, m), { card: m.card, again: wvAgain(m) });
+    const T = st.seats[q], c = T.hand.find(id => WV[id].t === 'counter');
+    T.hand.splice(T.hand.indexOf(c), 1); st.discard.push(c);
+    const P = st.seats[p], played = m.spy !== undefined ? m.spy : m.card;
+    P.hand.splice(P.hand.indexOf(played), 1); st.discard.push(played);
+    wvEnd(`🛑 ${wvName(st, q)} speelt Tegen!: de kaart van ${wvName(st, p)} telt niet.`, { card: c });
   }
 
   // --- setup ---
@@ -6988,11 +7084,12 @@
     const who = names.length > 1 ? names.slice(0, -1).join(', ') + ' en ' + names[names.length - 1] : names[0];
     $('wvCountHint').textContent = `${who}${dogs ? ` en ${dogs} hondje${dogs > 1 ? 's' : ''}` : ''}.`;
     document.querySelectorAll('#wvDog button').forEach(b => b.classList.toggle('on', Number(b.dataset.smart) === wv.setup.smart));
+    document.querySelectorAll('#wvVer button').forEach(b => b.classList.toggle('on', (b.dataset.ver === 'hero') === wv.setup.hero));
     $('wvDogBox').hidden = dogs === 0;
   }
 
   function wirusDeal() {
-    const deck = shuffle([...WV.keys()]);
+    const deck = shuffle(WV_IDS[wv.setup.hero ? 'hero' : 'classic'].slice());
     const dogNames = ['Hondje Bo', 'Hondje Fien', 'Hondje Max'];
     const seats = [{ id: myId, name: myName || 'Jij', dog: false }];
     if (mode === 'together') others.forEach(o => seats.push({ id: o.id, name: o.name, dog: false }));
@@ -7000,7 +7097,7 @@
     while (seats.length < wv.setup.count) seats.push({ id: 'dog' + seats.length, name: dogNames[seats.length - people], dog: true });
     seats.forEach(x => { x.hand = deck.splice(-3); x.body = []; });
     const st = { id: Math.random().toString(36).slice(2), v: 1, seats, deck, discard: [], turn: Math.floor(Math.random() * seats.length),
-                 smart: wv.setup.smart, runner: myId, over: null, say: '' };
+                 smart: wv.setup.smart, runner: myId, over: null, say: '', hero: wv.setup.hero, pending: null };
     wvShow(st);
     wvSend();
   }
@@ -7025,7 +7122,7 @@
     stopMusic();
     wv.st = st;
     wv.me = st.seats.findIndex(x => x.id === myId);
-    wv.sel = null; wv.pick = null; wv.del = null; wv.spread = null; wv.dogBusy = false;
+    wv.sel = null; wv.pick = null; wv.del = null; wv.spread = null; wv.spy = null; wv.dogBusy = false;
     $('wvEnd').hidden = !st.over;
     show('wirus');
     wvNext();
@@ -7040,6 +7137,14 @@
     const shown = wvShowMove();
     if (st.over) return wvShowEnd();
     const lead = st.say ? st.say + ' ' : '';
+    if (st.pending) {                                     // a card waits: may the one it is aimed at say Tegen!?
+      const pd = st.pending, v = st.v, T = st.seats[pd.q], P = st.seats[pd.p];
+      $('wvStatus').textContent = pd.q === wv.me ? `🛑 ${P.name} speelt ${wvLabel(pd.m.card)} tegen jou! Speel je Tegen!?` : `⏳ ${P.name} speelt ${wvLabel(pd.m.card)} tegen ${T.name}…`;
+      if (T.dog && st.runner === myId) setTimeout(() => { if (wv.st === st && st.v === v && st.pending) wvResolve(Math.random() < (st.smart ? .85 : .55)); }, 1500);
+      const decider = P.dog ? st.runner === myId : pd.p === wv.me;
+      if (decider) setTimeout(() => { if (wv.st === st && st.v === v && st.pending) wvResolve(false); }, 7000);
+      return;
+    }
     // after the latex glove: this turn is only for drawing new cards
     if (!s.hand.length && (wvMyTurn() || (s.dog && st.runner === myId))) {
       $('wvStatus').textContent = lead;
@@ -7076,8 +7181,8 @@
   function wvShowEnd() {
     const st = wv.st, w = st.seats[st.over.winner];
     wvDraw();
-    if (st.over.winner === wv.me) { $('wvStatus').textContent = (st.say ? st.say + ' ' : '') + '🏆 Jij wint! Jouw lichaam is gezond!'; confetti(); winSound(); }
-    else $('wvStatus').textContent = (st.say ? st.say + ' ' : '') + `${w.name} wint met een gezond lichaam!`;
+    if (st.over.winner === wv.me) { $('wvStatus').textContent = (st.say ? st.say + ' ' : '') + (st.hero ? '🏆 Jij wint! Jouw team is compleet!' : '🏆 Jij wint! Jouw lichaam is gezond!'); confetti(); winSound(); }
+    else $('wvStatus').textContent = (st.say ? st.say + ' ' : '') + (st.hero ? `${w.name} wint met een compleet team!` : `${w.name} wint met een gezond lichaam!`);
     $('wvEnd').hidden = false;
   }
 
@@ -7093,8 +7198,9 @@
     }
     if (wv.sel === null) return t;
     const moves = wvMoves(st, wv.me, wv.sel), c = WV[wv.sel];
-    if (c.kind === 'organ' || c.t === 'glove' || c.t === 'spread') t.button = moves.length > 0;
-    else if (c.t === 'error') moves.forEach(m => t.seats.add(m.q));
+    if (wv.spy && wv.spy.pickedFrom === undefined) return t;
+    if (c.kind === 'organ' || c.t === 'glove' || c.t === 'spread' || c.t === 'snap') t.button = moves.length > 0;
+    else if (c.t === 'error' || c.t === 'warp' || c.t === 'spy') moves.forEach(m => t.seats.add(m.q));
     else if (c.t === 'transplant') {
       if (!wv.pick) moves.forEach(m => { t.slots.add(m.q + ':' + m.k); t.slots.add(m.q2 + ':' + m.k2); });
       else moves.forEach(m => {
@@ -7114,7 +7220,17 @@
     spread: 'Besmetting: je virussen springen naar vrije organen van anderen.',
     glove: 'Latex handschoen: alle anderen gooien hun kaarten weg.',
     error: 'Medische fout: tik op een speler om je hele lichaam te ruilen.',
+    ally: 'Helpers: tik op je eigen held. Vrij of beschermd: voor altijd veilig. Vastgehouden: de schurk gaat weg.',
+    recruit: 'Werven: tik op een held van een ander om hem in je team te halen.',
+    warp: 'Wisselwereld: tik op een speler om je hele team te ruilen.',
+    snap: 'Knip!: iedereen (jij ook) verliest de helft van de helden.',
+    spy: 'Spion: tik op een speler. Je ziet zijn kaarten en speelt er een van.',
+    counter: 'Tegen!: deze speel je als iemand een kaart tegen jou speelt.',
   };
+
+  const WV_HINT_HERO = { organ: 'Held: zet hem in je team. Twee dezelfde helden mag niet.', virus: 'Schurk: tik op een held van een ander met dezelfde kleur.',
+    med: 'Superkracht: tik op je eigen held met dezelfde kleur.' };
+  const wvHint = c => (c.hero && WV_HINT_HERO[c.kind]) || WV_HINT[c.kind === 'treat' ? c.t : c.kind];
 
   // --- drawing ---
   function wvSlotHtml(q, k, s, t) {
@@ -7127,7 +7243,7 @@
 
   function wvSeatHtml(q, t) {
     const st = wv.st, x = st.seats[q], mine = q === wv.me;
-    const body = x.body.length ? x.body.map((s, k) => wvSlotHtml(q, k, s, t)).join('') : '<span class="none">Nog geen organen</span>';
+    const body = x.body.length ? x.body.map((s, k) => wvSlotHtml(q, k, s, t)).join('') : `<span class="none">${wvH() ? 'Nog geen helden' : 'Nog geen organen'}</span>`;
     const cls = ['wv-seat', mine ? 'wv-me' : '', st.turn === q && !st.over ? 'turn' : '', t.seats.has(q) ? 'target' : ''].join(' ');
     return `<div class="${cls}" data-seat="${q}"><div class="wv-name"><span>${x.dog ? '🐶 ' : ''}${mine ? 'Jij' : x.name}</span><small>🃏 ${x.hand.length} · ❤️ ${wvHealthy(x.body)}/4</small></div><div class="wv-body">${body}</div></div>`;
   }
@@ -7144,8 +7260,15 @@
       const cls = ['wc', wvCls(id), wv.sel === id ? 'sel' : '', wv.del && wv.del.has(id) ? 'del' : '', myTurn && !wv.del && !wvMoves(st, wv.me, id).length ? 'off' : ''].join(' ');
       return `<button class="${cls}" data-card="${id}"><img src="${wvImg(id)}" alt=""><span>${wvLabel(id)}</span></button>`;
     }).join('');
+    if (wv.spy && wv.spy.pickedFrom === undefined) {        // Spion: the cards of the other player; tap one to play it
+      const T = st.seats[wv.spy.q], ok = T.hand.filter(id => !['spy', 'counter'].includes(WV[id].t) && wvMoves(st, wv.me, id).length);
+      $('wvHand').innerHTML = `<p class="who wv-spyttl">🕵️ <span>${T.name}</span></p>` + T.hand.map(id => `<button class="wc ${wvCls(id)}${ok.includes(id) ? '' : ' off'}" data-spycard="${id}"><img src="${wvImg(id)}" alt=""><span>${wvLabel(id)}</span></button>`).join('');
+      $('wvTools').innerHTML = (ok.length ? '' : '<button class="go" data-do="spynone">Niets te spelen 🤷</button>') + '<button data-do="spyback">Terug</button>';
+      return;
+    }
     let tools = '';
-    if (myTurn && !wv.spread) {
+    if (st.pending && st.pending.q === wv.me) tools = '<button class="go" data-do="counter">🛑 Tegen!</button><button data-do="nocounter">Laat maar</button>';
+    if (myTurn && !wv.spread && !st.pending) {
       if (wv.del) tools = `<button class="go" data-do="throw"${wv.del.size ? '' : ' disabled'}>🗑️ Gooi weg</button><button data-do="cancel">Terug</button>`;
       else {
         if (t.button) tools += `<button class="go" data-do="play">▶️ Speel deze kaart</button>`;
@@ -7169,7 +7292,7 @@
     if (wv.sel === id) { wv.sel = null; wvSay('Jij bent aan de beurt!'); return wvDraw(); }
     wv.sel = id;
     const c = WV[id];
-    wvSay(wvMoves(wv.st, wv.me, id).length ? WV_HINT[c.kind === 'treat' ? c.t : c.kind] : 'Deze kaart kan nu niet. Kies een andere of gooi kaarten weg.');
+    wvSay(wvMoves(wv.st, wv.me, id).length ? wvHint(c) : c.t === 'counter' ? WV_HINT.counter : 'Deze kaart kan nu niet. Kies een andere of gooi kaarten weg.');
     wvDraw();
   }
 
@@ -7194,14 +7317,16 @@
       m = pq < q ? { card: wv.sel, q: pq, k: pk, q2: q, k2: k } : { card: wv.sel, q, k, q2: pq, k2: pk };
     } else m = { card: wv.sel, q, k };
     blip(600);
-    wvEnd(wvApply(st, wv.me, m), { card: m.card });
+    wvDo(st, wv.me, { ...m, ...wvSpyPart() });
   }
 
   function wvTapSeat(q) {
     if (!wvMyTurn() || wv.sel === null || !wvTargets().seats.has(q)) return;
     blip(600);
-    wvEnd(wvApply(wv.st, wv.me, { card: wv.sel, q }), { card: wv.sel });
+    if (WV[wv.sel].t === 'spy') { wv.spy = { card: wv.sel, q }; wv.sel = null; wvSay(`🕵️ Dit zijn de kaarten van ${wv.st.seats[q].name}. Tik op een kaart om hem te spelen.`); return wvDraw(); }
+    wvDo(wv.st, wv.me, { card: wv.sel, q, ...wvSpyPart() });
   }
+  const wvSpyPart = () => wv.spy && wv.spy.pickedFrom !== undefined ? { spy: wv.spy.card, from: wv.spy.q } : {};
 
   function wvPlayButton() {
     const st = wv.st, c = WV[wv.sel];
@@ -7211,8 +7336,7 @@
       return wvSpreadNext();
     }
     blip(600);
-    const card = wv.sel;
-    wvEnd(wvApply(st, wv.me, { card }), { card });
+    wvDo(st, wv.me, { card: wv.sel, ...wvSpyPart() });
   }
 
   // Contagion, one virus at a time, as long as one can jump
@@ -7252,7 +7376,9 @@
     if (!st || st.over || !st.seats[st.turn].dog || st.runner !== myId) return;
     const p = st.turn, me = st.seats[p];
     if (!me.hand.length) return;
-    const moves = me.hand.flatMap(c => wvMoves(st, p, c));
+    const moves = me.hand.flatMap(c => WV[c].t === 'spy'
+      ? wvMoves(st, p, c).flatMap(sm => st.seats[sm.q].hand.filter(id => !['spy', 'counter'].includes(WV[id].t)).flatMap(id => wvMoves(st, p, id).map(m => ({ ...m, spy: c, from: sm.q }))))
+      : wvMoves(st, p, c));
     let best = null, bestGain = st.smart ? 0.5 : -Infinity;
     const now = wvValue(st, p), others = st.seats.filter((x, q) => q !== p);
     for (const m of moves) {
@@ -7267,7 +7393,7 @@
         while ((pairs = wvSpreadPairs(st, p)).length) { wvSpreadOne(st, p, pairs[0]); best.n++; }
       }
       blip(600);
-      return wvEnd(wvApply(st, p, best), { card: best.card });
+      return wvDo(st, p, best);
     }
     // nothing good to play: throw away the cards that cannot be played (or one card)
     let away = me.hand.filter(c => !wvMoves(st, p, c).length);
@@ -7290,10 +7416,15 @@
   $('wvCount').addEventListener('click', e => { const b = e.target.closest('[data-count]'); if (b) { wv.setup.count = Number(b.dataset.count); drawWirusSetup(); } });
   $('wvDog').addEventListener('click', e => { const b = e.target.closest('[data-smart]'); if (b) { wv.setup.smart = Number(b.dataset.smart); drawWirusSetup(); } });
   $('wvGo').addEventListener('click', wirusDeal);
+  $('wvVer').addEventListener('click', e => { const b = e.target.closest('[data-ver]'); if (!b) return; wv.setup.hero = b.dataset.ver === 'hero'; try { localStorage.setItem('raadspel-wv-hero', wv.setup.hero ? '1' : '0'); } catch (err) {} drawWirusSetup(); });
   $('wvSetupBack').addEventListener('click', wirusLeave);
   $('wvBack').addEventListener('click', wirusLeave);
   $('wvAgain').addEventListener('click', wirusStart);
-  $('wvHand').addEventListener('click', e => { const b = e.target.closest('[data-card]'); if (b) wvTapCard(Number(b.dataset.card)); });
+  $('wvHand').addEventListener('click', e => {
+    const sp = e.target.closest('[data-spycard]');
+    if (sp && wv.spy && !sp.classList.contains('off')) { const id = Number(sp.dataset.spycard); wv.spy.pickedFrom = wv.spy.q; wv.sel = id; wvSay(wvHint(WV[id])); return wvDraw(); }
+    const b = e.target.closest('[data-card]'); if (b) wvTapCard(Number(b.dataset.card));
+  });
   $('wirus').addEventListener('click', e => {
     const slot = e.target.closest('[data-slot]');
     if (slot && (wvTargets().slots.has(slot.dataset.slot) || wv.pick === slot.dataset.slot)) return wvTapSlot(slot.dataset.slot);
@@ -7303,8 +7434,15 @@
   $('wvTools').addEventListener('click', e => {
     const b = e.target.closest('[data-do]'); if (!b) return;
     const d = b.dataset.do;
-    if (d === 'rules') { $('wvRules').hidden = !$('wvRules').hidden; if (!$('wvRules').hidden) $('wvRules').scrollIntoView({ behavior: 'smooth' }); return; }
+    if (d === 'rules') { const R = $(wvH() ? 'wvRulesHero' : 'wvRules'); R.hidden = !R.hidden; $(wvH() ? 'wvRules' : 'wvRulesHero').hidden = true; if (!R.hidden) R.scrollIntoView({ behavior: 'smooth' }); return; }
     if (d === 'play') return wvPlayButton();
+    if (d === 'counter' || d === 'nocounter') { if (wv.st.pending && wv.st.pending.q === wv.me) wvResolve(d === 'counter'); return; }
+    if (d === 'spyback') { wv.spy = null; wv.sel = null; wvSay('Jij bent aan de beurt!'); return wvDraw(); }
+    if (d === 'spynone' && wv.spy) {
+      const st = wv.st, me = st.seats[wv.me], q = wv.spy.q, c = wv.spy.card;
+      me.hand.splice(me.hand.indexOf(c), 1); st.discard.push(c);
+      return wvEnd(`🕵️ ${me.name} bekijkt de kaarten van ${st.seats[q].name}.`, { card: c });
+    }
     if (d === 'del') { wv.del = new Set(); wv.sel = null; wv.pick = null; wvSay('Tik op 1 tot 3 kaarten om weg te gooien.'); return wvDraw(); }
     if (d === 'cancel') { wv.del = null; wvSay('Jij bent aan de beurt!'); return wvDraw(); }
     if (d === 'throw' && wv.del && wv.del.size) wvThrow();
