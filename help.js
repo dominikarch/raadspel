@@ -7235,6 +7235,144 @@ window.HELP = {
 ]
 ]
 }
+},
+"tangram": {
+"nl": {
+"rules": [
+[
+"🧩",
+"Leg alle stukjes zo neer dat ze precies de donkere schaduw vullen."
+],
+[
+"👆",
+"Sleep een stukje met je vinger. Tik erop om het een kwartslag te draaien."
+],
+[
+"↔️",
+"Het scheve stukje (parallellogram) kun je omdraaien met ↔️ Omdraaien."
+],
+[
+"✨",
+"Ligt een stukje goed? Dan klikt het vast."
+],
+[
+"💡",
+"💡 Lijntjes laat zien waar elk stukje hoort. 🪄 Hulp legt één stukje voor je neer."
+]
+],
+"tips": [
+[
+"🔺",
+"Begin met de twee grote driehoeken: die passen maar op een paar plekken."
+],
+[
+"👀",
+"Kijk naar de punten en rechte hoeken van de schaduw."
+]
+]
+},
+"pl": {
+"rules": [
+[
+"🧩",
+"Ułóż wszystkie kawałki tak, żeby dokładnie wypełniły ciemny cień."
+],
+[
+"👆",
+"Przeciągnij kawałek palcem. Stuknij go, żeby obrócić o ćwierć obrotu."
+],
+[
+"↔️",
+"Krzywy kawałek (równoległobok) odwrócisz przyciskiem ↔️ Odwróć."
+],
+[
+"✨",
+"Kawałek leży dobrze? Wtedy wskakuje na miejsce."
+],
+[
+"💡",
+"💡 Linie pokazują, gdzie pasuje każdy kawałek. 🪄 Pomoc kładzie jeden kawałek za ciebie."
+]
+],
+"tips": [
+[
+"🔺",
+"Zacznij od dwóch dużych trójkątów: pasują tylko w kilku miejscach."
+],
+[
+"👀",
+"Patrz na rogi i proste kąty cienia."
+]
+]
+},
+"en": {
+"rules": [
+[
+"🧩",
+"Lay all the pieces so they fill the dark shadow exactly."
+],
+[
+"👆",
+"Drag a piece with your finger. Tap it to turn it a quarter."
+],
+[
+"↔️",
+"The slanted piece (parallelogram) can be flipped with ↔️ Flip."
+],
+[
+"✨",
+"Is a piece in the right place? Then it clicks in."
+],
+[
+"💡",
+"💡 Lines shows where each piece goes. 🪄 Help puts one piece in place for you."
+]
+],
+"tips": [
+[
+"🔺",
+"Start with the two big triangles: they only fit in a few places."
+],
+[
+"👀",
+"Look at the points and right angles of the shadow."
+]
+]
+},
+"sk": {
+"rules": [
+[
+"🧩",
+"Polož všetky dieliky tak, aby presne vyplnili tmavý tieň."
+],
+[
+"👆",
+"Potiahni dielik prstom. Ťukni naň a otočí sa o štvrť otáčky."
+],
+[
+"↔️",
+"Šikmý dielik (rovnobežník) otočíš tlačidlom ↔️ Otoč."
+],
+[
+"✨",
+"Leží dielik správne? Potom zaskočí na miesto."
+],
+[
+"💡",
+"💡 Čiary ukážu, kam patrí každý dielik. 🪄 Pomoc položí jeden dielik za teba."
+]
+],
+"tips": [
+[
+"🔺",
+"Začni dvoma veľkými trojuholníkmi: hodia sa len na pár miest."
+],
+[
+"👀",
+"Pozeraj na rohy a pravé uhly tieňa."
+]
+]
+}
 }
 };
 window.HELP_UI = {"nl": {"rules": "📖 Zo speel je", "tips": "💡 Tips", "close": "Begrepen! 👍", "live": "💡 Tips tijdens het spel"}, "pl": {"rules": "📖 Jak grać", "tips": "💡 Porady", "close": "Rozumiem! 👍", "live": "💡 Porady podczas gry"}, "en": {"rules": "📖 How to play", "tips": "💡 Tips", "close": "Got it! 👍", "live": "💡 Tips while playing"}, "sk": {"rules": "📖 Ako hrať", "tips": "💡 Tipy", "close": "Rozumiem! 👍", "live": "💡 Tipy počas hry"}};

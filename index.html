@@ -885,6 +885,10 @@
   .up-car.hint i { animation: kkGlow .3s infinite alternate; box-shadow: 0 0 0 4px #ffd23f; }
   .up-tools { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
   .up-win { background: #fff6d6; border-radius: 16px; padding: 10px; margin-top: 10px; } .up-win b { font-size: 2rem; display: block; }
+  /* Tangram */
+  #tgBoard { width: 100%; max-width: 380px; display: block; margin: 0 auto; touch-action: none; background: #fff; border-radius: 14px; }
+  .tg-piece { stroke: #fff; stroke-width: .05; cursor: grab; } .tg-piece.sel { stroke: #2b2140; stroke-width: .09; } .tg-piece.in { stroke: rgba(255,255,255,.8); }
+  #tgLines.on { background: #ffd23f; }
   /* Dominik kan alles */
   #dkCanvas { width: 100%; max-width: 380px; display: block; margin: 0 auto; border-radius: 16px; touch-action: none; }
   .dk-score { font-size: 1.2rem; margin-bottom: 6px; } .dk-score b { font-size: 1.5rem; margin: 0 8px; }
@@ -952,6 +956,7 @@
       <button class="level w2" id="soloMemory">🃏 Memory<small>Zoek de paren, tegen het hondje of alleen</small></button>
       <button class="level l1" id="soloLingo">🔤 Lingo<small>Raad het woord, zoals op tv</small></button>
       <button class="level l4" id="soloBat">🦇 Vleermuis-vlucht<small>Fladder langs spinnen en spoken, pak het snoep</small></button>
+      <button class="level w2" id="soloTangram">🧩 Tangram<small>Maak figuren met 7 stukjes: een kat, een huis, een vis…</small></button>
       <button class="level l2" id="soloPark">🚗 Uitparkeren<small>Help Chica en Lucy de parkeerplaats uit. Van makkelijk tot heel moeilijk!</small></button>
       <button class="level w1" id="soloDakrace">🐴 Daken-race<small>Spring over de daken en gooi pakjes in de schoorsteen</small></button>
       <button class="level l4" id="soloPakjes">🎁 Pakjesdobbelspel<small>Sinterklaas! Gooi de dobbelsteen en verzamel cadeautjes</small></button>
@@ -1908,6 +1913,27 @@
     <button class="back" id="upBack">← Levels</button>
   </section>
 
+  <!-- Tangram: kies een figuur -->
+  <section id="tangramMenu" class="hidden">
+    <div class="card">
+      <p class="who">🧩 Tangram: kies een figuur</p>
+      <div class="up-levels" id="tgLevels"></div>
+    </div>
+    <button class="back" id="tgMenuBack">← Terug</button>
+  </section>
+
+  <!-- Tangram: leggen -->
+  <section id="tangram" class="hidden">
+    <div class="card">
+      <p class="who" id="tgTitle"></p>
+      <svg id="tgBoard" viewBox="0 0 16 24" aria-label="Tangram"></svg>
+      <div class="up-tools"><button class="ts-btn" id="tgFlip">↔️ Omdraaien</button><button class="ts-btn" id="tgLines">💡 Lijntjes</button><button class="ts-btn" id="tgHint">🪄 Hulp</button><button class="ts-btn" id="tgRestart">🔄 Opnieuw</button></div>
+      <p class="wait">Sleep een stuk naar de schaduw. Tik op een stuk om het te draaien.</p>
+      <div class="up-win" id="tgWin" hidden><b>🎉</b><p>Gelukt!</p><button class="again" id="tgNext">Volgende figuur ➡️</button><button class="ts-btn" id="tgToMenu">📋 Figuren</button></div>
+    </div>
+    <button class="back" id="tgBack">← Figuren</button>
+  </section>
+
   <!-- Memory: instellen -->
   <section id="memorySetup" class="hidden">
     <div class="card">
@@ -2183,7 +2209,7 @@
 
   const $ = id => document.getElementById(id);
   const SCREENS = ['welcome', 'name', 'soloGames', 'start', 'together', 'hosting', 'join', 'lobby', 'roles',
-                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes', 'dakrace', 'parkMenu', 'park',
+                   'tttSetup', 'ttt', 'shipsLevel', 'shipsPlace', 'shipsPlay', 'bricksLevel', 'bricks', 'snakeLevel', 'snake', 'gravity', 'nailsMenu', 'nails', 'crash', 'dam', 'pongLevel', 'pong', 'chessSetup', 'chess', 'poolLevel', 'pool', 'rummiSetup', 'rummi', 'sudokuLevel', 'sudoku', 'moleLevel', 'mole', 'wirusSetup', 'wirus', 'pumpkin', 'mahjongLevel', 'mahjong', 'gwintMenu', 'gwintDeck', 'gwint', 'batLevel', 'bat', 'lingoLevel', 'lingo', 'memorySetup', 'memory', 'kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook', 'cardMake', 'whoMonster', 'monsterRace', 'dreidelSetup', 'dreidel', 'dominik', 'kkSetup', 'kk', 'tysiacSetup', 'tysiac', 'sbSetup', 'spookbom', 'tfSetup', 'tfive', 'funSetup', 'fun', 'pjSetup', 'pakjes', 'dakrace', 'parkMenu', 'park', 'tangramMenu', 'tangram',
                    'hideLevel', 'hideNumber', 'watch', 'waitHide', 'game', 'win'];
   let screen = 'welcome';
 
@@ -13048,6 +13074,142 @@
   $('upBack').addEventListener('click', upMenu);
 
 
+  // ----- 🧩 Tangram: lay the pieces in the shadow. Drag a piece; tap it to turn it a quarter; ↔️ flips the selected
+  // piece over. A piece that lies close enough to its place (same shape, same way round) clicks into it. The first
+  // levels use 2 to 5 pieces and show the lines; then all 7 pieces and only the shadow (💡 shows the lines).
+  // A figure = [type, corner points] per piece, y upwards (checked by a script: right shapes, no overlap).
+  const TG_SHAPES = { BT: [[0, 0], [4, 0], [2, 2]], MT: [[0, 0], [2, 0], [0, 2]], ST: [[0, 0], [2, 0], [1, 1]], SQ: [[1, 0], [2, 1], [1, 2], [0, 1]], PA: [[0, 0], [2, 0], [3, 1], [1, 1]] };
+  const TG_COLORS = ['#ff6b6b', '#4dabf7', '#51cf66', '#fcc419', '#ff922b', '#cc5de8', '#20c997'];
+  const TG_ARROW = [['BT', [[0, 1], [4, 1], [2, 3]]], ['MT', [[0, 1], [2, 3], [0, 3]]], ['ST', [[4, 1], [4, 3], [3, 2]]], ['ST', [[2, 3], [4, 3], [3, 2]]], ['BT', [[4, 0], [4, 4], [6, 2]]]];
+  const TG_LEVELS = [
+    ['🔷 Ruit', true, [['ST', [[0, 0], [2, 0], [1, 1]]], ['ST', [[0, 0], [2, 0], [1, -1]]]]],
+    ['🔺 Driehoek', true, [['MT', [[0, 0], [2, 0], [2, 2]]], ['ST', [[2, 0], [4, 0], [3, 1]]], ['ST', [[2, 0], [2, 2], [3, 1]]]]],
+    ['🟧 Vierkantje', true, [['MT', [[0, 0], [2, 0], [0, 2]]], ['ST', [[0, 2], [2, 2], [1, 1]]], ['ST', [[2, 0], [2, 2], [1, 1]]]]],
+    ['▭ Rechthoek', true, [['BT', [[0, 0], [4, 0], [2, 2]]], ['MT', [[0, 0], [2, 2], [0, 2]]], ['ST', [[4, 0], [4, 2], [3, 1]]], ['ST', [[2, 2], [4, 2], [3, 1]]]]],
+    ['➡️ Pijl', true, TG_ARROW],
+    ['⬛ Het grote vierkant', false, [['BT', [[0, 0], [4, 0], [2, 2]]], ['BT', [[0, 0], [2, 2], [0, 4]]], ['MT', [[4, 2], [4, 4], [2, 4]]], ['ST', [[4, 0], [4, 2], [3, 1]]], ['ST', [[2, 2], [3, 3], [1, 3]]], ['SQ', [[2, 2], [3, 1], [4, 2], [3, 3]]], ['PA', [[0, 4], [1, 3], [3, 3], [2, 4]]]]],
+    ['🐱 Kat', false, [['BT', [[0, 0], [4, 0], [2, 2]]], ['BT', [[4, 0], [4, 4], [2, 2]]], ['MT', [[2, 2], [4, 4], [2, 4]]], ['SQ', [[2, 5], [3, 4], [4, 5], [3, 6]]], ['ST', [[2, 5], [3, 6], [2, 7]]], ['ST', [[3, 6], [4, 5], [4, 7]]], ['PA', [[4, 0], [4, 2], [5, 3], [5, 1]]]]],
+    ['🏠 Huis', false, [['BT', [[0, 2], [4, 2], [2, 4]]], ['BT', [[0, 0], [4, 0], [2, 2]]], ['MT', [[0, 0], [2, 2], [0, 2]]], ['ST', [[4, 0], [4, 2], [3, 1]]], ['ST', [[2, 2], [4, 2], [3, 1]]], ['PA', [[3, 3], [4, 2], [4, 4], [3, 5]]], ['SQ', [[1, 5], [2, 4], [3, 5], [2, 6]]]]],
+    ['🐟 Vis', false, [['BT', [[0, 0], [4, 0], [2, 2]]], ['BT', [[0, 0], [4, 0], [2, -2]]], ['MT', [[4, 0], [6, 0], [4, 2]]], ['PA', [[4, 0], [6, 0], [5, -1], [3, -1]]], ['SQ', [[0, 2], [1, 1], [2, 2], [1, 3]]], ['ST', [[1, -1], [2, -2], [0, -2]]], ['ST', [[-1, -1], [-1, 1], [0, 0]]]]],
+    ['🏹 Pijl met veren', false, TG_ARROW.concat([['PA', [[0, 1], [0, 3], [-1, 4], [-1, 2]]], ['SQ', [[-2, 1], [-1, 0], [0, 1], [-1, 2]]]])],
+  ];
+  const TG_W = 16, TG_TOP = 11, TG_H = 24;          // the board in units: the shadow on top, the pieces below
+  const tg = { n: 0, pieces: [], slots: [], sel: -1, drag: null, lines: false, done: false };
+  const tgDone = () => { try { return JSON.parse(localStorage.getItem('raadspel-tangram') || '{}'); } catch (e) { return {}; } };
+  const tgMid = pts => [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length];
+  const tgCentered = pts => { const [cx, cy] = tgMid(pts); return pts.map(([x, y]) => [x - cx, y - cy]); };
+  function tgShape(p) {                              // the piece's corners on the board: flipped, turned, moved
+    return tgCentered(TG_SHAPES[p.type]).map(([x, y]) => {
+      if (p.flip) x = -x;
+      for (let k = 0; k < p.rot; k++) [x, y] = [-y, x];
+      return [x + p.x, y + p.y];
+    });
+  }
+  const tgSame = (a, b) => a.length === b.length && a.every(([x, y]) => b.some(([u, v]) => Math.abs(x - u) < .02 && Math.abs(y - v) < .02));
+
+  function tgMenu() {
+    const D = tgDone();
+    $('tgLevels').innerHTML = TG_LEVELS.map((L, n) => {
+      const open = n === 0 || D[n - 1];
+      return `<button class="up-lv${D[n] ? ' done' : ''}" data-n="${n}" ${open ? '' : 'disabled'}>${open ? L[0].split(' ')[0] : '🔒'}<small>${open ? `<span>${L[0].split(' ').slice(1).join(' ')}</span>` : ''}</small></button>`;
+    }).join('');
+    show('tangramMenu');
+  }
+  function tgStart(n) {
+    const [name, lines, fig] = TG_LEVELS[n];
+    // the shadow, y turned downwards and centred in the top part
+    const pts = fig.flatMap(([, p]) => p), xs = pts.map(p => p[0]), ys = pts.map(p => -p[1]);
+    const ox = TG_W / 2 - (Math.min(...xs) + Math.max(...xs)) / 2, oy = TG_TOP / 2 - (Math.min(...ys) + Math.max(...ys)) / 2;
+    tg.slots = fig.map(([type, p]) => { const q = p.map(([x, y]) => [x + ox, -y + oy]); return { type, pts: q, mid: tgMid(q), taken: -1 }; });
+    // the pieces, mixed up below
+    const order = tg.slots.map((s, i) => i).sort(() => Math.random() - .5);
+    const spots = [[3, 13.6], [8, 13.6], [13, 13.6], [3, 17.4], [8, 17.4], [13, 17.4], [8, 21.4]];
+    tg.pieces = order.map((i, k) => ({ type: tg.slots[i].type, rot: Math.floor(Math.random() * 4), flip: tg.slots[i].type === 'PA' && Math.random() < .5,
+                                       x: spots[k][0], y: spots[k][1], color: TG_COLORS[k % TG_COLORS.length], slot: -1 }));
+    Object.assign(tg, { n, sel: -1, drag: null, lines, done: false });
+    $('tgTitle').innerHTML = `<span>Level</span> ${n + 1} · <span>${name}</span>`;
+    $('tgWin').hidden = true;
+    show('tangram');
+    tgDraw();
+  }
+  function tgDraw() {
+    const poly = pts => pts.map(p => p.map(v => v.toFixed(3)).join(',')).join(' ');
+    let h = `<rect x="0" y="0" width="${TG_W}" height="${TG_TOP}" fill="#f6f1ff"/><line x1="0" y1="${TG_TOP}" x2="${TG_W}" y2="${TG_TOP}" stroke="#d8cbe8" stroke-width=".06"/>`;
+    h += tg.slots.map(s => `<polygon points="${poly(s.pts)}" fill="#5b5470" stroke="${tg.lines ? '#fff' : '#5b5470'}" stroke-width="${tg.lines ? .06 : .02}"/>`).join('');
+    h += tg.pieces.map((p, i) => `<polygon class="tg-piece${i === tg.sel ? ' sel' : ''}${p.slot >= 0 ? ' in' : ''}" data-i="${i}" points="${poly(tgShape(p))}" fill="${p.color}"/>`).join('');
+    $('tgBoard').innerHTML = h;
+    $('tgFlip').disabled = tg.sel < 0 || tg.pieces[tg.sel].type !== 'PA';
+    $('tgLines').classList.toggle('on', tg.lines);
+  }
+  function tgPoint(e) { const r = $('tgBoard').getBoundingClientRect(); return [(e.clientX - r.left) / r.width * TG_W, (e.clientY - r.top) / r.height * TG_H]; }
+  // does the piece lie on a free place of its own shape? then it clicks in
+  function tgSnap(i) {
+    const p = tg.pieces[i];
+    if (p.slot >= 0) { tg.slots[p.slot].taken = -1; p.slot = -1; }
+    const mine = tgCentered(tgShape(p));
+    for (let k = 0; k < tg.slots.length; k++) {
+      const s = tg.slots[k];
+      if (s.taken >= 0 || s.type !== p.type || Math.hypot(s.mid[0] - p.x, s.mid[1] - p.y) > 1) continue;
+      if (!tgSame(mine, tgCentered(s.pts))) continue;
+      p.x = s.mid[0]; p.y = s.mid[1]; p.slot = k; s.taken = i; blip(880);
+      if (tg.slots.every(sl => sl.taken >= 0)) tgWon();
+      return;
+    }
+  }
+  function tgWon() {
+    tg.done = true; tg.sel = -1;
+    const D = tgDone(); D[tg.n] = 1; try { localStorage.setItem('raadspel-tangram', JSON.stringify(D)); } catch (e) {}
+    $('tgNext').hidden = !TG_LEVELS[tg.n + 1];
+    setTimeout(() => { $('tgWin').hidden = false; confetti(); winSound(); }, 300);
+  }
+  $('tgBoard').addEventListener('pointerdown', e => {
+    const el = e.target.closest('.tg-piece'); if (!el || tg.done) return;
+    e.preventDefault();
+    const i = Number(el.dataset.i), p = tg.pieces[i], [x, y] = tgPoint(e);
+    try { $('tgBoard').setPointerCapture(e.pointerId); } catch (_) {}
+    tg.drag = { i, dx: p.x - x, dy: p.y - y, x0: e.clientX, y0: e.clientY, moved: false };
+    tg.pieces.push(tg.pieces.splice(i, 1)[0]);       // on top
+    tg.slots.forEach(s => { if (s.taken > i) s.taken--; else if (s.taken === i) s.taken = tg.pieces.length - 1; });
+    tg.drag.i = tg.pieces.length - 1; tg.sel = tg.drag.i;
+    tgDraw();
+  });
+  $('tgBoard').addEventListener('pointermove', e => {
+    const d = tg.drag; if (!d) return;
+    if (Math.hypot(e.clientX - d.x0, e.clientY - d.y0) > 6) d.moved = true;
+    if (!d.moved) return;
+    const [x, y] = tgPoint(e), p = tg.pieces[d.i];
+    p.x = Math.max(0, Math.min(TG_W, x + d.dx)); p.y = Math.max(0, Math.min(TG_H, y + d.dy));
+    if (p.slot >= 0) { tg.slots[p.slot].taken = -1; p.slot = -1; }
+    tgDraw();
+  });
+  const tgUp = () => {
+    const d = tg.drag; if (!d) return;
+    tg.drag = null;
+    const p = tg.pieces[d.i];
+    if (!d.moved) { p.rot = (p.rot + 1) % 4; blip(500); }   // a tap turns the piece
+    tgSnap(d.i); tgDraw();
+  };
+  $('tgBoard').addEventListener('pointerup', tgUp);
+  $('tgBoard').addEventListener('pointercancel', tgUp);
+  $('tgFlip').addEventListener('click', () => { if (tg.sel < 0 || tg.done) return; const p = tg.pieces[tg.sel]; p.flip = !p.flip; blip(500); tgSnap(tg.sel); tgDraw(); });
+  $('tgLines').addEventListener('click', () => { tg.lines = !tg.lines; tgDraw(); });
+  $('tgHint').addEventListener('click', () => {        // one piece to its place
+    if (tg.done) return;
+    const k = tg.slots.findIndex(s => s.taken < 0); if (k < 0) return;
+    const s = tg.slots[k], i = tg.pieces.findIndex(p => p.slot < 0 && p.type === s.type);
+    if (i < 0) return;
+    const p = tg.pieces[i];
+    for (const flip of [false, true]) for (let r = 0; r < 4; r++) { p.flip = flip; p.rot = r; if (tgSame(tgCentered(tgShape(p)), tgCentered(s.pts))) { p.x = s.mid[0]; p.y = s.mid[1]; tgSnap(i); tgDraw(); return; } }
+  });
+  $('tgRestart').addEventListener('click', () => tgStart(tg.n));
+  $('tgNext').addEventListener('click', () => tgStart(tg.n + 1));
+  $('tgToMenu').addEventListener('click', tgMenu);
+  $('tangramMenu').addEventListener('click', e => { const b = e.target.closest('.up-lv'); if (b && !b.disabled) tgStart(Number(b.dataset.n)); });
+  $('soloTangram').addEventListener('click', () => { mode = 'solo'; tgMenu(); });
+  $('tgMenuBack').addEventListener('click', () => show('soloGames'));
+  $('tgBack').addEventListener('click', tgMenu);
+
+
   // ----- ❓ Help: for every game "how to play" and "tips", in the four languages (the texts are in help.js: window.HELP).
   // The ❓ button shows on every game screen; the first time a game opens, its help opens by itself. Tysiąc and
   // Spookkaarten also give a tip during play (can be switched off in the help).
@@ -13058,12 +13220,12 @@
     sudoku: ['sudokuLevel', 'sudoku'], mole: ['moleLevel', 'mole'], wirus: ['wirusSetup', 'wirus'], pumpkin: ['pumpkin'],
     mahjong: ['mahjongLevel', 'mahjong'], gwint: ['gwintMenu', 'gwintDeck', 'gwint'], bat: ['batLevel', 'bat'], lingo: ['lingoLevel', 'lingo'],
     memory: ['memorySetup', 'memory'], kitchen: ['kitchenMenu', 'monsterMake', 'kitchen', 'kitchenBook'], card: ['cardMake'], who: ['whoMonster'],
-    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], pakjes: ['pjSetup', 'pakjes'], dakrace: ['dakrace'], park: ['parkMenu', 'park'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
+    race: ['monsterRace'], spookbom: ['sbSetup', 'spookbom'], tfive: ['tfSetup', 'tfive'], pakjes: ['pjSetup', 'pakjes'], dakrace: ['dakrace'], park: ['parkMenu', 'park'], tangram: ['tangramMenu', 'tangram'], dreidel: ['dreidelSetup', 'dreidel'], kleur: ['kkSetup', 'kk'], tysiac: ['tysiacSetup', 'tysiac'],
   };
   const HELP_BUTTON = { guess: 'Guess', ttt: 'Ttt', c4: 'C4', dam: 'Dam', ships: 'Ships', bricks: 'Bricks', snake: 'Snake', gravity: 'Gravity', nails: 'Nails',
     crash: 'Crash', pong: 'Pong', chess: 'Chess', pool: 'Pool', rummi: 'Rummi', sudoku: 'Sudoku', mole: 'Mole', wirus: 'Wirus', pumpkin: 'Pumpkin',
     mahjong: 'Mahjong', gwint: 'Gwint', bat: 'Bat', lingo: 'Lingo', memory: 'Memory', kitchen: 'Kitchen', card: 'Card', who: 'Who', race: 'Race',
-    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap', pakjes: 'Pakjes', dakrace: 'Dakrace', park: 'Park' };
+    dreidel: 'Dreidel', dominik: 'Dominik', lily: 'Lily', kleur: 'Kleur', tysiac: 'Tysiac', spookbom: 'Spookbom', tfive: 'Tfive', piotrus: 'Piotrus', kwartet: 'Kwartet', vissen: 'Vissen', oorlog: 'Oorlog', snap: 'Snap', pakjes: 'Pakjes', dakrace: 'Dakrace', park: 'Park', tangram: 'Tangram' };
   const help = { key: null, tab: 'rules' };
   const helpLang = () => { try { const l = localStorage.getItem('taal'); return ['nl', 'pl', 'en', 'sk'].includes(l) ? l : 'nl'; } catch (e) { return 'nl'; } };
   const helpTipsOn = () => { try { return localStorage.getItem('help-tips') !== 'off'; } catch (e) { return true; } };
